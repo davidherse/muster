@@ -31,9 +31,14 @@ class EstimatesController < ApplicationController
 
   def regenerate
     return redirect_to(@estimate, alert: "This estimate is already being generated.") if @estimate.processing?
-    @estimate.processing!("Queued for analysis…")
-    GenerateEstimateJob.perform_later(@estimate)
-    redirect_to @estimate, notice: "Regenerating the estimate."
+    resume = params[:resume].present? && @estimate.failed? && @estimate.plan_summary.present?
+    if resume
+      @estimate.update!(status: "processing", error_message: nil, progress_note: "Resuming…")
+    else
+      @estimate.processing!("Queued for analysis…")
+    end
+    GenerateEstimateJob.perform_later(@estimate, resume: resume)
+    redirect_to @estimate, notice: resume ? "Resuming the estimate from where it stopped." : "Regenerating the estimate."
   end
 
   def csv

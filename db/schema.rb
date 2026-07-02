@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_02_133251) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_02_144934) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -74,6 +74,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_02_133251) do
 
   create_table "estimates", force: :cascade do |t|
     t.string "building_type"
+    t.json "costed_sections", default: [], null: false
     t.datetime "created_at", null: false
     t.text "error_message"
     t.integer "estimate_template_id"

@@ -3,9 +3,12 @@
 class FakeAiClient
   attr_reader :calls, :uploads
 
-  def initialize(analysis: nil, fail_with: nil)
+  # fail_with: raise this error on every call; fail_after: succeed for N
+  # complete_json calls, then raise fail_with on subsequent calls.
+  def initialize(analysis: nil, fail_with: nil, fail_after: nil)
     @analysis = analysis
     @fail_with = fail_with
+    @fail_after = fail_after
     @calls = []
     @uploads = []
   end
@@ -17,7 +20,7 @@ class FakeAiClient
 
   def complete_json(system:, content:, schema:, max_tokens: nil)
     @calls << { system: system, content: content, schema: schema }
-    raise @fail_with if @fail_with
+    raise @fail_with if @fail_with && (@fail_after.nil? || @calls.size > @fail_after)
 
     if schema == PlanAnalyzer::SCHEMA
       @analysis || default_analysis

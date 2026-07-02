@@ -77,6 +77,22 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
     assert @estimate.reload.processing?
   end
 
+  test "regenerate with resume resumes a failed estimate" do
+    @estimate.update!(status: "failed", error_message: "boom", plan_summary: { "a" => 1 }, progress: 48)
+    assert_enqueued_with(job: GenerateEstimateJob, args: [ @estimate, { resume: true } ]) do
+      post regenerate_estimate_url(@estimate, resume: true)
+    end
+    assert @estimate.reload.processing?
+    assert_equal 48, @estimate.progress
+  end
+
+  test "resume param ignored without prior analysis" do
+    @estimate.update!(status: "failed", error_message: "boom", plan_summary: nil)
+    assert_enqueued_with(job: GenerateEstimateJob, args: [ @estimate, { resume: false } ]) do
+      post regenerate_estimate_url(@estimate, resume: true)
+    end
+  end
+
   test "destroy removes estimate" do
     assert_difference("Estimate.count", -1) do
       delete estimate_url(@estimate)

@@ -5,7 +5,7 @@ class GenerateEstimateJob < ApplicationJob
   # retry automatically — the user can re-run from the UI.
   discard_on StandardError
 
-  def perform(estimate)
-    EstimateGenerator.new(estimate).call
+  def perform(estimate, resume: false)
+    EstimateGenerator.new(estimate).call(resume: resume)
   end
 end
