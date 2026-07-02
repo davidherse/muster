@@ -18,12 +18,17 @@ class FakeAiClient
     "file_fake_#{@uploads.size}"
   end
 
+  # review_response can be overridden to test the reviewer's apply logic
+  attr_accessor :review_response
+
   def complete_json(system:, content:, schema:, max_tokens: nil)
     @calls << { system: system, content: content, schema: schema }
     raise @fail_with if @fail_with && (@fail_after.nil? || @calls.size > @fail_after)
 
     if schema == PlanAnalyzer::SCHEMA
       @analysis || default_analysis
+    elsif schema == EstimateReviewer::SCHEMA
+      @review_response || { "review_notes" => "Sound.", "changes" => [] }
     else
       sections_response(content)
     end

@@ -69,8 +69,9 @@ class EstimateGeneratorTest < ActiveSupport::TestCase
     assert @estimate.completed?
     # resume must not re-run plan analysis
     assert good.calls.none? { |c| c[:schema] == PlanAnalyzer::SCHEMA }
-    # only the remaining section was requested
-    requested = good.calls.flat_map { |c| c[:content].map { |b| b[:text] } }.join
+    # only the remaining section was requested from the line item generator
+    line_item_calls = good.calls.select { |c| c[:schema] == LineItemGenerator::SCHEMA }
+    requested = line_item_calls.flat_map { |c| c[:content].map { |b| b[:text] } }.join
     assert_includes requested, "Solar Power System"
     refute_includes requested, "Preliminaries"
     # previously costed sections retained, not duplicated

@@ -16,7 +16,7 @@ class PlanAnalyzer
                  structural_notes site_notes inclusions exclusions
                  finish_level internal_lining_type external_repaint glazing_notes
                  internal_paint_area_m2 external_paint_area_m2 duration_months
-                 deck_patio_area_m2 special_features],
+                 retained_scope_notes deck_patio_area_m2 special_features],
     properties: {
       building_type: { type: "string", description: "e.g. New double storey dwelling, Renovation and extension of existing Queenslander" },
       storeys: { type: "integer" },
@@ -49,9 +49,10 @@ class PlanAnalyzer
       internal_lining_type: { type: "string", description: "plasterboard, VJ/tongue-and-groove, mixed — affects lining and painting rates" },
       external_repaint: { type: "boolean", description: "Whole external envelope painted/repainted (typical for weatherboard renovations)?" },
       glazing_notes: { type: "string", description: "Summary of the window/door schedule: counts, sizes, notable large/high-spec units, total glazed area if derivable" },
-      internal_paint_area_m2: { type: "number", description: "Estimated internal paint area (walls + ceilings, all coats-relevant surfaces). Derive from geometry: wall area is typically 2.7-3.2 x floor area per level plus ceilings" },
-      external_paint_area_m2: { type: "number", description: "Estimated external paint area (cladding, eaves, trim); 0 if no external painting" },
+      internal_paint_area_m2: { type: "number", description: "Internal paint area (walls + ceilings) for surfaces IN SCOPE ONLY: new work plus rooms shown as renovated/relined. Exclude retained areas the plans leave untouched. Derive from the floor plans level by level" },
+      external_paint_area_m2: { type: "number", description: "External paint area (cladding, eaves, trim) for surfaces in scope only; 0 if no external painting. Note whether the whole envelope or only new work is repainted" },
       duration_months: { type: "number", description: "Realistic construction duration in months for this scope (drives preliminaries, supervision, hire durations)" },
+      retained_scope_notes: { type: "string", description: "What the plans show as RETAINED and untouched (rooms, roof, cladding, structure) so those areas are not costed" },
       deck_patio_area_m2: { type: "number", description: "Total new deck/alfresco/patio area; 0 if none" },
       special_features: {
         type: "array",

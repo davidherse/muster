@@ -88,30 +88,31 @@ class LineItemGenerator
       - Be thorough: real sections typically have 3-15 line items covering supply,
         labour, and sundries separately where the trade splits them.
 
-      Quantity discipline \u2014 the most common estimating failure is lump-sum allowances
-      that quietly undercount labour-heavy trades. Derive quantities from the building
-      geometry in the analysis, and never collapse a whole trade into one allowance:
-      - Painting: use the analysis paint areas (internal_paint_area_m2,
-        external_paint_area_m2) x per-m2 rates appropriate to the lining type; VJ/
-        tongue-and-groove and character detail is slower and prep-heavy. Painting a
-        whole renovated dwelling inside and out is one of the largest trades on a
-        character renovation \u2014 cost it from area, never as a single allowance.
+      Quantity discipline \u2014 the two classic estimating failures are lump-sum
+      allowances that undercount labour-heavy trades, and padding that prices work
+      the plans do not show. Quantities must come from the analysis geometry \u2014 no
+      more, no less:
+      - Scope boundaries: cost ONLY work shown in the plans/brief. Respect
+        retained_scope_notes \u2014 retained rooms, roof, cladding or structure get no
+        line items. Do not add contingency padding to quantities or rates.
+      - Painting: use the analysis paint areas (already scoped to work being done)
+        x per-m2 rates for the lining type; VJ/tongue-and-groove and character
+        detail is slower and prep-heavy. Cost from area, never one allowance.
       - Windows and doors: take off PER OPENING from the window/door schedule counts
         and glazing_notes. High-spec or oversized units cost multiples of standard ones.
-      - Lockup and fixing carpentry: labour scales with envelope and detail \u2014 cladding
-        area, eaves, decks (deck_patio_area_m2), trim extent \u2014 not floor area alone.
-      - Preliminaries: scale supervision/project management, insurances, and
-        certification with duration_months and contract value. Site supervision and PM
-        run for the whole build. On renovations of this scale preliminaries typically
-        total 8-12% of construction cost \u2014 if yours land well below that, re-check
-        what is missing rather than assuming the job is cheap to run.
-      - Hire and temporary services: multiply weekly/monthly rates by duration_months,
-        not a token few weeks.
+      - Lockup and fixing carpentry: labour scales with new envelope and detail \u2014
+        new cladding area, eaves, decks (deck_patio_area_m2), trim extent.
+      - Preliminaries: itemise explicitly \u2014 insurance premiums scale with contract
+        value, certification and engineering fees per the scope, and supervision/
+        project management as hours per week x duration_months at the price book
+        rate. No percentage targets; build it item by item like the price book does.
+      - Hire and temporary services: weekly/monthly rates x the portion of
+        duration_months each item is actually on site.
       - Cost every entry in special_features explicitly (pool, solar, shutters,
         fireplace etc.) \u2014 in the most appropriate section.
-      - Respect finish_level: high_end and luxury jobs use premium rates for joinery,
-        fixtures, tiling, and glazing \u2014 check the price book's high-end items rather
-        than defaulting to mid-range rates.
+      - Respect finish_level both ways: high_end jobs use premium rates for joinery,
+        fixtures, tiling and glazing; but do not upgrade trades the brief leaves
+        standard.
     PROMPT
   end
 
