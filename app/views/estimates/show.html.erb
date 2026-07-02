@@ -1,0 +1,116 @@
+<% if @estimate.processing? %>
+  <% content_for :head do %>
+    <meta http-equiv="refresh" content="5">
+  <% end %>
+<% end %>
+
+<div class="flex items-start justify-between mb-6">
+  <div>
+    <h1 class="font-bold text-3xl"><%= @estimate.name %></h1>
+    <p class="text-gray-500 mt-1">
+      <%= @estimate.building_type.presence || "Building type pending" %>
+      <% if @estimate.floor_area.present? %> · <%= @estimate.floor_area %> m²<% end %>
+      · Created <%= @estimate.created_at.strftime("%-d %b %Y") %>
+    </p>
+  </div>
+  <div class="flex items-center gap-3">
+    <%= render "status_badge", estimate: @estimate %>
+    <% if @estimate.completed? %>
+      <%= link_to "⬇ Download CSV", csv_estimate_path(@estimate), class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium" %>
+    <% end %>
+    <%= button_to "Delete", estimate_path(@estimate), method: :delete,
+        data: { turbo_confirm: "Delete this estimate?" },
+        class: "rounded-md px-3.5 py-2.5 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium cursor-pointer" %>
+  </div>
+</div>
+
+<% if @estimate.processing? %>
+  <div class="bg-white border border-gray-200 rounded-xl p-10 text-center">
+    <p class="text-lg font-semibold text-gray-900 mb-2">Generating your estimate…</p>
+    <p class="text-gray-500 mb-6" id="progress-note"><%= @estimate.progress_note.presence || "Working…" %></p>
+    <div class="w-full max-w-md mx-auto bg-gray-100 rounded-full h-3">
+      <div class="bg-blue-600 h-3 rounded-full transition-all" style="width: <%= [ @estimate.progress.to_i, 3 ].max %>%"></div>
+    </div>
+    <p class="text-xs text-gray-400 mt-4">This page refreshes automatically. Reading plans and costing ~40 sections takes a few minutes.</p>
+  </div>
+
+<% elsif @estimate.failed? %>
+  <div class="bg-red-50 border border-red-200 rounded-xl p-8">
+    <p class="text-lg font-semibold text-red-700 mb-2">Estimate generation failed</p>
+    <p class="text-red-600 mb-6"><%= @estimate.error_message %></p>
+    <%= button_to "Try again", regenerate_estimate_path(@estimate), method: :post, class: "rounded-md px-3.5 py-2.5 bg-red-600 hover:bg-red-500 text-white font-medium cursor-pointer" %>
+  </div>
+
+<% elsif @estimate.completed? %>
+  <div class="grid grid-cols-3 gap-4 mb-8">
+    <div class="bg-white border border-gray-200 rounded-xl p-5">
+      <p class="text-sm text-gray-500">Low estimate</p>
+      <p class="text-2xl font-bold text-gray-700"><%= number_to_currency(@estimate.total_low, unit: "$", precision: 0) %></p>
+    </div>
+    <div class="bg-blue-600 rounded-xl p-5 text-white">
+      <p class="text-sm text-blue-100">Estimate (ex. GST)</p>
+      <p class="text-2xl font-bold"><%= number_to_currency(@estimate.total, unit: "$", precision: 0) %></p>
+    </div>
+    <div class="bg-white border border-gray-200 rounded-xl p-5">
+      <p class="text-sm text-gray-500">High estimate</p>
+      <p class="text-2xl font-bold text-gray-700"><%= number_to_currency(@estimate.total_high, unit: "$", precision: 0) %></p>
+    </div>
+  </div>
+
+  <% if @estimate.plan_summary.present? %>
+    <details class="bg-white border border-gray-200 rounded-xl p-5 mb-8">
+      <summary class="font-semibold text-gray-900 cursor-pointer">Scope of works (from plan analysis)</summary>
+      <p class="mt-3 text-gray-600 whitespace-pre-line"><%= @estimate.plan_summary["scope_summary"] %></p>
+    </details>
+  <% end %>
+
+  <% @estimate.sections.includes(:line_items).each_with_index do |section, s_idx| %>
+    <div class="bg-white border border-gray-200 rounded-xl mb-4 overflow-hidden">
+      <div class="flex items-center justify-between px-5 py-3 bg-gray-50 border-b border-gray-200">
+        <h2 class="font-semibold text-gray-900"><%= s_idx + 1 %>. <%= section.name %></h2>
+        <span class="font-semibold text-gray-900"><%= number_to_currency(section.subtotal, unit: "$", precision: 2) %></span>
+      </div>
+      <table class="w-full text-sm">
+        <thead class="text-left text-gray-500">
+          <tr class="border-b border-gray-100">
+            <th class="px-5 py-2 font-medium w-1/2">Description</th>
+            <th class="px-2 py-2 font-medium">Type</th>
+            <th class="px-2 py-2 font-medium">UOM</th>
+            <th class="px-2 py-2 font-medium text-right">Qty</th>
+            <th class="px-2 py-2 font-medium text-right">Unit</th>
+            <th class="px-5 py-2 font-medium text-right">Total</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-50">
+          <% section.line_items.each do |item| %>
+            <tr>
+              <td class="px-5 py-2 text-gray-800">
+                <%= item.description %>
+                <% if item.assumptions.present? %>
+                  <p class="text-xs text-gray-400 mt-0.5"><%= item.assumptions %></p>
+                <% end %>
+              </td>
+              <td class="px-2 py-2 text-gray-500"><%= item.item_type %></td>
+              <td class="px-2 py-2 text-gray-500"><%= item.uom %></td>
+              <td class="px-2 py-2 text-gray-500 text-right"><%= item.quantity&.to_f %></td>
+              <td class="px-2 py-2 text-gray-500 text-right"><%= number_to_currency(item.unit_cost, unit: "$") %></td>
+              <td class="px-5 py-2 text-gray-800 text-right font-medium"><%= number_to_currency(item.total, unit: "$") %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+
+  <div class="flex justify-end mt-6">
+    <%= button_to "Regenerate estimate", regenerate_estimate_path(@estimate), method: :post,
+        data: { turbo_confirm: "This will replace the current line items. Continue?" },
+        class: "text-sm text-gray-500 hover:text-gray-800 cursor-pointer" %>
+  </div>
+
+<% else %>
+  <div class="bg-white border border-gray-200 rounded-xl p-8 text-center">
+    <p class="text-gray-600 mb-4">This estimate hasn't been generated yet.</p>
+    <%= button_to "Generate now", regenerate_estimate_path(@estimate), method: :post, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium cursor-pointer" %>
+  </div>
+<% end %>

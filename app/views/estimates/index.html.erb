@@ -1,0 +1,31 @@
+<div class="flex items-center justify-between mb-8">
+  <h1 class="font-bold text-3xl">Estimates</h1>
+  <%= link_to "＋ New estimate", new_estimate_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium" %>
+</div>
+
+<% if @estimates.none? %>
+  <div class="bg-white border border-gray-200 rounded-xl p-12 text-center text-gray-500">
+    <p class="text-lg mb-2">No estimates yet.</p>
+    <p>Upload a PDF plan and we'll build a costed estimate for you.</p>
+    <%= link_to "Create your first estimate", new_estimate_path, class: "mt-6 inline-block rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium" %>
+  </div>
+<% else %>
+  <div class="bg-white border border-gray-200 rounded-xl divide-y divide-gray-100">
+    <% @estimates.each do |estimate| %>
+      <%= link_to estimate_path(estimate), class: "flex items-center justify-between px-5 py-4 hover:bg-gray-50" do %>
+        <div>
+          <p class="font-semibold text-gray-900"><%= estimate.name %></p>
+          <p class="text-sm text-gray-500">
+            <%= estimate.building_type.presence || "—" %> · <%= estimate.created_at.strftime("%-d %b %Y") %>
+          </p>
+        </div>
+        <div class="flex items-center gap-4">
+          <% if estimate.completed? && estimate.total %>
+            <span class="font-semibold text-gray-900"><%= number_to_currency(estimate.total, unit: "$", precision: 0) %></span>
+          <% end %>
+          <%= render "status_badge", estimate: estimate %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

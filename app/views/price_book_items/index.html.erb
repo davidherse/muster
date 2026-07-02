@@ -1,0 +1,42 @@
+<div class="flex items-center justify-between mb-6">
+  <h1 class="font-bold text-3xl">Price Book</h1>
+  <%= link_to "＋ Add item", new_price_book_item_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium" %>
+</div>
+
+<p class="text-gray-500 mb-4 text-sm">Average unit rates from your historical jobs. The estimator grounds its pricing in these — keep them current.</p>
+
+<%= form_with url: price_book_items_path, method: :get, class: "mb-6" do |form| %>
+  <%= form.text_field :q, value: @query, placeholder: "Search descriptions or categories…", class: "w-full md:w-96 shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2" %>
+<% end %>
+
+<div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+  <table class="w-full text-sm">
+    <thead class="text-left text-gray-500 bg-gray-50">
+      <tr>
+        <th class="px-5 py-3 font-medium">Category</th>
+        <th class="px-2 py-3 font-medium w-1/2">Description</th>
+        <th class="px-2 py-3 font-medium">Type</th>
+        <th class="px-2 py-3 font-medium">UOM</th>
+        <th class="px-2 py-3 font-medium text-right">Unit Cost</th>
+        <th class="px-5 py-3"></th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-50">
+      <% @items.each do |item| %>
+        <tr>
+          <td class="px-5 py-2 text-gray-500"><%= item.category %></td>
+          <td class="px-2 py-2 text-gray-800"><%= item.description %></td>
+          <td class="px-2 py-2 text-gray-500"><%= item.item_type %></td>
+          <td class="px-2 py-2 text-gray-500"><%= item.uom %></td>
+          <td class="px-2 py-2 text-gray-800 text-right"><%= number_to_currency(item.unit_cost, unit: "$") %></td>
+          <td class="px-5 py-2 text-right">
+            <%= link_to "Edit", edit_price_book_item_path(item), class: "text-blue-600 hover:underline" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% if @items.size == 200 %>
+    <p class="px-5 py-3 text-xs text-gray-400 border-t border-gray-100">Showing first 200 matches — refine your search to see more.</p>
+  <% end %>
+</div>

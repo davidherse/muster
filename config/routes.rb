@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     member do
       get :csv
       get :status
+      post :regenerate
     end
   end
   resources :price_book_items, path: "price-book"

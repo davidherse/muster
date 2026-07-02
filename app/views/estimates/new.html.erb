@@ -1,0 +1,44 @@
+<div class="mx-auto md:w-2/3 w-full">
+  <h1 class="font-bold text-3xl mb-6">New estimate</h1>
+
+  <%= form_with model: @estimate, class: "contents" do |form| %>
+    <% if @estimate.errors.any? %>
+      <div class="py-2 px-3 bg-red-50 mb-5 text-red-600 font-medium rounded-lg" id="error_explanation">
+        <ul class="list-disc list-inside">
+          <% @estimate.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="bg-white border border-gray-200 rounded-xl p-6 space-y-6">
+      <div>
+        <%= form.label :name, "Project name", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_field :name, required: true, placeholder: "e.g. 12 Smith St Renovation", class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+      </div>
+
+      <div>
+        <%= form.label :plan, "Architectural plans (PDF)", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.file_field :plan, accept: "application/pdf", required: true, class: "block mt-2 w-full text-sm text-gray-600 file:mr-4 file:rounded-md file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-blue-700 file:font-medium hover:file:bg-blue-100" %>
+        <p class="mt-1 text-xs text-gray-500">Up to 50 MB. Floor plans, elevations, sections, and schedules give the best results.</p>
+      </div>
+
+      <div>
+        <%= form.label :prompt, "Additional information", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_area :prompt, rows: 5, placeholder: "Anything the plans don't say: finish level, known site issues, inclusions/exclusions, client budget expectations…", class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+      </div>
+
+      <div>
+        <%= form.label :estimate_template_id, "Estimate layout", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.collection_select :estimate_template_id, EstimateTemplate.order(:name), :id, :name, {}, { class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" } %>
+        <p class="mt-1 text-xs text-gray-500">Controls the sections your estimate is broken into.</p>
+      </div>
+    </div>
+
+    <div class="mt-6 flex items-center gap-4">
+      <%= form.submit "Generate estimate", class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium cursor-pointer" %>
+      <%= link_to "Cancel", estimates_path, class: "text-gray-600 hover:text-gray-900" %>
+    </div>
+  <% end %>
+</div>
