@@ -79,30 +79,10 @@ class EstimateReviewer
         the same work costed in two sections, quantities exceeding the documented
         geometry, or trades upgraded beyond the specified finish level.
 
-      For every COMPUTED INTENSITY METRIC provided, you must explicitly judge it in
-      review_notes: state whether it sits within the typical SEQ market range below
-      for this building type and finish level, and if it falls outside, either
-      correct the section or justify from the documented scope why it is right.
-      Do not skim past a metric.
-
-      Typical SEQ 2026 market ranges (builder's cost, ex. GST) — generic published
-      figures, apply to any project:
-      - Painting supply+apply, all coats incl. prep: new plasterboard $28-45/m2;
-        repaint with patching/prep $45-70/m2; character/heritage VJ, fretwork and
-        detailed trim $70-110/m2. External weatherboard repaint sits at the upper
-        end of its class.
-      - Windows/external doors supplied+installed: standard aluminium $1,500-3,000
-        per opening; high-spec, oversized, or timber-framed character units
-        $3,000-8,000+ per opening.
-      - Site supervision/PM on multi-trade renovations: roughly 10-20 hours/week
-        while the site is active; large character renovations sit high in the range.
-      - Whole-house renovation construction cost: standard finish $2,200-3,200/m2;
-        high-end $3,000-4,500/m2; complex character/heritage work higher again.
-
-      Only correct what you can justify from the analysis, brief, and the ranges
-      above. If a section is sound, leave it alone — an empty changes list is a
-      good outcome. Keep unit rates consistent with the rates already used
-      elsewhere in the estimate. All amounts AUD ex. GST, builder's costs.
+      Only correct what you can justify from the analysis and brief. If a section is
+      sound, leave it alone — an empty changes list is a good outcome. Keep unit
+      rates consistent with the rates already used elsewhere in the estimate.
+      All amounts AUD ex. GST, builder's costs.
     PROMPT
   end
 
