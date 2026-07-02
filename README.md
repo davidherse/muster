@@ -19,7 +19,12 @@ Built with Rails 8, SQLite, Solid Queue, Hotwire, and the Anthropic API
      scope of works (areas, rooms, counts, structure, site notes).
    - *Line item generation* — template sections are costed in batches,
      grounded in a **price book** of 1,300+ real unit rates extracted from
-     historical job costings (Hilda, Constitution, Benecia, Carberry).
+     historical job costings (Hilda, Constitution, Benecia, Carberry) and
+     **indexed to mid-2026 dollars** using Brisbane residential construction
+     cost escalation (plan dates: Hilda Apr 2021 ×1.29, Benecia Jul 2022
+     ×1.17, Constitution Feb 2024 ×1.10, Carberry Sep 2025 ×1.04 — each
+     item's `source` records its provenance and factor). Re-derive factors
+     as time passes and reseed, or bulk-edit rates in the Price Book UI.
    - Every line item carries a confidence level (high/medium/low → ±10/20/35%)
      which rolls up into the estimate's low/high range.
 4. **Review + download** — sections, line items, assumptions, totals, and the

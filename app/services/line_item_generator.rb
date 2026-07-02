@@ -61,7 +61,7 @@ class LineItemGenerator
   def system_blocks
     [
       { type: "text", text: instructions },
-      { type: "text", text: "HISTORICAL PRICE BOOK (category | description | type | uom | unit cost AUD ex. GST):\n#{PriceBookItem.reference_text}",
+      { type: "text", text: "PRICE BOOK — unit rates from this builder\u2019s completed jobs, already indexed to current dollars; use them directly (category | description | type | uom | unit cost AUD ex. GST):\n#{PriceBookItem.reference_text}",
         cache_control: { type: "ephemeral" } }
     ]
   end
@@ -75,8 +75,9 @@ class LineItemGenerator
       Rules:
       - Cost every section in the batch. If a section has no work in this project's scope,
         mark it applicable: false with an empty line_items array.
-      - Ground unit rates in the historical price book wherever a comparable item exists;
-        adjust for quantity and context. For items not in the price book use current
+      - Ground unit rates in the price book wherever a comparable item exists \u2014 the
+        rates are already indexed to current dollars, so apply them directly, adjusting
+        only for quantity and context. For items not in the price book use current
         South-East Queensland market rates.
       - All amounts are AUD ex. GST. These are builder's costs (materials, labour,
         subcontractors, equipment), not client prices.

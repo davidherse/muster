@@ -54,7 +54,10 @@ puts "Seeded template: #{template.name} (#{template.sections.size} sections)"
 
 # --- Price book -----------------------------------------------------------
 # Median unit rates extracted from historical job costings (actuals preferred
-# over estimates). Source spreadsheets: Hilda, Constitution, Benecia, Carberry.
+# over estimates), indexed to mid-2026 dollars using Brisbane residential
+# construction cost escalation (ABS output prices): Hilda 2021-22 x1.29,
+# Benecia 2022-23 x1.17, Constitution 2024-25 x1.10, Carberry 2025 x1.04.
+# The source column records each item's provenance and applied factor.
 csv_path = Rails.root.join("db/seed_data/price_book.csv")
 if PriceBookItem.count.zero? && csv_path.exist?
   rows = CSV.read(csv_path, headers: true).map do |row|
@@ -65,7 +68,7 @@ if PriceBookItem.count.zero? && csv_path.exist?
       uom: row["uom"].presence,
       unit_cost: row["unit_cost"].to_d,
       sample_count: row["sample_count"].to_i,
-      source: "historical",
+      source: row["source"].presence || "historical",
       created_at: Time.current,
       updated_at: Time.current
     }
