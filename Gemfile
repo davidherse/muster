@@ -31,6 +31,9 @@ gem "pdf-reader"
 # CSV parsing/generation (no longer a Ruby default gem)
 gem "csv"
 
+# Official Anthropic SDK — powers plan analysis and estimate generation
+gem "anthropic"
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
