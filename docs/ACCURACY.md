@@ -80,6 +80,30 @@ items in every run that supplied them. Brief-writing guidance:
 - Don't bother restating what the plans already show (areas, room lists,
   storeys) — the analysis reads schedules reliably.
 
+### Enriched-brief experiment (character renovations)
+
+Adding three walkthrough-knowledge sentences to the briefs — no prices, no
+totals — moved both character jobs into range:
+
+| Project | Standard brief | + repaint extent, duration, latent conditions |
+|---|---|---|
+| Constitution | −20.7%, actual OUT of range | **−13.0%, actual IN range** |
+| Carberry | −7.5% | **−2.8%** |
+
+The sentences that matter for a character reno brief:
+1. Repaint extent: "full prep-heavy heritage repaint inside and out including
+   all retained VJ/fretwork/trim — not just the new work" (drawings show the
+   linings but not the repaint intent).
+2. Duration: "expect a 13–15 month build with continuous site supervision"
+   (the model guesses short otherwise; drives prelims and hire).
+3. Latent conditions: "pre-1947 structure — allow for latent conditions"
+   (standard practice; plans never show it).
+
+Composition caveat: on Constitution the enriched brief overcooked prelims
+(~$199k vs ~$124k indexed actual) while painting stayed light (~$107k vs
+~$197k) — the total is right partly by offset, so still sanity-check those
+two sections manually on heavy-character jobs.
+
 ## Reproducing
 
 ```sh
