@@ -39,3 +39,6 @@
 
 .DS_Store
 .env
+
+# letter_opener previews
+/tmp/letter_opener
