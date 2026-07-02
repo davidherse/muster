@@ -46,7 +46,7 @@ namespace :estimator do
       estimate.reload
       puts "  Generated #{estimate.sections.count} sections, #{estimate.line_items.count} line items in #{(Time.current - started).round}s"
 
-      results << score(name, estimate, Rails.root.join(entry.fetch("baseline")))
+      results << score(name, estimate, Rails.root.join(entry.fetch("baseline")), entry.fetch("escalation_factor", 1.0).to_f)
     end
 
     if results.any?
@@ -57,7 +57,7 @@ namespace :estimator do
     end
   end
 
-  def score(name, estimate, baseline_path)
+  def score(name, estimate, baseline_path, factor = 1.0)
     rows = CSV.read(baseline_path, headers: true)
     total_row = rows.find { |r| r["category"] == "__TOTAL__" }
     actual = total_row["actual_total"].presence&.to_f
@@ -65,15 +65,18 @@ namespace :estimator do
     baseline = actual || human
     baseline_label = actual ? "actual" : "human estimate"
 
-    ai = estimate.total.to_f
+    # The AI estimates in current (2026) dollars; the baseline is in the job's
+    # cost-base dollars. Deflate the AI figure for a like-for-like comparison.
+    ai = estimate.total.to_f / factor
     error_pct = baseline&.positive? ? ((ai - baseline) / baseline * 100) : nil
 
-    puts format("  AI estimate:      $%s  (range $%s – $%s)", comma(ai), comma(estimate.total_low), comma(estimate.total_high))
+    puts format("  AI estimate:      $%s in 2026 dollars", comma(estimate.total))
+    puts format("  AI (job-year $):  $%s  (range $%s – $%s, deflated /%.2f)", comma(ai), comma(estimate.total_low.to_f / factor), comma(estimate.total_high.to_f / factor), factor)
     puts format("  Human estimate:   $%s", comma(human)) if human
     puts format("  Actual cost:      $%s", comma(actual)) if actual
     puts format("  Error vs %-15s %+.1f%%", "#{baseline_label}:", error_pct) if error_pct
     if baseline && estimate.total_low && estimate.total_high
-      inside = baseline.between?(estimate.total_low.to_f, estimate.total_high.to_f)
+      inside = baseline.between?(estimate.total_low.to_f / factor, estimate.total_high.to_f / factor)
       puts "  #{baseline_label.capitalize} within AI range: #{inside ? 'YES' : 'NO'}"
     end
 

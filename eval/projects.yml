@@ -1,9 +1,12 @@
 # Historical projects used to evaluate estimator accuracy.
 # plan: path to the architectural PDF; baseline: CSV of the job's human
 # estimate and actual costs (extracted from the job costing spreadsheets).
+# escalation_factor converts each job's cost base to mid-2026 dollars; the eval
+# divides the AI's (2026-dollar) estimate by it before comparing to the baseline.
 hilda:
   plan: "/Users/davidherse/Dropbox/Built Homes/esitmates/Hilda - Approved plans 0892_CAMPBELL_BA_03_FOR_CONSTRUC.pdf"
   baseline: eval/baselines/hilda.csv
+  escalation_factor: 1.29
   prompt: >
     Renovation and extension of an existing Queenslander at 6 Hilda St, Alderley QLD.
     Double storey. Costed as builder's costs ex. GST.
@@ -11,6 +14,7 @@ hilda:
 constitution:
   plan: "/Users/davidherse/Dropbox/Built Homes/esitmates/Constitution - Certified Architectural - 36 Constitution.pdf"
   baseline: eval/baselines/constitution.csv
+  escalation_factor: 1.10
   prompt: >
     Major renovation at 36 Constitution St, Brisbane QLD, including pool pergola,
     aluminium shutters, solar power system. Costed as builder's costs ex. GST.
@@ -18,6 +22,7 @@ constitution:
 carberry:
   plan: "/Users/davidherse/Dropbox/Built Homes/esitmates/Carberry - ARCHITECTURAL.pdf"
   baseline: eval/baselines/carberry.csv
+  escalation_factor: 1.04
   prompt: >
     New build / major renovation at 71 Carberry St, Grange QLD. Costed as builder's
     costs ex. GST. Baseline has human estimate only (no actuals recorded).
@@ -27,5 +32,6 @@ carberry:
 benecia:
   plan: "/Users/davidherse/Dropbox/Built Homes/esitmates/B2103014 - Decision Notice and Approved Plans.pdf"
   baseline: eval/baselines/benecia.csv
+  escalation_factor: 1.17
   prompt: >
     Full renovation (Benecia). Costed as builder's costs ex. GST.
