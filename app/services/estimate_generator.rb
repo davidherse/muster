@@ -5,7 +5,7 @@
 # dies mid-way (e.g. rate limits exhausted) can resume without re-paying for
 # the plan analysis or already-costed sections.
 class EstimateGenerator
-  BATCH_SIZE = 8
+  BATCH_SIZE = 6
 
   def initialize(estimate, client: nil, batch_size: BATCH_SIZE)
     @estimate = estimate
