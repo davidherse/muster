@@ -95,9 +95,14 @@ class LineItemGenerator
       - Scope boundaries: cost ONLY work shown in the plans/brief. Respect
         retained_scope_notes \u2014 retained rooms, roof, cladding or structure get no
         line items. Do not add contingency padding to quantities or rates.
-      - Painting: use the analysis paint areas (already scoped to work being done)
-        x per-m2 rates for the lining type; VJ/tongue-and-groove and character
-        detail is slower and prep-heavy. Cost from area, never one allowance.
+      - Painting: this trade is priced as PAINTER-HOURS (the price book carries
+        hourly painter rates). Estimate hours from the analysis paint areas and
+        realistic productivity: straightforward new plasterboard walls paint fast;
+        repaint prep, VJ/tongue-and-groove, trim/window/door enamel work, and
+        character detail are several times slower per m2. Cost internal, external,
+        and trim/openings enamel as separate labour items plus materials, never one
+        allowance. Sanity-check the result: hours x rate should reflect a crew on
+        site for weeks on a whole-house repaint, not days.
       - Windows and doors: take off PER OPENING from the window/door schedule counts
         and glazing_notes. High-spec or oversized units cost multiples of standard ones.
       - Lockup and fixing carpentry: labour scales with new envelope and detail \u2014
@@ -105,7 +110,10 @@ class LineItemGenerator
       - Preliminaries: itemise explicitly \u2014 insurance premiums scale with contract
         value, certification and engineering fees per the scope, and supervision/
         project management as hours per week x duration_months at the price book
-        rate. No percentage targets; build it item by item like the price book does.
+        rate. Supervision intensity scales with the size and trade-density of the
+        job: a large multi-trade character renovation needs materially more
+        coordination hours per week than a simple one. No percentage targets;
+        build it item by item like the price book does.
       - Hire and temporary services: weekly/monthly rates x the portion of
         duration_months each item is actually on site.
       - Cost every entry in special_features explicitly (pool, solar, shutters,

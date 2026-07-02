@@ -92,9 +92,41 @@ class EstimateReviewer
       #{JSON.pretty_generate(@analysis)}
 
       #{@estimate.prompt.present? ? "BUILDER'S BRIEF:\n#{@estimate.prompt}\n" : ''}
+      COMPUTED INTENSITY METRICS (verify each against SEQ market norms for this
+      finish level and building type \u2014 correct sections that imply unrealistic
+      rates in EITHER direction):
+      #{metrics_text}
+
       THE ESTIMATE TO REVIEW:
       #{estimate_text}
     TEXT
+  end
+
+  def metrics_text
+    total = @estimate.line_items.sum { |i| i.total.to_f }
+    floor = @analysis["floor_area_m2"].to_f
+    months = @analysis["duration_months"].to_f
+    paint_area = @analysis["internal_paint_area_m2"].to_f + @analysis["external_paint_area_m2"].to_f
+    windows = @analysis["window_count"].to_i + @analysis["external_door_count"].to_i
+
+    section_total = ->(name) do
+      @estimate.sections.select { |s| s.name.downcase.include?(name) }.sum { |s| s.subtotal.to_f }
+    end
+    pm_hours = @estimate.line_items
+      .select { |i| i.item_type == "Lab" && i.uom.to_s.downcase.include?("hour") && i.description.to_s =~ /supervis|project manage|coordinat/i }
+      .sum { |i| i.quantity.to_f }
+
+    lines = []
+    lines << "- Construction total: $#{total.round} => $#{floor.positive? ? (total / floor).round : '?'} per m2 floor area (#{floor.round} m2)"
+    lines << "- Estimated duration: #{months} months"
+    paint = section_total.call("paint")
+    lines << "- Painting section: $#{paint.round} over #{paint_area.round} m2 paint area => $#{paint_area.positive? ? (paint / paint_area).round : '?'} per m2 (supply+apply all coats)"
+    win = section_total.call("window")
+    lines << "- Windows and doors: $#{win.round} across #{windows} openings => $#{windows.positive? ? (win / windows).round : '?'} per opening"
+    lines << "- Supervision/PM hours: #{pm_hours.round} total => #{months.positive? ? (pm_hours / (months * 4.33)).round(1) : '?'} hours/week over the build"
+    prelim = section_total.call("preliminar")
+    lines << "- Preliminaries section: $#{prelim.round}"
+    lines.join("\n")
   end
 
   def estimate_text
