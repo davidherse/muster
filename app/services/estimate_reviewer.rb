@@ -99,20 +99,10 @@ class EstimateReviewer
       - Whole-house renovation construction cost: standard finish $2,200-3,200/m2;
         high-end $3,000-4,500/m2; complex character/heritage work higher again.
 
-      HANDS-OFF RULE: a metric already inside its range makes that section
-      untouchable — never add supplementary or top-up items to move a section
-      around within a range. Correct an in-range section only when a specific
-      item from the analysis or schedule is missing outright.
-
-      CITATION RULE: every correction must cite the specific analysis quantity or
-      schedule entry it is based on in its reason (e.g. "32 openings per schedule,
-      only 24 priced" or "1,670 m2 paint area is repaint/character class, priced
-      at new-plasterboard rate"). A correction you cannot tie to a documented
-      quantity is not allowed.
-
-      If a section is sound, leave it alone — an empty changes list is a good
-      outcome. Keep unit rates consistent with the rates already used elsewhere
-      in the estimate. All amounts AUD ex. GST, builder's costs.
+      Only correct what you can justify from the analysis, brief, and the ranges
+      above. If a section is sound, leave it alone — an empty changes list is a
+      good outcome. Keep unit rates consistent with the rates already used
+      elsewhere in the estimate. All amounts AUD ex. GST, builder's costs.
     PROMPT
   end
 
