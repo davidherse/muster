@@ -28,6 +28,9 @@ gem "dotenv-rails"
 # Count PDF pages before sending plans to the AI
 gem "pdf-reader"
 
+# CSV parsing/generation (no longer a Ruby default gem)
+gem "csv"
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
