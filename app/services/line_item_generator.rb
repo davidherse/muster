@@ -118,6 +118,11 @@ class LineItemGenerator
         duration_months each item is actually on site.
       - Cost every entry in special_features explicitly (pool, solar, shutters,
         fireplace etc.) \u2014 in the most appropriate section.
+      - Risk allowances must be VISIBLE: if the brief calls for latent conditions
+        or similar contingency, cost it as its own clearly-labelled line item
+        (e.g. "Latent conditions allowance \u2014 pre-1947 structure") in the most
+        relevant section \u2014 never by quietly inflating other trades. The builder
+        must be able to see and strip it when quoting tight.
       - Respect finish_level both ways: high_end jobs use premium rates for joinery,
         fixtures, tiling and glazing; but do not upgrade trades the brief leaves
         standard.

@@ -104,6 +104,31 @@ Composition caveat: on Constitution the enriched brief overcooked prelims
 ~$197k) — the total is right partly by offset, so still sanity-check those
 two sections manually on heavy-character jobs.
 
+## Validation v2 — painting composites + enriched standard briefs
+
+After adding historical whole-house painting composites to the price book
+($159–493 per m² floor by repaint extent, derived from the four jobs) and
+making the enriched briefs standard (`eval/projects.yml`), all four projects
+land IN RANGE for the first time:
+
+| Project | Error | In range? | Note |
+|---|---|---|---|
+| Carberry | +1.1% | yes | from −7.5% |
+| Hilda | +5.7% | yes | selective-repaint line kept composites honest |
+| Constitution | −13.5% | yes | painting improved ($114k) but still under its $197k |
+| Benecia | +14.6% | yes | overshoot from prudent duration/latent allowances a clean job never consumed |
+
+Mean absolute error 8.7%; the distribution now skews slightly conservative —
+the enriched briefs include allowances (latent conditions, full durations)
+that consumed actuals only sometimes reflect. That is quote-basis behaviour,
+not error, but it means: **strip visible allowance lines when comparing to
+lean actuals.** Line item generation now requires risk allowances to be
+explicit, labelled line items so they can be seen and stripped.
+
+The questionnaire (new-estimate form) captures these movers per job:
+finish level, repaint extent, duration, era/latent risk, asbestos,
+structural and site conditions, services scope, inclusions/exclusions.
+
 ## Reproducing
 
 ```sh
