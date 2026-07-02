@@ -79,6 +79,9 @@ class EstimateGenerator
       error.message
     when Anthropic::Errors::AuthenticationError
       "The Anthropic API key is missing or invalid. Set ANTHROPIC_API_KEY and try again."
+    when Anthropic::Errors::BadRequestError
+      api_message = error.message.to_s[/message"?\s*[:=>]+\s*"([^"]+)"/, 1] || error.message.to_s.truncate(300)
+      "The AI service rejected the request: #{api_message}"
     when Anthropic::Errors::RateLimitError
       "The AI service is rate limited right now. Please try again in a few minutes."
     when Anthropic::Errors::APIStatusError
