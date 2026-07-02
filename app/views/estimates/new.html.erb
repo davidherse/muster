@@ -29,6 +29,45 @@
         <%= form.text_area :prompt, rows: 5, placeholder: "Anything the plans don't say: finish level, known site issues, inclusions/exclusions, client budget expectations…", class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
       </div>
 
+      <fieldset class="border-t border-gray-100 pt-5">
+        <legend class="text-sm font-semibold text-gray-900">Clarifications <span class="font-normal text-gray-500">— the details that most move an estimate; skip any you're unsure of</span></legend>
+        <div class="grid md:grid-cols-2 gap-x-6 gap-y-5 mt-4">
+          <% EstimateQuestionnaire::QUESTIONS.each do |q| %>
+            <div class="<%= q[:type] == :text || q[:type] == :multi ? "md:col-span-2" : "" %>">
+              <label class="block text-sm font-medium text-gray-700"><%= q[:label] %></label>
+              <% case q[:type] %>
+              <% when :select %>
+                <%= select_tag "estimate[questionnaire][#{q[:key]}]",
+                      options_for_select(q[:options], @estimate.questionnaire[q[:key]]),
+                      include_blank: "— not sure / not applicable —",
+                      class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+              <% when :number %>
+                <%= number_field_tag "estimate[questionnaire][#{q[:key]}]", @estimate.questionnaire[q[:key]],
+                      min: 1, max: 36, step: 1, placeholder: "Let the estimator judge",
+                      class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+              <% when :multi %>
+                <div class="mt-2 flex flex-wrap gap-x-5 gap-y-2">
+                  <% q[:options].each do |opt| %>
+                    <label class="inline-flex items-center gap-2 text-sm text-gray-700">
+                      <%= check_box_tag "estimate[questionnaire][#{q[:key]}][]", opt,
+                            Array(@estimate.questionnaire[q[:key]]).include?(opt),
+                            id: "q_#{q[:key]}_#{opt.parameterize}", class: "rounded border-gray-300" %>
+                      <%= opt %>
+                    </label>
+                  <% end %>
+                </div>
+              <% when :text %>
+                <%= text_area_tag "estimate[questionnaire][#{q[:key]}]", @estimate.questionnaire[q[:key]],
+                      rows: 2, class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+              <% end %>
+              <% if q[:hint] %>
+                <p class="mt-1 text-xs text-gray-500"><%= q[:hint] %></p>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </fieldset>
+
       <div>
         <%= form.label :estimate_template_id, "Estimate layout", class: "block text-sm font-medium text-gray-700" %>
         <%= form.collection_select :estimate_template_id, EstimateTemplate.order(:name), :id, :name, {}, { class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" } %>

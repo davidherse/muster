@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_02_144934) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_02_220007) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -84,6 +84,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_02_144934) do
     t.integer "progress", default: 0
     t.string "progress_note"
     t.text "prompt"
+    t.json "questionnaire", default: {}, null: false
     t.string "status", default: "draft", null: false
     t.decimal "total", precision: 14, scale: 2
     t.decimal "total_high", precision: 14, scale: 2

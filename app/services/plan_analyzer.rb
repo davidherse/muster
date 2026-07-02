@@ -98,7 +98,7 @@ class PlanAnalyzer
 
   def user_prompt
     parts = [ "Analyse the attached architectural plans and produce the structured scope analysis." ]
-    parts << "Additional information from the builder:\n#{@estimate.prompt}" if @estimate.prompt.present?
+    parts << "Additional information from the builder:\n#{@estimate.brief_text}" if @estimate.brief_text.present?
     parts.join("\n\n")
   end
 

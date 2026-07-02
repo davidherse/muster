@@ -17,6 +17,11 @@ class Estimate < ApplicationRecord
     define_method("#{s}?") { status == s }
   end
 
+  # The full brief the AI works from: free-text prompt plus questionnaire answers.
+  def brief_text
+    [ prompt.presence, EstimateQuestionnaire.to_prompt(questionnaire) ].compact.join("\n\n").presence
+  end
+
   def processing!(note = nil)
     update!(status: "processing", error_message: nil, progress: 0, progress_note: note)
   end

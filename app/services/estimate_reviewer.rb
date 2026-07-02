@@ -91,7 +91,7 @@ class EstimateReviewer
       SCOPE ANALYSIS:
       #{JSON.pretty_generate(@analysis)}
 
-      #{@estimate.prompt.present? ? "BUILDER'S BRIEF:\n#{@estimate.prompt}\n" : ''}
+      #{@estimate.brief_text.present? ? "BUILDER'S BRIEF:\n#{@estimate.brief_text}\n" : ''}
       COMPUTED INTENSITY METRICS (verify each against SEQ market norms for this
       finish level and building type \u2014 correct sections that imply unrealistic
       rates in EITHER direction):

@@ -60,6 +60,6 @@ class EstimatesController < ApplicationController
   end
 
   def estimate_params
-    params.expect(estimate: [ :name, :prompt, :plan, :estimate_template_id ])
+    params.require(:estimate).permit(:name, :prompt, :plan, :estimate_template_id, questionnaire: {})
   end
 end

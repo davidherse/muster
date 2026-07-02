@@ -25,9 +25,11 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
         name: "New Job",
         prompt: "High-end finishes",
         estimate_template_id: estimate_templates(:standard).id,
-        plan: fixture_file_upload("plan.pdf", "application/pdf")
+        plan: fixture_file_upload("plan.pdf", "application/pdf"),
+        questionnaire: { finish_level: "High-end", structural_work: [ "New pool" ] }
       } }
     end
+    assert_equal "High-end", Estimate.order(:id).last.questionnaire["finish_level"]
     estimate = Estimate.order(:id).last
     assert_redirected_to estimate_url(estimate)
     assert estimate.processing?

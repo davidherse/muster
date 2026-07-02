@@ -130,7 +130,7 @@ class LineItemGenerator
       PLAN ANALYSIS:
       #{JSON.pretty_generate(@analysis)}
 
-      #{@estimate.prompt.present? ? "BUILDER'S NOTES:\n#{@estimate.prompt}\n" : ''}
+      #{@estimate.brief_text.present? ? "BUILDER'S NOTES:\n#{@estimate.brief_text}\n" : ''}
       Produce line items for exactly these sections. The "name" field must be the exact
       section name as written before the colon below \u2014 do not append the description:
       #{section_list}
