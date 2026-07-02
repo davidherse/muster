@@ -87,6 +87,31 @@ class LineItemGenerator
         Sub for subcontract trades, Eq for hire/equipment, MatLab for supply-and-install.
       - Be thorough: real sections typically have 3-15 line items covering supply,
         labour, and sundries separately where the trade splits them.
+
+      Quantity discipline \u2014 the most common estimating failure is lump-sum allowances
+      that quietly undercount labour-heavy trades. Derive quantities from the building
+      geometry in the analysis, and never collapse a whole trade into one allowance:
+      - Painting: use the analysis paint areas (internal_paint_area_m2,
+        external_paint_area_m2) x per-m2 rates appropriate to the lining type; VJ/
+        tongue-and-groove and character detail is slower and prep-heavy. Painting a
+        whole renovated dwelling inside and out is one of the largest trades on a
+        character renovation \u2014 cost it from area, never as a single allowance.
+      - Windows and doors: take off PER OPENING from the window/door schedule counts
+        and glazing_notes. High-spec or oversized units cost multiples of standard ones.
+      - Lockup and fixing carpentry: labour scales with envelope and detail \u2014 cladding
+        area, eaves, decks (deck_patio_area_m2), trim extent \u2014 not floor area alone.
+      - Preliminaries: scale supervision/project management, insurances, and
+        certification with duration_months and contract value. Site supervision and PM
+        run for the whole build. On renovations of this scale preliminaries typically
+        total 8-12% of construction cost \u2014 if yours land well below that, re-check
+        what is missing rather than assuming the job is cheap to run.
+      - Hire and temporary services: multiply weekly/monthly rates by duration_months,
+        not a token few weeks.
+      - Cost every entry in special_features explicitly (pool, solar, shutters,
+        fireplace etc.) \u2014 in the most appropriate section.
+      - Respect finish_level: high_end and luxury jobs use premium rates for joinery,
+        fixtures, tiling, and glazing \u2014 check the price book's high-end items rather
+        than defaulting to mid-range rates.
     PROMPT
   end
 
@@ -97,7 +122,8 @@ class LineItemGenerator
       #{JSON.pretty_generate(@analysis)}
 
       #{@estimate.prompt.present? ? "BUILDER'S NOTES:\n#{@estimate.prompt}\n" : ''}
-      Produce line items for exactly these sections (use these exact names):
+      Produce line items for exactly these sections. The "name" field must be the exact
+      section name as written before the colon below \u2014 do not append the description:
       #{section_list}
     TEXT
   end

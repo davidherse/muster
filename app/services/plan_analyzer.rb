@@ -13,7 +13,10 @@ class PlanAnalyzer
     additionalProperties: false,
     required: %w[building_type storeys floor_area_m2 scope_summary rooms wet_area_count
                  window_count external_door_count roof_type external_cladding
-                 structural_notes site_notes inclusions exclusions],
+                 structural_notes site_notes inclusions exclusions
+                 finish_level internal_lining_type external_repaint glazing_notes
+                 internal_paint_area_m2 external_paint_area_m2 duration_months
+                 deck_patio_area_m2 special_features],
     properties: {
       building_type: { type: "string", description: "e.g. New double storey dwelling, Renovation and extension of existing Queenslander" },
       storeys: { type: "integer" },
@@ -40,7 +43,29 @@ class PlanAnalyzer
       structural_notes: { type: "string", description: "Steel, engineered beams, retaining, slabs, footings" },
       site_notes: { type: "string", description: "Slope, access, demolition, asbestos likelihood (pre-1990 QLD homes), existing structures" },
       inclusions: { type: "array", items: { type: "string" }, description: "Notable items explicitly shown or specified" },
-      exclusions: { type: "array", items: { type: "string" }, description: "Items explicitly excluded or clearly out of scope" }
+      exclusions: { type: "array", items: { type: "string" }, description: "Items explicitly excluded or clearly out of scope" },
+      finish_level: { type: "string", enum: %w[basic standard high_end luxury],
+                      description: "Finish level from the plans/brief: joinery extent, stone, glazing, fittings" },
+      internal_lining_type: { type: "string", description: "plasterboard, VJ/tongue-and-groove, mixed — affects lining and painting rates" },
+      external_repaint: { type: "boolean", description: "Whole external envelope painted/repainted (typical for weatherboard renovations)?" },
+      glazing_notes: { type: "string", description: "Summary of the window/door schedule: counts, sizes, notable large/high-spec units, total glazed area if derivable" },
+      internal_paint_area_m2: { type: "number", description: "Estimated internal paint area (walls + ceilings, all coats-relevant surfaces). Derive from geometry: wall area is typically 2.7-3.2 x floor area per level plus ceilings" },
+      external_paint_area_m2: { type: "number", description: "Estimated external paint area (cladding, eaves, trim); 0 if no external painting" },
+      duration_months: { type: "number", description: "Realistic construction duration in months for this scope (drives preliminaries, supervision, hire durations)" },
+      deck_patio_area_m2: { type: "number", description: "Total new deck/alfresco/patio area; 0 if none" },
+      special_features: {
+        type: "array",
+        items: {
+          type: "object",
+          additionalProperties: false,
+          required: %w[name detail],
+          properties: {
+            name: { type: "string", description: "e.g. in-ground pool, solar + battery, plantation shutters, lift, fireplace" },
+            detail: { type: "string", description: "Size/extent/spec so it can be costed" }
+          }
+        },
+        description: "Cost-significant features that need their own line items"
+      }
     }
   }.freeze
 

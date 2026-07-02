@@ -3,29 +3,46 @@
 # estimate and actual costs (extracted from the job costing spreadsheets).
 # escalation_factor converts each job's cost base to mid-2026 dollars; the eval
 # divides the AI's (2026-dollar) estimate by it before comparing to the baseline.
+# Prompts are the builder's real briefs, verbatim.
 hilda:
   plan: "/Users/davidherse/Dropbox/Built Homes/esitmates/Hilda - Approved plans 0892_CAMPBELL_BA_03_FOR_CONSTRUC.pdf"
   baseline: eval/baselines/hilda.csv
   escalation_factor: 1.29
   prompt: >
-    Renovation and extension of an existing Queenslander at 6 Hilda St, Alderley QLD.
-    Double storey. Costed as builder's costs ex. GST.
+    Ballpark build cost, Brisbane (Enoggera), 2026. Renovation and extension of an
+    existing dwelling into a double-storey home, reworked largely within the existing
+    footprint, ~280 m2 total floor area across two levels (confirm against plans), on
+    a 390 m2 lot - new lower level (garage, extra bedrooms, rumpus/MPR, bathroom,
+    laundry/bar) under a renovated upper level. The existing roof is retained.
+    High-end finish: custom joinery and stone, timber and tiled floors, ducted A/C,
+    fireplace. New carport, decks, front fence with balustrade and screening.
+    Demolition of old bathrooms, stairs and driveway. No asbestos. Pool excluded (by others).
 
 constitution:
   plan: "/Users/davidherse/Dropbox/Built Homes/esitmates/Constitution - Certified Architectural - 36 Constitution.pdf"
   baseline: eval/baselines/constitution.csv
   escalation_factor: 1.10
   prompt: >
-    Major renovation at 36 Constitution St, Brisbane QLD, including pool pergola,
-    aluminium shutters, solar power system. Costed as builder's costs ex. GST.
+    Ballpark build cost, Brisbane (Windsor), 2026. Renovation of an existing
+    two-storey home, ~400 m2 total floor area across two levels (confirm against
+    plans). Existing structure retained; new framing over the additions only.
+    Existing in-ground pool retained, with a new poolside pergola. High-end finish:
+    large amount of glazing, custom joinery and stone, aluminium plantation shutters,
+    solar + home battery, ducted A/C, skylights, character balustrade/fretwork.
+    Asbestos removal, demolition, some slope.
 
 carberry:
   plan: "/Users/davidherse/Dropbox/Built Homes/esitmates/Carberry - ARCHITECTURAL.pdf"
   baseline: eval/baselines/carberry.csv
   escalation_factor: 1.04
   prompt: >
-    New build / major renovation at 71 Carberry St, Grange QLD. Costed as builder's
-    costs ex. GST. Baseline has human estimate only (no actuals recorded).
+    Ballpark build cost, Brisbane (Grange), 2026. Renovation and extension of an
+    existing two-storey painted-weatherboard character home, ~330 m2 total floor area
+    across two levels (confirm against plans), in a Character Residential zone, new
+    work matching the existing weatherboard. High-end finish: timber floors, carpet
+    to bedrooms, custom cabinetry and stone, ducted A/C, fireplace. Sloped block with
+    sleeper and block retaining and bored-pier footings; demolition. No pool. This is
+    a labour-intensive character renovation.
 
 # NOTE: assumed the B2103014 decision notice PDF belongs to the Benecia renovation —
 # correct the mapping here if that's wrong.
@@ -34,4 +51,11 @@ benecia:
   baseline: eval/baselines/benecia.csv
   escalation_factor: 1.17
   prompt: >
-    Full renovation (Benecia). Costed as builder's costs ex. GST.
+    Ballpark build cost, Brisbane (Wavell Heights), 2026. Raise-and-build-under
+    renovation of an existing single-storey timber home into a double-storey
+    dwelling, ~280 m2 total floor area across two levels (confirm against plans) -
+    new lower level built in under a renovated upper level. Roofed deck, alfresco,
+    paved patio, and a new in-ground concrete pool (~6 x 3.5 m) with glass fencing.
+    High-end finish: engineered oak floors, stone, custom joinery, ducted A/C,
+    fireplace. Sloped block, reactive/P-class fill soil, asbestos removal,
+    demolition, house-raising/restumping.

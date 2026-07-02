@@ -33,6 +33,7 @@ class EstimateGenerator
     remaining.each_slice(@batch_size) do |batch|
       result = generator.call(batch)
       result.fetch("sections", []).each do |section_data|
+        section_data["name"] = normalize_section_name(section_data["name"], batch)
         next unless section_data["applicable"] && section_data["line_items"].present?
         position += 1
         create_section(section_data, position)
@@ -78,6 +79,14 @@ class EstimateGenerator
   def template
     @estimate.estimate_template || EstimateTemplate.default ||
       raise(Ai::Client::Error, "No estimate template available")
+  end
+
+  # The model occasionally echoes the section hint ("Painting: Internal and
+  # external…"); collapse back to the exact template name when it matches.
+  def normalize_section_name(name, batch)
+    return name if batch.any? { |s| s["name"] == name }
+    prefix = name.to_s.split(":").first.to_s.strip
+    batch.any? { |s| s["name"] == prefix } ? prefix : name
   end
 
   def create_section(section_data, position)
