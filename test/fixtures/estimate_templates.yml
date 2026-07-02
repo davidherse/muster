@@ -1,0 +1,8 @@
+standard:
+  name: Test Standard
+  description: Small template for tests
+  sections: <%= [
+    { "name" => "Preliminaries", "hint" => "Insurance, fees, project management" },
+    { "name" => "Structural Steel", "hint" => "Beams and columns" },
+    { "name" => "Solar Power System", "hint" => "PV if shown" }
+  ].to_json %>

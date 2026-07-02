@@ -13,8 +13,8 @@ class EstimatesController < ApplicationController
     @estimate = Current.user.estimates.new(estimate_params)
     @estimate.estimate_template ||= EstimateTemplate.default
     if @estimate.plan.attached? && @estimate.save
-      GenerateEstimateJob.perform_later(@estimate)
       @estimate.processing!("Queued for analysis…")
+      GenerateEstimateJob.perform_later(@estimate)
       redirect_to @estimate, notice: "Your estimate is being generated. This can take a few minutes."
     else
       @estimate.errors.add(:plan, "must be attached") unless @estimate.plan.attached?
@@ -31,8 +31,8 @@ class EstimatesController < ApplicationController
 
   def regenerate
     return redirect_to(@estimate, alert: "This estimate is already being generated.") if @estimate.processing?
-    GenerateEstimateJob.perform_later(@estimate)
     @estimate.processing!("Queued for analysis…")
+    GenerateEstimateJob.perform_later(@estimate)
     redirect_to @estimate, notice: "Regenerating the estimate."
   end
 

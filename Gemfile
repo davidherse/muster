@@ -79,6 +79,9 @@ end
 group :test do
   # Stub external HTTP (Anthropic API) in tests
   gem "webmock"
+
+  # Object#stub (extracted from minitest core in v6)
+  gem "minitest-mock"
 end
 
 group :test do
