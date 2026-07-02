@@ -17,13 +17,18 @@ class AiClientTest < ActiveSupport::TestCase
       @requests = 0
     end
 
+    class StubStream
+      def initialize(message) = @message = message
+      def accumulated_message = @message
+    end
+
     def messages = self
     def beta = self
 
-    def create(**_params)
+    def stream(**_params)
       @requests += 1
       raise @errors.shift if @errors.any?
-      Message.new(:end_turn, [ TextBlock.new(:text, @response_json.to_json) ])
+      StubStream.new(Message.new(:end_turn, [ TextBlock.new(:text, @response_json.to_json) ]))
     end
   end
 

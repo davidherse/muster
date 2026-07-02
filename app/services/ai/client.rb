@@ -41,13 +41,16 @@ module Ai
         output_config: { format: { type: "json_schema", schema: schema } }
       }
 
+      # Stream and accumulate: the SDK requires streaming at this max_tokens,
+      # and it sidesteps HTTP timeouts on long generations.
       message = with_backoff do
         # File references (Files API uploads) need the beta messages endpoint.
-        if file_reference?(content)
-          @anthropic.beta.messages.create(**params, betas: [ FILES_BETA ])
+        stream = if file_reference?(content)
+          @anthropic.beta.messages.stream(**params, betas: [ FILES_BETA ])
         else
-          @anthropic.messages.create(**params)
+          @anthropic.messages.stream(**params)
         end
+        stream.accumulated_message
       end
 
       raise RefusalError, "The model declined this request." if message.stop_reason == :refusal
