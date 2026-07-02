@@ -2,9 +2,11 @@
 # user's brief, and produce a structured scope-of-works analysis that the
 # line item generator works from (so the PDF is only sent to the model once).
 class PlanAnalyzer
-  # Base64 inflates ~4/3; stay under the 32 MB request limit with headroom.
-  MAX_PDF_BYTES = 20.megabytes
-  MAX_PDF_PAGES = 100
+  # Base64 inflates ~4/3; PDFs bigger than this go via the Files API instead
+  # of inline base64 (32 MB request limit).
+  MAX_INLINE_PDF_BYTES = 20.megabytes
+  # API limit for 1M-context models.
+  MAX_PDF_PAGES = 600
 
   SCHEMA = {
     type: "object",
@@ -42,15 +44,16 @@ class PlanAnalyzer
     }
   }.freeze
 
-  def initialize(estimate, client: Ai::Client.new)
+  def initialize(estimate, client: Ai::Client.new, max_inline_bytes: MAX_INLINE_PDF_BYTES)
     @estimate = estimate
     @client = client
+    @max_inline_bytes = max_inline_bytes
   end
 
   def call
     @client.complete_json(
       system: [ { type: "text", text: system_prompt } ],
-      content: plan_blocks + [ { type: "text", text: user_prompt } ],
+      content: [ plan_block, { type: "text", text: user_prompt } ],
       schema: SCHEMA
     )
   end
@@ -73,26 +76,28 @@ class PlanAnalyzer
     parts.join("\n\n")
   end
 
-  def plan_blocks
+  def plan_block
     data = @estimate.plan.download
-    if data.bytesize <= MAX_PDF_BYTES && page_count(data) <= MAX_PDF_PAGES
-      [ { type: "document", source: { type: "base64", media_type: "application/pdf", data: Base64.strict_encode64(data) } } ]
+    pages = page_count(data)
+    if pages && pages > MAX_PDF_PAGES
+      raise Ai::Client::Error, "The plan PDF has #{pages} pages — the maximum is #{MAX_PDF_PAGES}. Split it and upload the drawings only."
+    end
+
+    if data.bytesize <= @max_inline_bytes
+      { type: "document", source: { type: "base64", media_type: "application/pdf", data: Base64.strict_encode64(data) } }
     else
-      # Too large to send as a document — fall back to extracted text.
-      [ { type: "text", text: "Extracted text of the architectural plans (drawings unavailable):\n\n#{extract_text(data)}" } ]
+      # Too large to inline — upload via the Files API and reference by id.
+      file_id = @client.upload_pdf(data, filename: @estimate.plan.filename.to_s)
+      { type: "document", source: { type: "file", file_id: file_id } }
     end
   end
 
+  # pdf-reader can't parse every real-world PDF (e.g. certified plan sets with
+  # unusual xref structures); an unknown page count is fine — the API applies
+  # its own limits and its parser is far more tolerant.
   def page_count(data)
     PDF::Reader.new(StringIO.new(data)).page_count
   rescue StandardError
-    MAX_PDF_PAGES + 1
-  end
-
-  def extract_text(data)
-    reader = PDF::Reader.new(StringIO.new(data))
-    reader.pages.map(&:text).join("\n\n").first(400_000)
-  rescue StandardError => e
-    raise Ai::Client::Error, "Could not read the PDF plan: #{e.message}"
+    nil
   end
 end

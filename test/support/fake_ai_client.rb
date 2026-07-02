@@ -1,12 +1,18 @@
 # Stands in for Ai::Client in tests. Returns a canned plan analysis or canned
 # line item sections depending on which schema the caller passes.
 class FakeAiClient
-  attr_reader :calls
+  attr_reader :calls, :uploads
 
   def initialize(analysis: nil, fail_with: nil)
     @analysis = analysis
     @fail_with = fail_with
     @calls = []
+    @uploads = []
+  end
+
+  def upload_pdf(data, filename: "plan.pdf")
+    @uploads << { bytes: data.bytesize, filename: filename }
+    "file_fake_#{@uploads.size}"
   end
 
   def complete_json(system:, content:, schema:, max_tokens: nil)
