@@ -61,7 +61,7 @@ class EstimateReviewer
     notes = []
     [ :completeness, :padding ].each do |direction|
       result = @client.complete_json(
-        system: [ { type: "text", text: instructions(direction) } ],
+        system: [ LineItemGenerator.price_book_block, { type: "text", text: instructions(direction) } ],
         content: [ { type: "text", text: request_text } ],
         schema: SCHEMA
       )
@@ -107,6 +107,10 @@ class EstimateReviewer
         - quantities exceeding the documented geometry, retained openings priced
           as new supply, sections irrelevant to this project_class carrying token
           items, trades upgraded beyond the specified finish level
+        - unit rates materially above a comparable PRICE BOOK item without an
+          explicit spec justification \u2014 check every large line against the price
+          book; the builder\u2019s own recorded rate wins over market instinct
+          (cite the price book entry in your reason when you correct a rate)
       PROMPT
     end
   end

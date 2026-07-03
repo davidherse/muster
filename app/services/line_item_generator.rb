@@ -56,14 +56,17 @@ class LineItemGenerator
 
   private
 
-  # The price book is large and shared across every batch call for this
-  # estimate — cache it so subsequent batches read it at cache prices.
+  # The price book leads the system prompt with a cache breakpoint directly
+  # after it, so every batch call AND both reviewer passes share one cached
+  # copy (identical prefix). Role instructions follow the breakpoint.
   def system_blocks
-    [
-      { type: "text", text: instructions },
-      { type: "text", text: "PRICE BOOK — unit rates from this builder\u2019s completed jobs, already indexed to current dollars; use them directly (category | description | type | uom | unit cost AUD ex. GST):\n#{PriceBookItem.reference_text}",
-        cache_control: { type: "ephemeral" } }
-    ]
+    [ LineItemGenerator.price_book_block, { type: "text", text: instructions } ]
+  end
+
+  def self.price_book_block
+    { type: "text",
+      text: "PRICE BOOK — unit rates from this builder\u2019s completed jobs, already indexed to current dollars; use them directly (category | description | type | uom | unit cost AUD ex. GST):\n#{PriceBookItem.reference_text}",
+      cache_control: { type: "ephemeral" } }
   end
 
   def instructions
