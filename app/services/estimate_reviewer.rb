@@ -82,9 +82,13 @@ class EstimateReviewer
       correction must cite the specific analysis quantity, schedule entry, or brief
       statement that justifies it in its reason. A correction you cannot tie to a
       documented fact is not allowed. If nothing qualifies, return an empty changes
-      list — that is a good outcome. Keep unit rates consistent with the rates
-      already used elsewhere in the estimate. All amounts AUD ex. GST, builder's
-      costs.
+      list — that is a good outcome.
+
+      MATERIALITY: return at most the 12 most material corrections, largest dollar
+      impact first, and ignore anything whose total effect is under $1,000 — a
+      senior reviewer fixes what moves the price, not every nit. Keep reasons to
+      one sentence. Keep unit rates consistent with the rates already used
+      elsewhere in the estimate. All amounts AUD ex. GST, builder's costs.
     COMMON
 
     case direction
