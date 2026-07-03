@@ -1319,3 +1319,4 @@ Painting,"Whole-house repaint composite - selective scope (new work plus touch-u
 Painting,"Whole-house repaint composite - full repaint of standard character home (new + existing) - per m2 of floor area",Sub,m2 floor,198.00,1,Derived from Carberry 2025 estimate x1.04
 Painting,"Whole-house repaint composite - full repaint incl raise/build-under new lower level - per m2 of floor area",Sub,m2 floor,346.00,1,Derived from Benecia 2022-23 actuals x1.17
 Painting,"Whole-house repaint composite - full heritage repaint incl VJ linings, fretwork, trim and exterior - per m2 of floor area",Sub,m2 floor,493.00,1,Derived from Constitution 2024-25 actuals x1.10
+Preliminaries,"Project management and site supervision composite - owner-led model: historically ~8-11 supervision hours/week for the full build duration regardless of job size (Hilda 416h, Rosalie 492h, Huxham 512h, Carson 60h)",Lab,hour,85.00,4,Derived from J1068/J1162/J1187/J1211 actuals

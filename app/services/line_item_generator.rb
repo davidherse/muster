@@ -95,6 +95,12 @@ class LineItemGenerator
       - Scope boundaries: cost ONLY work shown in the plans/brief. Respect
         retained_scope_notes \u2014 retained rooms, roof, cladding or structure get no
         line items. Do not add contingency padding to quantities or rates.
+      - Partial-scope jobs: when the brief describes work limited to specific rooms
+        or areas (e.g. a bathroom/ensuite renovation), whole-house sections \u2014 site
+        establishment, temporary services, hire and scaffolding, external trades,
+        framing/structure, roofing \u2014 are NOT applicable unless the documents show
+        that work. Mark them applicable: false; do not find token items to fill
+        them. A small job should produce a small number of sections.
       - Painting: this trade is priced as PAINTER-HOURS (the price book carries
         hourly painter rates). Estimate hours from the analysis paint areas and
         realistic productivity: straightforward new plasterboard walls paint fast;
@@ -104,16 +110,20 @@ class LineItemGenerator
         allowance. Sanity-check the result: hours x rate should reflect a crew on
         site for weeks on a whole-house repaint, not days.
       - Windows and doors: take off PER OPENING from the window/door schedule counts
-        and glazing_notes. High-spec or oversized units cost multiples of standard ones.
+        and glazing_notes, and distinguish NEW or REPLACED openings from RETAINED
+        ones (retained_scope_notes and the elevations show which is which \u2014 on
+        raise/build-under and renovation jobs most upper-level openings are usually
+        kept). Retained openings carry only repair, hardware, or repaint items, not
+        supply+install. High-spec or oversized new units cost multiples of standard.
       - Lockup and fixing carpentry: labour scales with new envelope and detail \u2014
         new cladding area, eaves, decks (deck_patio_area_m2), trim extent.
       - Preliminaries: itemise explicitly \u2014 insurance premiums scale with contract
         value, certification and engineering fees per the scope, and supervision/
         project management as hours per week x duration_months at the price book
-        rate. Supervision intensity scales with the size and trade-density of the
-        job: a large multi-trade character renovation needs materially more
-        coordination hours per week than a simple one. No percentage targets;
-        build it item by item like the price book does.
+        rate. This builder runs owner-led supervision: historical jobs from \$85k
+        to \$1.1M consistently record ~8-11 supervision hours per week for the
+        build duration \u2014 scale supervision with duration, not contract value.
+        No percentage targets; build it item by item like the price book does.
       - Hire and temporary services: weekly/monthly rates x the portion of
         duration_months each item is actually on site.
       - Cost every entry in special_features explicitly (pool, solar, shutters,
