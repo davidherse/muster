@@ -308,6 +308,12 @@ GEM
     reline (0.6.3)
       io-console (~> 0.5)
     rexml (3.4.4)
+    roo (3.0.0)
+      base64 (~> 0.2)
+      csv (~> 3)
+      logger (~> 1)
+      nokogiri (~> 1)
+      rubyzip (>= 3.0.0, < 4.0.0)
     rubocop (1.88.1)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
@@ -457,6 +463,7 @@ DEPENDENCIES
   propshaft
   puma (>= 5.0)
   rails (~> 8.1.3)
+  roo
   rubocop-rails-omakase
   selenium-webdriver
   solid_cable

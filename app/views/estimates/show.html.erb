@@ -57,6 +57,23 @@
     </div>
   </div>
 
+  <% if (a = @estimate.assessment).present? && a["confidence"].present? %>
+    <% tone = { "high" => "green", "medium" => "amber", "low" => "red" }.fetch(a["confidence"], "gray") %>
+    <div class="bg-white border border-gray-200 rounded-xl p-5 mb-8">
+      <div class="flex items-center gap-3 mb-2">
+        <%# bg-green-100 text-green-700 bg-amber-100 text-amber-700 bg-red-100 text-red-700 bg-gray-100 text-gray-700 %>
+        <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-<%= tone %>-100 text-<%= tone %>-700">
+          <%= a["confidence"].capitalize %> confidence
+        </span>
+        <span class="text-sm text-gray-500">Expected accuracy ±<%= a["expected_variance_pct"].to_f.round %>% — the range above reflects this.</span>
+      </div>
+      <p class="text-sm text-gray-700"><%= a["rationale"] %></p>
+      <% if a["risks"].present? %>
+        <p class="mt-2 text-xs text-gray-500"><span class="font-medium">Biggest price movers:</span> <%= Array(a["risks"]).join("; ") %></p>
+      <% end %>
+    </div>
+  <% end %>
+
   <% if @estimate.plan_summary.present? %>
     <details class="bg-white border border-gray-200 rounded-xl p-5 mb-8">
       <summary class="font-semibold text-gray-900 cursor-pointer">Scope of works (from plan analysis)</summary>

@@ -1,0 +1,40 @@
+<div class="flex items-center justify-between mb-6">
+  <h1 class="font-bold text-3xl">Training</h1>
+  <%= link_to "＋ Upload an estimate", new_training_document_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium" %>
+</div>
+
+<p class="text-gray-500 mb-6 text-sm md:w-2/3">
+  Teach the estimator your pricing. Upload a few of your past estimates (PDF or
+  spreadsheet) and answer the same questions you'd answer for a new job — your
+  rates become a personal price book the estimator prefers over the shared one,
+  with the context of what your "high-end" or "sloped block" actually costs.
+</p>
+
+<% if @documents.none? %>
+  <div class="bg-white border border-gray-200 rounded-xl p-10 text-center text-gray-500">
+    No training documents yet.
+  </div>
+<% else %>
+  <div class="bg-white border border-gray-200 rounded-xl divide-y divide-gray-100">
+    <% @documents.each do |doc| %>
+      <div class="flex items-center justify-between px-5 py-4">
+        <div>
+          <p class="font-semibold text-gray-900"><%= doc.name %></p>
+          <p class="text-sm text-gray-500">
+            <%= doc.files.map { |f| f.filename }.join(", ") %>
+            <% if doc.completed? %> · <%= doc.extraction["item_count"] %> rates ingested<% end %>
+            <% if doc.failed? %> · <span class="text-red-600"><%= doc.error_message.to_s.truncate(80) %></span><% end %>
+          </p>
+        </div>
+        <div class="flex items-center gap-3">
+          <% styles = { "pending" => "bg-gray-100 text-gray-700", "processing" => "bg-amber-100 text-amber-700",
+                        "completed" => "bg-green-100 text-green-700", "failed" => "bg-red-100 text-red-700" } %>
+          <span class="text-xs font-semibold px-2.5 py-1 rounded-full <%= styles[doc.status] %>"><%= doc.status.capitalize %></span>
+          <%= button_to "Remove", training_document_path(doc), method: :delete,
+              data: { turbo_confirm: "Remove this document and its rates?" },
+              class: "text-sm text-gray-500 hover:text-red-600 cursor-pointer" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

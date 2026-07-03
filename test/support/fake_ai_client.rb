@@ -27,6 +27,16 @@ class FakeAiClient
 
     if schema == PlanAnalyzer::SCHEMA
       @analysis || default_analysis
+    elsif schema == TrainingIngestor::SCHEMA
+      {
+        "project_summary" => "Two storey renovation estimate.",
+        "template_sections" => [ "Prelims", "Carpentry", "Wet Areas", "Painting" ],
+        "items" => [
+          { "category" => "Wet Areas", "description" => "Semi-frameless shower screen", "item_type" => "Mat", "uom" => "ea", "unit_cost" => 890.0 },
+          { "category" => "Painting", "description" => "Internal repaint", "item_type" => "Sub", "uom" => "m2", "unit_cost" => 38.0 },
+          { "category" => "Prelims", "description" => "Zero cost note", "item_type" => "Mat", "uom" => "ea", "unit_cost" => 0 }
+        ]
+      }
     elsif schema == EstimateAssessor::SCHEMA
       { "confidence" => "high", "expected_variance_pct" => 10.0,
         "rationale" => "Well documented.", "strengths" => [ "docs" ], "risks" => [ "none" ] }

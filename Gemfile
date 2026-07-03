@@ -31,6 +31,9 @@ gem "pdf-reader"
 # CSV parsing/generation (no longer a Ruby default gem)
 gem "csv"
 
+# Read uploaded spreadsheet estimates in the training flow
+gem "roo"
+
 # Official Anthropic SDK — powers plan analysis and estimate generation
 gem "anthropic"
 

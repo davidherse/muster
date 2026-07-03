@@ -1,0 +1,32 @@
+<div class="mx-auto md:w-2/3 w-full">
+  <h1 class="font-bold text-3xl mb-2">Upload a past estimate</h1>
+  <p class="text-gray-500 mb-6 text-sm">Answer the questions as they applied to <em>that</em> job — the context is what makes your rates reusable.</p>
+
+  <%= form_with model: @document, url: training_documents_path, class: "contents" do |form| %>
+    <% if @document.errors.any? %>
+      <div class="py-2 px-3 bg-red-50 mb-5 text-red-600 font-medium rounded-lg">
+        <ul class="list-disc list-inside">
+          <% @document.errors.full_messages.each do |message| %><li><%= message %></li><% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="bg-white border border-gray-200 rounded-xl p-6 space-y-6">
+      <div>
+        <%= form.label :name, "Project name", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_field :name, required: true, placeholder: "e.g. 12 Smith St (2024)", class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+      </div>
+      <div>
+        <%= form.label :files, "Estimate documents (PDF, XLSX, or CSV)", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.file_field :files, multiple: true, required: true, accept: "application/pdf,.xlsx,.xls,.csv", class: "block mt-2 w-full text-sm text-gray-600 file:mr-4 file:rounded-md file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-blue-700 file:font-medium hover:file:bg-blue-100" %>
+      </div>
+
+      <%= render "shared/questionnaire_fields", answers: @document.questionnaire, param_root: "training_document" %>
+    </div>
+
+    <div class="mt-6 flex items-center gap-4">
+      <%= form.submit "Start training", class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium cursor-pointer" %>
+      <%= link_to "Cancel", training_documents_path, class: "text-gray-600 hover:text-gray-900" %>
+    </div>
+  <% end %>
+</div>
