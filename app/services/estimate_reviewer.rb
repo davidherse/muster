@@ -59,16 +59,18 @@ class EstimateReviewer
   # pass, which tended to rubber-stamp.
   def call
     notes = []
+    corrections = {}
     [ :completeness, :padding ].each do |direction|
       result = @client.complete_json(
         system: [ LineItemGenerator.price_book_block(@estimate.user), { type: "text", text: instructions(direction) } ],
         content: [ { type: "text", text: request_text } ],
         schema: SCHEMA
       )
-      apply(result)
+      added, removed = apply(result)
+      corrections[direction] = { added: added.round, removed: removed.round }
       notes << "#{direction}: #{result['review_notes']}"
     end
-    notes.join(" | ")
+    { notes: notes.join(" | "), corrections: corrections }
   end
 
   private
@@ -171,19 +173,26 @@ class EstimateReviewer
     end.join("\n\n")
   end
 
+  # Returns [dollars added, dollars removed] so the assessor can weigh
+  # omission risk (additions) against over-pricing risk (removals).
   def apply(result)
+    added = 0.0
+    removed = 0.0
     result.fetch("changes", []).each do |change|
       section = @estimate.sections.find_by(name: change["section"]) ||
                 @estimate.sections.create!(name: change["section"],
                                            position: (@estimate.sections.maximum(:position) || 0) + 1)
 
       change.fetch("remove_descriptions", []).each do |desc|
-        section.line_items.where(description: desc).destroy_all
+        doomed = section.line_items.where(description: desc)
+        removed += doomed.sum { |i| i.total.to_f }
+        doomed.destroy_all
       end
 
       next_position = (section.line_items.maximum(:position) || 0)
       change.fetch("add_items", []).each do |item|
         next_position += 1
+        added += item["quantity"].to_d * item["unit_cost"].to_d
         section.line_items.create!(
           position: next_position,
           description: item["description"],
@@ -200,5 +209,6 @@ class EstimateReviewer
       section.reload
       section.destroy if section.line_items.none?
     end
+    [ added, removed ]
   end
 end

@@ -45,10 +45,11 @@ class EstimateGenerator
     end
 
     @estimate.update_progress!(90, "Reviewing the estimate…")
-    review_notes = EstimateReviewer.new(@estimate, analysis: analysis, client: @client).call
+    review = EstimateReviewer.new(@estimate, analysis: analysis, client: @client).call
 
     @estimate.update_progress!(96, "Assessing confidence…")
-    EstimateAssessor.new(@estimate, analysis: analysis, review_notes: review_notes, client: @client).call
+    EstimateAssessor.new(@estimate, analysis: analysis, review_notes: review[:notes],
+                         corrections: review[:corrections], client: @client).call
 
     @estimate.recalculate_totals!
     @estimate.update!(status: "completed", progress: 100, progress_note: nil)

@@ -21,10 +21,11 @@ class EstimateAssessor
     }
   }.freeze
 
-  def initialize(estimate, analysis:, review_notes:, client: Ai::Client.new)
+  def initialize(estimate, analysis:, review_notes:, corrections: {}, client: Ai::Client.new)
     @estimate = estimate
     @analysis = analysis
     @review_notes = review_notes
+    @corrections = corrections
     @client = client
   end
 
@@ -71,6 +72,10 @@ class EstimateAssessor
       Sections: #{@estimate.sections.count}; line items: #{@estimate.line_items.count}
       Low-confidence line items: #{@estimate.line_items.where(confidence: "low").count}
       Analysis site notes: #{@analysis["site_notes"].to_s.truncate(300)}
+
+      REVIEW CORRECTION MAGNITUDES:
+      Completeness pass: added $#{@corrections.dig(:completeness, :added) || 0}, removed $#{@corrections.dig(:completeness, :removed) || 0}
+      Padding pass: added $#{@corrections.dig(:padding, :added) || 0}, removed $#{@corrections.dig(:padding, :removed) || 0}
 
       REVIEW FINDINGS (what the audit passes changed):
       #{@review_notes.to_s.truncate(900)}
