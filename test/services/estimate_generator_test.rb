@@ -52,8 +52,8 @@ class EstimateGeneratorTest < ActiveSupport::TestCase
   end
 
   test "resume skips analysis and already-costed sections" do
-    failing = FakeAiClient.new(fail_after: 2, fail_with: Ai::Client::Error.new("boom"))
-    # batch_size 2 over 3 template sections => analysis + batch1 succeed, batch2 raises
+    failing = FakeAiClient.new(fail_after: 3, fail_with: Ai::Client::Error.new("boom"))
+    # batch_size 2 over 3 template sections => analysis (draft+verify) + batch1 succeed, batch2 raises
     assert_raises(Ai::Client::Error) do
       EstimateGenerator.new(@estimate, client: failing, batch_size: 2).call
     end
@@ -86,5 +86,24 @@ class EstimateGeneratorTest < ActiveSupport::TestCase
     EstimateGenerator.new(@estimate, client: FakeAiClient.new).call
     assert_equal 3, @estimate.reload.costed_sections.size
     assert_equal 2, @estimate.sections.count
+  end
+end
+
+class EstimateGeneratorPartialScopeTest < ActiveSupport::TestCase
+  test "partial jobs cost only relevant sections plus always-on ones" do
+    estimate = users(:one).estimates.create!(name: "Bathroom", estimate_template: estimate_templates(:standard))
+    estimate.plans.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "plan.pdf", content_type: "application/pdf")
+    analysis = FakeAiClient.new.send(:default_analysis).merge(
+      "project_class" => "partial_interior_renovation",
+      "relevant_sections" => [ "Structural Steel" ]
+    )
+    client = FakeAiClient.new(analysis: analysis)
+    EstimateGenerator.new(estimate, client: client).call
+
+    requested = client.calls.select { |c| c[:schema] == LineItemGenerator::SCHEMA }
+      .flat_map { |c| c[:content].map { |b| b[:text] } }.join
+    assert_includes requested, "Structural Steel"
+    assert_includes requested, "Preliminaries"     # always kept
+    refute_includes requested, "Solar Power System" # filtered out structurally
   end
 end

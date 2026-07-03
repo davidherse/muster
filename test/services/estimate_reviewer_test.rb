@@ -51,3 +51,18 @@ class EstimateReviewerTest < ActiveSupport::TestCase
     assert_not @estimate.sections.exists?(name: "Structural Steel")
   end
 end
+
+class EstimateReviewerAdversarialTest < ActiveSupport::TestCase
+  test "runs opposed completeness and padding passes" do
+    estimate = users(:one).estimates.create!(name: "Adv", estimate_template: estimate_templates(:standard))
+    estimate.plans.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "plan.pdf", content_type: "application/pdf")
+    client = FakeAiClient.new
+    EstimateGenerator.new(estimate, client: client).call
+
+    review_calls = client.calls.select { |c| c[:schema] == EstimateReviewer::SCHEMA }
+    assert_equal 2, review_calls.size
+    prompts = review_calls.map { |c| c[:system].map { |b| b[:text] }.join }
+    assert prompts[0].include?("MISSING or UNDERDONE")
+    assert prompts[1].include?("INVENTED or OVERDONE")
+  end
+end

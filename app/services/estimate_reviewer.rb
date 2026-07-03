@@ -53,37 +53,62 @@ class EstimateReviewer
     @client = client
   end
 
+  # Adversarial dual review: a completeness prosecutor (hunts missing/thin
+  # scope) then a padding prosecutor (hunts invented scope, double counts,
+  # over-spec) on the corrected estimate. Opposed mandates beat one balanced
+  # pass, which tended to rubber-stamp.
   def call
-    result = @client.complete_json(
-      system: [ { type: "text", text: instructions } ],
-      content: [ { type: "text", text: request_text } ],
-      schema: SCHEMA
-    )
-    apply(result)
-    result["review_notes"]
+    notes = []
+    [ :completeness, :padding ].each do |direction|
+      result = @client.complete_json(
+        system: [ { type: "text", text: instructions(direction) } ],
+        content: [ { type: "text", text: request_text } ],
+        schema: SCHEMA
+      )
+      apply(result)
+      notes << "#{direction}: #{result['review_notes']}"
+    end
+    notes.join(" | ")
   end
 
   private
 
-  def instructions
-    <<~PROMPT
+  def instructions(direction)
+    common = <<~COMMON
       You are a senior residential construction estimator in Queensland, Australia,
-      reviewing a completed estimate prepared from the attached scope analysis.
-      Check it the way you would check a junior's takeoff, in both directions:
+      auditing an estimate prepared from the attached scope analysis. Every
+      correction must cite the specific analysis quantity, schedule entry, or brief
+      statement that justifies it in its reason. A correction you cannot tie to a
+      documented fact is not allowed. If nothing qualifies, return an empty changes
+      list — that is a good outcome. Keep unit rates consistent with the rates
+      already used elsewhere in the estimate. All amounts AUD ex. GST, builder's
+      costs.
+    COMMON
 
-      - MISSING or THIN scope: features in the analysis or brief with no line items,
-        quantities inconsistent with the documented areas/counts (e.g. paint priced
-        well below the stated paint area, fewer window openings than the schedule),
-        durations not carried through hire/preliminaries.
-      - PADDED or DOUBLE-COUNTED scope: items for work the plans show as retained,
-        the same work costed in two sections, quantities exceeding the documented
-        geometry, or trades upgraded beyond the specified finish level.
-
-      Only correct what you can justify from the analysis and brief. If a section is
-      sound, leave it alone — an empty changes list is a good outcome. Keep unit
-      rates consistent with the rates already used elsewhere in the estimate.
-      All amounts AUD ex. GST, builder's costs.
-    PROMPT
+    case direction
+    when :completeness
+      common + <<~PROMPT
+        Your mandate: find what is MISSING or UNDERDONE. You are not allowed to
+        remove or reduce anything. Hunt for:
+        - features in the analysis or brief with no line items at all
+        - quantities inconsistent with documented areas/counts (paint priced below
+          the stated paint area, fewer openings than the schedule, hire not
+          carried for the stated duration)
+        - trades the documented scope requires but no section covers
+      PROMPT
+    when :padding
+      common + <<~PROMPT
+        Your mandate: find what is INVENTED or OVERDONE. You are not allowed to add
+        scope; only remove or right-size (remove + re-add corrected). Hunt for:
+        - items for work the documents show as retained or excluded, or that the
+          brief assigns to others
+        - the same work costed in two sections (e.g. waterproofing in both its own
+          section and tiling; demolition in two places)
+        - quantities exceeding the documented geometry, retained openings priced
+          as new supply, sections irrelevant to this project_class carrying token
+          items, trades upgraded beyond the specified finish level
+      PROMPT
+    end
   end
 
   def request_text

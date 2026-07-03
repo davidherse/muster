@@ -65,3 +65,32 @@ class PlanAnalyzerTest < ActiveSupport::TestCase
     assert_equal 1, client.uploads.size
   end
 end
+
+class PlanAnalyzerVerificationTest < ActiveSupport::TestCase
+  setup do
+    @estimate = users(:one).estimates.create!(name: "V", estimate_template: estimate_templates(:standard))
+    @estimate.plans.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "plan.pdf", content_type: "application/pdf")
+  end
+
+  test "runs a verification pass that includes the draft" do
+    client = FakeAiClient.new
+    PlanAnalyzer.new(@estimate, client: client).call
+
+    analysis_calls = client.calls.select { |c| c[:schema] == PlanAnalyzer::SCHEMA }
+    assert_equal 2, analysis_calls.size
+    second_text = analysis_calls.last[:content].map { |b| b[:text].to_s }.join
+    assert_includes second_text, "DRAFT ANALYSIS"
+    # documents carry a cache breakpoint so the re-read hits cache
+    doc = analysis_calls.first[:content].find { |b| b[:type] == "document" }
+    assert_equal({ type: "ephemeral" }, doc[:cache_control])
+    # template section names offered for relevant_sections
+    first_text = analysis_calls.first[:content].map { |b| b[:text].to_s }.join
+    assert_includes first_text, "Structural Steel"
+  end
+
+  test "verify: false runs single pass" do
+    client = FakeAiClient.new
+    PlanAnalyzer.new(@estimate, client: client, verify: false).call
+    assert_equal 1, client.calls.count { |c| c[:schema] == PlanAnalyzer::SCHEMA }
+  end
+end

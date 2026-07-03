@@ -28,7 +28,10 @@ class FakeAiClient
     if schema == PlanAnalyzer::SCHEMA
       @analysis || default_analysis
     elsif schema == EstimateReviewer::SCHEMA
-      @review_response || { "review_notes" => "Sound.", "changes" => [] }
+      # canned review applies once; subsequent passes see a sound estimate
+      response = @review_response || { "review_notes" => "Sound.", "changes" => [] }
+      @review_response = nil
+      response
     else
       sections_response(content)
     end
@@ -38,6 +41,8 @@ class FakeAiClient
 
   def default_analysis
     {
+      "project_class" => "whole_house_renovation",
+      "relevant_sections" => [],
       "building_type" => "Renovation and extension",
       "storeys" => 2,
       "floor_area_m2" => 210.0,

@@ -25,7 +25,7 @@ class EstimateGenerator
       end
 
     generator = LineItemGenerator.new(@estimate, analysis: analysis, client: @client)
-    all_sections = template.sections
+    all_sections = applicable_sections(analysis)
     remaining = all_sections.reject { |s| @estimate.costed_sections.include?(s["name"]) }
     done = all_sections.size - remaining.size
     position = @estimate.sections.maximum(:position) || 0
@@ -82,6 +82,23 @@ class EstimateGenerator
   def template
     @estimate.estimate_template || EstimateTemplate.default ||
       raise(Ai::Client::Error, "No estimate template available")
+  end
+
+  # For partial/small jobs the analysis nominates which sections exist at all;
+  # whole-house classes always cost the full template (dropping scope is the
+  # worse failure there). Preliminaries and cleaning always stay.
+  ALWAYS_SECTIONS = [ "Preliminaries", "Site Cleaning and Waste Removal", "Internal Cleaning" ].freeze
+  PARTIAL_CLASSES = %w[partial_interior_renovation small_works].freeze
+
+  def applicable_sections(analysis)
+    sections = template.sections
+    return sections unless PARTIAL_CLASSES.include?(analysis["project_class"])
+
+    relevant = Array(analysis["relevant_sections"])
+    return sections if relevant.empty?
+
+    kept = sections.select { |s| relevant.include?(s["name"]) || ALWAYS_SECTIONS.include?(s["name"]) }
+    kept.presence || sections
   end
 
   # The model occasionally echoes the section hint ("Painting: Internal and
