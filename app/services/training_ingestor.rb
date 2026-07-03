@@ -38,18 +38,31 @@ class TrainingIngestor
     @client = client
   end
 
+  # Large spreadsheets are extracted in row chunks (a 600-line estimate can't
+  # be emitted in one response); results merge across chunks and files.
+  CSV_CHUNK_LINES = 220
+
   def call
     @doc.update!(status: "processing", error_message: nil)
-    result = @client.complete_json(
-      system: [ { type: "text", text: instructions } ],
-      content: content_blocks,
-      schema: SCHEMA
-    )
 
-    replace_price_book_entries(result)
-    upsert_template(result)
-    @doc.update!(status: "completed", extraction: result.slice("project_summary", "template_sections")
-      .merge("item_count" => result["items"].size))
+    merged = { "project_summary" => nil, "template_sections" => [], "items" => [] }
+    @doc.files.each do |file|
+      extraction_units(file).each do |content|
+        result = @client.complete_json(
+          system: [ { type: "text", text: instructions } ],
+          content: content + [ { type: "text", text: "Extract the estimate's sections and priced line items." } ],
+          schema: SCHEMA
+        )
+        merged["project_summary"] ||= result["project_summary"]
+        merged["template_sections"] |= Array(result["template_sections"])
+        merged["items"].concat(Array(result["items"]))
+      end
+    end
+
+    replace_price_book_entries(merged)
+    upsert_template(merged)
+    @doc.update!(status: "completed", extraction: merged.slice("project_summary", "template_sections")
+      .merge("item_count" => merged["items"].size))
   rescue StandardError => e
     @doc.update!(status: "failed", error_message: e.message.to_s.truncate(1000))
     raise
@@ -67,17 +80,20 @@ class TrainingIngestor
     PROMPT
   end
 
-  def content_blocks
-    blocks = @doc.files.map { |file| block_for(file) }
-    blocks + [ { type: "text", text: "Extract the estimate's sections and priced line items." } ]
-  end
-
-  def block_for(file)
+  # Each unit is one AI call's content: a PDF whole, or a chunk of CSV lines.
+  def extraction_units(file)
     if file.content_type == "application/pdf"
-      { type: "document", source: { type: "base64", media_type: "application/pdf",
-                                    data: Base64.strict_encode64(file.download) } }
+      [ [ { type: "document", source: { type: "base64", media_type: "application/pdf",
+                                        data: Base64.strict_encode64(file.download) } } ] ]
     else
-      { type: "text", text: "ESTIMATE SPREADSHEET (#{file.filename}) AS CSV:\n#{spreadsheet_to_csv(file)}" }
+      lines = spreadsheet_to_csv(file).lines
+      header = lines.first.to_s
+      chunks = lines.drop(1).each_slice(CSV_CHUNK_LINES).to_a
+      chunks = [ [] ] if chunks.empty?
+      chunks.each_with_index.map do |chunk, i|
+        [ { type: "text",
+            text: "ESTIMATE SPREADSHEET (#{file.filename}) AS CSV \u2014 part #{i + 1} of #{chunks.size}. Section names may continue from a previous part; use the most recent section heading visible.\n#{header}#{chunk.join}" } ]
+      end
     end
   end
 
