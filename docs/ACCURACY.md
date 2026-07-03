@@ -129,6 +129,42 @@ The questionnaire (new-estimate form) captures these movers per job:
 finish level, repaint extent, duration, era/latent risk, asbestos,
 structural and site conditions, services scope, inclusions/exclusions.
 
+## Final program results — locked configuration (July 2026)
+
+Locked config: job-type classification with structural section filtering,
+two-pass verified plan analysis, adversarial dual review with materiality cap,
+five-job supervision calibration, painter-hours + repaint composites,
+per-opening windows (schedule-determined new-vs-retained), **two-tier price
+book** (user training book preferred with questionnaire context, base book
+fallback), and a corrections-fed confidence assessor (small-job variance
+floor ±20%; headline bounds = assessed variance, floor ±10%).
+
+Final fleet, run end-to-end through the product under a user account with a
+1,418-rate trained user book (deflated errors; huxham/rosalie/carson held out
+of every price book):
+
+| Project | Error | Assessor said | Covered? |
+|---|---|---|---|
+| Hilda | +0.0% | ±22 low | yes |
+| Carberry | −4.6% | ±22 low | yes |
+| Benecia | +5.9% | ±22 low | yes |
+| Rosalie (held-out) | +9.2% (+0.8% vs builder's own quote) | ±22 low | yes |
+| Huxham (held-out) | +14.3% | ±22 low | yes |
+| Constitution | −15.8% | ±20 medium | yes |
+| Carson (held-out, small job) | +30.3% | ±20 medium | NO |
+
+Mean absolute error **11.4%**; 3/7 within ±8%; assessor coverage 6/7 (from
+3/5 with inverted ordering before calibration). Two-tier A/B (same runs with
+and without the user book): user book cut mean error 16.4% → 12.4% and
+collapsed Carson's run-to-run spread from ~10pp to 0.2pp.
+
+Honest residuals: Constitution oscillates −11…−16% (its actuals carry
+variations that beat even the builder's own quote by 6%); Carson's remaining
+overshoot is substantially documented-spec-vs-lean-build divergence (designer
+drawings priced at their spec; the ledger shows leaner purchasing) plus small-
+total percentage amplification — both are visibility limits, not tuning gaps.
+Small-job totals should be read with their stated ±20% band.
+
 ## Reproducing
 
 ```sh
