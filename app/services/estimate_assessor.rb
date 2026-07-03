@@ -29,6 +29,12 @@ class EstimateAssessor
     @client = client
   end
 
+  # Small jobs carry a statistical variance floor: measured run-to-run spread
+  # and error bands on room-scale work are structurally wider than document
+  # quality suggests (percentage effect of every rate assumption is amplified).
+  SMALL_JOB_FLOOR_PCT = 20.0
+  SMALL_JOB_CLASSES = %w[partial_interior_renovation small_works].freeze
+
   def call
     result = @client.complete_json(
       system: [ { type: "text", text: instructions } ],
@@ -36,7 +42,8 @@ class EstimateAssessor
       schema: SCHEMA,
       max_tokens: 4_000
     )
-    result["expected_variance_pct"] = result["expected_variance_pct"].to_f.clamp(MIN_VARIANCE_PCT, 35.0)
+    floor = SMALL_JOB_CLASSES.include?(@analysis["project_class"]) ? SMALL_JOB_FLOOR_PCT : MIN_VARIANCE_PCT
+    result["expected_variance_pct"] = result["expected_variance_pct"].to_f.clamp(floor, 35.0)
     @estimate.update!(assessment: result)
     result
   end
