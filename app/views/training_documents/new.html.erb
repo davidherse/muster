@@ -17,6 +17,11 @@
         <%= form.text_field :name, required: true, placeholder: "e.g. 12 Smith St (2024)", class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
       </div>
       <div>
+        <%= form.label :priced_on, "When was this estimate priced?", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.date_field :priced_on, required: true, max: Date.current, class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full md:w-64" %>
+        <p class="mt-1 text-xs text-gray-500">Rates are escalated to today's dollars from this date (Brisbane construction cost movement).</p>
+      </div>
+      <div>
         <%= form.label :files, "Estimate documents (PDF, XLSX, or CSV)", class: "block text-sm font-medium text-gray-700" %>
         <%= form.file_field :files, multiple: true, required: true, accept: "application/pdf,.xlsx,.xls,.csv", class: "block mt-2 w-full text-sm text-gray-600 file:mr-4 file:rounded-md file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-blue-700 file:font-medium hover:file:bg-blue-100" %>
       </div>

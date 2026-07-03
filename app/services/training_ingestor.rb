@@ -108,8 +108,10 @@ class TrainingIngestor
   # Re-ingesting the same document replaces its previous entries.
   def replace_price_book_entries(result)
     PriceBookItem.where(user: @doc.user, source_kind: "user")
-      .where("source = ?", source_tag).delete_all
+      .where("source LIKE ?", "#{source_tag}%").delete_all
 
+    factor = PriceEscalation.factor(@doc.priced_on)
+    escalation_note = factor == 1.0 ? "" : " | escalated x#{factor} from #{@doc.priced_on.strftime('%Y-%m')}"
     rows = result["items"].filter_map do |item|
       next if item["unit_cost"].to_f <= 0
       {
@@ -117,9 +119,9 @@ class TrainingIngestor
         description: item["description"],
         item_type: EstimateLineItem::ITEM_TYPES.include?(item["item_type"]) ? item["item_type"] : nil,
         uom: item["uom"].presence || "ea",
-        unit_cost: item["unit_cost"].to_d,
+        unit_cost: (item["unit_cost"].to_d * factor.to_d).round(2),
         sample_count: 1,
-        source: source_tag,
+        source: source_tag + escalation_note,
         source_kind: "user",
         user_id: @doc.user_id,
         context: @doc.questionnaire,

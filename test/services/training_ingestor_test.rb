@@ -49,3 +49,21 @@ class TrainingIngestorTest < ActiveSupport::TestCase
     assert_match "bad doc", @doc.error_message
   end
 end
+
+class TrainingIngestorEscalationTest < ActiveSupport::TestCase
+  test "escalates rates from priced_on to current dollars" do
+    doc = users(:one).training_documents.create!(name: "Old job", priced_on: Date.new(2021, 6, 1))
+    doc.files.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "e.pdf", content_type: "application/pdf")
+    TrainingIngestor.new(doc, client: FakeAiClient.new).call
+
+    screen = PriceBookItem.where(user: users(:one)).find_by!("description LIKE ?", "%shower screen%")
+    assert_equal (890 * 1.29).round(2).to_d, screen.unit_cost
+    assert_match(/escalated x1.29 from 2021-06/, screen.source)
+  end
+
+  test "recent dates escalate to ~1.0" do
+    assert_equal 1.0, PriceEscalation.factor(Date.current)
+    assert_in_delta 1.29, PriceEscalation.factor(Date.new(2020, 1, 1)), 0.001 # clamped
+    assert_in_delta 1.17, PriceEscalation.factor(Date.new(2022, 12, 15)), 0.01
+  end
+end
