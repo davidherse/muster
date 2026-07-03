@@ -51,7 +51,7 @@ class EstimateQuestionnaireTest < ActiveSupport::TestCase
       name: "Q2", questionnaire: { "repaint_extent" => "New work only" },
       estimate_template: estimate_templates(:standard)
     )
-    e.plan.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "plan.pdf", content_type: "application/pdf")
+    e.plans.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "plan.pdf", content_type: "application/pdf")
     client = FakeAiClient.new
     EstimateGenerator.new(e, client: client).call
 

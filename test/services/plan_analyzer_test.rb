@@ -6,7 +6,7 @@ class PlanAnalyzerTest < ActiveSupport::TestCase
   end
 
   def attach(data, filename = "plan.pdf")
-    @estimate.plan.attach(io: StringIO.new(data), filename: filename, content_type: "application/pdf")
+    @estimate.plans.attach(io: StringIO.new(data), filename: filename, content_type: "application/pdf")
   end
 
   def valid_pdf
@@ -40,6 +40,28 @@ class PlanAnalyzerTest < ActiveSupport::TestCase
     block = client.calls.first[:content].first
     assert_equal "file", block.dig(:source, :type)
     assert_equal "file_fake_1", block.dig(:source, :file_id)
+    assert_equal 1, client.uploads.size
+  end
+
+  test "sends one document block per uploaded PDF" do
+    attach(valid_pdf, "plans.pdf")
+    attach(valid_pdf, "spec.pdf")
+    client = FakeAiClient.new
+    PlanAnalyzer.new(@estimate, client: client).call
+
+    doc_blocks = client.calls.first[:content].select { |b| b[:type] == "document" }
+    assert_equal 2, doc_blocks.size
+    assert doc_blocks.all? { |b| b.dig(:source, :type) == "base64" }
+  end
+
+  test "second document overflows inline budget to Files API" do
+    attach(valid_pdf, "plans.pdf")
+    attach(valid_pdf, "spec.pdf")
+    client = FakeAiClient.new
+    PlanAnalyzer.new(@estimate, client: client, max_inline_bytes: valid_pdf.bytesize + 10).call
+
+    doc_blocks = client.calls.first[:content].select { |b| b[:type] == "document" }
+    assert_equal %w[base64 file], doc_blocks.map { |b| b.dig(:source, :type) }
     assert_equal 1, client.uploads.size
   end
 end

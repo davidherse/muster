@@ -33,7 +33,7 @@ class EstimateFlowTest < ApplicationSystemTestCase
     # --- Create an estimate (AI stubbed, job performed inline) ---
     click_on "Create your first estimate"
     fill_in "Project name", with: "6 Hilda St Renovation"
-    attach_file "Architectural plans (PDF)", Rails.root.join("test/fixtures/files/plan.pdf")
+    attach_file "Plans & specifications (PDF)", [ Rails.root.join("test/fixtures/files/plan.pdf") ]
     fill_in "Additional information", with: "Two storey renovation, mid-range finishes"
     fake = FakeAiClient.new
     Ai::Client.stub :new, fake do

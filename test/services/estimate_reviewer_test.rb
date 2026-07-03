@@ -3,7 +3,7 @@ require "test_helper"
 class EstimateReviewerTest < ActiveSupport::TestCase
   setup do
     @estimate = users(:one).estimates.create!(name: "Reno", estimate_template: estimate_templates(:standard))
-    @estimate.plan.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "plan.pdf", content_type: "application/pdf")
+    @estimate.plans.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "plan.pdf", content_type: "application/pdf")
     @client = FakeAiClient.new
     EstimateGenerator.new(@estimate, client: @client).call
   end

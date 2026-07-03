@@ -23,13 +23,13 @@ class EstimateTest < ActiveSupport::TestCase
   end
 
   test "rejects non-PDF plan" do
-    @estimate.plan.attach(io: StringIO.new("hello"), filename: "plan.txt", content_type: "text/plain")
+    @estimate.plans.attach(io: StringIO.new("hello"), filename: "plan.txt", content_type: "text/plain")
     assert_not @estimate.valid?
-    assert @estimate.errors[:plan].any?
+    assert @estimate.errors[:plans].any?
   end
 
   test "accepts PDF plan" do
-    @estimate.plan.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "plan.pdf", content_type: "application/pdf")
+    @estimate.plans.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "plan.pdf", content_type: "application/pdf")
     assert @estimate.valid?
   end
 end

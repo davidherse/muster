@@ -12,12 +12,12 @@ class EstimatesController < ApplicationController
   def create
     @estimate = Current.user.estimates.new(estimate_params)
     @estimate.estimate_template ||= EstimateTemplate.default
-    if @estimate.plan.attached? && @estimate.save
+    if @estimate.plans.attached? && @estimate.save
       @estimate.processing!("Queued for analysis…")
       GenerateEstimateJob.perform_later(@estimate)
       redirect_to @estimate, notice: "Your estimate is being generated. This can take a few minutes."
     else
-      @estimate.errors.add(:plan, "must be attached") unless @estimate.plan.attached?
+      @estimate.errors.add(:plans, "must be attached") unless @estimate.plans.attached?
       render :new, status: :unprocessable_entity
     end
   end
@@ -60,6 +60,6 @@ class EstimatesController < ApplicationController
   end
 
   def estimate_params
-    params.require(:estimate).permit(:name, :prompt, :plan, :estimate_template_id, questionnaire: {})
+    params.require(:estimate).permit(:name, :prompt, :estimate_template_id, plans: [], questionnaire: {})
   end
 end

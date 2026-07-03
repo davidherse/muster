@@ -79,7 +79,7 @@ class PlanAnalyzer
   def call
     @client.complete_json(
       system: [ { type: "text", text: system_prompt } ],
-      content: [ plan_block, { type: "text", text: user_prompt } ],
+      content: plan_blocks + [ { type: "text", text: user_prompt } ],
       schema: SCHEMA
     )
   end
@@ -97,24 +97,29 @@ class PlanAnalyzer
   end
 
   def user_prompt
-    parts = [ "Analyse the attached architectural plans and produce the structured scope analysis." ]
+    parts = [ "Analyse the attached documents (architectural plans, and specification schedules or reports where provided) and produce the structured scope analysis. Specifications override drawings for finishes and fittings." ]
     parts << "Additional information from the builder:\n#{@estimate.brief_text}" if @estimate.brief_text.present?
     parts.join("\n\n")
   end
 
-  def plan_block
-    data = @estimate.plan.download
-    pages = page_count(data)
-    if pages && pages > MAX_PDF_PAGES
-      raise Ai::Client::Error, "The plan PDF has #{pages} pages — the maximum is #{MAX_PDF_PAGES}. Split it and upload the drawings only."
-    end
+  # One document block per uploaded PDF, sharing an inline-base64 budget;
+  # files that would blow the request size go via the Files API instead.
+  def plan_blocks
+    inline_budget = @max_inline_bytes
+    @estimate.plans.map do |attachment|
+      data = attachment.download
+      pages = page_count(data)
+      if pages && pages > MAX_PDF_PAGES
+        raise Ai::Client::Error, "#{attachment.filename} has #{pages} pages — the maximum is #{MAX_PDF_PAGES}. Split it and upload the drawings only."
+      end
 
-    if data.bytesize <= @max_inline_bytes
-      { type: "document", source: { type: "base64", media_type: "application/pdf", data: Base64.strict_encode64(data) } }
-    else
-      # Too large to inline — upload via the Files API and reference by id.
-      file_id = @client.upload_pdf(data, filename: @estimate.plan.filename.to_s)
-      { type: "document", source: { type: "file", file_id: file_id } }
+      if data.bytesize <= inline_budget
+        inline_budget -= data.bytesize
+        { type: "document", source: { type: "base64", media_type: "application/pdf", data: Base64.strict_encode64(data) } }
+      else
+        file_id = @client.upload_pdf(data, filename: attachment.filename.to_s)
+        { type: "document", source: { type: "file", file_id: file_id } }
+      end
     end
   end
 

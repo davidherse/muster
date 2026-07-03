@@ -25,7 +25,7 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
         name: "New Job",
         prompt: "High-end finishes",
         estimate_template_id: estimate_templates(:standard).id,
-        plan: fixture_file_upload("plan.pdf", "application/pdf"),
+        plans: [ fixture_file_upload("plan.pdf", "application/pdf") ],
         questionnaire: { finish_level: "High-end", structural_work: [ "New pool" ] }
       } }
     end
@@ -33,7 +33,7 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
     estimate = Estimate.order(:id).last
     assert_redirected_to estimate_url(estimate)
     assert estimate.processing?
-    assert estimate.plan.attached?
+    assert estimate.plans.attached?
   end
 
   test "create without plan re-renders with error" do
@@ -58,7 +58,7 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "csv downloads for completed estimate" do
-    @estimate.plan.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "plan.pdf", content_type: "application/pdf")
+    @estimate.plans.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "plan.pdf", content_type: "application/pdf")
     EstimateGenerator.new(@estimate, client: FakeAiClient.new).call
 
     get csv_estimate_url(@estimate)

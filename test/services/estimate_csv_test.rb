@@ -3,7 +3,7 @@ require "test_helper"
 class EstimateCsvTest < ActiveSupport::TestCase
   test "includes metadata, sections, items, and totals" do
     estimate = users(:one).estimates.create!(name: "CSV Job", estimate_template: estimate_templates(:standard))
-    estimate.plan.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "plan.pdf", content_type: "application/pdf")
+    estimate.plans.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "plan.pdf", content_type: "application/pdf")
     EstimateGenerator.new(estimate, client: FakeAiClient.new).call
 
     csv = CSV.parse(EstimateCsv.new(estimate.reload).generate)

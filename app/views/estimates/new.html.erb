@@ -19,9 +19,9 @@
       </div>
 
       <div>
-        <%= form.label :plan, "Architectural plans (PDF)", class: "block text-sm font-medium text-gray-700" %>
-        <%= form.file_field :plan, accept: "application/pdf", required: true, class: "block mt-2 w-full text-sm text-gray-600 file:mr-4 file:rounded-md file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-blue-700 file:font-medium hover:file:bg-blue-100" %>
-        <p class="mt-1 text-xs text-gray-500">Up to 50 MB. Floor plans, elevations, sections, and schedules give the best results.</p>
+        <%= form.label :plans, "Plans & specifications (PDF)", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.file_field :plans, accept: "application/pdf", multiple: true, required: true, class: "block mt-2 w-full text-sm text-gray-600 file:mr-4 file:rounded-md file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-blue-700 file:font-medium hover:file:bg-blue-100" %>
+        <p class="mt-1 text-xs text-gray-500">Select multiple PDFs — architectural plans plus any specification schedule, engineering set, or soil report. Up to 50 MB each.</p>
       </div>
 
       <div>

@@ -5,11 +5,11 @@ class Estimate < ApplicationRecord
   belongs_to :estimate_template, optional: true
   has_many :sections, -> { order(:position) }, class_name: "EstimateSection", dependent: :destroy
   has_many :line_items, through: :sections
-  has_one_attached :plan
+  has_many_attached :plans
 
   validates :name, presence: true
   validates :status, inclusion: { in: STATUSES }
-  validate :plan_must_be_pdf
+  validate :plans_must_be_pdfs
 
   scope :recent_first, -> { order(created_at: :desc) }
 
@@ -46,9 +46,10 @@ class Estimate < ApplicationRecord
 
   private
 
-  def plan_must_be_pdf
-    return unless plan.attached?
-    errors.add(:plan, "must be a PDF") unless plan.content_type == "application/pdf"
-    errors.add(:plan, "must be smaller than 50 MB") if plan.byte_size > 50.megabytes
+  def plans_must_be_pdfs
+    plans.each do |attachment|
+      errors.add(:plans, "must all be PDFs") unless attachment.content_type == "application/pdf"
+      errors.add(:plans, "files must each be smaller than 50 MB") if attachment.byte_size > 50.megabytes
+    end
   end
 end

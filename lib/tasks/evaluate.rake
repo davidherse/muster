@@ -34,7 +34,7 @@ namespace :estimator do
         prompt: entry["prompt"],
         estimate_template: EstimateTemplate.default
       )
-      estimate.plan.attach(io: File.open(plan_path), filename: File.basename(plan_path), content_type: "application/pdf")
+      estimate.plans.attach(io: File.open(plan_path), filename: File.basename(plan_path), content_type: "application/pdf")
 
       started = Time.current
       begin
