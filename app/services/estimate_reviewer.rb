@@ -151,6 +151,10 @@ class EstimateReviewer
     lines << "- Supervision/PM hours: #{pm_hours.round} total => #{months.positive? ? (pm_hours / (months * 4.33)).round(1) : '?'} hours/week over the build"
     prelim = section_total.call("preliminar")
     lines << "- Preliminaries section: $#{prelim.round}"
+    if %w[partial_interior_renovation small_works].include?(@analysis["project_class"])
+      rooms = [ @analysis["wet_area_count"].to_i, Array(@analysis["rooms"]).size, 1 ].reject(&:zero?).min
+      lines << "- Partial job: $#{(total / rooms).round} per renovated room across #{rooms} room(s)"
+    end
     lines.join("\n")
   end
 

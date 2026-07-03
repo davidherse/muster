@@ -76,8 +76,11 @@ class LineItemGenerator
       - Cost every section in the batch. If a section has no work in this project's scope,
         mark it applicable: false with an empty line_items array.
       - Ground unit rates in the price book wherever a comparable item exists \u2014 the
-        rates are already indexed to current dollars, so apply them directly, adjusting
-        only for quantity and context. For items not in the price book use current
+        rates are already indexed to current dollars. A comparable price book rate
+        WINS over your market instinct unless the brief or specification explicitly
+        upgrades the spec; this matters most on small jobs, where premium
+        assumptions (frameless screens, designer fixtures) silently double costs
+        the price book already answers. For items with no comparable use current
         South-East Queensland market rates.
       - All amounts are AUD ex. GST. These are builder's costs (materials, labour,
         subcontractors, equipment), not client prices.
@@ -100,20 +103,22 @@ class LineItemGenerator
         establishment, temporary services, hire and scaffolding, external trades,
         framing/structure, roofing \u2014 are NOT applicable unless the documents show
         that work. Mark them applicable: false; do not find token items to fill
-        them. A small job should produce a small number of sections.
-      - Painting: this trade is priced as PAINTER-HOURS (the price book carries
-        hourly painter rates). Estimate hours from the analysis paint areas and
-        realistic productivity: straightforward new plasterboard walls paint fast;
-        repaint prep, VJ/tongue-and-groove, trim/window/door enamel work, and
-        character detail are several times slower per m2. Cost internal, external,
-        and trim/openings enamel as separate labour items plus materials, never one
-        allowance. Sanity-check the result: hours x rate should reflect a crew on
-        site for weeks on a whole-house repaint, not days.
+        them. A small job should produce a small number of sections. Quantities are
+        room-scale: strip-out is trade-days not site-weeks, demolition lives inside
+        the trades doing it, and hire/temporary items only appear if the work
+        genuinely needs them.
+      - Painting: when the job involves a whole-house repaint, price it from the
+        price book's "Whole-house repaint composite" entries \u2014 pick the extent
+        class matching the brief (selective / full standard / raise-build-under /
+        full heritage) and multiply by floor area; itemise prep and enamel extras
+        separately if the scope exceeds the class. For partial scopes, price as
+        painter-hours from the analysis paint areas with detail-appropriate
+        productivity. Never one lump allowance; never a whole-house repaint priced
+        below its composite class.
       - Windows and doors: take off PER OPENING from the window/door schedule counts
-        and glazing_notes, and distinguish NEW or REPLACED openings from RETAINED
-        ones (retained_scope_notes and the elevations show which is which \u2014 on
-        raise/build-under and renovation jobs most upper-level openings are usually
-        kept). Retained openings carry only repair, hardware, or repaint items, not
+        and glazing_notes, splitting NEW/REPLACED from RETAINED strictly by what the
+        schedule, demolition plans, and brief show \u2014 make no presumption either
+        way. Retained openings carry only repair, hardware, or repaint items, not
         supply+install. High-spec or oversized new units cost multiples of standard.
       - Lockup and fixing carpentry: labour scales with new envelope and detail \u2014
         new cladding area, eaves, decks (deck_patio_area_m2), trim extent.
