@@ -1,9 +1,9 @@
 # Historical projects used to evaluate estimator accuracy.
-# plan: path to the architectural PDF; baseline: CSV of the job's human
-# estimate and actual costs (extracted from the job costing spreadsheets).
-# escalation_factor converts each job's cost base to mid-2026 dollars; the eval
-# divides the AI's (2026-dollar) estimate by it before comparing to the baseline.
-# Prompts are the builder's real briefs, verbatim.
+# plan: PDF path(s); baseline: CSV of the job's human estimate and actuals.
+# escalation_factor converts the job's cost base to mid-2026 dollars; the eval
+# deflates AI totals by it before comparing.
+# questionnaire mirrors the in-app clarification form (scope facts only).
+# The first four jobs seeded the price book; huxham/rosalie/carson are held out.
 hilda:
   plan: "/Users/davidherse/Dropbox/Built Homes/esitmates/Hilda - Approved plans 0892_CAMPBELL_BA_03_FOR_CONSTRUC.pdf"
   baseline: eval/baselines/hilda.csv
@@ -11,14 +11,21 @@ hilda:
   prompt: >
     Ballpark build cost, Brisbane (Enoggera), 2026. Renovation and extension of an
     existing dwelling into a double-storey home, reworked largely within the existing
-    footprint, ~280 m2 total floor area across two levels (confirm against plans), on
-    a 390 m2 lot - new lower level (garage, extra bedrooms, rumpus/MPR, bathroom,
-    laundry/bar) under a renovated upper level. The existing roof is retained.
-    High-end finish: custom joinery and stone, timber and tiled floors, ducted A/C,
-    fireplace. New carport, decks, front fence with balustrade and screening.
-    Demolition of old bathrooms, stairs and driveway. No asbestos. Pool excluded (by others).
-    Repaint is selective - new lower level and touch-ups only; retained upper-level
-    finishes largely kept. Expect a 10-12 month build.
+    footprint, ~280 m2 across two levels (confirm against plans), on a 390 m2 lot -
+    new lower level (garage, extra bedrooms, rumpus/MPR, bathroom, laundry/bar) under
+    a renovated upper level. The existing roof is retained. New carport, decks, front
+    fence with balustrade and screening. Demolition of old bathrooms, stairs and driveway.
+  questionnaire:
+    finish_level: High-end
+    repaint_extent: New work plus touch-ups (retained areas untouched)
+    duration_months: "11"
+    building_era: Pre-1946 character home
+    asbestos: None present
+    structural_work: [ "Build-in-under", "New slab or extension footprint" ]
+    systems_extras: [ "Ducted A/C", "Fireplace" ]
+    external_works: [ "Boundary fencing", "Pergola / carport" ]
+    services_scope: Partial upgrade plus new work
+    exclusions: Pool excluded (by others).
 
 constitution:
   plan: "/Users/davidherse/Dropbox/Built Homes/esitmates/Constitution - Certified Architectural - 36 Constitution.pdf"
@@ -26,18 +33,22 @@ constitution:
   escalation_factor: 1.10
   prompt: >
     Ballpark build cost, Brisbane (Windsor), 2026. Renovation of an existing
-    two-storey home, ~400 m2 total floor area across two levels (confirm against
-    plans). Existing structure retained; new framing over the additions only.
-    Existing in-ground pool retained, with a new poolside pergola. High-end finish:
-    large amount of glazing, custom joinery and stone, aluminium plantation shutters,
-    solar + home battery, ducted A/C, skylights, character balustrade/fretwork.
-    Asbestos removal, demolition, some slope. Full repaint inside and out, including
-    all retained VJ/tongue-and-groove walls and ceilings, fretwork, balustrades and
-    heritage trim - prep-heavy heritage painting throughout, not just the new work.
-    Expect a 13-15 month build with continuous site supervision given the trade
-    density. Pre-1947 structure: allow for latent conditions (concealed damage,
-    out-of-square framing, rewiring surprises) typical when opening up a house of
-    this age.
+    two-storey home, ~400 m2 across two levels (confirm against plans). Existing
+    structure retained; new framing over the additions only. New poolside pergola.
+    Large amount of glazing, custom joinery and stone, skylights, character
+    balustrade/fretwork. Demolition, some slope. Allow for latent conditions
+    (concealed damage, out-of-square framing, rewiring surprises) typical when
+    opening up a house of this age.
+  questionnaire:
+    finish_level: High-end
+    repaint_extent: Full repaint inside and out, incl. retained linings (VJ, trim, fretwork)
+    duration_months: "14"
+    building_era: Pre-1946 character home
+    asbestos: Present — removal required
+    structural_work: [ "Existing pool retained", "New slab or extension footprint" ]
+    site_conditions: [ "Sloped block" ]
+    systems_extras: [ "Ducted A/C", "Solar PV", "Home battery", "Plantation shutters" ]
+    services_scope: Partial upgrade plus new work
 
 carberry:
   plan: "/Users/davidherse/Dropbox/Built Homes/esitmates/Carberry - ARCHITECTURAL.pdf"
@@ -45,20 +56,25 @@ carberry:
   escalation_factor: 1.04
   prompt: >
     Ballpark build cost, Brisbane (Grange), 2026. Renovation and extension of an
-    existing two-storey painted-weatherboard character home, ~330 m2 total floor area
-    across two levels (confirm against plans), in a Character Residential zone, new
-    work matching the existing weatherboard. High-end finish: timber floors, carpet
-    to bedrooms, custom cabinetry and stone, ducted A/C, fireplace. Sloped block with
-    sleeper and block retaining and bored-pier footings; demolition. No pool. This is
-    a labour-intensive character renovation. Full repaint of the whole home inside
-    and out - existing painted weatherboard envelope plus all new work, prep-heavy
-    character painting including VJ linings and trim. Expect an 11-13 month build
-    with continuous site supervision. Character-era structure: allow for latent
-    conditions (concealed damage, out-of-square framing) typical when opening up a
-    home of this age.
+    existing two-storey painted-weatherboard character home, ~330 m2 across two
+    levels (confirm against plans), Character Residential zone, new work matching
+    the existing weatherboard. Sloped block with sleeper and block retaining and
+    bored-pier footings; demolition. This is a labour-intensive character
+    renovation. Allow for latent conditions typical when opening up a home of
+    this age.
+  questionnaire:
+    finish_level: High-end
+    repaint_extent: Full repaint inside and out, incl. retained linings (VJ, trim, fretwork)
+    duration_months: "12"
+    building_era: Pre-1946 character home
+    structural_work: [ "Retaining walls", "New slab or extension footprint" ]
+    site_conditions: [ "Sloped block" ]
+    systems_extras: [ "Ducted A/C", "Fireplace" ]
+    external_works: [ "Retaining walls" ]
+    services_scope: Partial upgrade plus new work
+    exclusions: No pool.
 
-# NOTE: assumed the B2103014 decision notice PDF belongs to the Benecia renovation —
-# correct the mapping here if that's wrong.
+# NOTE: assumed the B2103014 decision notice PDF belongs to the Benecia renovation.
 benecia:
   plan: "/Users/davidherse/Dropbox/Built Homes/esitmates/B2103014 - Decision Notice and Approved Plans.pdf"
   baseline: eval/baselines/benecia.csv
@@ -66,49 +82,83 @@ benecia:
   prompt: >
     Ballpark build cost, Brisbane (Wavell Heights), 2026. Raise-and-build-under
     renovation of an existing single-storey timber home into a double-storey
-    dwelling, ~280 m2 total floor area across two levels (confirm against plans) -
-    new lower level built in under a renovated upper level. Roofed deck, alfresco,
-    paved patio, and a new in-ground concrete pool (~6 x 3.5 m) with glass fencing.
-    High-end finish: engineered oak floors, stone, custom joinery, ducted A/C,
-    fireplace. Sloped block, reactive/P-class fill soil, asbestos removal,
-    demolition, house-raising/restumping. Full repaint of the whole home inside and
-    out (raised existing level plus new lower level). Expect a 12-14 month build.
-    Old timber home: allow for latent conditions typical of raise-and-build-under
-    work.
+    dwelling, ~280 m2 across two levels (confirm against plans) - new lower level
+    built in under a renovated upper level. Roofed deck, alfresco, paved patio, and
+    a new in-ground concrete pool (~6 x 3.5 m) with glass fencing. Engineered oak
+    floors, stone, custom joinery. Allow for latent conditions typical of
+    raise-and-build-under work.
+  questionnaire:
+    finish_level: High-end
+    repaint_extent: Full repaint inside and out, incl. retained linings (VJ, trim, fretwork)
+    duration_months: "13"
+    building_era: Pre-1946 character home
+    asbestos: Present — removal required
+    structural_work: [ "House raise / restumping", "Build-in-under", "New pool", "New slab or extension footprint" ]
+    site_conditions: [ "Sloped block", "Reactive / P-class soil" ]
+    systems_extras: [ "Ducted A/C", "Fireplace" ]
+    services_scope: Full rewire and replumb
 
-# --- Held-out projects (job costings added July 2026; never in the price book) ---
+# --- Held-out projects (never in the price book) ---
 huxham:
   plan: "/Users/davidherse/Dropbox/Built Homes/esitmates/17 Huxham Tce - Architectural and engineering plans.pdf"
   baseline: eval/baselines/huxham.csv
-  escalation_factor: 1.02   # for-construction Jul 2025; job ~late 2025-2026
+  escalation_factor: 1.02
   prompt: >
     Ballpark build cost, Brisbane (Auchenflower), 2026. Raise and build-under of an
     existing timber Queenslander on a steep terrace block - structure up to 9.5 m
-    above natural ground at one end. Class P/H1 soil; deep bored piers (>2 m) to
-    rock with ground beams and built-up slab per engineer. New in-ground concrete
-    pool on the elevated side. High-end finish. Asbestos present - removal required.
-    Full repaint inside and out. Retaining walls required but excluded from the
-    building approval - include them. Include solar PV. Expect a 12 month build.
-    Allow for latent conditions typical of an older timber home.
+    above natural ground at one end. Deep bored piers (>2 m) to rock with ground
+    beams and built-up slab per engineer. New in-ground concrete pool on the
+    elevated side. Retaining walls required but excluded from the building
+    approval - include them. Allow for latent conditions typical of an older
+    timber home.
+  questionnaire:
+    finish_level: High-end
+    repaint_extent: Full repaint inside and out, incl. retained linings (VJ, trim, fretwork)
+    duration_months: "12"
+    building_era: Pre-1946 character home
+    asbestos: Present — removal required
+    structural_work: [ "House raise / restumping", "Build-in-under", "New pool", "Retaining walls", "New slab or extension footprint" ]
+    site_conditions: [ "Sloped block", "Difficult access", "Reactive / P-class soil" ]
+    systems_extras: [ "Solar PV" ]
+    external_works: [ "Retaining walls", "Boundary fencing" ]
+    pc_items: Owner-supplied
+    services_scope: Full rewire and replumb
 
 rosalie:
   plan: "/Users/davidherse/Dropbox/Built Homes/esitmates/77 Rosalie St - Approved Plans.pdf"
   baseline: eval/baselines/rosalie.csv
-  escalation_factor: 1.07   # J1162 between Constitution (2024) and Huxham (2025); job ~2024-25
+  escalation_factor: 1.07
   prompt: >
     Ballpark build cost, Brisbane, 2026. Renovation and extension of an existing
     character home with chamfer-board cladding, including swimming pool works.
-    High-end finish with stone and custom joinery. Full repaint inside and out.
-    Builder-supplied appliances and PC fixtures. Expect a 10-11 month build.
-    Allow for latent conditions typical of a character-era home.
+    Stone and custom joinery. New 3-phase power supply upgrade; relocate existing
+    solar panels; skylights; patch-render to match existing. Allow for latent
+    conditions typical of a character-era home.
+  questionnaire:
+    finish_level: High-end
+    repaint_extent: Full repaint inside and out, incl. retained linings (VJ, trim, fretwork)
+    duration_months: "10"
+    asbestos: None present
+    structural_work: [ "New pool", "New slab or extension footprint" ]
+    systems_extras: [ "Ducted A/C" ]
+    external_works: [ "Landscaping" ]
+    pc_items: Builder-supplied
+    services_scope: Partial upgrade plus new work
 
 carson:
   plan: "/Users/davidherse/Dropbox/Built Homes/esitmates/2049 - CARSON DV - MAIN BTH_ENS_INTERIORS_PRICING_REV 1.pdf"
   baseline: eval/baselines/carson.csv
-  escalation_factor: 1.00   # J1211, recent small job; current dollars
+  escalation_factor: 1.00
   prompt: >
     Ballpark cost, Brisbane, 2026. Small internal renovation only - main bathroom
-    and ensuite interiors of an existing home. High-end finish, custom joinery.
-    Partial services upgrade plus new work. New work painting only. Expect a
-    2 month build. Internal renovation only - no external works, roofing,
-    structural raise, or landscaping.
+    and ensuite interiors of an existing home. Custom joinery.
+  questionnaire:
+    finish_level: High-end
+    repaint_extent: New work only
+    duration_months: "2"
+    asbestos: None present
+    site_conditions: [ "Flat, straightforward site" ]
+    external_works: [ "All external works by others" ]
+    pc_items: Builder-supplied
+    services_scope: Partial upgrade plus new work
+    exclusions: Internal renovation of main bathroom and ensuite only - no external works, roofing, structural, or landscaping. No kitchen.

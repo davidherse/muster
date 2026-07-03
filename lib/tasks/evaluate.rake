@@ -32,6 +32,7 @@ namespace :estimator do
       estimate = user.estimates.create!(
         name: "EVAL #{name} #{Time.current.strftime('%Y%m%d%H%M')}",
         prompt: entry["prompt"],
+        questionnaire: entry["questionnaire"] || {},
         estimate_template: EstimateTemplate.default
       )
       estimate.plans.attach(io: File.open(plan_path), filename: File.basename(plan_path), content_type: "application/pdf")
