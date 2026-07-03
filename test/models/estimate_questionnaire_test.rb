@@ -17,6 +17,17 @@ class EstimateQuestionnaireTest < ActiveSupport::TestCase
     assert_operator text.index("Finish level"), :<, text.index("Repaint extent")
   end
 
+  test "renders systems, external works, and PC items" do
+    text = EstimateQuestionnaire.to_prompt(
+      "systems_extras" => [ "Solar PV", "Plantation shutters" ],
+      "external_works" => [ "Retaining walls", "Landscaping" ],
+      "pc_items" => "Owner-supplied"
+    )
+    assert_includes text, "- Systems & extras to include: Solar PV, Plantation shutters"
+    assert_includes text, "- External works in scope: Retaining walls, Landscaping"
+    assert_includes text, "- Appliances & PC items: Owner-supplied"
+  end
+
   test "omits blanks and returns nil when nothing answered" do
     assert_nil EstimateQuestionnaire.to_prompt({})
     assert_nil EstimateQuestionnaire.to_prompt(nil)

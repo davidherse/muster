@@ -63,6 +63,32 @@ module EstimateQuestionnaire
       prompt_label: "Site conditions"
     },
     {
+      key: "systems_extras",
+      label: "Systems & extras (often not on drawings)",
+      type: :multi,
+      options: [ "Solar PV", "Home battery", "Ducted A/C", "Split-system A/C",
+                 "Fireplace", "Plantation shutters", "Security screens" ],
+      hint: "Plans rarely show these — on past jobs solar and shutters only appeared in the costings, never the drawings.",
+      prompt_label: "Systems & extras to include"
+    },
+    {
+      key: "external_works",
+      label: "External works in scope",
+      type: :multi,
+      options: [ "Retaining walls", "Boundary fencing", "Driveway / paths",
+                 "Landscaping", "Pergola / carport", "All external works by others" ],
+      hint: "Approvals often exclude retaining and landscaping even when you're building them — say what's actually yours.",
+      prompt_label: "External works in scope"
+    },
+    {
+      key: "pc_items",
+      label: "Appliances & PC items",
+      type: :select,
+      options: [ "Builder-supplied", "Owner-supplied", "Mixed / to be confirmed" ],
+      hint: "Who supplies appliances, tapware, and other prime-cost items.",
+      prompt_label: "Appliances & PC items"
+    },
+    {
       key: "services_scope",
       label: "Electrical & plumbing scope",
       type: :select,
