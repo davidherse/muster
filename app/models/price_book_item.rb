@@ -1,13 +1,26 @@
 class PriceBookItem < ApplicationRecord
+  SOURCE_KINDS = %w[base user].freeze
+
+  belongs_to :user, optional: true
+
   validates :category, :description, presence: true
   validates :unit_cost, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :source_kind, inclusion: { in: SOURCE_KINDS }
+  validates :user, presence: true, if: -> { source_kind == "user" }
 
   scope :ordered, -> { order(:category, :description) }
+  scope :base, -> { where(source_kind: "base") }
+  scope :for_user, ->(user) { where(source_kind: "user", user: user) }
 
   # Compact text listing used to ground the AI's pricing.
-  def self.reference_text(categories: nil)
-    scope = ordered
-    scope = scope.where(category: categories) if categories.present?
-    scope.map { |i| "#{i.category} | #{i.description} | #{i.item_type} | #{i.uom} | $#{i.unit_cost}" }.join("\n")
+  def self.reference_text(scope: all, with_context: false)
+    scope.ordered.map do |i|
+      line = "#{i.category} | #{i.description} | #{i.item_type} | #{i.uom} | $#{i.unit_cost}"
+      if with_context && i.context.present?
+        ctx = i.context.map { |k, v| "#{k}: #{Array(v).join('/')}" }.join(", ")
+        line += " | [#{ctx}]"
+      end
+      line
+    end.join("\n")
   end
 end

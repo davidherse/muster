@@ -61,7 +61,7 @@ class EstimateReviewer
     notes = []
     [ :completeness, :padding ].each do |direction|
       result = @client.complete_json(
-        system: [ LineItemGenerator.price_book_block, { type: "text", text: instructions(direction) } ],
+        system: [ LineItemGenerator.price_book_block(@estimate.user), { type: "text", text: instructions(direction) } ],
         content: [ { type: "text", text: request_text } ],
         schema: SCHEMA
       )

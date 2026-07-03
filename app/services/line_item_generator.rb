@@ -60,13 +60,16 @@ class LineItemGenerator
   # after it, so every batch call AND both reviewer passes share one cached
   # copy (identical prefix). Role instructions follow the breakpoint.
   def system_blocks
-    [ LineItemGenerator.price_book_block, { type: "text", text: instructions } ]
+    [ LineItemGenerator.price_book_block(@estimate.user), { type: "text", text: instructions } ]
   end
 
-  def self.price_book_block
-    { type: "text",
-      text: "PRICE BOOK — unit rates from this builder\u2019s completed jobs, already indexed to current dollars; use them directly (category | description | type | uom | unit cost AUD ex. GST):\n#{PriceBookItem.reference_text}",
-      cache_control: { type: "ephemeral" } }
+  def self.price_book_block(user = nil)
+    sections = []
+    if user && PriceBookItem.for_user(user).exists?
+      sections << "USER PRICE BOOK \u2014 THIS BUILDER'S OWN RATES from their uploaded estimates, with the job context they came from. PREFER these whenever a comparable item exists (category | description | type | uom | unit cost AUD ex. GST | context):\n#{PriceBookItem.reference_text(scope: PriceBookItem.for_user(user), with_context: true)}"
+    end
+    sections << "BASE PRICE BOOK \u2014 shared rates indexed to current dollars; use when the user book has no comparable (category | description | type | uom | unit cost AUD ex. GST):\n#{PriceBookItem.reference_text(scope: PriceBookItem.base)}"
+    { type: "text", text: sections.join("\n\n"), cache_control: { type: "ephemeral" } }
   end
 
   def instructions
@@ -78,13 +81,14 @@ class LineItemGenerator
       Rules:
       - Cost every section in the batch. If a section has no work in this project's scope,
         mark it applicable: false with an empty line_items array.
-      - Ground unit rates in the price book wherever a comparable item exists \u2014 the
-        rates are already indexed to current dollars. A comparable price book rate
-        WINS over your market instinct unless the brief or specification explicitly
+      - Rate preference order: (1) USER PRICE BOOK where a comparable exists \u2014 it
+        is this builder\u2019s own pricing with context showing what finish level and
+        conditions it came from; match context where possible. (2) BASE PRICE BOOK
+        where the user book has no comparable. (3) Current South-East Queensland
+        market rates only when neither book answers. A comparable book rate WINS
+        over your market instinct unless the brief or specification explicitly
         upgrades the spec; this matters most on small jobs, where premium
-        assumptions (frameless screens, designer fixtures) silently double costs
-        the price book already answers. For items with no comparable use current
-        South-East Queensland market rates.
+        assumptions silently double costs the books already answer.
       - All amounts are AUD ex. GST. These are builder's costs (materials, labour,
         subcontractors, equipment), not client prices.
       - Quantities must come from the plan analysis (areas, counts, storeys). Show your
@@ -109,7 +113,10 @@ class LineItemGenerator
         them. A small job should produce a small number of sections. Quantities are
         room-scale: strip-out is trade-days not site-weeks, demolition lives inside
         the trades doing it, and hire/temporary items only appear if the work
-        genuinely needs them.
+        genuinely needs them. This builder\u2019s recorded trade rates already absorb
+        incidental strip-out, protection and cleanup \u2014 separate site-preparation
+        and cleaning sections on room-scale jobs double-count them; reserve those
+        sections for genuine whole-house campaigns.
       - Painting: when the job involves a whole-house repaint, price it from the
         price book's "Whole-house repaint composite" entries \u2014 pick the extent
         class matching the brief (selective / full standard / raise-build-under /

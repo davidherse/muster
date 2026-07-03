@@ -27,6 +27,9 @@ class FakeAiClient
 
     if schema == PlanAnalyzer::SCHEMA
       @analysis || default_analysis
+    elsif schema == EstimateAssessor::SCHEMA
+      { "confidence" => "high", "expected_variance_pct" => 10.0,
+        "rationale" => "Well documented.", "strengths" => [ "docs" ], "risks" => [ "none" ] }
     elsif schema == EstimateReviewer::SCHEMA
       # canned review applies once; subsequent passes see a sound estimate
       response = @review_response || { "review_notes" => "Sound.", "changes" => [] }

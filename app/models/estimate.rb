@@ -34,13 +34,17 @@ class Estimate < ApplicationRecord
     update!(progress: percent, progress_note: note)
   end
 
-  # Roll section totals up into the estimate's total and low/high range.
+  # Roll section totals into the estimate total; the headline range reflects
+  # the assessed accuracy of the whole estimate (floor ±10%), not the sum of
+  # per-item confidence bands (which over-widen).
   def recalculate_totals!
     items = line_items.reload
+    sum = items.sum { |i| i.total || 0 }
+    variance = (assessment["expected_variance_pct"].presence || 10.0).to_f.clamp(10.0, 35.0) / 100.0
     update!(
-      total: items.sum { |i| i.total || 0 },
-      total_low: items.sum { |i| i.range_low },
-      total_high: items.sum { |i| i.range_high }
+      total: sum,
+      total_low: (sum * (1 - variance)).round(2),
+      total_high: (sum * (1 + variance)).round(2)
     )
   end
 
