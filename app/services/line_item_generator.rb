@@ -158,14 +158,28 @@ class LineItemGenerator
 
   def request_text(sections)
     section_list = sections.map { |s| "- #{s['name']}: #{s['hint']}" }.join("\n")
+    scoped = scoped_user_rates(sections)
     <<~TEXT
       PLAN ANALYSIS:
       #{JSON.pretty_generate(@analysis)}
 
       #{@estimate.brief_text.present? ? "BUILDER'S NOTES:\n#{@estimate.brief_text}\n" : ''}
+      #{scoped.present? ? "THIS BUILDER'S OWN RATES FOR THESE TRADES (from their uploaded estimates; BINDING where a comparable exists \u2014 do not upgrade the spec beyond them without explicit documentation):\n#{scoped}\n" : ''}
       Produce line items for exactly these sections. The "name" field must be the exact
       section name as written before the colon below \u2014 do not append the description:
       #{section_list}
     TEXT
+  end
+
+  # Deterministic retrieval: only the user-book entries whose trade bucket
+  # matches this batch's sections, injected straight into the request so the
+  # model cannot miss its own comparables among 1,500 book lines.
+  def scoped_user_rates(sections)
+    user = @estimate.user
+    return nil unless user
+    buckets = sections.map { |s| TradeBucket.for(s["name"]) }.uniq
+    entries = PriceBookItem.for_user(user).select { |i| buckets.include?(TradeBucket.for(i.category)) }
+    return nil if entries.empty?
+    PriceBookItem.reference_text(scope: PriceBookItem.where(id: entries.map(&:id)), with_context: true)
   end
 end

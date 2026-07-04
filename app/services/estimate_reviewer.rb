@@ -164,6 +164,11 @@ class EstimateReviewer
     if %w[partial_interior_renovation small_works].include?(@analysis["project_class"])
       rooms = [ @analysis["wet_area_count"].to_i, Array(@analysis["rooms"]).size, 1 ].reject(&:zero?).min
       lines << "- Partial job: $#{(total / rooms).round} per renovated room across #{rooms} room(s)"
+      labour_hours = @estimate.line_items
+        .select { |i| %w[Lab Sub].include?(i.item_type) && i.uom.to_s.downcase.include?("hour") }
+        .sum { |i| i.quantity.to_f }
+      site_days = (months * 21.7).round
+      lines << "- Implied on-site labour: #{(labour_hours / 8).round} trade-days against ~#{site_days} working days of stated duration \u2014 does the crew size implied make sense for rooms this size?"
     end
     lines.join("\n")
   end

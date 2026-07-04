@@ -75,8 +75,11 @@ class TrainingIngestor
       You are digitising a residential builder's own estimate document so their
       rates can ground future AI estimates. Extract every priced line item with
       its unit rate exactly as documented — do not adjust, index, or improve the
-      numbers. Where a line only has a total with quantity 1, the total is the
-      unit rate (uom Allowance or ea). Keep the builder's own section names.
+      numbers. Where the document carries BOTH estimated and actual columns,
+      take the ACTUAL unit rate whenever it is non-zero — the book should teach
+      what work really cost, not what was quoted. Where a line only has a total
+      with quantity 1, the total is the unit rate (uom Allowance or ea). Keep
+      the builder's own section names.
     PROMPT
   end
 
