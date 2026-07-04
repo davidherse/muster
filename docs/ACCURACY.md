@@ -165,6 +165,31 @@ drawings priced at their spec; the ledger shows leaner purchasing) plus small-
 total percentage amplification — both are visibility limits, not tuning gaps.
 Small-job totals should be read with their stated ±20% band.
 
+## Training-on-Carson experiment (single-exemplar limits)
+
+Adding Carson's own job to the user book (with correct date escalation) did
+NOT beat the earlier number — pairs: stale book +23.6% (tight), escalated
+book +41/+24 (diverged: two competing anchor sets), escalated + binding
+context-match +32.5/+29.4 (deterministic again, centred ~+31). Findings:
+
+1. **Mechanics proven**: ingested rates ground verbatim (Carson's own shower
+   screens priced at $1,841.21/$1,354.87 exactly); escalation stamps
+   provenance; context-matching restores run-to-run determinism (3pp spread).
+2. **The earlier +23.6 was partly stale-rate luck**: un-escalated 2021-23
+   rates made the ambient book cheap. Correct dollars raised small-job
+   estimates honestly.
+3. **Prompt-level retrieval doesn't scale**: with 1,500+ user entries, the
+   model reliably finds same-trade exemplars only sometimes. The roadmap fix
+   is a structured matching layer — category/context-keyed (or embedding)
+   lookup that injects only the relevant user rates per section batch,
+   instead of the whole book in every prompt.
+4. Carson's honest band stays ~+25-35% vs its lean actuals (documented-spec
+   pricing vs value-engineered purchasing), with its stated ±20% badge at the
+   boundary. Small-works quotes should be read with that badge.
+
+Training uploads also now require a priced-on date; rates escalate to current
+dollars via `PriceEscalation` (same Brisbane anchors as the base book).
+
 ## Reproducing
 
 ```sh
