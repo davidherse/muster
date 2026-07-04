@@ -190,6 +190,26 @@ context-match +32.5/+29.4 (deterministic again, centred ~+31). Findings:
 Training uploads also now require a priced-on date; rates escalate to current
 dollars via `PriceEscalation` (same Brisbane anchors as the base book).
 
+## Small-job fix (final iteration)
+
+Three changes, none answer-derived, took Carson from +31/+27 to **+20.0/+8.3
+(mean +14.2)** with the Hilda control at its best-ever **+1.9%**:
+
+1. **Scoped deterministic retrieval** — each section batch receives the
+   user-book entries whose trade bucket matches (TradeBucket), injected into
+   the request; the model cannot miss its own comparables among 1,500 lines.
+2. **Actuals-first extraction** — training ingestion prefers actual-cost
+   columns over estimate columns; the book teaches what work cost, not what
+   was quoted (Carson's glazing: $1,750 as-built vs $1,841 as-quoted).
+3. **Trade-days metric** — small-job reviews receive implied on-site
+   trade-days vs stated duration as a computed sanity number.
+
+Small-job runs remain noisier (pair spread ~12pp on an $85k total) — quote
+small works from the estimate with its ±10% band and judgement, or run twice.
+
+Program arc for small jobs: +49% (start) → +38 → +33 → +24 (stale-rate luck)
+→ +31 (honest dollars) → **+14 (scoped retrieval + actuals-first book)**.
+
 ## Reproducing
 
 ```sh
