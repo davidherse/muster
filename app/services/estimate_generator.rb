@@ -32,14 +32,18 @@ class EstimateGenerator
 
     remaining.each_slice(@batch_size) do |batch|
       result = generator.call(batch)
-      result.fetch("sections", []).each do |section_data|
-        section_data["name"] = normalize_section_name(section_data["name"], batch)
-        next unless section_data["applicable"] && section_data["line_items"].present?
-        position += 1
-        create_section(section_data, position)
+      # One transaction per batch: section rows and the costed_sections marker
+      # commit together, so a mid-batch crash can't duplicate work on resume.
+      ActiveRecord::Base.transaction do
+        result.fetch("sections", []).each do |section_data|
+          section_data["name"] = normalize_section_name(section_data["name"], batch)
+          next unless section_data["applicable"] && section_data["line_items"].present?
+          position += 1
+          create_section(section_data, position)
+        end
+        @estimate.update!(costed_sections: @estimate.costed_sections + batch.map { |s| s["name"] })
       end
       done += batch.size
-      @estimate.update!(costed_sections: @estimate.costed_sections + batch.map { |s| s["name"] })
       percent = 20 + (70.0 * done / all_sections.size).round
       @estimate.update_progress!(percent, "Costed #{done} of #{all_sections.size} sections…")
     end
