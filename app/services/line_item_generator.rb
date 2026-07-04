@@ -81,14 +81,16 @@ class LineItemGenerator
       Rules:
       - Cost every section in the batch. If a section has no work in this project's scope,
         mark it applicable: false with an empty line_items array.
-      - Rate preference order: (1) USER PRICE BOOK where a comparable exists \u2014 it
-        is this builder\u2019s own pricing with context showing what finish level and
-        conditions it came from; match context where possible. (2) BASE PRICE BOOK
-        where the user book has no comparable. (3) Current South-East Queensland
-        market rates only when neither book answers. A comparable book rate WINS
-        over your market instinct unless the brief or specification explicitly
-        upgrades the spec; this matters most on small jobs, where premium
-        assumptions silently double costs the books already answer.
+      - Rate preference order: (1) USER PRICE BOOK entries whose bracketed context
+        MATCHES this job (same project class and finish level) \u2014 these are this
+        builder\u2019s own rates for exactly this kind of work and are BINDING when a
+        comparable exists. (2) Other user book entries. (3) BASE PRICE BOOK.
+        (4) Current South-East Queensland market rates only when no book answers.
+        When several comparables exist, the context-matched one wins \u2014 never
+        average it with rates from different job classes. A comparable book rate
+        WINS over your market instinct unless the brief or specification
+        explicitly upgrades the spec; this matters most on small jobs, where
+        premium assumptions silently double costs the books already answer.
       - All amounts are AUD ex. GST. These are builder's costs (materials, labour,
         subcontractors, equipment), not client prices.
       - Quantities must come from the plan analysis (areas, counts, storeys). Show your
