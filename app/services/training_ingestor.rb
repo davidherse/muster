@@ -82,9 +82,14 @@ class TrainingIngestor
       actuals carry their own quantity and unit rate, use those; when a lump
       or Allowance line shows an actual total, record that total as the unit
       rate with quantity 1 — never record a per-unit actual rate while
-      dropping its actual quantity. Where a line has no actuals, the quoted
-      total with quantity 1 is the unit rate (uom Allowance or ea). Keep the
-      builder's own section names.
+      dropping its actual quantity. Beware progress-claim quantities: a
+      fractional actual quantity (e.g. 9.25), or any quantity against a line
+      whose description covers a whole package ("ALL external windows..."),
+      counts payments, not physical units — record such lines as ONE
+      Allowance at the ACTUAL TOTAL. Only record a per-unit rate when the
+      quantity counts real physical units (openings, m2, hours). Where a
+      line has no actuals, the quoted total with quantity 1 is the unit rate
+      (uom Allowance or ea). Keep the builder's own section names.
     PROMPT
   end
 
