@@ -59,7 +59,21 @@ puts "Seeded template: #{template.name} (#{template.sections.size} sections)"
 # Benecia 2022-23 x1.17, Constitution 2024-25 x1.10, Carberry 2025 x1.04.
 # The source column records each item's provenance and applied factor.
 csv_path = Rails.root.join("db/seed_data/price_book.csv")
-if PriceBookItem.count.zero? && csv_path.exist?
+if PriceBookItem.base.count.zero? && csv_path.exist?
+  # Context per source job so base rates read like user rates (what kind of
+  # job the rate came from). Derived from the source column's job name.
+  SOURCE_CONTEXT = {
+    /hilda/i => { "project_class" => "extension_and_renovation", "finish_level" => "High-end", "note" => "double-storey rework in footprint" },
+    /benecia/i => { "project_class" => "raise_and_build_under", "finish_level" => "High-end", "note" => "raise + build-in-under with pool" },
+    /constitution/i => { "project_class" => "whole_house_renovation", "finish_level" => "High-end", "note" => "heavy-character reno, large glazing" },
+    /carberry/i => { "project_class" => "extension_and_renovation", "finish_level" => "High-end", "note" => "character weatherboard reno" }
+  }.freeze
+
+  def self.context_for(source)
+    SOURCE_CONTEXT.each { |pattern, ctx| return ctx if source.to_s.match?(pattern) }
+    { "note" => "composite/derived rate" }
+  end
+
   rows = CSV.read(csv_path, headers: true).map do |row|
     {
       category: row["category"],
@@ -69,12 +83,14 @@ if PriceBookItem.count.zero? && csv_path.exist?
       unit_cost: row["unit_cost"].to_d,
       sample_count: row["sample_count"].to_i,
       source: row["source"].presence || "historical",
+      source_kind: "base",
+      context: context_for(row["source"]),
       created_at: Time.current,
       updated_at: Time.current
     }
   end
   PriceBookItem.insert_all(rows)
-  puts "Seeded price book: #{PriceBookItem.count} items"
+  puts "Seeded base price book: #{PriceBookItem.base.count} items"
 else
-  puts "Price book already seeded (#{PriceBookItem.count} items)"
+  puts "Base price book already seeded (#{PriceBookItem.base.count} items)"
 end
