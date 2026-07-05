@@ -179,8 +179,8 @@ class LineItemGenerator
 
       #{@estimate.brief_text.present? ? "BUILDER'S NOTES:\n#{@estimate.brief_text}\n" : ''}
       #{scoped.present? ? "THIS BUILDER'S OWN RATES FOR THESE TRADES (from their uploaded estimates; BINDING where a comparable exists \u2014 do not upgrade the spec beyond them without explicit documentation):\n#{scoped}\n" : ''}
-      #{base_scoped&.dig(:matched).present? ? "BASE BOOK RATES FROM THE SAME CLASS OF JOB (recorded rates from a #{@analysis['project_class']&.tr('_', ' ')} at this builder; BINDING where a comparable exists — do not upgrade the spec beyond them without explicit documentation):\n#{base_scoped[:matched]}\n" : ''}
-      #{base_scoped&.dig(:other).present? ? "BASE BOOK RATES FROM OTHER JOB CLASSES (advisory — adjust for this job's class and scale per each entry's context before use):\n#{base_scoped[:other]}\n" : ''}
+      #{base_scoped&.dig(:matched).present? ? "BASE BOOK RATES — BINDING where a comparable exists (recorded same-class rates, plus unit-priced rates from all of this builder's jobs: unit rates transfer across job sizes — apply them to THIS job's quantities). Prefer same-class entries, then unit-priced entries; resort to market instinct only where the book has no comparable, and flag those lines low confidence. Do not upgrade the spec beyond recorded rates without explicit documentation:\n#{base_scoped[:matched]}\n" : ''}
+      #{base_scoped&.dig(:other).present? ? "BASE BOOK LUMP-SUM ALLOWANCES FROM OTHER JOB CLASSES (advisory — derive a unit rate per each entry's context and scale to this job before any use):\n#{base_scoped[:other]}\n" : ''}
       Produce line items for exactly these sections. The "name" field must be the exact
       section name as written before the colon below \u2014 do not append the description:
       #{section_list}
@@ -208,7 +208,13 @@ class LineItemGenerator
     entries = PriceBookItem.base.select { |i| buckets.include?(TradeBucket.for(i.category)) }
     return nil if entries.empty?
     klass = @analysis["project_class"]
-    matched, other = entries.partition { |i| klass.present? && i.context["project_class"] == klass }
+    # Same-class entries bind wholesale. Unit-priced entries (ea/m2/hour/etc.)
+    # bind across classes too — unit rates transfer across job sizes; lump-sum
+    # allowances from other classes stay advisory.
+    matched, other = entries.partition do |i|
+      (klass.present? && i.context["project_class"] == klass) ||
+        i.uom.to_s.match?(/\A(m2|m|ea|each|hour|hr|week|no|item|point|lm)\z/i)
+    end
     {
       matched: matched.any? ? PriceBookItem.reference_text(scope: PriceBookItem.where(id: matched.map(&:id)), with_context: true) : nil,
       other: other.any? ? PriceBookItem.reference_text(scope: PriceBookItem.where(id: other.map(&:id)), with_context: true) : nil
