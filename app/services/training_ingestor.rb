@@ -76,10 +76,15 @@ class TrainingIngestor
       rates can ground future AI estimates. Extract every priced line item with
       its unit rate exactly as documented — do not adjust, index, or improve the
       numbers. Where the document carries BOTH estimated and actual columns,
-      take the ACTUAL unit rate whenever it is non-zero — the book should teach
-      what work really cost, not what was quoted. Where a line only has a total
-      with quantity 1, the total is the unit rate (uom Allowance or ea). Keep
-      the builder's own section names.
+      prefer ACTUALS whenever they are non-zero — the book should teach what
+      work really cost, not what was quoted. Record each line so that
+      quantity x unit_cost reproduces the line's ACTUAL TOTAL: when the
+      actuals carry their own quantity and unit rate, use those; when a lump
+      or Allowance line shows an actual total, record that total as the unit
+      rate with quantity 1 — never record a per-unit actual rate while
+      dropping its actual quantity. Where a line has no actuals, the quoted
+      total with quantity 1 is the unit rate (uom Allowance or ea). Keep the
+      builder's own section names.
     PROMPT
   end
 
