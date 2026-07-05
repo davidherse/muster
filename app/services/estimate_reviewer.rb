@@ -121,6 +121,9 @@ class EstimateReviewer
         - quantities exceeding the documented geometry, retained openings priced
           as new supply, sections irrelevant to this project_class carrying token
           items, trades upgraded beyond the specified finish level
+        - a repaint composite class above the brief's stated repaint extent
+          (verify the painting $/m2 metric against the stated class — building
+          era alone does not upgrade the class)
         - supervision/PM hours outside this builder's documented 8-11 hours/week
           band (check the computed metrics) without documented heavy-character
           complexity; statutory levies and insurance premiums computed on this

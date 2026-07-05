@@ -136,7 +136,11 @@ class LineItemGenerator
         price book's "Whole-house repaint composite" entries \u2014 pick the extent
         class matching the brief (selective / full standard / raise-build-under /
         full heritage) and multiply by floor area; itemise prep and enamel extras
-        separately if the scope exceeds the class. For partial scopes, price as
+        separately if the scope exceeds the class. The class comes strictly from
+        the builder's stated repaint extent and documented heritage detail — a
+        character-era building does not by itself justify the heritage class.
+        State the chosen class and resulting $/m2 in assumptions, and never
+        cost tile/wall areas in both painting and another trade. For partial scopes, price as
         painter-hours from the analysis paint areas with detail-appropriate
         productivity. Never one lump allowance; never a whole-house repaint priced
         below its composite class.
