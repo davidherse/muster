@@ -87,7 +87,7 @@ class EstimateReviewer
       MATERIALITY: return at most the 12 most material corrections, largest dollar
       impact first, and ignore anything whose total effect is under $1,000 — a
       senior reviewer fixes what moves the price, not every nit. Keep reasons to
-      one sentence. A correction replaces or adds at most 6 line items — when a
+      one sentence. A correction replaces or adds at most 12 line items — when a
       section needs wholesale re-pricing, correct only its most material lines
       rather than rewriting it; keep assumptions to one short clause. You are
       reviewing an estimate, not re-estimating the job. Keep unit rates consistent with the rates already used
@@ -124,9 +124,10 @@ class EstimateReviewer
         - quantities exceeding the documented geometry, retained openings priced
           as new supply, sections irrelevant to this project_class carrying token
           items, trades upgraded beyond the specified finish level
-        - a repaint composite class above the brief's stated repaint extent
-          (verify the painting $/m2 metric against the stated class — building
-          era alone does not upgrade the class)
+        - a repaint composite class unsupported by evidence in either direction:
+          era alone does not make a heritage repaint, but documented heritage
+          fabric across the repaint scope does — verify the painting $/m2 metric
+          against the class the documented fabric supports before correcting
         - supervision/PM hours outside this builder's documented 8-11 hours/week
           band (check the computed metrics) without documented heavy-character
           complexity; statutory levies and insurance premiums computed on this
