@@ -392,47 +392,48 @@ Fixing Carpentry,Window architrave lower interior. 68x19 Finlayson's Type BR rou
 Fixing Carpentry,Window architrave upper interior. 93x19 Finlayson's Type BR rounded. To all internal windows and doors,Mat,lm,9.9,1,Constitution 2024-25 x1.10
 Fixing Carpentry,latch (New Internal Doorways Caprice CAP),Mat,Ea,11.7,1,Benecia 2022-23 x1.17
 Fixing Carpentry,latch (New Internal Doorways. Doors to be confirmed),Mat,Ea,12.9,2,Hilda 2021-22 x1.29
+Fixtures & Fitting's,All Plumbing PC Items (actual),Mat,Allowance,17834.03,1,Constitution | escalated x1.0975 from 2024-10
 Fixtures & Fitting's,Butler 600 Single Bowl Sink White,Mat,Ea,1137.49,1,Benecia | escalated x1.1683 from 2023-01
 Fixtures & Fitting's,Caroma Luna CF WF CC Bk/En Scs T/S Wh,Mat,Ea,638.66,1,Benecia | escalated x1.1683 from 2023-01
 Fixtures & Fitting's,DELIVERY,Mat,Allowance,175.25,1,Benecia | escalated x1.1683 from 2023-01
-Fixtures & Fitting's,Double Sink,Mat,Ea,878.0,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Double sink (incl. plumbing PC items),Mat,Ea,17834.05,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Free Standing Bath,Mat,Ea,1646.25,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Double Sink,Mat,ea,878.0,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,"Double sink (actual, incl plumbing PC items)",Mat,Allowance,17834.05,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Free Standing Bath,Mat,ea,1646.25,1,Constitution | escalated x1.0975 from 2024-10
 Fixtures & Fitting's,Kado Lussi Thin Edge F/S Bath W P&W 1700,Mat,Ea,3389.55,1,Benecia | escalated x1.1683 from 2023-01
 Fixtures & Fitting's,Laufen Pro A W/Basin W/Fix 850 SUPPLIED BY CLIENT,Mat,Ea,1.17,1,Benecia | escalated x1.1683 from 2023-01
 Fixtures & Fitting's,Laufen Pro A Wall Basin Frame 850 SUPPLIED BY CLIENT,Mat,Ea,1.17,1,Benecia | escalated x1.1683 from 2023-01
-Fixtures & Fitting's,Mixer,Mat,Ea,219.5,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Mixer,Mat,each,219.5,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Mixer,Mat,Ea,219.5,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Mixer,Mat,each,219.5,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Mixer,Mat,Ea,219.5,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Mixer,Mat,ea,219.5,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Mixer,Mat,ea,219.5,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Mixer,Mat,ea,219.5,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Mixer,Mat,ea,219.5,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Mixer,Mat,ea,219.5,1,Constitution | escalated x1.0975 from 2024-10
 Fixtures & Fitting's,Mizu Drift Bottle Trap W Remov Base CP,Mat,each,100.87,1,Benecia | escalated x1.1683 from 2023-01
 Fixtures & Fitting's,Oliveri Prof Pr1130u SS U/Mnt Single Bowl,Mat,Ea,931.68,1,Benecia | escalated x1.1683 from 2023-01
 Fixtures & Fitting's,P&W Basin Pop Down 40mm CP,Mat,each,45.81,1,Benecia | escalated x1.1683 from 2023-01
 Fixtures & Fitting's,"Prime cost allowance for all taps, toilets, fixtures and fittings, deliveries",Mat,Allowance,15480.0,1,Hilda | escalated x1.29 from 2021-06
-Fixtures & Fitting's,Shwr Rose & Rail,Mat,each,329.25,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Shwr Rose & Rail,Mat,Ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Shwr Rose & Rail,Mat,Ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Shwr Rose & Rail,Mat,Ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Silicone and tape,Mat,ea,9.12,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Tap Set,Mat,each,219.5,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Tap Set,Mat,Ea,219.5,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,TapSet,Mat,each,219.5,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Tapset,Mat,Ea,219.5,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Tapset,Mat,Ea,219.5,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Tapset U/Bench,Mat,Ea,65.85,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Tapset U/Bench,Mat,Ea,65.85,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Tapset behind Fridge/Freezer,Mat,Ea,65.85,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Toilet,Mat,each,658.5,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Toilet,Mat,Ea,658.5,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Toilet,Mat,Ea,658.5,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Toilet,Mat,each,658.5,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Toilet,Mat,Ea,658.5,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Vanity Basin,Mat,Ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Vanity Basin,Mat,Ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Vanity Basin,Mat,Ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Vanity Basin,Mat,each,329.25,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Vanity Basin,Mat,Ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Shwr Rose & Rail,Mat,ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Shwr Rose & Rail,Mat,ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Shwr Rose & Rail,Mat,ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Shwr Rose & Rail,Mat,ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Silicone and tape (actual),Mat,ea,9.12,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Tap Set,Mat,ea,219.5,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Tap Set,Mat,ea,219.5,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,TapSet,Mat,ea,219.5,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Tapset,Mat,ea,219.5,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Tapset,Mat,ea,219.5,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Tapset U/Bench,Mat,ea,65.85,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Tapset U/Bench,Mat,ea,65.85,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Tapset behind Fridge/Freezer,Mat,ea,65.85,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Toilet,Mat,ea,658.5,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Toilet,Mat,ea,658.5,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Toilet,Mat,ea,658.5,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Toilet,Mat,ea,658.5,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Toilet,Mat,ea,658.5,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Vanity Basin,Mat,ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Vanity Basin,Mat,ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Vanity Basin,Mat,ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Vanity Basin,Mat,ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Vanity Basin,Mat,ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
 Fixtures & Fitting's,WALL MOUNTED TOILET BRUSH HOLDER,Mat,each,314.38,1,Benecia | escalated x1.1683 from 2023-01
 Fixtures & Fitting's,WINSLOW BASIN MIXER WITH SWIVEL SPOUT,Mat,Ea,757.27,1,Benecia | escalated x1.1683 from 2023-01
 Fixtures & Fitting's,WINSLOW DOUBLE TOWEL RAIL 900MM,Mat,Ea,487.48,1,Benecia | escalated x1.1683 from 2023-01
@@ -442,8 +443,8 @@ Fixtures & Fitting's,WINSLOW SINGLE TOWEL RAIL 900MM,Mat,Ea,316.49,1,Benecia | e
 Fixtures & Fitting's,WINSLOW TOILET ROLL HOLDER,Mat,each,147.63,1,Benecia | escalated x1.1683 from 2023-01
 Fixtures & Fitting's,WINSLOW WALL SET WITH 230MM SPOUT,Mat,Ea,521.48,1,Benecia | escalated x1.1683 from 2023-01
 Fixtures & Fitting's,WINSLOW WALL SET WITH JUMPER VALVE CROSS,Mat,Ea,873.02,1,Benecia | escalated x1.1683 from 2023-01
-Fixtures & Fitting's,Wall Mixer,Mat,Ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
-Fixtures & Fitting's,Wall Mixer,Mat,Ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Wall Mixer,Mat,ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Wall Mixer,Mat,ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
 Floor Coverings,"Drum sand existing timber flooring to sunroom, master bed inc WIR, formal living, library & bed 2, inc robe & bed 3 inc robe on upper level",Sub,m2,129.39,1,Constitution 2024-25 x1.10
 Floor Coverings,Extra 5% flooring,Mat,Allowance,523.6,1,Constitution 2024-25 x1.10
 Floor Coverings,Install Ramboard and other protective coatings,Lab,ea,58.05,1,Hilda 2021-22 x1.29
@@ -686,23 +687,24 @@ Internal stairs,Supply and install internal stair and balustrade,Sub,each,9619.7
 Internal stairs,Supply and install internal stair and balustrade,Mat,each,3498.3,1,Benecia 2022-23 x1.17
 Internal stairs,overlay in European Oak flooring and polished to match in with the upper level flooring,Mat,Allowance,5835.96,1,Benecia 2022-23 x1.17
 Joinery,Addition of 3x drawers to master WIR cabinetry,Sub,Allowance,548.75,1,Constitution | escalated x1.0975 from 2024-10
-Joinery,Back Charge for Dishwasher Hose,Mat,ea,81.18,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Back Charge for Dishwasher Hose (actual),Mat,Allowance,81.18,1,Constitution | escalated x1.0975 from 2024-10
 Joinery,Bay Window Box in media room,Sub,Allowance,1456.68,1,Constitution | escalated x1.0975 from 2024-10
-Joinery,Bedroom three cabinetry,Sub,Allowance,2195.0,1,Constitution | escalated x1.0975 from 2024-10
-Joinery,Bedroom two cabinetry,Sub,Allowance,8181.36,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Bedroom three cabinetry (actual),Sub,Allowance,2195.0,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Bedroom two cabinetry (actual),Sub,Allowance,8181.36,1,Constitution | escalated x1.0975 from 2024-10
 Joinery,"General inclusions (2 pack double step door, Blum hinges, DTC soft closing drawers, builders range handles, white melamine carcass)",Mat,each,1.17,1,Benecia | escalated x1.1683 from 2023-01
-Joinery,Hand painting allowance. Base labour rate $75 p/h excluding mark up and gst,MatLab,Allowance,17949.61,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Hand painting allowance. Base labour rate $75 p/h,Mat,Allowance,4779.61,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Hand painting allowance. Base labour rate $75 p/h (actual),MatLab,Allowance,17949.61,1,Constitution | escalated x1.0975 from 2024-10
 Joinery,INSTALLING TIMBER FLOATING SHELVES,Mat,ea,81.93,1,Hilda | escalated x1.29 from 2021-06
 Joinery,Install Ikea cabinets into built robes in bedrooms,Mat,each,75.94,1,Benecia | escalated x1.1683 from 2023-01
 Joinery,Install Ikea cabinets into built robes in bedrooms (allowance),Mat,Allowance,75.94,1,Benecia | escalated x1.1683 from 2023-01
 Joinery,Install Rangehood and duct,Lab,Hour,82.31,1,Constitution | escalated x1.0975 from 2024-10
 Joinery,Install benchtop surface protection,Mat,ea,15.6,1,Hilda | escalated x1.29 from 2021-06
 Joinery,Install benchtop surface protection,Mat,ea,83.85,1,Hilda | escalated x1.29 from 2021-06
-Joinery,Kitchen and pantry,Sub,Allowance,33723.18,1,Constitution | escalated x1.0975 from 2024-10
-Joinery,Labour and materials to paint ladder to match flooring,MatLab,ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
-Joinery,Library cabinetry,Sub,Allowance,12471.58,1,Constitution | escalated x1.0975 from 2024-10
-Joinery,Linen cabinetry,Sub,Allowance,3292.5,1,Constitution | escalated x1.0975 from 2024-10
-Joinery,Master walk in robe cabinetry,Sub,Allowance,7882.04,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Kitchen and pantry (actual),Sub,Allowance,33723.18,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Labour and materials to paint ladder to match flooring (actual),MatLab,ea,329.25,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Library cabinetry (actual),Sub,Allowance,12471.58,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Linen cabinetry (actual),Sub,Allowance,3292.5,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Master walk in robe cabinetry (actual),Sub,Allowance,7882.04,1,Constitution | escalated x1.0975 from 2024-10
 Joinery,"Measure, supply and install BBQ as per Starkey and Christoe Plans. Includes upholstered seat.",Sub,Ea,6863.11,1,Benecia | escalated x1.1683 from 2023-01
 Joinery,"Measure, supply and install Entry cabinet as per Starkey and Christoe Plans. Includes upholstered seat.",Sub,Ea,5231.1,1,Benecia | escalated x1.1683 from 2023-01
 Joinery,"Measure, supply and install Laundry as per Starkey and Christoe Plans.",Sub,Ea,6933.39,1,Benecia | escalated x1.1683 from 2023-01
@@ -711,20 +713,21 @@ Joinery,"Measure, supply and install Living as per Starkey and Christoe Plans.",
 Joinery,"Measure, supply and install doors only to 4 x bedroom robes (2000W x 2350H, Blum hinges, 2 pack double step doors)",Sub,each,3103.85,1,Benecia | escalated x1.1683 from 2023-01
 Joinery,"Measure, supply and install stone to BBQ - 40mm Caesarstone Palm Shade, includes 350mmH splashback",Mat,each,9014.6,1,Benecia | escalated x1.1683 from 2023-01
 Joinery,"Measure, supply and install stone to Laundry and Ikea unit - 40mm Caesarstone Pure White",Mat,each,3925.49,1,Benecia | escalated x1.1683 from 2023-01
-Joinery,Mudroom cabinetry,Sub,Allowance,7882.04,1,Constitution | escalated x1.0975 from 2024-10
-Joinery,Pick up materials from Access Ladders in Lawnton,Mat,ea,82.31,1,Constitution | escalated x1.0975 from 2024-10
-Joinery,Provisional Sum allowance for Master Bedroom bookshelf as requested by clients,Sub,Allowance,458.95,1,Constitution | escalated x1.0975 from 2024-10
-Joinery,Provisional Sum allowance for Media Room cabinetry as requested by clients,Sub,Allowance,8670.25,1,Constitution | escalated x1.0975 from 2024-10
-Joinery,Provisional Sum for stone benchtops due to regulation change,Sub,Allowance,35668.75,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Mudroom cabinetry (actual),Sub,Allowance,7882.04,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Pick up materials from Access Ladders in Lawnton,Mat,Allowance,82.31,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Provisional Sum for Master Bedroom bookshelf (actual),Sub,Allowance,458.95,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Provisional Sum for Media Room cabinetry (actual),Sub,Allowance,8670.25,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Provisional Sum for stone benchtops due to regulation change,Sub,Allowance,17110.03,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Provisional Sum for stone benchtops due to regulation change (actual),Sub,Allowance,35668.75,1,Constitution | escalated x1.0975 from 2024-10
 Joinery,Provisional Sum upper kitchen,Sub,Ea,28841.28,1,Hilda | escalated x1.29 from 2021-06
 Joinery,REVISED and ADJUSTED Starkey & Christoe quote and working drawings,Mat,Allowance,54944.78,1,Benecia | escalated x1.1683 from 2023-01
 Joinery,"Stair storage door in white satin to be painted by others. Includes hinges, push to open and install.",MatLab,each,325.58,1,Benecia | escalated x1.1683 from 2023-01
 Joinery,Supply and install 3x drawers to internal of pantry,Sub,Allowance,609.72,1,Constitution | escalated x1.0975 from 2024-10
 Joinery,Supply and install 4x drawers to Bed 3 WIR,Sub,Allowance,609.72,1,Constitution | escalated x1.0975 from 2024-10
-Joinery,Supply and install Symetra Laundry System 2x 35L laundry hamper,Sub,Allowance,535.46,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Supply and install Symetra Laundry System 2x 35L laundry hamper (actual),Sub,Allowance,535.46,1,Constitution | escalated x1.0975 from 2024-10
 Joinery,Supply and install Talostone splashback to powder room basin,Sub,Allowance,609.72,1,Constitution | escalated x1.0975 from 2024-10
-Joinery,Supply and install library ladder by Access Ladders,Sub,ea,3871.18,1,Constitution | escalated x1.0975 from 2024-10
-Joinery,Vanity units x 4 and 1 x shaving cabinet,Sub,Allowance,18757.26,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Supply and install library ladder by Access Ladders (actual),Sub,ea,3871.18,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Vanity units x 4 and 1 x shaving cabinet (actual),Sub,Allowance,18757.26,1,Constitution | escalated x1.0975 from 2024-10
 Laundry Renovation,"Demolish existing laundry. Cabinetry, wall linings, floor coverings, shelving. Remove linen wall - assumed non load bearing wall.",Lab,hr,71.94,1,Constitution 2024-25 x1.10
 Laundry Renovation,Floor Waste x1,Mat,Allowance,55.0,1,Constitution 2024-25 x1.10
 Laundry Renovation,Labour to lay floor tiles,Sub,m2,132.0,1,Constitution 2024-25 x1.10
@@ -1344,14 +1347,14 @@ Windows,Supply and fit fly screens,Sub,Allowance,15249.5,1,Benecia | escalated x
 Windows,Supply and install commercial grade aluminium windows and doors,Mat,Allowance,75.94,1,Benecia | escalated x1.1683 from 2023-01
 Windows,Supply and install retractable fly screens for the existing windows,Mat,Allowance,5102.99,1,Benecia | escalated x1.1683 from 2023-01
 Windows,"Supply, standard colour, aluminium windows and doors, excluding entry door and side lights",Mat,Allowance,32467.06,1,Benecia | escalated x1.1683 from 2023-01
-Windows and Doors,"Allowance for external timber window and door hardware, Centor screens to D6&7, pre priming with oil primer by supplier.",Sub,Allowance,22342.3,1,Constitution | escalated x1.0975 from 2024-10
-Windows and Doors,Build and deliver external timber windows and doors (additional allowance).,Sub,Allowance,28160.14,1,Constitution | escalated x1.0975 from 2024-10
-Windows and Doors,Build and deliver external timber windows and doors. Allowance based on estimate from ALLKIND.,Sub,ea,13541.67,1,Constitution | escalated x1.0975 from 2024-10
-Windows and Doors,Build and deliver internal doors from Finlayson's.,Sub,ea,8335.4,1,Constitution | escalated x1.0975 from 2024-10
-Windows and Doors,Fly Screen Installation,Lab,Hour,82.31,1,Constitution | escalated x1.0975 from 2024-10
+Windows and Doors,Build and deliver internal doors from Finlayson's.,Sub,Allowance,16670.81,1,Constitution | escalated x1.0975 from 2024-10
+Windows and Doors,Fly Screen Installation,Lab,Allowance,432.14,1,Constitution | escalated x1.0975 from 2024-10
 Windows and Doors,Line item to allow for software accuracy,Mat,Allowance,1.1,1,Constitution | escalated x1.0975 from 2024-10
-Windows and Doors,Security Gate Door 21 Supply and Install. Provisional Sum Allowance,Sub,ea,1235.69,1,Constitution | escalated x1.0975 from 2024-10
-Windows and Doors,Security Gate Door 21 Supply and Install. Provisional Sum Allowance,MatLab,Allowance,902.31,1,Constitution | escalated x1.0975 from 2024-10
+Windows and Doors,"SUPPLIER TO BE SELECTED BY CLIENTS. Allowance for external timber window and door hardware, Centor screens to D6&7, pre priming with oil primer by supplier. Based on estimate from ALLKIND.",Sub,Allowance,22342.3,1,Constitution | escalated x1.0975 from 2024-10
+Windows and Doors,SUPPLIER TO BE SELECTED BY CLIENTS. Build and deliver external timber windows and doors. Allowance based on estimate from ALLKIND.,Sub,Allowance,125260.44,1,Constitution | escalated x1.0975 from 2024-10
+Windows and Doors,SUPPLIER TO BE SELECTED BY CLIENTS. Build and deliver external timber windows and doors. Allowance based on estimate from ALLKIND. (additional),Sub,Allowance,28160.14,1,Constitution | escalated x1.0975 from 2024-10
+Windows and Doors,Security Gate Door 21 Supply and Install. Provisional Sum Allowance,Sub,Allowance,4633.81,1,Constitution | escalated x1.0975 from 2024-10
+Windows and Doors,Security Gate Door 21 Supply and Install. Provisional Sum Allowance (additional),MatLab,Allowance,902.31,1,Constitution | escalated x1.0975 from 2024-10
 Windows and Doors,"Supply, standard colour, aluminium windows and doors. As per Dowell quote",Mat,Allowance,38261.4,1,Hilda | escalated x1.29 from 2021-06
 finishing work,Awnings for rear garage door & Tesla battery,MatLab,Allowance,80.07,1,Constitution 2024-25 x1.10
 finishing work,Clothesline install and assembly,MatLab,Allowance,82.5,1,Constitution 2024-25 x1.10
