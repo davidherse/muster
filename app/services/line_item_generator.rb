@@ -136,14 +136,16 @@ class LineItemGenerator
         price book's "Whole-house repaint composite" entries \u2014 pick the extent
         class matching the brief (selective / full standard / raise-build-under /
         full heritage) and multiply by floor area; itemise prep and enamel extras
-        separately if the scope exceeds the class. Pick the class on evidence,
-        both ways: a character-era building with an ordinary repaint scope is NOT
-        heritage class — but documented heritage fabric across the repaint scope
-        (VJ/tongue-and-groove walls, high ceilings, decorative cornices and roses,
-        stained glass, extensive enamel trim) IS, whatever the era field says.
-        State the chosen class, the documented evidence for it, and the resulting
-        $/m2 in assumptions; never cost tile/wall areas in both painting and
-        another trade. For partial scopes, price as
+        separately if the scope exceeds the class. Pick the class from the job's
+        project_class and the builder's stated repaint extent FIRST — a
+        raise_and_build_under job uses the raise-build-under class; a selective
+        repaint uses selective. Move to the full heritage class only when BOTH
+        hold: the stated extent is a full repaint AND the plans document heritage
+        fabric across that scope (VJ/tongue-and-groove walls, decorative cornices
+        and roses, stained glass, extensive enamel trim). Era alone never
+        upgrades the class. State the chosen class, the evidence for it, and the
+        resulting $/m2 in assumptions; never cost tile/wall areas in both
+        painting and another trade. For partial scopes, price as
         painter-hours from the analysis paint areas with detail-appropriate
         productivity. Never one lump allowance; never a whole-house repaint priced
         below its composite class.
