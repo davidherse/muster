@@ -65,7 +65,7 @@ if PriceBookItem.base.count.zero? && csv_path.exist?
   SOURCE_CONTEXT = {
     /hilda/i => { "project_class" => "extension_and_renovation", "finish_level" => "High-end", "note" => "double-storey rework in footprint" },
     /benecia/i => { "project_class" => "raise_and_build_under", "finish_level" => "High-end", "note" => "raise + build-in-under with pool" },
-    /constitution/i => { "project_class" => "whole_house_renovation", "finish_level" => "High-end", "note" => "heavy-character reno, large glazing" },
+    /constitution/i => { "project_class" => "extension_and_renovation", "finish_level" => "High-end", "note" => "heavy-character reno, large glazing" },
     /carberry/i => { "project_class" => "extension_and_renovation", "finish_level" => "High-end", "note" => "character weatherboard reno" }
   }.freeze
 
