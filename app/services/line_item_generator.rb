@@ -179,7 +179,8 @@ class LineItemGenerator
 
       #{@estimate.brief_text.present? ? "BUILDER'S NOTES:\n#{@estimate.brief_text}\n" : ''}
       #{scoped.present? ? "THIS BUILDER'S OWN RATES FOR THESE TRADES (from their uploaded estimates; BINDING where a comparable exists \u2014 do not upgrade the spec beyond them without explicit documentation):\n#{scoped}\n" : ''}
-      #{base_scoped.present? ? "BASE BOOK RATES FOR THESE TRADES (shared historical rates with source-job context; use where no user rate compares):\n#{base_scoped}\n" : ''}
+      #{base_scoped&.dig(:matched).present? ? "BASE BOOK RATES FROM THE SAME CLASS OF JOB (recorded rates from a #{@analysis['project_class']&.tr('_', ' ')} at this builder; BINDING where a comparable exists — do not upgrade the spec beyond them without explicit documentation):\n#{base_scoped[:matched]}\n" : ''}
+      #{base_scoped&.dig(:other).present? ? "BASE BOOK RATES FROM OTHER JOB CLASSES (advisory — adjust for this job's class and scale per each entry's context before use):\n#{base_scoped[:other]}\n" : ''}
       Produce line items for exactly these sections. The "name" field must be the exact
       section name as written before the colon below \u2014 do not append the description:
       #{section_list}
@@ -199,11 +200,19 @@ class LineItemGenerator
     PriceBookItem.reference_text(scope: PriceBookItem.where(id: entries.map(&:id)), with_context: true)
   end
 
+  # Returns { matched:, other: } — base entries whose source-job class matches
+  # this job carry the same authority as user rates; the rest are advisory
+  # references to be adjusted for class and scale.
   def scoped_base_rates(sections)
     buckets = batch_buckets(sections)
     entries = PriceBookItem.base.select { |i| buckets.include?(TradeBucket.for(i.category)) }
     return nil if entries.empty?
-    PriceBookItem.reference_text(scope: PriceBookItem.where(id: entries.map(&:id)), with_context: true)
+    klass = @analysis["project_class"]
+    matched, other = entries.partition { |i| klass.present? && i.context["project_class"] == klass }
+    {
+      matched: matched.any? ? PriceBookItem.reference_text(scope: PriceBookItem.where(id: matched.map(&:id)), with_context: true) : nil,
+      other: other.any? ? PriceBookItem.reference_text(scope: PriceBookItem.where(id: other.map(&:id)), with_context: true) : nil
+    }
   end
 
   def batch_buckets(sections)
