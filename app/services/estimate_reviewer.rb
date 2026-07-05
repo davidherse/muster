@@ -95,7 +95,9 @@ class EstimateReviewer
     when :completeness
       common + <<~PROMPT
         Your mandate: find what is MISSING or UNDERDONE. You are not allowed to
-        remove or reduce anything. Hunt for:
+        remove or reduce anything. Additions must be priced at recorded PRICE BOOK
+        rates where a comparable exists — a completeness correction is not a
+        license for market instinct. Hunt for:
         - features in the analysis or brief with no line items at all
         - quantities inconsistent with documented areas/counts (paint priced below
           the stated paint area, fewer openings than the schedule, hire not
@@ -113,6 +115,10 @@ class EstimateReviewer
         - quantities exceeding the documented geometry, retained openings priced
           as new supply, sections irrelevant to this project_class carrying token
           items, trades upgraded beyond the specified finish level
+        - supervision/PM hours outside this builder's documented 8-11 hours/week
+          band (check the computed metrics) without documented heavy-character
+          complexity; statutory levies and insurance premiums computed on this
+          estimate's own inflated total instead of the documented scope's value
         - lump-sum allowances adopted from a comparable whose source scope is far
           larger than this job (a whole-house supply allowance carried into
           room-scale work) — recompute from this job's measured quantities at a
