@@ -94,7 +94,17 @@ class TrainingIngestor
       "Allowance" — never leave a per-unit uom (Hour, each, m2, lm) carrying
       a total, or the book will teach a $4,000 painting package as $4,000
       per hour. Sanity-check every entry: a per-unit uom must carry a
-      believable per-unit price. Keep the builder's own section names.
+      believable per-unit price.
+
+      RECONCILE: category header rows carry the category's actual total. Your
+      extracted lines for a category must sum to approximately that header
+      total — this is the invariant that catches every extraction mistake.
+      Net out reversal/credit pairs (a positive line matched by an equal
+      negative line means the allowance moved — extract neither, or net
+      them); skip zero-actual quote lines whose spend appears in another
+      line's actual; never record the same money twice. If your lines sum to
+      well above the header's actual, you have double-counted. Keep the
+      builder's own section names.
     PROMPT
   end
 
