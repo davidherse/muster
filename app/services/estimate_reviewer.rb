@@ -103,6 +103,12 @@ class EstimateReviewer
           the stated paint area, fewer openings than the schedule, hire not
           carried for the stated duration)
         - trades the documented scope requires but no section covers
+        - allowance-type comparables adopted at face value where this job's
+          documented geometry (opening counts and glazing_notes, envelope area,
+          storeys, retained-structure intensity) exceeds the scope the
+          comparable's description and context imply — scale them to the
+          documented geometry and check the computed per-opening and per-m2
+          metrics against SEQ norms for this finish level and building type
       PROMPT
     when :padding
       common + <<~PROMPT
