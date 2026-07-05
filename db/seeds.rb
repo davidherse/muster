@@ -84,7 +84,9 @@ if PriceBookItem.base.count.zero? && csv_path.exist?
       sample_count: row["sample_count"].to_i,
       source: row["source"].presence || "historical",
       source_kind: "base",
-      context: context_for(row["source"]),
+      context: context_for(row["source"]).merge(
+        row["uom"].to_s.match?(/allowance/i) ? { "scale" => "lump sum at source-job scope — derive a unit rate before reuse at different scope" } : {}
+      ),
       created_at: Time.current,
       updated_at: Time.current
     }

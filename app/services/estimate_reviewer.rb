@@ -113,6 +113,10 @@ class EstimateReviewer
         - quantities exceeding the documented geometry, retained openings priced
           as new supply, sections irrelevant to this project_class carrying token
           items, trades upgraded beyond the specified finish level
+        - lump-sum allowances adopted from a comparable whose source scope is far
+          larger than this job (a whole-house supply allowance carried into
+          room-scale work) — recompute from this job's measured quantities at a
+          unit rate derived from the comparable
         - unit rates materially above a comparable PRICE BOOK item without an
           explicit spec justification \u2014 check every large line against the price
           book; the builder\u2019s own recorded rate wins over market instinct

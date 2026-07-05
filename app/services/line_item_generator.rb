@@ -121,6 +121,17 @@ class LineItemGenerator
         incidental strip-out, protection and cleanup \u2014 separate site-preparation
         and cleaning sections on room-scale jobs double-count them; reserve those
         sections for genuine whole-house campaigns.
+      - Comparable scale: a price book entry priced as "Allowance" records a lump
+        sum for ITS source job's scope — often a whole house. Lump sums do not
+        transfer across job sizes. Before reusing one on a job of different scope,
+        derive a unit rate from it (allowance ÷ the scope its description and
+        context imply) and apply that rate to THIS job's measured quantities — or
+        ignore it and build the item up from quantities and trade rates. A
+        room-scale job must not inherit any single line at whole-house scale
+        (whole-house tile supply, house rewire, kitchen-grade joinery allowances on
+        a vanity); equally, never scale a small allowance up to whole-house without
+        geometry to support it. Show the derivation in assumptions whenever you
+        scale a comparable.
       - Painting: when the job involves a whole-house repaint, price it from the
         price book's "Whole-house repaint composite" entries \u2014 pick the extent
         class matching the brief (selective / full standard / raise-build-under /
