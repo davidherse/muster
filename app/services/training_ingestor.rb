@@ -89,7 +89,12 @@ class TrainingIngestor
       Allowance at the ACTUAL TOTAL. Only record a per-unit rate when the
       quantity counts real physical units (openings, m2, hours). Where a
       line has no actuals, the quoted total with quantity 1 is the unit rate
-      (uom Allowance or ea). Keep the builder's own section names.
+      (uom Allowance or ea). CRITICAL uom rule: whenever the number you
+      record is a line TOTAL rather than a true per-unit rate, set uom to
+      "Allowance" — never leave a per-unit uom (Hour, each, m2, lm) carrying
+      a total, or the book will teach a $4,000 painting package as $4,000
+      per hour. Sanity-check every entry: a per-unit uom must carry a
+      believable per-unit price. Keep the builder's own section names.
     PROMPT
   end
 
