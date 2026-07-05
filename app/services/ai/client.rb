@@ -5,7 +5,7 @@ module Ai
   # Ai::Client.new(anthropic: fake).
   class Client
     MODEL = "claude-opus-4-8".freeze
-    MAX_TOKENS = 32_000
+    MAX_TOKENS = 64_000
     FILES_BETA = "files-api-2025-04-14".freeze
 
     MAX_ATTEMPTS = 5

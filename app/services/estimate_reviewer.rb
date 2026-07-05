@@ -87,7 +87,10 @@ class EstimateReviewer
       MATERIALITY: return at most the 12 most material corrections, largest dollar
       impact first, and ignore anything whose total effect is under $1,000 — a
       senior reviewer fixes what moves the price, not every nit. Keep reasons to
-      one sentence. Keep unit rates consistent with the rates already used
+      one sentence. A correction replaces or adds at most 6 line items — when a
+      section needs wholesale re-pricing, correct only its most material lines
+      rather than rewriting it; keep assumptions to one short clause. You are
+      reviewing an estimate, not re-estimating the job. Keep unit rates consistent with the rates already used
       elsewhere in the estimate. All amounts AUD ex. GST, builder's costs.
     COMMON
 
