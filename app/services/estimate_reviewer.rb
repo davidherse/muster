@@ -120,6 +120,9 @@ class EstimateReviewer
           the stated paint area, fewer openings than the schedule, hire not
           carried for the stated duration)
         - trades the documented scope requires but no section covers
+        - takeoff entries treated as trade ceilings: drawn new-work quantities
+          (an extension's sheeting, a new slab) capping documented rework of
+          retained fabric on character renovations — the rework is additional
         - structure, footings, raising, scaffold or external works priced at
           base-book flat-site allowances despite documented extreme site
           conditions (steep slope, deep engineered piers, extreme raise
