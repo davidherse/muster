@@ -205,6 +205,10 @@ class EstimateReviewer
     if %w[partial_interior_renovation small_works].include?(@analysis["project_class"])
       rooms = [ @analysis["wet_area_count"].to_i, Array(@analysis["rooms"]).size, 1 ].reject(&:zero?).min
       lines << "- Partial job: $#{(total / rooms).round} per renovated room across #{rooms} room(s)"
+      elec = section_total.call("electrical")
+      lines << "- Electrical: $#{elec.round} => $#{(elec / rooms).round} per room (SEQ wet-area reno norm: rough-in + fit-off runs $1,200-1,800/room standard, to ~$2,500 only with documented extras; PC fittings priced separately count within this check)" if elec.positive?
+      demo = section_total.call("site preparation") + section_total.call("demolition")
+      lines << "- Demo/strip-out: $#{demo.round} => $#{(demo / rooms).round} per room (strip-out of one wet area is 2-3 trade-days plus disposal — more needs documented cause)" if demo.positive?
       labour_hours = @estimate.line_items
         .select { |i| %w[Lab Sub].include?(i.item_type) && i.uom.to_s.downcase.include?("hour") }
         .sum { |i| i.quantity.to_f }

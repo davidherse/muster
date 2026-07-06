@@ -156,7 +156,12 @@ class PlanAnalyzer
         retained scope
       - wet_area_takeoff: re-measure each in-scope wet area's floor and wall-tile
         m2 from the plan's room dimensions and tiling extents — do not carry the
-        draft's figures without checking them against stated dimensions
+        draft's figures without checking them against stated dimensions. Wall
+        tile height comes from the internal elevations / finishes schedule per
+        wall: full-height is only where DRAWN (typically shower/bath enclosures);
+        other walls take the documented dado or splashback height. Where no
+        height is documented, use full-height to wet zones and 1200mm elsewhere —
+        never whole-room floor-to-ceiling by default
       - Builder-confirmed scope: every structural_work, systems_extras and
         external_works item the builder's clarifications state (pool, house raise,
         retaining walls, solar) must appear in scope_summary/special_features and
