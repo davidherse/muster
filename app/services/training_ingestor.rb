@@ -96,19 +96,24 @@ class TrainingIngestor
       per hour. Sanity-check every entry: a per-unit uom must carry a
       believable per-unit price.
 
-      RECONCILE: category header rows carry the category's actual total. Your
-      extracted lines for a category must sum to approximately that header
-      total — this is the invariant that catches every extraction mistake.
-      Net out reversal/credit pairs (a positive line matched by an equal
-      negative line means the allowance moved — extract neither, or net
-      them); skip zero-actual quote lines whose spend appears in another
-      line's actual; never record the same money twice. If your lines sum to
-      well above the header's actual, you have double-counted. Reconcile by
-      netting and skipping — NEVER by merging: every distinct piece of work
-      keeps its own line with its own rate. A category with 30 real line
-      items yields ~30 entries; collapsing them into a handful of summaries
-      destroys the granular comparables future estimates depend on. Keep the
-      builder's own section names.
+      Two kinds of entries, two different rules:
+
+      RATE entries (a true per-unit price: $/m2, $/hour, $/lm, $/each for a
+      countable item): extract EVERY one, always — rate cards, unit prices,
+      hourly rates. They record what a unit of work costs, not money spent,
+      so they are EXEMPT from reconciliation. Never drop, merge, or skim
+      them: a joinery rate card with 30 lines yields 30 entries. These are
+      the granular comparables future estimates depend on.
+
+      LUMP entries (Allowance/package totals — money actually spent):
+      these reconcile against the category header's actual total. Net out
+      reversal/credit pairs (a positive line matched by an equal negative
+      means the allowance moved — extract neither, or net them); skip
+      zero-actual quote lines whose spend appears in another line's actual;
+      never record the same money twice. If your LUMP lines alone sum to
+      well above the header's actual, you have double-counted.
+
+      Keep the builder's own section names.
     PROMPT
   end
 
