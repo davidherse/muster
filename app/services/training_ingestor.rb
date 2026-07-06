@@ -103,7 +103,11 @@ class TrainingIngestor
       negative line means the allowance moved — extract neither, or net
       them); skip zero-actual quote lines whose spend appears in another
       line's actual; never record the same money twice. If your lines sum to
-      well above the header's actual, you have double-counted. Keep the
+      well above the header's actual, you have double-counted. Reconcile by
+      netting and skipping — NEVER by merging: every distinct piece of work
+      keeps its own line with its own rate. A category with 30 real line
+      items yields ~30 entries; collapsing them into a handful of summaries
+      destroys the granular comparables future estimates depend on. Keep the
       builder's own section names.
     PROMPT
   end
