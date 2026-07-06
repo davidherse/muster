@@ -145,16 +145,37 @@ Demolition,Permit - Road / Sidewalk,Mat,each,156.0,1,Carberry 2025 x1.04
 Demolition,Skip Bins - 10 m3,Mat,each,1029.6,2,Carberry 2025 x1.04
 Demolition,Tarps - 7m x 11m (24' x 36') Blue,Mat,week,358.8,1,Carberry 2025 x1.04
 Demolition,Truck waste removal - per load - 11 tonne Bogie tipper truck - concrete/brick/asphalt - per load,Mat,each,858.0,1,Carberry 2025 x1.04
-Doors & Windows,Architrave (New Internal Doorways Caprice CAP),Mat,Allowance,225.05,1,Benecia | escalated x1.1683 from 2023-01
-Doors & Windows,FIX OUT HARDWARE AND MATERIALS,Mat,Allowance,9570.77,1,Benecia | escalated x1.1683 from 2023-01
-Doors & Windows,French Door Magnetic Door Keepers,Mat,each,379.7,1,Benecia | escalated x1.1683 from 2023-01
-Doors & Windows,GAINSBOROUGH LATCH 70mm BACKSET - BRIGHT CHROME (Replace 6 existing doors to Hume Internal Door Caprice CAP),Mat,each,19.76,1,Benecia | escalated x1.1683 from 2023-01
-Doors & Windows,"HUME EVOLUTION CAVITY UNIT 90mm - 2040 x 820mm (1 x Cavity sliding unit, Ground level)",Mat,each,208.07,1,Benecia | escalated x1.1683 from 2023-01
-Doors & Windows,"Installation of 90 x 42mm timbers for decorative raked ceiling in level 1 living ""EXPOSED RAFTER LOOK"" ~1m apart with hip and ridge",Lab,Hour,74.7,1,Benecia | escalated x1.1683 from 2023-01
-Doors & Windows,Installing hose reels,Lab,Allowance,75.94,1,Benecia | escalated x1.1683 from 2023-01
-Doors & Windows,Locksmith services,Mat,Allowance,95.59,1,Benecia | escalated x1.1683 from 2023-01
-Doors & Windows,"Supply and install new handle to master bedroom French Doors, remove/supply/install new window fixtures to existing windows",MatLab,Allowance,263.91,1,Benecia | escalated x1.1683 from 2023-01
-Doors & Windows,"Timber for decorative raked ceiling in level 1 living ""EXPOSED RAFTER LOOK"" rafter size 90 x 42mm",Mat,each,80.97,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",Architrave (cavity sliding unit),Mat,Ea,63.72,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",Architrave (new internal doorways),Mat,Ea,63.72,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",Carpentry labour (new internal doorways Caprice CAP),Lab,Ea,70.1,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",Door jamb 112mm x 18mm,Mat,Ea,23.37,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",Door keeper (new internal doorways),Mat,Ea,25.7,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware","Door, Hume Caprice (new internal doorways)",Mat,Ea,80.61,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",Fix out hardware and materials,Mat,Allowance,9570.77,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",French door magnetic door keepers,Mat,Allowance,379.7,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",Gainsborough latch 70mm backset bright chrome,Mat,Ea,19.76,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",Hinges for internal doors,Mat,Ea,8.76,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",Hume Evolution cavity unit 90mm 2040x820mm,Mat,Ea,208.07,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",Hume Hayman Smooth door,Mat,Ea,97.93,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",Hume Internal Door Caprice CAP,Mat,Ea,87.62,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",Hume Internal Door Caprice CAP (cavity sliding unit),Mat,Ea,87.62,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware","Installation of 90x42mm timbers for decorative raked ceiling in level 1 living (exposed rafter look), hip and ridge",Lab,Hour,74.7,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",Installing hose reels,Lab,Allowance,75.94,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",Jambset 112mm 2040x520-870mm 2 hinge,Mat,Ea,86.45,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",Labour to replace existing doors to Hume Caprice,Lab,Ea,70.1,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",Latch (new internal doorways),Mat,Ea,11.68,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",Lever set (new internal doorways Caprice CAP),Mat,Ea,146.04,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",Locksmith services,Mat,Allowance,95.59,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware","Master bed French door lever handle and hinges kit (hinges, lever, rebate kit, mortice lock, euro cylinder)",Mat,Allowance,296.06,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware","New window casement fasteners and barrel bolts (tear drop fasteners, offset barrel bolts, friction sliders)",Mat,Allowance,1027.94,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware","Remove existing door furniture to French door in master bedroom, patch and replace with new - labour",Lab,Hour,75.94,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware","Remove existing window furniture, patch and replace with new friction sliders/casement fasteners/barrel bolts - labour",Lab,Hour,75.94,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware","Replace glass pane in bed 2 casement window, materials and labour",MatLab,Ea,172.91,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",Schlage sliding door set round satin chrome privacy,Mat,Ea,93.46,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware","Supply and install new handle to master bedroom French doors, remove/supply/install new window fixtures to existing windows",MatLab,Allowance,263.91,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",TRADCO Reims lever on long backplate,Mat,Ea,146.04,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware","Timber for decorative raked ceiling, rafter size 90x42mm",Mat,each,80.97,1,Benecia | escalated x1.1683 from 2023-01
+"Doors, Windows & Hardware",Tradco magnetic wall mounted door stop 93mm,Mat,Ea,25.7,1,Benecia | escalated x1.1683 from 2023-01
 Earthworks,Backfill Retaining,Lab,hrs,148.72,1,Carberry 2025 x1.04
 Earthworks,Cut & Fill Platform - Earthworks - Excavator 4-6 Tonne,Lab,hr,155.13,1,Carberry 2025 x1.04
 Earthworks,Dig Footings - Excavator,Lab,hrs,148.72,1,Carberry 2025 x1.04
@@ -369,8 +390,24 @@ Fixing Carpentry,Window architrave lower interior. 68x19 Finlayson's Type BR rou
 Fixing Carpentry,Window architrave upper interior. 93x19 Finlayson's Type BR rounded. To all internal windows and doors,Mat,lm,9.9,1,Constitution 2024-25 x1.10
 Fixing Carpentry,latch (New Internal Doorways Caprice CAP),Mat,Ea,11.7,1,Benecia 2022-23 x1.17
 Fixing Carpentry,latch (New Internal Doorways. Doors to be confirmed),Mat,Ea,12.9,2,Hilda 2021-22 x1.29
-Fixtures & Fitting's,"Plumbing PC items - sinks, tapware, toilets, basins, baths etc (package)",Mat,Allowance,17834.05,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Butler 600 single bowl sink white,Mat,Ea,1137.49,1,Benecia | escalated x1.1683 from 2023-01
+Fixtures & Fitting's,Caroma Luna CF WF CC back entry SCS T/S white toilet,Mat,Ea,638.66,1,Benecia | escalated x1.1683 from 2023-01
+Fixtures & Fitting's,Delivery of fixtures,Mat,Allowance,175.25,1,Benecia | escalated x1.1683 from 2023-01
+Fixtures & Fitting's,Double sink (actual covers all plumbing PC items),Mat,Allowance,17834.05,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Kado Lussi thin edge freestanding bath with P&W 1700,Mat,Ea,3389.55,1,Benecia | escalated x1.1683 from 2023-01
+Fixtures & Fitting's,Mizu Drift bottle trap with removable base CP,Mat,each,100.87,1,Benecia | escalated x1.1683 from 2023-01
+Fixtures & Fitting's,Oliveri Prof PR1130u SS undermount single bowl,Mat,Ea,931.68,1,Benecia | escalated x1.1683 from 2023-01
+Fixtures & Fitting's,P&W basin pop down 40mm CP,Mat,each,45.81,1,Benecia | escalated x1.1683 from 2023-01
 Fixtures & Fitting's,Silicone and tape,Mat,Allowance,18.24,1,Constitution | escalated x1.0975 from 2024-10
+Fixtures & Fitting's,Wall mounted toilet brush holder,Mat,each,314.38,1,Benecia | escalated x1.1683 from 2023-01
+Fixtures & Fitting's,Winslow basin mixer with swivel spout,Mat,Ea,757.27,1,Benecia | escalated x1.1683 from 2023-01
+Fixtures & Fitting's,Winslow double towel rail 900mm,Mat,Ea,487.48,1,Benecia | escalated x1.1683 from 2023-01
+Fixtures & Fitting's,Winslow exposed shower set with 150mm,Mat,Ea,1876.71,1,Benecia | escalated x1.1683 from 2023-01
+Fixtures & Fitting's,Winslow kitchen mixer with swivel spout,Mat,Ea,848.61,1,Benecia | escalated x1.1683 from 2023-01
+Fixtures & Fitting's,Winslow single towel rail 900mm,Mat,Ea,316.49,1,Benecia | escalated x1.1683 from 2023-01
+Fixtures & Fitting's,Winslow toilet roll holder,Mat,each,147.63,1,Benecia | escalated x1.1683 from 2023-01
+Fixtures & Fitting's,Winslow wall set with 230mm spout,Mat,Ea,521.48,1,Benecia | escalated x1.1683 from 2023-01
+Fixtures & Fitting's,Winslow wall set with jumper valve cross,Mat,Ea,873.02,1,Benecia | escalated x1.1683 from 2023-01
 Floor Coverings,"Drum sand existing timber flooring to sunroom, master bed inc WIR, formal living, library & bed 2, inc robe & bed 3 inc robe on upper level",Sub,m2,129.39,1,Constitution 2024-25 x1.10
 Floor Coverings,Extra 5% flooring,Mat,Allowance,523.6,1,Constitution 2024-25 x1.10
 Floor Coverings,Install Ramboard and other protective coatings,Lab,ea,58.05,1,Hilda 2021-22 x1.29
@@ -457,10 +494,10 @@ Footings to Blocks,Y-Axis Supply - Deformed Bar - N12 x 6000mm (Straight),Mat,ea
 Front Stairs,"Carpenter, Install steel stringers and treads",Mat,Hour,80.62,1,Hilda 2021-22 x1.29
 Front Stairs,Fixings and concrete,Mat,ea,0.48,1,Hilda 2021-22 x1.29
 Front Stairs,"Front Stairs, steel stringers, hot dipped galvanised",Mat,pair,1127.46,1,Hilda 2021-22 x1.29
-Garage Door,Garage door as per Dynamic Doors quote,Mat,Allowance,1608.63,1,Hilda | escalated x1.29 from 2021-06
+Garage Door,Garage door as per Dynamic Doors quote,Mat,Ea,1608.63,1,Hilda | escalated x1.29 from 2021-06
 Garage Door,"Remove existing door and prepare the area for the new garage door as per the Dynamic Doors quote. Slimline Double door, Sectional 4 panels, Dover White",Sub,Allowance,1177.06,1,Benecia | escalated x1.1683 from 2023-01
 Garage Door,Supply & fit new B&D sectional Garage Door. Re-install existing Automatic Opener (No Warranty on existing automatic unit),Sub,Ea,2321.41,1,Benecia | escalated x1.1683 from 2023-01
-Garage Doors,Garage door - sectional custom - up to 5.4m wide - including motor,Sub,each,6849.48,1,Carberry | escalated x1.0378 from 2025-10
+Garage Doors,Garage door sectional custom up to 5.4m wide incl motor,Sub,each,6849.48,1,Carberry | escalated x1.0378 from 2025-10
 Glazing,4mm mirror with polished edges.,Mat,Ea,330.0,1,Constitution 2024-25 x1.10
 Glazing,4mm mirror with polished edges. 1 @ 1000 x 1200,Sub,Ea,300.0,1,Constitution 2024-25 x1.10
 Glazing,4mm mirror with polished edges. 1 @ 1100 x 800,Sub,Ea,220.0,1,Constitution 2024-25 x1.10
@@ -616,29 +653,29 @@ Joinery,Back Charge for Dishwasher Hose,Mat,Allowance,81.18,1,Constitution | esc
 Joinery,Bay Window Box in media room,Sub,Allowance,1456.68,1,Constitution | escalated x1.0975 from 2024-10
 Joinery,Bedroom three cabinetry,Sub,Allowance,2195.0,1,Constitution | escalated x1.0975 from 2024-10
 Joinery,Bedroom two cabinetry,Sub,Allowance,8181.36,1,Constitution | escalated x1.0975 from 2024-10
-Joinery,Hand painting allowance (base labour rate $75 p/h),MatLab,Allowance,17949.61,1,Constitution | escalated x1.0975 from 2024-10
-Joinery,Install Ikea cabinets into built robes in bedrooms,Mat,each,75.94,1,Benecia | escalated x1.1683 from 2023-01
+Joinery,Hand painting allowance (base labour $75 p/h ex mark up & gst),MatLab,Allowance,17949.61,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Install Ikea cabinets into built robes in bedrooms,Mat,Ea,75.94,1,Benecia | escalated x1.1683 from 2023-01
 Joinery,Install Rangehood and duct,Lab,Hour,82.31,1,Constitution | escalated x1.0975 from 2024-10
 Joinery,Install benchtop surface protection,Mat,Allowance,15.6,1,Hilda | escalated x1.29 from 2021-06
-Joinery,Install benchtop surface protection (labour),Mat,Allowance,41.93,1,Hilda | escalated x1.29 from 2021-06
-Joinery,Installing timber floating shelves,Mat,Hour,81.93,1,Hilda | escalated x1.29 from 2021-06
+Joinery,Install benchtop surface protection - labour,Lab,Hour,83.85,1,Hilda | escalated x1.29 from 2021-06
+Joinery,Installing timber floating shelves - labour,Lab,Hour,81.93,1,Hilda | escalated x1.29 from 2021-06
 Joinery,Kitchen and pantry,Sub,Allowance,33723.18,1,Constitution | escalated x1.0975 from 2024-10
 Joinery,Labour and materials to paint ladder to match flooring,MatLab,Allowance,329.25,1,Constitution | escalated x1.0975 from 2024-10
 Joinery,Library cabinetry,Sub,Allowance,12471.58,1,Constitution | escalated x1.0975 from 2024-10
 Joinery,Linen cabinetry,Sub,Allowance,3292.5,1,Constitution | escalated x1.0975 from 2024-10
 Joinery,Master walk in robe cabinetry,Sub,Allowance,7882.04,1,Constitution | escalated x1.0975 from 2024-10
 Joinery,Mudroom cabinetry,Sub,Allowance,7882.04,1,Constitution | escalated x1.0975 from 2024-10
-Joinery,Provisional Sum allowance for Master Bedroom bookshelf,Sub,Allowance,458.95,1,Constitution | escalated x1.0975 from 2024-10
-Joinery,Provisional Sum allowance for Media Room cabinetry,Sub,Allowance,8670.25,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Provisional Sum for Master Bedroom bookshelf (client request),Sub,Allowance,458.95,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Provisional Sum for Media Room cabinetry (client request),Sub,Allowance,8670.25,1,Constitution | escalated x1.0975 from 2024-10
 Joinery,Provisional Sum for stone benchtops due to regulation change,Sub,Allowance,35668.75,1,Constitution | escalated x1.0975 from 2024-10
-Joinery,Provisional Sum joinery package (upper kitchen etc.),Sub,Allowance,173047.66,1,Hilda | escalated x1.29 from 2021-06
-Joinery,REVISED and ADJUSTED Starkey & Christoe quote and working drawings,Mat,Allowance,54944.78,1,Benecia | escalated x1.1683 from 2023-01
+Joinery,Provisional Sum upper kitchen joinery,Sub,Allowance,173047.66,1,Hilda | escalated x1.29 from 2021-06
+Joinery,Revised and adjusted Starkey & Christoe joinery quote and working drawings,Mat,Allowance,54944.78,1,Benecia | escalated x1.1683 from 2023-01
 Joinery,Supply and install 3x drawers to internal of pantry,Sub,Allowance,609.72,1,Constitution | escalated x1.0975 from 2024-10
 Joinery,Supply and install 4x drawers to Bed 3 WIR,Sub,Allowance,609.72,1,Constitution | escalated x1.0975 from 2024-10
 Joinery,Supply and install Symetra Laundry System 2x 35L laundry hamper,Sub,Allowance,535.46,1,Constitution | escalated x1.0975 from 2024-10
 Joinery,Supply and install Talostone splashback to powder room basin,Sub,Allowance,609.72,1,Constitution | escalated x1.0975 from 2024-10
 Joinery,Supply and install library ladder by Access Ladders,Sub,Allowance,3871.18,1,Constitution | escalated x1.0975 from 2024-10
-Joinery,Vanity units x 4 and 1 x shaving cabinet,Sub,Allowance,18757.26,1,Constitution | escalated x1.0975 from 2024-10
+Joinery,Vanity units x4 and 1x shaving cabinet,Sub,Allowance,18757.26,1,Constitution | escalated x1.0975 from 2024-10
 Laundry Renovation,"Demolish existing laundry. Cabinetry, wall linings, floor coverings, shelving. Remove linen wall - assumed non load bearing wall.",Lab,hr,71.94,1,Constitution 2024-25 x1.10
 Laundry Renovation,Floor Waste x1,Mat,Allowance,55.0,1,Constitution 2024-25 x1.10
 Laundry Renovation,Labour to lay floor tiles,Sub,m2,132.0,1,Constitution 2024-25 x1.10
@@ -826,7 +863,7 @@ Plumbing & Drainage,Domestic - Vanity - Drainage Point,Lab,each,800.8,1,Carberry
 Plumbing & Drainage,Domestic - Water feed - Fridge,Lab,each,91.52,1,Carberry 2025 x1.04
 Plumbing & Drainage,Downpipes - Quality - including connection and underground stormwater,Lab,each,572.0,1,Carberry 2025 x1.04
 Plumbing & Drainage,Plumber to make safe/ underslab drainage etc,Lab,each,5720.0,1,Carberry 2025 x1.04
-Plumbing - Fixtures & Fittings,Fixtures & Fittings (See Attached Spreadsheet),Mat,Allowance,18906.64,1,Carberry | escalated x1.0378 from 2025-10
+Plumbing - Fixtures & Fittings,Fixtures & Fittings (see attached spreadsheet),Mat,Allowance,18906.64,1,Carberry | escalated x1.0378 from 2025-10
 Plumbing - Gas,Gas supply - complete - copper - in house - l2m run to hotplate or heater - 15mm & 20mm diamete,Lab,each,483.12,1,Carberry 2025 x1.04
 Plumbing - Gas,Hot Water Systems - Rinnai Infinity 26 Gas Instantaneous - 24/26Ltr,Mat,each,1362.4,1,Carberry 2025 x1.04
 Pool,Add a pool ledge to the western wall of the pool shell. Full length of the pool and a continuation of the second step,MatLab,Ea,1536.97,1,Benecia 2022-23 x1.17
@@ -1120,11 +1157,11 @@ Supply - Timber Roof Frames & Trusses,Pine MGP12 - 70 x 35 T2,Mat,Lm,2.81,1,Carb
 Supply - Timber Roof Frames & Trusses,Tie down/ straps/ transfer blocks etc,Mat,m2,9.15,1,Carberry 2025 x1.04
 Supply - Timber Roof Frames & Trusses,Trusses - MGP10 blue - up to - 25 degree pitch,Mat,m2,127.94,1,Carberry 2025 x1.04
 Supply - Timber Roof Frames & Trusses,Unscheduled Roof Members to alter existing pitches,Mat,Lm,40.98,1,Carberry 2025 x1.04
-Supply - Window & Door - Top Flashings,Flashing - 75 x 38 Z flashing (Galv.) 16mm Roll,Mat,Lm,15.04,1,Carberry | escalated x1.0378 from 2025-10
-Supply - Window & Door - Top Flashings,Sealant - Sika-Flex Pro Multipurpose (Grey) - Sausage,Mat,600ml,21.69,1,Carberry | escalated x1.0378 from 2025-10
-Supply - Windows & Doors - Aluminium,Aluminium Double Hung Window - Double Hung Windows (Magnum or similar),Mat,m2,863.03,1,Carberry | escalated x1.0378 from 2025-10
-Supply - Windows & Doors - Aluminium,Aluminium Sliding Window - Sliding Windows (Magnum or similar),Mat,m2,502.35,1,Carberry | escalated x1.0378 from 2025-10
-Supply - Windows & Doors - Aluminium,Aluminium Stacker Door - Sliding Stacker Doors (Magnum or similar),Mat,m2,728.33,1,Carberry | escalated x1.0378 from 2025-10
+Supply - Window & Door - Top Flashings,Flashing 75x38 Z flashing (Galv.) 16m Roll,Mat,Lm,15.04,1,Carberry | escalated x1.0378 from 2025-10
+Supply - Window & Door - Top Flashings,Sealant Sika-Flex Pro Multipurpose (Grey) Sausage,Mat,600ml,21.69,1,Carberry | escalated x1.0378 from 2025-10
+Supply - Windows & Doors - Aluminium,Aluminium Double Hung Window (Magnum or similar),Mat,m2,863.03,1,Carberry | escalated x1.0378 from 2025-10
+Supply - Windows & Doors - Aluminium,Aluminium Sliding Stacker Door (Magnum or similar),Mat,m2,728.33,1,Carberry | escalated x1.0378 from 2025-10
+Supply - Windows & Doors - Aluminium,Aluminium Sliding Window (Magnum or similar),Mat,m2,502.35,1,Carberry | escalated x1.0378 from 2025-10
 Temporary Services,Site toilet fortnightly pump out and clean,Eq,Ea,226.79,3,Benecia 2022-23 x1.17; Constitution 2024-25 x1.10; Hilda 2021-22 x1.29
 Temporary Services,Site toilet hire drop and pick up,Eq,Week,170.28,3,Benecia 2022-23 x1.17; Constitution 2024-25 x1.10; Hilda 2021-22 x1.29
 Termite Protection,Supply & Install,Lab,Lm,40.04,1,Carberry 2025 x1.04
@@ -1258,9 +1295,9 @@ Windows,Supply and fit fly screens,Sub,Allowance,15249.5,1,Benecia | escalated x
 Windows,Supply and install commercial grade aluminium windows and doors,Mat,Allowance,113.91,1,Benecia | escalated x1.1683 from 2023-01
 Windows,Supply and install retractable fly screens for existing windows,Mat,Allowance,15308.98,1,Benecia | escalated x1.1683 from 2023-01
 Windows,Supply standard colour aluminium windows and doors (excl entry door and side lights),Mat,Allowance,32467.06,1,Benecia | escalated x1.1683 from 2023-01
-Windows and Doors,Build and deliver external timber windows and doors (Allkind allowance),Sub,Allowance,125260.44,1,Constitution | escalated x1.0975 from 2024-10
+Windows and Doors,Build and deliver external timber windows and doors (ALLKIND estimate),Sub,Allowance,125260.44,1,Constitution | escalated x1.0975 from 2024-10
 Windows and Doors,Build and deliver internal doors from Finlayson's,Sub,Allowance,16670.81,1,Constitution | escalated x1.0975 from 2024-10
-Windows and Doors,Fly screen installation,Lab,Allowance,432.14,1,Constitution | escalated x1.0975 from 2024-10
+Windows and Doors,Fly screen installation,Lab,Hour,82.31,1,Constitution | escalated x1.0975 from 2024-10
 Windows and Doors,Security Gate Door 21 supply and install (provisional sum),Sub,Allowance,4633.81,1,Constitution | escalated x1.0975 from 2024-10
 Windows and Doors,Supply standard colour aluminium windows and doors (as per Dowell quote),Mat,Allowance,38261.4,1,Hilda | escalated x1.29 from 2021-06
 finishing work,Awnings for rear garage door & Tesla battery,MatLab,Allowance,80.07,1,Constitution 2024-25 x1.10
