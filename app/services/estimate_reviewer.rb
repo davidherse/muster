@@ -7,9 +7,23 @@ class EstimateReviewer
   SCHEMA = {
     type: "object",
     additionalProperties: false,
-    required: %w[review_notes changes],
+    required: %w[review_notes metrics_review changes],
     properties: {
       review_notes: { type: "string", description: "Brief summary of what the review found" },
+      metrics_review: {
+        type: "array",
+        description: "One entry PER computed intensity metric provided — every metric must be explicitly adjudicated",
+        items: {
+          type: "object",
+          additionalProperties: false,
+          required: %w[metric in_band action],
+          properties: {
+            metric: { type: "string", description: "Which metric (short name)" },
+            in_band: { type: "boolean", description: "Is it inside its stated norm band / SEQ norms for this job?" },
+            action: { type: "string", description: "If out of band: the correction made (must appear in changes) or the documented cause for leaving it. If in band: 'ok'" }
+          }
+        }
+      },
       changes: {
         type: "array",
         description: "Corrections. Empty if the estimate is sound.",
@@ -239,8 +253,16 @@ class EstimateReviewer
     added = 0.0
     removed = 0.0
     result.fetch("changes", []).each do |change|
-      section = @estimate.sections.find_by(name: change["section"]) ||
-                @estimate.sections.create!(name: change["section"],
+      # Fuzzy-match paraphrased section names ("Demolition (strip-out)" for
+      # "Site Preparation and Demolition") before creating a near-duplicate.
+      wanted = change["section"].to_s
+      section = @estimate.sections.find_by(name: wanted) ||
+                @estimate.sections.detect { |s|
+                  a = s.name.downcase.gsub(/[^a-z ]/, "").strip
+                  b = wanted.downcase.gsub(/[^a-z ]/, "").strip
+                  a.start_with?(b) || b.start_with?(a)
+                } ||
+                @estimate.sections.create!(name: wanted,
                                            position: (@estimate.sections.maximum(:position) || 0) + 1)
 
       change.fetch("remove_descriptions", []).each do |desc|
