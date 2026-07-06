@@ -150,7 +150,11 @@ class LineItemGenerator
         conditions. The book's rates carry their source job's conditions (see
         context tags): a flat-block raise allowance adopted unadjusted onto a
         documented steep-site extreme-height raise under-prices it, exactly as
-        a whole-house allowance over-prices a bathroom.
+        a whole-house allowance over-prices a bathroom. Site intensity scales
+        the RAISING, footing, access and structural trades ONLY — demolition
+        and site-prep never grow on account of site conditions; on raise jobs
+        the demolition section stays limited to documented removals whatever
+        the terrain.
       - Raise / build-in-under jobs: under-house strip-out, stump removal and
         making-good are within the raising and structural carpentry scope the
         book's rates already carry \u2014 the demolition section covers only
@@ -180,7 +184,9 @@ class LineItemGenerator
         geometry to support it. Show the derivation in assumptions whenever you
         scale a comparable.
       - Painting: when the job involves a whole-house repaint, price it from the
-        price book's "Whole-house repaint composite" entries \u2014 pick the extent
+        price book's "Whole-house repaint composite" entries multiplied by the
+        analysis floor_area_m2 exactly (all levels in scope — never re-measure
+        or re-scope the area) \u2014 pick the extent
         class matching the brief (selective / full standard / raise-build-under /
         full heritage) and multiply by floor area; itemise prep and enamel extras
         separately if the scope exceeds the class. The class is COMPUTED and

@@ -30,7 +30,7 @@ class PlanAnalyzer
       },
       building_type: { type: "string", description: "e.g. New double storey dwelling, Renovation and extension of existing Queenslander" },
       storeys: { type: "integer" },
-      floor_area_m2: { type: "number", description: "Total floor area of works in square metres; estimate from plans if not stated" },
+      floor_area_m2: { type: "number", description: "Total finished floor area of works summed over ALL levels in scope, including new build-under/extension levels (the whole-house composites multiply this figure); estimate from plans if not stated" },
       scope_summary: { type: "string", description: "Detailed narrative of the full scope of works, 2-4 paragraphs" },
       rooms: {
         type: "array",
@@ -48,7 +48,7 @@ class PlanAnalyzer
       wet_area_count: { type: "integer", description: "Bathrooms, ensuites, laundries, WCs requiring waterproofing" },
       quantity_takeoff: {
         type: "array",
-        description: "Binding measured quantities for the major scalable trades beyond wet areas — one entry per work type present in scope: floor coverings by type and level (timber/carpet/tiles m2), new concrete slabs and paths (m2), retaining walls (lm x avg height), new decking (m2), new external cladding (m2), driveway (m2), scaffold/perimeter access (lm of scaffolded perimeter x number of lifts), new internal stairs (count), engineered footings/piers (count x depth per the engineering drawings). Measure from dimension chains and stated areas; omit work types not in scope",
+        description: "Binding measured quantities for the major scalable trades beyond wet areas — one entry per work type present in scope: floor coverings by type and level (timber/carpet/tiles m2), new concrete slabs and paths (m2), retaining walls (lm x avg height), new decking (m2), new external cladding (m2), driveway (m2), scaffold/perimeter access (lm of scaffolded perimeter x number of lifts), new internal stairs (count), engineered footings/piers (count x depth per the engineering drawings), structural steel (member count or tonnes per the engineering drawings), sanitaryware/fixtures (count per the schedule). Measure from dimension chains and stated areas; omit work types not in scope",
         items: {
           type: "object",
           additionalProperties: false,
