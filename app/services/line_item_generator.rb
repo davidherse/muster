@@ -109,6 +109,26 @@ class LineItemGenerator
       - Scope boundaries: cost ONLY work shown in the plans/brief. Respect
         retained_scope_notes \u2014 retained rooms, roof, cladding or structure get no
         line items. Do not add contingency padding to quantities or rates.
+      - BUILDER-CONFIRMED SCOPE IS BINDING BOTH WAYS: every structural_work,
+        systems_extras and external_works item in the BUILDER'S NOTES (pool,
+        house raise, retaining walls, solar, A/C) MUST be costed in its section \u2014
+        never mark such a section inapplicable or return it empty. Conversely,
+        never cost a pool, raise, or similar major feature that neither the
+        documents nor the builder's notes support.
+      - Wet areas: tiling and waterproofing quantities come STRICTLY from the
+        analysis wet_area_takeoff rooms (floor_m2 / wall_tile_m2) \u2014 never from
+        your own re-reading of the plans and never rounded up. Cite the takeoff
+        room in assumptions.
+      - Rate preference within the book: a rate scoped to the same room or work
+        type (e.g. a per-bathroom tile supply rate for bathroom work) BEATS any
+        generic or premium allowance, whatever their relative prices. Premium PC
+        allowances apply only where the specification documents that upgrade for
+        this job.
+      - Raise / build-in-under jobs: under-house strip-out, stump removal and
+        making-good are within the raising and structural carpentry scope the
+        book's rates already carry \u2014 the demolition section covers only
+        documented removals beyond that (finishes, partitions, roofing). Do not
+        run a second whole-site demolition campaign alongside a raise.
       - Partial-scope jobs: when the brief describes work limited to specific rooms
         or areas (e.g. a bathroom/ensuite renovation), whole-house sections \u2014 site
         establishment, temporary services, hire and scaffolding, external trades,

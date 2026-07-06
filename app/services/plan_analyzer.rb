@@ -11,7 +11,7 @@ class PlanAnalyzer
   SCHEMA = {
     type: "object",
     additionalProperties: false,
-    required: %w[project_class relevant_sections building_type storeys floor_area_m2 scope_summary rooms wet_area_count
+    required: %w[project_class relevant_sections building_type storeys floor_area_m2 scope_summary rooms wet_area_count wet_area_takeoff
                  window_count external_door_count roof_type external_cladding
                  structural_notes site_notes inclusions exclusions
                  finish_level internal_lining_type external_repaint glazing_notes
@@ -46,6 +46,20 @@ class PlanAnalyzer
         }
       },
       wet_area_count: { type: "integer", description: "Bathrooms, ensuites, laundries, WCs requiring waterproofing" },
+      wet_area_takeoff: {
+        type: "array",
+        description: "One entry per wet area IN SCOPE, measured from the plan's stated room dimensions — this is the binding takeoff for tiling and waterproofing quantities",
+        items: {
+          type: "object",
+          additionalProperties: false,
+          required: %w[room floor_m2 wall_tile_m2],
+          properties: {
+            room: { type: "string" },
+            floor_m2: { type: "number", description: "Floor area from the plan's room dimensions" },
+            wall_tile_m2: { type: "number", description: "Wall tiling area: tiled perimeter x tiled height per the elevations/finishes schedule (full-height in showers; elsewhere per the documented tiling extent, not assumed floor-to-ceiling)" }
+          }
+        }
+      },
       window_count: { type: "integer" },
       external_door_count: { type: "integer" },
       roof_type: { type: "string" },
@@ -140,6 +154,14 @@ class PlanAnalyzer
         the draft
       - Paint areas consistent with the repaint extent in the builder brief and the
         retained scope
+      - wet_area_takeoff: re-measure each in-scope wet area's floor and wall-tile
+        m2 from the plan's room dimensions and tiling extents — do not carry the
+        draft's figures without checking them against stated dimensions
+      - Builder-confirmed scope: every structural_work, systems_extras and
+        external_works item the builder's clarifications state (pool, house raise,
+        retaining walls, solar) must appear in scope_summary/special_features and
+        be reflected in relevant_sections — the builder's stated scope is not
+        optional
       - duration_months: staged reasoning (demo, structure, lockup, rough-in,
         linings, fitout, finishes, externals)
       - project_class and relevant_sections: correct for the actual scope; a

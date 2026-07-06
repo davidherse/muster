@@ -106,6 +106,10 @@ class EstimateReviewer
           the stated paint area, fewer openings than the schedule, hire not
           carried for the stated duration)
         - trades the documented scope requires but no section covers
+        - builder-confirmed scope with no line items ANYWHERE: every
+          structural_work / systems_extras / external_works item in the
+          builder's brief (pool, house raise, retaining walls, solar) must be
+          costed — a missing pool or raise is the single worst omission
         - allowance-type comparables adopted at face value where this job's
           documented geometry (opening counts and glazing_notes, envelope area,
           storeys, retained-structure intensity) exceeds the scope the
@@ -124,6 +128,13 @@ class EstimateReviewer
         - quantities exceeding the documented geometry, retained openings priced
           as new supply, sections irrelevant to this project_class carrying token
           items, trades upgraded beyond the specified finish level
+        - wet-area tiling/waterproofing quantities above the analysis
+          wet_area_takeoff m2 figures (check the wet-areas metric), or priced at
+          premium PC allowances where the book carries a room-scoped rate and
+          the specification documents no upgrade
+        - on raise/build-in-under jobs: a demolition/site campaign duplicating
+          strip-out and stump work the raising and structural trades already
+          carry in their rates
         - a repaint composite class unsupported by evidence in either direction:
           era alone does not make a heritage repaint, but documented heritage
           fabric across the repaint scope does — verify the painting $/m2 metric
@@ -184,6 +195,13 @@ class EstimateReviewer
     lines << "- Supervision/PM hours: #{pm_hours.round} total => #{months.positive? ? (pm_hours / (months * 4.33)).round(1) : '?'} hours/week over the build"
     prelim = section_total.call("preliminar")
     lines << "- Preliminaries section: $#{prelim.round}"
+    takeoff = Array(@analysis["wet_area_takeoff"])
+    if takeoff.any?
+      wet = section_total.call("tiling") + section_total.call("waterproof")
+      floor_m2 = takeoff.sum { |r| r["floor_m2"].to_f }
+      wall_m2 = takeoff.sum { |r| r["wall_tile_m2"].to_f }
+      lines << "- Wet areas: tiling+waterproofing $#{wet.round} against takeoff #{floor_m2.round} m2 floor + #{wall_m2.round} m2 wall across #{takeoff.size} room(s) — quantities above these takeoff figures are unsupported"
+    end
     if %w[partial_interior_renovation small_works].include?(@analysis["project_class"])
       rooms = [ @analysis["wet_area_count"].to_i, Array(@analysis["rooms"]).size, 1 ].reject(&:zero?).min
       lines << "- Partial job: $#{(total / rooms).round} per renovated room across #{rooms} room(s)"
