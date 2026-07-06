@@ -128,6 +128,9 @@ class EstimateReviewer
         - quantities exceeding the documented geometry, retained openings priced
           as new supply, sections irrelevant to this project_class carrying token
           items, trades upgraded beyond the specified finish level
+        - quantities departing from the analysis quantity_takeoff entries for
+          measured trades (floor coverings, concrete, retaining, decking,
+          cladding) in either direction without documented cause
         - wet-area tiling/waterproofing quantities above the analysis
           wet_area_takeoff m2 figures (check the wet-areas metric), or priced at
           premium PC allowances where the book carries a room-scoped rate and

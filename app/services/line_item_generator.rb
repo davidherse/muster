@@ -119,6 +119,12 @@ class LineItemGenerator
         analysis wet_area_takeoff rooms (floor_m2 / wall_tile_m2) \u2014 never from
         your own re-reading of the plans and never rounded up. Cite the takeoff
         room in assumptions.
+      - Measured trades: where the analysis quantity_takeoff carries an entry
+        for the work (floor coverings, slabs/concrete, retaining, decking,
+        cladding, driveway), its quantity is BINDING — price that quantity at
+        the book rate and cite the entry. No takeoff entry and no schedule
+        quantity means the item needs a documented basis in assumptions, not a
+        round number.
       - Rate preference within the book: a rate scoped to the same room or work
         type (e.g. a per-bathroom tile supply rate for bathroom work) BEATS any
         generic or premium allowance, whatever their relative prices. Premium PC

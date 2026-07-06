@@ -11,7 +11,7 @@ class PlanAnalyzer
   SCHEMA = {
     type: "object",
     additionalProperties: false,
-    required: %w[project_class relevant_sections building_type storeys floor_area_m2 scope_summary rooms wet_area_count wet_area_takeoff
+    required: %w[project_class relevant_sections building_type storeys floor_area_m2 scope_summary rooms wet_area_count wet_area_takeoff quantity_takeoff
                  window_count external_door_count roof_type external_cladding
                  structural_notes site_notes inclusions exclusions
                  finish_level internal_lining_type external_repaint glazing_notes
@@ -46,6 +46,21 @@ class PlanAnalyzer
         }
       },
       wet_area_count: { type: "integer", description: "Bathrooms, ensuites, laundries, WCs requiring waterproofing" },
+      quantity_takeoff: {
+        type: "array",
+        description: "Binding measured quantities for the major scalable trades beyond wet areas — one entry per work type present in scope: floor coverings by type and level (timber/carpet/tiles m2), new concrete slabs and paths (m2), retaining walls (lm x avg height), new decking (m2), new external cladding (m2), driveway (m2). Measure from dimension chains and stated areas; omit work types not in scope",
+        items: {
+          type: "object",
+          additionalProperties: false,
+          required: %w[work quantity uom basis],
+          properties: {
+            work: { type: "string", description: "e.g. 'Timber flooring — upper level', 'Retaining walls', 'New slab — build-under'" },
+            quantity: { type: "number" },
+            uom: { type: "string" },
+            basis: { type: "string", description: "Show the working: drawing/dimension source and the arithmetic" }
+          }
+        }
+      },
       wet_area_takeoff: {
         type: "array",
         description: "One entry per wet area IN SCOPE, measured from the plan's stated room dimensions — this is the binding takeoff for tiling and waterproofing quantities",
@@ -155,6 +170,10 @@ class PlanAnalyzer
         the draft
       - Paint areas consistent with the repaint extent in the builder brief and the
         retained scope
+      - quantity_takeoff: re-derive every entry from dimension chains or stated
+        areas; add entries for any major measurable trade in scope the draft
+        missed (floor coverings, slabs, retaining, decking, cladding). An entry
+        without dimension-level working in its basis is wrong
       - wet_area_takeoff: re-derive each room's figures from the drawings and
         REJECT any draft figure whose basis doesn't hold up. Floor areas from
         INTERNAL face-to-face dimension chains only — overall (O/A) dimensions
