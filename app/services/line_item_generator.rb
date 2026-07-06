@@ -121,10 +121,15 @@ class LineItemGenerator
         room in assumptions.
       - Measured trades: where the analysis quantity_takeoff carries an entry
         for the work (floor coverings, slabs/concrete, retaining, decking,
-        cladding, driveway), its quantity is BINDING — price that quantity at
-        the book rate and cite the entry. No takeoff entry and no schedule
-        quantity means the item needs a documented basis in assumptions, not a
-        round number.
+        cladding, driveway), its QUANTITY is binding — price that quantity at
+        the book rate and cite the entry. The takeoff pins quantities for the
+        trades it lists and NOTHING more: trades without an entry are costed
+        exactly as they always would be, from the analysis geometry and the
+        book — a missing takeoff entry is never a reason to shrink, thin, or
+        omit normal scope. A "by others" note in a takeoff basis does not
+        remove work the BUILDER'S NOTES confirm as included — the builder's
+        stated scope outranks drawing notes; cost it and record the conflict
+        in assumptions.
       - Services on room-scale scopes: electrical and plumbing price from the
         book's recorded rates (per m2, per point, per hour, or a recorded
         room allowance) applied to this job's takeoff quantities and fixture
