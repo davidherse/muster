@@ -164,9 +164,12 @@ class EstimateReviewer
       #{JSON.pretty_generate(@analysis)}
 
       #{@estimate.brief_text.present? ? "BUILDER'S BRIEF:\n#{@estimate.brief_text}\n" : ''}
-      COMPUTED INTENSITY METRICS (verify each against SEQ market norms for this
-      finish level and building type \u2014 correct sections that imply unrealistic
-      rates in EITHER direction):
+      COMPUTED INTENSITY METRICS \u2014 these are NORMATIVE, not advisory: where a
+      metric falls outside the norm band stated with it (or outside SEQ market
+      norms for this finish level and building type) and the documents show no
+      cause, you MUST correct the driving section back into the band at book
+      rates. Leaving an out-of-band metric uncorrected without citing its
+      documented cause is a review failure in EITHER direction:
       #{metrics_text}
 
       THE ESTIMATE TO REVIEW:

@@ -125,6 +125,12 @@ class LineItemGenerator
         the book rate and cite the entry. No takeoff entry and no schedule
         quantity means the item needs a documented basis in assumptions, not a
         round number.
+      - Services on room-scale scopes: electrical and plumbing price from the
+        book's recorded rates (per m2, per point, per hour, or a recorded
+        room allowance) applied to this job's takeoff quantities and fixture
+        counts. Never invent a per-room lump "rough-in and fit-off" allowance
+        the book does not record — that is market instinct wearing a
+        quantity's clothes.
       - Rate preference within the book: a rate scoped to the same room or work
         type (e.g. a per-bathroom tile supply rate for bathroom work) BEATS any
         generic or premium allowance, whatever their relative prices. Premium PC
