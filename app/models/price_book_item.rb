@@ -1,5 +1,5 @@
 class PriceBookItem < ApplicationRecord
-  SOURCE_KINDS = %w[base user].freeze
+  SOURCE_KINDS = %w[base user market].freeze
 
   belongs_to :user, optional: true
 
@@ -10,6 +10,7 @@ class PriceBookItem < ApplicationRecord
 
   scope :ordered, -> { order(:category, :description) }
   scope :base, -> { where(source_kind: "base") }
+  scope :market, -> { where(source_kind: "market") }
   scope :for_user, ->(user) { where(source_kind: "user", user: user) }
 
   # Compact text listing used to ground the AI's pricing.

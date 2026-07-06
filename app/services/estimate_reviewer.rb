@@ -281,6 +281,28 @@ class EstimateReviewer
       end
     end
     violations.concat(class_band_violations)
+    violations.concat(market_band_violations)
+    violations
+  end
+
+  # Published market bands (Archicentre, standard finishes, consumer prices
+  # ex GST incl builder margin) bound per-room totals on partial jobs both
+  # ways: a builder-cost estimate ABOVE the consumer top needs documented
+  # premium spec; one under half the consumer floor is implausibly thin.
+  def market_band_violations
+    return [] unless %w[partial_interior_renovation small_works].include?(@analysis["project_class"])
+    rooms = [ @analysis["wet_area_count"].to_i, Array(@analysis["rooms"]).size, 1 ].reject(&:zero?).min
+    band = PriceBookItem.market.detect { |i| i.description =~ /bathroom\/ensuite renovation/i }
+    return [] unless band
+    low = band.context["band_low"].to_f
+    high = band.context["band_high"].to_f
+    per_room = @estimate.line_items.sum { |i| i.total.to_f } / rooms
+    violations = []
+    if per_room > high
+      violations << "Per-room total $#{per_room.round} exceeds the published standard-finishes market top ($#{high.round}/room ex GST, #{band.source.split('|').first.strip}) — every dollar above it must trace to documented premium spec; right-size anything that does not"
+    elsif per_room < low * 0.5
+      violations << "Per-room total $#{per_room.round} is under half the published market floor ($#{low.round}/room) — implausibly thin for a complete wet-area renovation"
+    end
     violations
   end
 

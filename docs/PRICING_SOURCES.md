@@ -41,3 +41,22 @@ clarification questionnaire used for new estimates. Ingestion extracts
 sections and unit rates into their user price book with the questionnaire
 context attached — so the estimator knows what that builder's "high-end,
 sloped block, full repaint" actually costs, benchmarked from their own work.
+
+## Market tier (implemented July 2026)
+
+`PriceBookItem.source_kind = "market"` — published, citable references below
+user and base books in preference order. Currently sourced from the
+**Archicentre Australia Cost Guide** (free, published annually by the
+architects' body): wet-area/renovation composites plus ~25 trade rates,
+converted to ex-GST, each entry carrying `band_low`/`band_high` and a
+consumer-price caveat in context. Refresh on each edition:
+
+    bin/rails estimator:ingest_market
+
+Used three ways: scoped advisory reference in costing batches (only where
+neither book answers), a listed reference block in review passes, and
+computed per-room band violations on partial jobs (above the published
+standard-finishes top requires documented premium spec; under half the
+floor is implausibly thin). The Cordell/Cotality Construction API
+(REST + OAuth2, contact-sales) is the item-level upgrade path — it would
+populate this same tier programmatically on a cron.
