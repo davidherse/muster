@@ -52,11 +52,12 @@ class PlanAnalyzer
         items: {
           type: "object",
           additionalProperties: false,
-          required: %w[room floor_m2 wall_tile_m2],
+          required: %w[room floor_m2 wall_tile_m2 basis],
           properties: {
             room: { type: "string" },
-            floor_m2: { type: "number", description: "Floor area from the plan's room dimensions" },
-            wall_tile_m2: { type: "number", description: "Wall tiling area: tiled perimeter x tiled height per the elevations/finishes schedule (full-height in showers; elsewhere per the documented tiling extent, not assumed floor-to-ceiling)" }
+            floor_m2: { type: "number", description: "NET floor area from internal face-to-face dimension chains — never overall (O/A) dimensions that include wall thicknesses" },
+            wall_tile_m2: { type: "number", description: "Wall tiling area summed per elevation zone: only zones the internal elevations mark as tile (TIL codes), at their DIMENSIONED heights — dado/half-height walls at the drawn dado height, full-height only where drawn (typically shower/bath enclosures). Paint zones (PT codes) above a dado are not tile" },
+            basis: { type: "string", description: "Show the working: drawing number(s) used, the internal dims taken, and each wall zone x height summed (e.g. 'DWG 514/520: floor 2.37x1.87=4.4; shower 2 walls 2.61m x 2.7 FH = 7.0; other walls 8.1m x 1.18 dado = 9.6')" }
           }
         }
       },
@@ -154,14 +155,16 @@ class PlanAnalyzer
         the draft
       - Paint areas consistent with the repaint extent in the builder brief and the
         retained scope
-      - wet_area_takeoff: re-measure each in-scope wet area's floor and wall-tile
-        m2 from the plan's room dimensions and tiling extents — do not carry the
-        draft's figures without checking them against stated dimensions. Wall
-        tile height comes from the internal elevations / finishes schedule per
-        wall: full-height is only where DRAWN (typically shower/bath enclosures);
-        other walls take the documented dado or splashback height. Where no
-        height is documented, use full-height to wet zones and 1200mm elsewhere —
-        never whole-room floor-to-ceiling by default
+      - wet_area_takeoff: re-derive each room's figures from the drawings and
+        REJECT any draft figure whose basis doesn't hold up. Floor areas from
+        INTERNAL face-to-face dimension chains only — overall (O/A) dimensions
+        include wall thicknesses and overstate small rooms badly. Wall tile per
+        elevation zone at its dimensioned height: where the internal elevations
+        dimension a tile dado with a paint code above it, the tile stops at the
+        dado — full-height only where the elevations draw it (typically shower/
+        bath enclosures). Where no height is documented, full-height to wet
+        zones and 1200mm elsewhere. The basis field must show the working;
+        an entry without dimension-level working is wrong
       - Builder-confirmed scope: every structural_work, systems_extras and
         external_works item the builder's clarifications state (pool, house raise,
         retaining walls, solar) must appear in scope_summary/special_features and
