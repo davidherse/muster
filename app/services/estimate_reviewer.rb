@@ -129,6 +129,9 @@ class EstimateReviewer
           structural_work / systems_extras / external_works item in the
           builder's brief (pool, house raise, retaining walls, solar) must be
           costed — a missing pool or raise is the single worst omission
+        - analysis special_features entries (shutters, fireplaces, lifts,
+          stained glass, pools) with no line items anywhere — documented
+          features do not become free by being unusual
         - allowance-type comparables adopted at face value where this job's
           documented geometry (opening counts and glazing_notes, envelope area,
           storeys, retained-structure intensity) exceeds the scope the
@@ -147,9 +150,11 @@ class EstimateReviewer
         - quantities exceeding the documented geometry, retained openings priced
           as new supply, sections irrelevant to this project_class carrying token
           items, trades upgraded beyond the specified finish level
-        - quantities departing from the analysis quantity_takeoff entries for
-          measured trades (floor coverings, concrete, retaining, decking,
-          cladding) in either direction without documented cause
+        - quantities departing from an analysis quantity_takeoff entry that
+          carries dimension-level working, in either direction without
+          documented cause — but the ABSENCE of a takeoff entry is never
+          grounds to trim a trade; sparse takeoffs on complex plan sets say
+          nothing about the work
         - wet-area tiling/waterproofing quantities above the analysis
           wet_area_takeoff m2 figures (check the wet-areas metric), or priced at
           premium PC allowances where the book carries a room-scoped rate and

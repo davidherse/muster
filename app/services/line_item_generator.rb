@@ -151,10 +151,11 @@ class LineItemGenerator
         context tags): a flat-block raise allowance adopted unadjusted onto a
         documented steep-site extreme-height raise under-prices it, exactly as
         a whole-house allowance over-prices a bathroom. Site intensity scales
-        the RAISING, footing, access and structural trades ONLY — demolition
-        and site-prep never grow on account of site conditions; on raise jobs
-        the demolition section stays limited to documented removals whatever
-        the terrain.
+        the RAISING, footing, access and structural trades only. ON RAISE/
+        BUILD-UNDER JOBS ONLY: demolition and site-prep never grow on account
+        of site conditions and stay limited to documented removals. This
+        clause says nothing about demolition on any other job class — cost
+        those normally from the documented demolition scope.
       - Raise / build-in-under jobs: under-house strip-out, stump removal and
         making-good are within the raising and structural carpentry scope the
         book's rates already carry \u2014 the demolition section covers only
@@ -257,7 +258,9 @@ class LineItemGenerator
     return "selective scope" if extent =~ /selective|partial|new work/i
     if @analysis["project_class"] == "raise_and_build_under"
       "full repaint incl raise/build-under new lower level"
-    elsif extent =~ /VJ|fretwork|character|heritage/i && q["building_era"].to_s =~ /1946|character/i
+    elsif extent =~ /VJ|fretwork|character|heritage/i &&
+          (q["building_era"].to_s =~ /1946|character/i ||
+           @analysis["internal_lining_type"].to_s =~ /VJ|tongue|T&G|board/i)
       "full heritage repaint"
     else
       "full repaint of standard character home"
