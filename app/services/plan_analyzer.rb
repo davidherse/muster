@@ -48,7 +48,7 @@ class PlanAnalyzer
       wet_area_count: { type: "integer", description: "Bathrooms, ensuites, laundries, WCs requiring waterproofing" },
       quantity_takeoff: {
         type: "array",
-        description: "Binding measured quantities for the major scalable trades beyond wet areas — one entry per work type present in scope: floor coverings by type and level (timber/carpet/tiles m2), new concrete slabs and paths (m2), retaining walls (lm x avg height), new decking (m2), new external cladding (m2), driveway (m2). Measure from dimension chains and stated areas; omit work types not in scope",
+        description: "Binding measured quantities for the major scalable trades beyond wet areas — one entry per work type present in scope: floor coverings by type and level (timber/carpet/tiles m2), new concrete slabs and paths (m2), retaining walls (lm x avg height), new decking (m2), new external cladding (m2), driveway (m2), scaffold/perimeter access (lm of scaffolded perimeter x number of lifts), new internal stairs (count). Measure from dimension chains and stated areas; omit work types not in scope",
         items: {
           type: "object",
           additionalProperties: false,
@@ -184,6 +184,9 @@ class PlanAnalyzer
         bath enclosures). Where no height is documented, full-height to wet
         zones and 1200mm elsewhere. The basis field must show the working;
         an entry without dimension-level working is wrong
+      - Raise/build-under jobs: check for new internal stairs connecting the
+        levels (almost always present) and scaffold extent — both belong in
+        quantity_takeoff
       - Builder-confirmed scope: every structural_work, systems_extras and
         external_works item the builder's clarifications state (pool, house raise,
         retaining walls, solar) must appear in scope_summary/special_features and

@@ -173,14 +173,9 @@ class LineItemGenerator
         price book's "Whole-house repaint composite" entries \u2014 pick the extent
         class matching the brief (selective / full standard / raise-build-under /
         full heritage) and multiply by floor area; itemise prep and enamel extras
-        separately if the scope exceeds the class. Pick the class from the job's
-        project_class and the builder's stated repaint extent FIRST — a
-        raise_and_build_under job uses the raise-build-under class; a selective
-        repaint uses selective. Move to the full heritage class only when BOTH
-        hold: the stated extent is a full repaint AND the plans document heritage
-        fabric across that scope (VJ/tongue-and-groove walls, decorative cornices
-        and roses, stained glass, extensive enamel trim). Era alone never
-        upgrades the class. State the chosen class, the evidence for it, and the
+        separately if the scope exceeds the class. The class is COMPUTED and
+        given in the request as REPAINT COMPOSITE CLASS — use exactly that
+        composite entry; never re-derive or upgrade it. State the class and
         resulting $/m2 in assumptions; never cost tile/wall areas in both
         painting and another trade. For partial scopes, price as
         painter-hours from the analysis paint areas with detail-appropriate
@@ -218,6 +213,7 @@ class LineItemGenerator
   def request_text(sections)
     section_list = sections.map { |s| "- #{s['name']}: #{s['hint']}" }.join("\n")
     scoped = scoped_user_rates(sections)
+    paint_class = repaint_class
     base_scoped = scoped_base_rates(sections)
     <<~TEXT
       PLAN ANALYSIS:
@@ -227,10 +223,29 @@ class LineItemGenerator
       #{scoped.present? ? "THIS BUILDER'S OWN RATES FOR THESE TRADES (from their uploaded estimates; BINDING where a comparable exists \u2014 do not upgrade the spec beyond them without explicit documentation):\n#{scoped}\n" : ''}
       #{base_scoped&.dig(:matched).present? ? "BASE BOOK RATES — BINDING where a comparable exists (recorded same-class rates, plus unit-priced rates from all of this builder's jobs: unit rates transfer across job sizes — apply them to THIS job's quantities). Prefer same-class entries, then unit-priced entries; resort to market instinct only where the book has no comparable, and flag those lines low confidence. Do not upgrade the spec beyond recorded rates without explicit documentation:\n#{base_scoped[:matched]}\n" : ''}
       #{base_scoped&.dig(:other).present? ? "BASE BOOK LUMP-SUM ALLOWANCES FROM OTHER JOB CLASSES (advisory — derive a unit rate per each entry's context and scale to this job before any use):\n#{base_scoped[:other]}\n" : ''}
+      #{paint_class ? "REPAINT COMPOSITE CLASS (computed from the builder's stated extent and the job class — use the book's '#{paint_class}' composite; do not re-derive the class): #{paint_class}\n" : ''}
       Produce line items for exactly these sections. The "name" field must be the exact
       section name as written before the colon below \u2014 do not append the description:
       #{section_list}
     TEXT
+  end
+
+  # The repaint composite class is computed, not chosen — the model kept
+  # oscillating between defensible readings (raise vs heritage) on jobs that
+  # are both. Raise/build-under jobs use their own composite; heritage needs
+  # stated character fabric in the extent AND a character-era building.
+  def repaint_class
+    q = @estimate.questionnaire.to_h
+    extent = q["repaint_extent"].to_s
+    return nil if extent.blank? || extent =~ /\bnone\b/i
+    return "selective scope" if extent =~ /selective|partial|new work/i
+    if @analysis["project_class"] == "raise_and_build_under"
+      "full repaint incl raise/build-under new lower level"
+    elsif extent =~ /VJ|fretwork|character|heritage/i && q["building_era"].to_s =~ /1946|character/i
+      "full heritage repaint"
+    else
+      "full repaint of standard character home"
+    end
   end
 
   # Deterministic retrieval: only the book entries whose trade bucket matches
