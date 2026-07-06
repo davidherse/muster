@@ -126,10 +126,15 @@ class LineItemGenerator
         trades it lists and NOTHING more: trades without an entry are costed
         exactly as they always would be, from the analysis geometry and the
         book — a missing takeoff entry is never a reason to shrink, thin, or
-        omit normal scope. A "by others" note in a takeoff basis does not
-        remove work the BUILDER'S NOTES confirm as included — the builder's
-        stated scope outranks drawing notes; cost it and record the conflict
-        in assumptions.
+        omit normal scope. A takeoff entry binds only the work its DESCRIPTION
+        covers: "new roof sheeting — extension" pins the extension's sheeting,
+        not the roofing trade — documented rework of RETAINED fabric
+        (re-roofing, re-framing, restumping, character repair per the scope
+        summary, structural notes and retained-scope notes) is costed IN
+        ADDITION to drawn new-work entries. A "by others" note in a takeoff
+        basis does not remove work the BUILDER'S NOTES confirm as included —
+        the builder's stated scope outranks drawing notes; cost it and record
+        the conflict in assumptions.
       - Services on room-scale scopes: electrical and plumbing price from the
         book's recorded rates (per m2, per point, per hour, or a recorded
         room allowance) applied to this job's takeoff quantities and fixture
