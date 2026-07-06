@@ -235,7 +235,39 @@ class EstimateReviewer
       site_days = (months * 21.7).round
       lines << "- Implied on-site labour: #{(labour_hours / 8).round} trade-days against ~#{site_days} working days of stated duration \u2014 does the crew size implied make sense for rooms this size?"
     end
+    violations = computed_violations(section_total, pm_hours, months)
+    if violations.any?
+      lines << ""
+      lines << "OUT-OF-BAND \u2014 these are computed violations, not opinions. Each REQUIRES a correction in changes (re-priced at book rates to within its band), unless the documents show specific cause, which the metrics_review action must cite:"
+      violations.each { |v| lines << "  * #{v}" }
+    end
     lines.join("\n")
+  end
+
+  # Deterministic norm checks: Ruby decides what is out of band so engagement
+  # is not left to the model's judgment. Bands are the documented ones the
+  # prompts already state (supervision from this builder's five recorded jobs;
+  # per-room norms are standing SEQ figures for wet-area renovations).
+  def computed_violations(section_total, pm_hours, months)
+    violations = []
+    if months.positive? && pm_hours.positive?
+      hrs_wk = pm_hours / (months * 4.33)
+      violations << "Supervision #{hrs_wk.round(1)} hrs/week is outside this builder's documented 8-11 band (18 for heavy-character)" if hrs_wk > 12.5 || hrs_wk < 6
+    end
+    if %w[partial_interior_renovation small_works].include?(@analysis["project_class"])
+      rooms = [ @analysis["wet_area_count"].to_i, Array(@analysis["rooms"]).size, 1 ].reject(&:zero?).min
+      elec = section_total.call("electrical")
+      violations << "Electrical $#{(elec / rooms).round}/room exceeds the $2,500/room high-end ceiling" if elec / rooms > 2_500
+      demo = section_total.call("site preparation") + section_total.call("demolition")
+      violations << "Demo/strip-out $#{(demo / rooms).round}/room exceeds the ~$2,800/room ceiling (2-3 trade-days plus disposal)" if demo / rooms > 2_800
+      takeoff = Array(@analysis["wet_area_takeoff"])
+      if takeoff.any?
+        wet = section_total.call("tiling") + section_total.call("waterproof")
+        area = takeoff.sum { |r| r["floor_m2"].to_f + r["wall_tile_m2"].to_f }
+        violations << "Tiling+waterproofing $#{(wet / area).round}/m2 over the takeoff area exceeds ~$330/m2 (supply + lay + screed + waterproof, quality wet-area rates)" if area.positive? && wet / area > 330
+      end
+    end
+    violations
   end
 
   def estimate_text
