@@ -63,10 +63,10 @@ if PriceBookItem.base.count.zero? && csv_path.exist?
   # Context per source job so base rates read like user rates (what kind of
   # job the rate came from). Derived from the source column's job name.
   SOURCE_CONTEXT = {
-    /hilda/i => { "project_class" => "extension_and_renovation", "finish_level" => "High-end", "note" => "double-storey rework in footprint" },
-    /benecia/i => { "project_class" => "raise_and_build_under", "finish_level" => "High-end", "note" => "raise + build-in-under with pool" },
-    /constitution/i => { "project_class" => "extension_and_renovation", "finish_level" => "High-end", "note" => "heavy-character reno, large glazing" },
-    /carberry/i => { "project_class" => "extension_and_renovation", "finish_level" => "High-end", "note" => "character weatherboard reno" }
+    /hilda/i => { "project_class" => "extension_and_renovation", "finish_level" => "High-end", "floor_area_m2" => 300, "note" => "double-storey rework in footprint" },
+    /benecia/i => { "project_class" => "raise_and_build_under", "finish_level" => "High-end", "floor_area_m2" => 300, "note" => "raise + build-in-under with pool" },
+    /constitution/i => { "project_class" => "extension_and_renovation", "finish_level" => "High-end", "floor_area_m2" => 400, "note" => "heavy-character reno, large glazing" },
+    /carberry/i => { "project_class" => "extension_and_renovation", "finish_level" => "High-end", "floor_area_m2" => 330, "note" => "character weatherboard reno" }
   }.freeze
 
   def self.context_for(source)

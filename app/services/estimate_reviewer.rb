@@ -280,6 +280,47 @@ class EstimateReviewer
         violations << "Tiling+waterproofing $#{(wet / area).round}/m2 over the takeoff area exceeds ~$330/m2 (supply + lay + screed + waterproof, quality wet-area rates)" if area.positive? && wet / area > 330
       end
     end
+    violations.concat(class_band_violations)
+    violations
+  end
+
+  # The book's source jobs of the same class define per-bucket intensity
+  # lower bounds: their lump-sum (Allowance) entries per trade bucket, per m2
+  # of their recorded floor area, understate their true spend (rate entries
+  # excluded) — so an estimate bucket materially below that floor is thin by
+  # construction, not by opinion. This is what advisory retrieval kept
+  # failing to enforce on heavy-character jobs.
+  def class_band_violations
+    klass = @analysis["project_class"]
+    floor = @analysis["floor_area_m2"].to_f
+    return [] unless floor.positive? && klass.present?
+
+    jobs = Hash.new { |h, k| h[k] = { floor: nil, buckets: Hash.new(0.0) } }
+    PriceBookItem.base.find_each do |i|
+      ctx = i.context.to_h
+      next unless ctx["project_class"] == klass && ctx["floor_area_m2"].to_f.positive?
+      job = i.source.to_s.split("|").first.to_s.strip
+      next if job.blank?
+      jobs[job][:floor] = ctx["floor_area_m2"].to_f
+      jobs[job][:buckets][TradeBucket.for(i.category)] += i.unit_cost.to_f if i.uom.to_s =~ /allowance/i
+    end
+    return [] if jobs.empty?
+
+    est = Hash.new(0.0)
+    @estimate.sections.each { |s| est[TradeBucket.for(s.name)] += s.subtotal.to_f }
+
+    violations = []
+    all_buckets = jobs.values.flat_map { |j| j[:buckets].keys }.uniq
+    all_buckets.each do |bucket|
+      per_m2 = jobs.values.filter_map { |j| j[:buckets][bucket] / j[:floor] if j[:buckets][bucket].positive? }
+      next if per_m2.empty?
+      band_min = per_m2.min
+      next if band_min * floor < 15_000  # ignore noise-level buckets
+      est_per_m2 = est[bucket] / floor
+      if est_per_m2 < band_min * 0.6
+        violations << "#{bucket}: $#{est_per_m2.round}/m2 floor is under 60% of the recorded lower bound $#{band_min.round}/m2 from this builder's #{klass.tr('_', ' ')} jobs — thin by construction, rebuild from the class-matched book rates"
+      end
+    end
     violations
   end
 
