@@ -48,7 +48,7 @@ class PlanAnalyzer
       wet_area_count: { type: "integer", description: "Bathrooms, ensuites, laundries, WCs requiring waterproofing" },
       quantity_takeoff: {
         type: "array",
-        description: "Binding measured quantities for the major scalable trades beyond wet areas — one entry per work type present in scope: floor coverings by type and level (timber/carpet/tiles m2), new concrete slabs and paths (m2), retaining walls (lm x avg height), new decking (m2), new external cladding (m2), driveway (m2), scaffold/perimeter access (lm of scaffolded perimeter x number of lifts), new internal stairs (count). Measure from dimension chains and stated areas; omit work types not in scope",
+        description: "Binding measured quantities for the major scalable trades beyond wet areas — one entry per work type present in scope: floor coverings by type and level (timber/carpet/tiles m2), new concrete slabs and paths (m2), retaining walls (lm x avg height), new decking (m2), new external cladding (m2), driveway (m2), scaffold/perimeter access (lm of scaffolded perimeter x number of lifts), new internal stairs (count), engineered footings/piers (count x depth per the engineering drawings). Measure from dimension chains and stated areas; omit work types not in scope",
         items: {
           type: "object",
           additionalProperties: false,

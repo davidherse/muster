@@ -120,6 +120,11 @@ class EstimateReviewer
           the stated paint area, fewer openings than the schedule, hire not
           carried for the stated duration)
         - trades the documented scope requires but no section covers
+        - structure, footings, raising, scaffold or external works priced at
+          base-book flat-site allowances despite documented extreme site
+          conditions (steep slope, deep engineered piers, extreme raise
+          height, difficult access) — rebuild from the documented engineering
+          quantities
         - builder-confirmed scope with no line items ANYWHERE: every
           structural_work / systems_extras / external_works item in the
           builder's brief (pool, house raise, retaining walls, solar) must be

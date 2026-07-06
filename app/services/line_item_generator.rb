@@ -141,6 +141,16 @@ class LineItemGenerator
         generic or premium allowance, whatever their relative prices. Premium PC
         allowances apply only where the specification documents that upgrade for
         this job.
+      - Documented site intensity: where the brief or analysis documents steep
+        slope, difficult access, deep engineered footings, or an extreme raise
+        height, the affected trades (raising, piering/footings, structural
+        steel and carpentry, scaffold and crane access, external works) must be
+        built up from the DOCUMENTED engineering quantities — pier count x
+        depth, raise height, scaffold lifts — at rates befitting those
+        conditions. The book's rates carry their source job's conditions (see
+        context tags): a flat-block raise allowance adopted unadjusted onto a
+        documented steep-site extreme-height raise under-prices it, exactly as
+        a whole-house allowance over-prices a bathroom.
       - Raise / build-in-under jobs: under-house strip-out, stump removal and
         making-good are within the raising and structural carpentry scope the
         book's rates already carry \u2014 the demolition section covers only
