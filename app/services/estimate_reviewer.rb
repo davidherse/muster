@@ -77,7 +77,12 @@ class EstimateReviewer
     # ESTIMATOR_REVIEW_MODE=merged runs one combined audit instead of the
     # adversarial pair — an experiment enabled by the computed-violations +
     # enforcement machinery now carrying the padding mandate deterministically.
-    directions = ENV["ESTIMATOR_REVIEW_MODE"] == "merged" ? [ :merged ] : [ :completeness, :padding ]
+    directions = case ENV["ESTIMATOR_REVIEW_MODE"]
+    when "merged" then [ :merged ]
+    when "completeness" then [ :completeness ]  # padding left to computed checks
+    when "padding" then [ :padding ]            # completeness left to computed checks
+    else [ :completeness, :padding ]
+    end
     directions.each do |direction|
       result = @client.complete_json(
         system: [ LineItemGenerator.price_book_block(@estimate.user), { type: "text", text: instructions(direction) } ],
