@@ -81,6 +81,16 @@ class EstimateReviewer
     when "merged" then [ :merged ]
     when "completeness" then [ :completeness ]  # padding left to computed checks
     when "padding" then [ :padding ]            # completeness left to computed checks
+    when "auto"
+      # Ablation-validated: the valuable pass opposes the job's failure mode.
+      # Small jobs over-estimate (padding pass earns its keep: Carson +1.3%
+      # padding-only vs +19.5% completeness-only); big jobs omit
+      # (completeness: Huxham +4.2% vs -13.5%).
+      if %w[partial_interior_renovation small_works].include?(@analysis["project_class"])
+        [ :padding ]
+      else
+        [ :completeness ]
+      end
     else [ :completeness, :padding ]
     end
     directions.each do |direction|
