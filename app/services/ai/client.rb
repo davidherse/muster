@@ -33,27 +33,27 @@ module Ai
       @anthropic = anthropic || Anthropic::Client.new(api_key: ENV.fetch("ANTHROPIC_API_KEY"))
       @on_retry = on_retry
       @sleeper = sleeper
-      @usage = { "model" => MODEL, "calls" => 0, "input_tokens" => 0, "output_tokens" => 0,
-                 "cache_read_tokens" => 0, "cache_write_tokens" => 0 }
+      @usage = Hash.new { |h, k| h[k] = { "calls" => 0, "input_tokens" => 0, "output_tokens" => 0,
+                                          "cache_read_tokens" => 0, "cache_write_tokens" => 0 } }
     end
 
     # Running usage totals across every call this client made, with a dollar
     # figure from PRICING. Read after a pipeline run to record generation cost.
     def usage_totals
-      inp, out = PRICING.fetch(MODEL, [ 5.0, 25.0 ])
-      cost = (@usage["input_tokens"] * inp +
-              @usage["output_tokens"] * out +
-              @usage["cache_write_tokens"] * inp * 1.25 +
-              @usage["cache_read_tokens"] * inp * 0.1) / 1_000_000
-      @usage.merge("est_cost_usd" => cost.round(2))
+      cost = @usage.sum do |model, u|
+        inp, out = PRICING.fetch(model, [ 5.0, 25.0 ])
+        (u["input_tokens"] * inp + u["output_tokens"] * out +
+         u["cache_write_tokens"] * inp * 1.25 + u["cache_read_tokens"] * inp * 0.1) / 1_000_000
+      end
+      { "models" => @usage.to_h, "est_cost_usd" => cost.round(2) }
     end
 
     # system: array of text blocks (put cache_control on the last stable block)
     # content: user content blocks (documents, text)
     # schema: JSON Schema the response must conform to
-    def complete_json(system:, content:, schema:, max_tokens: MAX_TOKENS)
+    def complete_json(system:, content:, schema:, max_tokens: MAX_TOKENS, model: MODEL)
       params = {
-        model: MODEL,
+        model: model,
         max_tokens: max_tokens,
         thinking: { type: "adaptive" },
         system_: system,
@@ -73,12 +73,13 @@ module Ai
         stream.accumulated_message
       end
 
-      if (u = message.usage)
-        @usage["calls"] += 1
-        @usage["input_tokens"] += u.input_tokens.to_i
-        @usage["output_tokens"] += u.output_tokens.to_i
-        @usage["cache_read_tokens"] += u.cache_read_input_tokens.to_i
-        @usage["cache_write_tokens"] += u.cache_creation_input_tokens.to_i
+      if (u = message.respond_to?(:usage) && message.usage)
+        m = @usage[model]
+        m["calls"] += 1
+        m["input_tokens"] += u.input_tokens.to_i
+        m["output_tokens"] += u.output_tokens.to_i
+        m["cache_read_tokens"] += u.cache_read_input_tokens.to_i
+        m["cache_write_tokens"] += u.cache_creation_input_tokens.to_i
       end
 
       raise RefusalError, "The model declined this request." if message.stop_reason == :refusal

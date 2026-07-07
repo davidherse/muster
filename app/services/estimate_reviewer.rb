@@ -94,7 +94,8 @@ class EstimateReviewer
       result = @client.complete_json(
         system: [ LineItemGenerator.price_book_block(@estimate.user), { type: "text", text: enforcement_instructions } ],
         content: [ { type: "text", text: enforcement_request(violations) } ],
-        schema: SCHEMA
+        schema: SCHEMA,
+        model: ENV.fetch("ESTIMATOR_ENFORCE_MODEL", Ai::Client::MODEL)
       )
       added, removed = apply(result)
       corrections[:"enforcement_#{i + 1}"] = { added: added.round, removed: removed.round }
