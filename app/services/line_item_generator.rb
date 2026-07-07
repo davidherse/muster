@@ -144,6 +144,14 @@ class LineItemGenerator
         counts. Never invent a per-room lump "rough-in and fit-off" allowance
         the book does not record — that is market instinct wearing a
         quantity's clothes.
+      - PC allowances are the BUILDER'S OWN recorded levels: a PC (prime cost)
+        allowance is a budget this builder sets for client-selected items —
+        tiles, fittings, fixtures — and the book records this builder's
+        standard levels per room type. Use those recorded levels regardless of
+        how premium the designer's selections look; a selection exceeding the
+        PC allowance becomes a client variation, not a bigger estimate. Only a
+        specification that NAMES a product with a stated price moves a PC
+        allowance, and then to that stated price.
       - Rate preference within the book: a rate scoped to the same room or work
         type (e.g. a per-bathroom tile supply rate for bathroom work) BEATS any
         generic or premium allowance, whatever their relative prices. Premium PC
