@@ -74,7 +74,11 @@ class EstimateReviewer
   def call
     notes = []
     corrections = {}
-    [ :completeness, :padding ].each do |direction|
+    # ESTIMATOR_REVIEW_MODE=merged runs one combined audit instead of the
+    # adversarial pair — an experiment enabled by the computed-violations +
+    # enforcement machinery now carrying the padding mandate deterministically.
+    directions = ENV["ESTIMATOR_REVIEW_MODE"] == "merged" ? [ :merged ] : [ :completeness, :padding ]
+    directions.each do |direction|
       result = @client.complete_json(
         system: [ LineItemGenerator.price_book_block(@estimate.user), { type: "text", text: instructions(direction) } ],
         content: [ { type: "text", text: request_text } ],
@@ -197,6 +201,32 @@ class EstimateReviewer
           comparable's description and context imply — scale them to the
           documented geometry and check the computed per-opening and per-m2
           metrics against SEQ norms for this finish level and building type
+      PROMPT
+    when :merged
+      common + <<~PROMPT
+        Your mandate is BOTH SIDED — the estimate must be neither thin nor
+        padded, and you correct in whichever direction each defect runs.
+
+        UNDERDONE (add at recorded book rates): features in the analysis or
+        brief with no line items; quantities below documented areas/counts or
+        schedule entries; trades the documented scope requires with no section;
+        builder-confirmed scope (structural_work / systems_extras /
+        external_works — pool, raise, retaining, solar) with no line items
+        ANYWHERE; analysis special_features with no line items; allowance
+        comparables adopted at face value where documented geometry exceeds
+        their source scope; structure/footings/scaffold at flat-site rates
+        despite documented extreme site conditions; takeoff entries treated as
+        trade ceilings capping documented retained-fabric rework.
+
+        OVERDONE (remove or right-size): work the documents show retained,
+        excluded or assigned to others; the same work costed in two sections;
+        quantities above the documented geometry or the takeoff figures;
+        retained openings priced as new supply; lump allowances from larger
+        scopes adopted without unit-rating; premium PC levels where the book
+        records this builder's own level and the spec names no priced product;
+        a repaint composite class unsupported by the computed class; demolition
+        duplicating raise-scope strip-out on raise jobs; supervision outside
+        the documented band; levies computed circularly on the inflated total.
       PROMPT
     when :padding
       common + <<~PROMPT
