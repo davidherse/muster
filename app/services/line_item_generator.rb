@@ -247,7 +247,7 @@ class LineItemGenerator
     section_list = sections.map { |s| "- #{s['name']}: #{s['hint']}" }.join("\n")
     scoped = scoped_user_rates(sections)
     paint_class = repaint_class
-    calibration = calibration_text(sections)
+    calibration = nil # price calibration is applied deterministically post-review
     base_scoped = scoped_base_rates(sections)
     market_scoped = scoped_market_rates(sections)
     <<~TEXT

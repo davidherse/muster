@@ -23,6 +23,9 @@ namespace :estimator do
       theirs = Hash.new(0.0)
       CSV.read(Rails.root.join(config[proj]["baseline"]), headers: true).each do |r|
         next if r["category"] == "__TOTAL__"
+        # variations aren't quotable scope; labour blocks are real cost but
+        # unmappable to a trade bucket — both poison bucket-level learning
+        next if r["category"] =~ /variation|margin|contingency|\bgst\b|labour hours/i
         theirs[TradeBucket.for(r["category"])] += r["human_estimate_total"].to_f
       end
       e = reference.estimates.where("name LIKE ?", "#{name}%").where(status: "completed").order(:id).last

@@ -55,6 +55,13 @@ class EstimateGenerator
     usage = @client.respond_to?(:usage_totals) ? @client.usage_totals : nil
     @estimate.update!(assessment: review.merge(usage: usage))
 
+    # Deterministic builder calibration: visible per-section adjustment lines
+    # from the user's learned profile, applied after review so the reviewed
+    # book-grounded estimate stays intact underneath.
+    if (profile = @estimate.user && CalibrationProfile.find_by(user: @estimate.user))
+      profile.apply!(@estimate) if profile.buckets.present?
+    end
+
     @estimate.recalculate_totals!
     @estimate.update!(status: "completed", progress: 100, progress_note: nil)
   rescue StandardError => e
