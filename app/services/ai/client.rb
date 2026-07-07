@@ -4,7 +4,14 @@ module Ai
   # (the SDK's own fast retries run underneath). Inject a fake in tests via
   # Ai::Client.new(anthropic: fake).
   class Client
-    MODEL = "claude-opus-4-8".freeze
+    MODEL = ENV.fetch("ESTIMATOR_MODEL", "claude-opus-4-8").freeze
+
+    # $/M tokens: [input, output]. Cache: write 1.25x input, read 0.1x input.
+    PRICING = {
+      "claude-opus-4-8" => [ 5.0, 25.0 ],
+      "claude-sonnet-5" => [ 3.0, 15.0 ],
+      "claude-haiku-4-5" => [ 1.0, 5.0 ]
+    }.freeze
     MAX_TOKENS = 64_000
     FILES_BETA = "files-api-2025-04-14".freeze
 
@@ -26,6 +33,19 @@ module Ai
       @anthropic = anthropic || Anthropic::Client.new(api_key: ENV.fetch("ANTHROPIC_API_KEY"))
       @on_retry = on_retry
       @sleeper = sleeper
+      @usage = { "model" => MODEL, "calls" => 0, "input_tokens" => 0, "output_tokens" => 0,
+                 "cache_read_tokens" => 0, "cache_write_tokens" => 0 }
+    end
+
+    # Running usage totals across every call this client made, with a dollar
+    # figure from PRICING. Read after a pipeline run to record generation cost.
+    def usage_totals
+      inp, out = PRICING.fetch(MODEL, [ 5.0, 25.0 ])
+      cost = (@usage["input_tokens"] * inp +
+              @usage["output_tokens"] * out +
+              @usage["cache_write_tokens"] * inp * 1.25 +
+              @usage["cache_read_tokens"] * inp * 0.1) / 1_000_000
+      @usage.merge("est_cost_usd" => cost.round(2))
     end
 
     # system: array of text blocks (put cache_control on the last stable block)
@@ -51,6 +71,14 @@ module Ai
           @anthropic.messages.stream(**params)
         end
         stream.accumulated_message
+      end
+
+      if (u = message.usage)
+        @usage["calls"] += 1
+        @usage["input_tokens"] += u.input_tokens.to_i
+        @usage["output_tokens"] += u.output_tokens.to_i
+        @usage["cache_read_tokens"] += u.cache_read_input_tokens.to_i
+        @usage["cache_write_tokens"] += u.cache_creation_input_tokens.to_i
       end
 
       raise RefusalError, "The model declined this request." if message.stop_reason == :refusal

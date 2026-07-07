@@ -50,8 +50,10 @@ class EstimateGenerator
 
     @estimate.update_progress!(92, "Reviewing the estimate…")
     review = EstimateReviewer.new(@estimate, analysis: analysis, client: @client).call
-    # Stored for auditability: which passes ran, what they added/removed.
-    @estimate.update!(assessment: review)
+    # Stored for auditability: which passes ran, what they added/removed,
+    # and what the generation cost.
+    usage = @client.respond_to?(:usage_totals) ? @client.usage_totals : nil
+    @estimate.update!(assessment: review.merge(usage: usage))
 
     @estimate.recalculate_totals!
     @estimate.update!(status: "completed", progress: 100, progress_note: nil)
