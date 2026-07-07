@@ -53,10 +53,11 @@ class EstimateReviewerTest < ActiveSupport::TestCase
 end
 
 class EstimateReviewerAdversarialTest < ActiveSupport::TestCase
-  test "runs opposed completeness and padding passes" do
+  test "dual mode runs opposed completeness and padding passes" do
     estimate = users(:one).estimates.create!(name: "Adv", estimate_template: estimate_templates(:standard))
     estimate.plans.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "plan.pdf", content_type: "application/pdf")
     client = FakeAiClient.new
+    ENV["ESTIMATOR_REVIEW_MODE"] = "dual"
     EstimateGenerator.new(estimate, client: client).call
 
     review_calls = client.calls.select { |c| c[:schema] == EstimateReviewer::SCHEMA }
@@ -64,5 +65,20 @@ class EstimateReviewerAdversarialTest < ActiveSupport::TestCase
     prompts = review_calls.map { |c| c[:system].map { |b| b[:text] }.join }
     assert prompts[0].include?("MISSING or UNDERDONE")
     assert prompts[1].include?("INVENTED or OVERDONE")
+  ensure
+    ENV.delete("ESTIMATOR_REVIEW_MODE")
+  end
+
+  test "auto mode picks the pass opposing the job's failure mode" do
+    estimate = users(:one).estimates.create!(name: "Auto", estimate_template: estimate_templates(:standard))
+    estimate.plans.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "plan.pdf", content_type: "application/pdf")
+    client = FakeAiClient.new
+    EstimateGenerator.new(estimate, client: client).call
+
+    review_calls = client.calls.select { |c| c[:schema] == EstimateReviewer::SCHEMA }
+    assert_equal 1, review_calls.size
+    prompt = review_calls[0][:system].map { |b| b[:text] }.join
+    # FakeAiClient's analysis is a whole-house class -> completeness pass
+    assert prompt.include?("MISSING or UNDERDONE")
   end
 end
