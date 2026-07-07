@@ -77,21 +77,23 @@ class EstimateReviewer
     # ESTIMATOR_REVIEW_MODE=merged runs one combined audit instead of the
     # adversarial pair — an experiment enabled by the computed-violations +
     # enforcement machinery now carrying the padding mandate deterministically.
-    directions = case ENV["ESTIMATOR_REVIEW_MODE"]
+    # Default is class-matched single pass ("auto"): the ablation showed the
+    # valuable review pass OPPOSES the job's failure mode — small jobs
+    # over-estimate (padding-only Carson +1.3% vs +19.5% with completeness),
+    # big jobs omit (completeness-only Huxham +4.2% vs -13.5% with padding).
+    # The other pass's mandate is carried by the computed violations +
+    # enforcement loop. "dual" restores the original adversarial pair.
+    directions = case ENV.fetch("ESTIMATOR_REVIEW_MODE", "auto")
+    when "dual" then [ :completeness, :padding ]
     when "merged" then [ :merged ]
-    when "completeness" then [ :completeness ]  # padding left to computed checks
-    when "padding" then [ :padding ]            # completeness left to computed checks
-    when "auto"
-      # Ablation-validated: the valuable pass opposes the job's failure mode.
-      # Small jobs over-estimate (padding pass earns its keep: Carson +1.3%
-      # padding-only vs +19.5% completeness-only); big jobs omit
-      # (completeness: Huxham +4.2% vs -13.5%).
+    when "completeness" then [ :completeness ]
+    when "padding" then [ :padding ]
+    else
       if %w[partial_interior_renovation small_works].include?(@analysis["project_class"])
         [ :padding ]
       else
         [ :completeness ]
       end
-    else [ :completeness, :padding ]
     end
     directions.each do |direction|
       result = @client.complete_json(
