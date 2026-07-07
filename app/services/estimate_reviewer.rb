@@ -84,10 +84,65 @@ class EstimateReviewer
       corrections[direction] = { added: added.round, removed: removed.round }
       notes << "#{direction}: #{result['review_notes']}"
     end
+    # Enforcement: the norm checks are computed, so whether corrections
+    # actually landed is checkable. Up to two targeted passes clear any
+    # violations still standing after the adversarial reviews — engagement
+    # is verified, not assumed.
+    2.times do |i|
+      violations = outstanding_violations
+      break if violations.empty?
+      result = @client.complete_json(
+        system: [ LineItemGenerator.price_book_block(@estimate.user), { type: "text", text: enforcement_instructions } ],
+        content: [ { type: "text", text: enforcement_request(violations) } ],
+        schema: SCHEMA
+      )
+      added, removed = apply(result)
+      corrections[:"enforcement_#{i + 1}"] = { added: added.round, removed: removed.round }
+      notes << "enforcement#{i + 1}: #{result['review_notes']}"
+    end
+
     { notes: notes.join(" | "), corrections: corrections }
   end
 
   private
+
+  # Recompute the deterministic checks against current estimate state.
+  def outstanding_violations
+    @estimate.sections.reset
+    section_total = ->(name) do
+      @estimate.sections.select { |s| s.name.downcase.include?(name) }.sum { |s| s.subtotal.to_f }
+    end
+    months = @analysis["duration_months"].to_f
+    pm_hours = @estimate.line_items.reload
+      .select { |i| i.item_type == "Lab" && i.uom.to_s.downcase.include?("hour") && i.description.to_s =~ /supervis|project manage|coordinat/i }
+      .sum { |i| i.quantity.to_f }
+    computed_violations(section_total, pm_hours, months) + market_band_violations
+  end
+
+  def enforcement_instructions
+    <<~PROMPT
+      You are finalising a residential construction estimate in Queensland,
+      Australia. The COMPUTED CHECKS below failed after full review. Your only
+      task is to resolve every listed violation: right-size the driving line
+      items at recorded PRICE BOOK rates (remove and re-add corrected). Touch
+      nothing outside the listed violations. A violation may be left standing
+      only where the documents state a specific cause — cite it in
+      review_notes. All amounts AUD ex. GST, builder's costs.
+    PROMPT
+  end
+
+  def enforcement_request(violations)
+    <<~TEXT
+      FAILED COMPUTED CHECKS — resolve each:
+      #{violations.map { |v| "  * #{v}" }.join("\n")}
+
+      SCOPE ANALYSIS (for documented-cause checks only):
+      #{JSON.pretty_generate(@analysis)}
+
+      THE ESTIMATE:
+      #{estimate_text}
+    TEXT
+  end
 
   def instructions(direction)
     common = <<~COMMON
