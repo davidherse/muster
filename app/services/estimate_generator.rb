@@ -49,7 +49,9 @@ class EstimateGenerator
     end
 
     @estimate.update_progress!(92, "Reviewing the estimate…")
-    EstimateReviewer.new(@estimate, analysis: analysis, client: @client).call
+    review = EstimateReviewer.new(@estimate, analysis: analysis, client: @client).call
+    # Stored for auditability: which passes ran, what they added/removed.
+    @estimate.update!(assessment: review)
 
     @estimate.recalculate_totals!
     @estimate.update!(status: "completed", progress: 100, progress_note: nil)
