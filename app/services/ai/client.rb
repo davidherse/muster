@@ -128,7 +128,10 @@ module Ai
     end
 
     def retryable?(error)
-      RETRYABLE_ERRORS.any? { |name| error.is_a?(name.constantize) }
+      return true if RETRYABLE_ERRORS.any? { |name| error.is_a?(name.constantize) }
+      # Server-side structured-output grammar compilation can time out under
+      # load; it arrives as a 400 but is transient.
+      error.is_a?(Anthropic::Errors::BadRequestError) && error.message.to_s =~ /grammar compilation/i
     end
 
     def file_reference?(content)
