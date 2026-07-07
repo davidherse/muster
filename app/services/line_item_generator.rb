@@ -247,6 +247,7 @@ class LineItemGenerator
     section_list = sections.map { |s| "- #{s['name']}: #{s['hint']}" }.join("\n")
     scoped = scoped_user_rates(sections)
     paint_class = repaint_class
+    calibration = calibration_text(sections)
     base_scoped = scoped_base_rates(sections)
     market_scoped = scoped_market_rates(sections)
     <<~TEXT
@@ -259,6 +260,7 @@ class LineItemGenerator
       #{base_scoped&.dig(:other).present? ? "BASE BOOK LUMP-SUM ALLOWANCES FROM OTHER JOB CLASSES (advisory — derive a unit rate per each entry's context and scale to this job before any use):\n#{base_scoped[:other]}\n" : ''}
       #{market_scoped.present? ? "PUBLISHED MARKET REFERENCE (Archicentre Australia, cited; consumer prices ex GST incl builder margin, standard finishes — use ONLY where neither book answers, as sanity bounds: builder cost normally lands under these; documented premium spec may exceed them):\n#{market_scoped}\n" : ''}
       #{paint_class ? "REPAINT COMPOSITE CLASS (computed from the builder's stated extent and the job class — use the book's '#{paint_class}' composite; do not re-derive the class): #{paint_class}\n" : ''}
+      #{calibration.present? ? "#{calibration}\n" : ''}
       Produce line items for exactly these sections. The "name" field must be the exact
       section name as written before the colon below \u2014 do not append the description:
       #{section_list}
@@ -317,6 +319,23 @@ class LineItemGenerator
       matched: matched.any? ? PriceBookItem.reference_text(scope: PriceBookItem.where(id: matched.map(&:id)), with_context: true) : nil,
       other: other.any? ? PriceBookItem.reference_text(scope: PriceBookItem.where(id: other.map(&:id)), with_context: true) : nil
     }
+  end
+
+  # Calibration lines scoped to this batch's trade buckets: how this
+  # builder's own graded estimates run relative to book-grounded output.
+  def calibration_text(sections)
+    profile = @estimate.user && CalibrationProfile.find_by(user: @estimate.user)
+    return nil unless profile&.buckets&.present?
+    buckets = batch_buckets(sections)
+    relevant = profile.buckets.select { |b, _| buckets.include?(b) }
+    return nil if relevant.empty?
+    lines = relevant.map do |bucket, v|
+      dir = v["bias_pct"].positive? ? "ABOVE" : "BELOW"
+      "  - #{bucket}: ~#{v['bias_pct'].abs}% #{dir} the book-grounded level (#{v['n']} graded jobs)"
+    end
+    "BUILDER CALIBRATION — this builder's own estimates for these trades run as follows relative to book-grounded output; align rates, quantity generosity and cost classification toward their style (this encodes their valuation posture, where they carry supervision/site costs, and regional pricing):
+#{lines.join("
+")}"
   end
 
   def scoped_market_rates(sections)

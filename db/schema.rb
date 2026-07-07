@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_03_225542) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_07_131644) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -37,6 +37,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_03_225542) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "calibration_profiles", force: :cascade do |t|
+    t.json "buckets", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.json "derived_from", default: [], null: false
+    t.text "notes"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_calibration_profiles_on_user_id", unique: true
   end
 
   create_table "estimate_line_items", force: :cascade do |t|
@@ -146,6 +156,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_03_225542) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "calibration_profiles", "users"
   add_foreign_key "estimate_line_items", "estimate_sections"
   add_foreign_key "estimate_sections", "estimates"
   add_foreign_key "estimates", "estimate_templates"
