@@ -169,12 +169,19 @@ class TrainingIngestor
   #    counts — largest offenders drop until the category reconciles.
   def verify_entries(merged)
     factor = PriceEscalation.factor(@doc.priced_on)
+    # Verification needs ground truth: only categories with ACTUAL totals can
+    # convict an entry. A quote-format document (no actuals anywhere) gets no
+    # verification at all — its big provisional sums are the builder's
+    # quoting anchors, not double-counts, and pruning them guts the book.
     actuals = {}
     Array(merged["category_totals"]).each do |r|
-      v = r["actual_total"].to_f.positive? ? r["actual_total"].to_f : r["quoted_total"].to_f
+      v = r["actual_total"].to_f
       actuals[r["category"]] = v * factor if v.positive?
     end
-    return if actuals.empty?
+    if actuals.empty?
+      Rails.logger.info("TrainingIngestor verify: quote-format document, verification skipped for doc #{@doc.id}")
+      return
+    end
 
     items = PriceBookItem.where("source LIKE ?", "#{source_tag} %").or(
       PriceBookItem.where("source LIKE ?", "#{source_tag}|%"))
