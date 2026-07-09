@@ -25,7 +25,20 @@ class CalibrationProfile < ApplicationRecord
       theirs = pair["buckets"].values.sum { |v| v["theirs"].to_f }
       (theirs - ours) / ours * 100 if ours.positive?
     end
-    global = total_deltas.empty? ? 0 : total_deltas.sort[total_deltas.size / 2].clamp(-MAX_BIAS_PCT, MAX_BIAS_PCT).round
+
+    # A global bias exists only when the builder's totals sit CONSISTENTLY to
+    # one side of ours (at most one job may disagree) and materially so —
+    # deltas that straddle zero mean they already align with the book, and
+    # the correct calibration is none. Then a leave-one-out check must show
+    # the bias actually improves alignment on unseen jobs; otherwise zero.
+    global = 0
+    if total_deltas.size >= MIN_PAIRS
+      one_sided = [ total_deltas.count(&:positive?), total_deltas.count(&:negative?) ].max >= total_deltas.size - (total_deltas.size >= 4 ? 1 : 0)
+      median = total_deltas.sort[total_deltas.size / 2]
+      if one_sided && median.abs >= 8 && loo_improves?(total_deltas)
+        global = median.clamp(-MAX_BIAS_PCT, MAX_BIAS_PCT).round
+      end
+    end
 
     by_bucket = Hash.new { |h, k| h[k] = [] }
     pairs.each do |pair|
@@ -48,15 +61,35 @@ class CalibrationProfile < ApplicationRecord
     end
 
     profile = find_or_initialize_by(user: user)
-    profile.update!(global_bias_pct: global, buckets: buckets, derived_from: pairs.map { |p| p["job"] }, notes: notes)
+    status = global.zero? ? "aligned with book pricing — no adjustment applied" : nil
+    profile.update!(global_bias_pct: global, buckets: buckets,
+                    derived_from: pairs.map { |p| p["job"] },
+                    notes: [ notes, status ].compact.join(" | "))
     profile
   end
 
-  # Effective bias = global posture/region + bucket residual.
+  # Leave-one-out: would applying the bias derived from the other jobs have
+  # improved alignment on the held-out job? Calibration must earn its keep.
+  def self.loo_improves?(total_deltas)
+    return false if total_deltas.size < 3
+    improvements = total_deltas.each_index.map do |i|
+      rest = total_deltas.each_with_index.reject { |_, j| j == i }.map(&:first)
+      bias = rest.sort[rest.size / 2]
+      held = total_deltas[i]
+      # post-calibration error on the held-out job vs its raw error
+      post = ((1 + held / 100.0) / (1 + bias / 100.0) - 1) * 100
+      held.abs - post.abs
+    end
+    improvements.sum.positive?
+  end
+
+  # Price adjustment uses the GLOBAL bias only. Bucket residuals encode
+  # classification/presentation style (where this builder files money), and
+  # applying them as price multipliers moves real dollars the wrong way —
+  # they feed the template/presentation layer instead.
   def bias_for(bucket)
-    residual = buckets.dig(bucket, "bias_pct") || 0
-    total = global_bias_pct.to_i + residual
-    total.zero? ? nil : total
+    g = global_bias_pct.to_i
+    g.zero? ? nil : g
   end
 
   # Deterministic application: a visible, labelled adjustment line per
