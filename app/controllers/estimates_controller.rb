@@ -43,8 +43,9 @@ class EstimatesController < ApplicationController
 
   def csv
     return redirect_to(@estimate, alert: "The estimate isn't ready yet.") unless @estimate.completed?
-    send_data EstimateCsv.new(@estimate).generate,
-      filename: "#{@estimate.name.parameterize}-estimate.csv",
+    layout = personal_template if params[:layout] == "mine"
+    send_data EstimateCsv.new(@estimate, layout: layout).generate,
+      filename: "#{@estimate.name.parameterize}-estimate#{layout ? '-my-format' : ''}.csv",
       type: "text/csv"
   end
 
@@ -57,6 +58,11 @@ class EstimatesController < ApplicationController
 
   def set_estimate
     @estimate = Current.user.estimates.find(params[:id])
+  end
+
+  # The builder's own layout, learned from their most recent training upload.
+  def personal_template
+    EstimateTemplate.where("name LIKE ?", "#{Current.user.name} — %").order(updated_at: :desc).first
   end
 
   def estimate_params

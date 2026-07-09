@@ -7,12 +7,26 @@ class TrainingIngestor
   SCHEMA = {
     type: "object",
     additionalProperties: false,
-    required: %w[project_summary template_sections items],
+    required: %w[project_summary template_sections category_totals items],
     properties: {
       project_summary: { type: "string", description: "One paragraph: what this estimate covers" },
       template_sections: {
         type: "array", items: { type: "string" },
         description: "The estimate's own section/work-group names, in document order"
+      },
+      category_totals: {
+        type: "array",
+        description: "Each category/section's own TOTAL as the document states it (header or subtotal rows) — quoted total, and actual total where the document carries actuals. These are the builder's own carried amounts, used for calibration.",
+        items: {
+          type: "object",
+          additionalProperties: false,
+          required: %w[category quoted_total actual_total],
+          properties: {
+            category: { type: "string" },
+            quoted_total: { type: "number", description: "The section total as quoted/estimated; 0 if not stated" },
+            actual_total: { type: "number", description: "The section's actual cost where stated; 0 if none" }
+          }
+        }
       },
       items: {
         type: "array",
@@ -45,7 +59,7 @@ class TrainingIngestor
   def call
     @doc.update!(status: "processing", error_message: nil)
 
-    merged = { "project_summary" => nil, "template_sections" => [], "items" => [] }
+    merged = { "project_summary" => nil, "template_sections" => [], "category_totals" => [], "items" => [] }
     @doc.files.each do |file|
       extraction_units(file).each do |content|
         result = @client.complete_json(
@@ -55,13 +69,15 @@ class TrainingIngestor
         )
         merged["project_summary"] ||= result["project_summary"]
         merged["template_sections"] |= Array(result["template_sections"])
+        merged["category_totals"] |= Array(result["category_totals"])
         merged["items"].concat(Array(result["items"]))
       end
     end
 
     replace_price_book_entries(merged)
     upsert_template(merged)
-    @doc.update!(status: "completed", extraction: merged.slice("project_summary", "template_sections")
+    spawn_calibration_estimate
+    @doc.update!(status: "completed", extraction: merged.slice("project_summary", "template_sections", "category_totals")
       .merge("item_count" => merged["items"].size))
   rescue StandardError => e
     @doc.update!(status: "failed", error_message: e.message.to_s.truncate(1000))
@@ -140,6 +156,26 @@ class TrainingIngestor
       csv = sheet.sheet(0).to_csv
       csv.length > 300_000 ? csv.first(300_000) : csv
     end
+  end
+
+  # Plans uploaded alongside the estimate let the system price the same job
+  # blind; the pair (their estimate, ours) calibrates their profile when the
+  # run completes. PDFs among the files are treated as plans (estimate
+  # documents arrive as spreadsheets; a PDF-only estimate simply calibrates
+  # from nothing and is skipped by the pairer's minimum).
+  def spawn_calibration_estimate
+    plan_files = @doc.files.select { |f| f.content_type == "application/pdf" }
+    return if plan_files.empty? || @doc.extraction["category_totals"].blank?
+    return if Estimate.exists?(calibration_training_document_id: @doc.id)
+
+    estimate = @doc.user.estimates.create!(
+      name: "Calibration — #{@doc.name}",
+      prompt: "Calibration run: estimate these plans independently. #{@doc.extraction['project_summary']}".truncate(500),
+      questionnaire: @doc.questionnaire,
+      calibration_training_document_id: @doc.id
+    )
+    plan_files.each { |f| estimate.plans.attach(f.blob) }
+    GenerateEstimateJob.perform_later(estimate)
   end
 
   # Re-ingesting the same document replaces its previous entries.

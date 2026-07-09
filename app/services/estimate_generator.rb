@@ -58,12 +58,21 @@ class EstimateGenerator
     # Deterministic builder calibration: visible per-section adjustment lines
     # from the user's learned profile, applied after review so the reviewed
     # book-grounded estimate stays intact underneath.
-    if (profile = @estimate.user && CalibrationProfile.find_by(user: @estimate.user))
-      profile.apply!(@estimate) if profile.buckets.present?
+    unless @estimate.calibration_training_document_id?
+      if (profile = @estimate.user && CalibrationProfile.find_by(user: @estimate.user))
+        profile.apply!(@estimate)
+      end
     end
 
     @estimate.recalculate_totals!
     @estimate.update!(status: "completed", progress: 100, progress_note: nil)
+
+    # A calibration run pairs against its source upload and re-derives the
+    # builder's profile (with its own do-no-harm gates).
+    if @estimate.calibration_training_document_id?
+      doc = TrainingDocument.find_by(id: @estimate.calibration_training_document_id)
+      CalibrationPairer.new(doc, @estimate).call if doc&.status == "completed"
+    end
   rescue StandardError => e
     @estimate.fail!(friendly_message(e))
     raise

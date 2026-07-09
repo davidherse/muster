@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_07_135444) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_09_083511) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -45,6 +45,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_07_135444) do
     t.json "derived_from", default: [], null: false
     t.integer "global_bias_pct"
     t.text "notes"
+    t.json "pairs", default: [], null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.index ["user_id"], name: "index_calibration_profiles_on_user_id", unique: true
@@ -86,6 +87,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_07_135444) do
   create_table "estimates", force: :cascade do |t|
     t.json "assessment", default: {}, null: false
     t.string "building_type"
+    t.integer "calibration_training_document_id"
     t.json "costed_sections", default: [], null: false
     t.datetime "created_at", null: false
     t.text "error_message"
@@ -103,6 +105,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_07_135444) do
     t.decimal "total_low", precision: 14, scale: 2
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
+    t.index ["calibration_training_document_id"], name: "index_estimates_on_calibration_training_document_id"
     t.index ["estimate_template_id"], name: "index_estimates_on_estimate_template_id"
     t.index ["user_id"], name: "index_estimates_on_user_id"
   end
@@ -161,6 +164,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_07_135444) do
   add_foreign_key "estimate_line_items", "estimate_sections"
   add_foreign_key "estimate_sections", "estimates"
   add_foreign_key "estimates", "estimate_templates"
+  add_foreign_key "estimates", "training_documents", column: "calibration_training_document_id"
   add_foreign_key "estimates", "users"
   add_foreign_key "price_book_items", "users"
   add_foreign_key "sessions", "users"
