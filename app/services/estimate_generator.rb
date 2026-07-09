@@ -149,13 +149,17 @@ class EstimateGenerator
   end
 
   def create_section(section_data, position)
-    section = @estimate.sections.create!(name: section_data["name"], position: position)
+    # The model occasionally emits the same section name under two template
+    # slots in one run; merge rather than create a same-named sibling.
+    section = @estimate.sections.find_by(name: section_data["name"]) ||
+              @estimate.sections.create!(name: section_data["name"], position: position)
+    base_position = section.line_items.maximum(:position) || 0
     items = section_data["line_items"].each_with_index.map do |item, idx|
       quantity = item["quantity"].to_d
       unit_cost = item["unit_cost"].to_d
       {
         estimate_section_id: section.id,
-        position: idx + 1,
+        position: base_position + idx + 1,
         description: item["description"],
         item_type: EstimateLineItem::ITEM_TYPES.include?(item["item_type"]) ? item["item_type"] : nil,
         uom: item["uom"],
