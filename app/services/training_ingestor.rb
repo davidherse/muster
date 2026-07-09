@@ -239,6 +239,11 @@ class TrainingIngestor
 
     factor = PriceEscalation.factor(@doc.priced_on)
     escalation_note = factor == 1.0 ? "" : " | escalated x#{factor} from #{@doc.priced_on.strftime('%Y-%m')}"
+    # Package semantics differ by document kind: in a job-costing export with
+    # actuals, a lump allowance records SPEND (adopt-or-itemise applies); in a
+    # quote-format document it is the builder's quoting ANCHOR for that scope
+    # and must stay freely usable.
+    has_actuals = Array(result["category_totals"]).any? { |r| r["actual_total"].to_f.positive? }
     rows = result["items"].filter_map do |item|
       next if item["unit_cost"].to_f <= 0
       {
@@ -252,7 +257,7 @@ class TrainingIngestor
         source_kind: "user",
         user_id: @doc.user_id,
         context: @doc.questionnaire.to_h.merge(
-          item["uom"].to_s.match?(/allowance/i) ? { "package" => "package/lump price at its source scope — ADOPT it for that scope OR itemise the scope, never both" } : {}
+          has_actuals && item["uom"].to_s.match?(/allowance/i) ? { "package" => "package/lump price at its source scope — ADOPT it for that scope OR itemise the scope, never both" } : {}
         ),
         created_at: Time.current,
         updated_at: Time.current
