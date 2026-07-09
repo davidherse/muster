@@ -295,7 +295,9 @@ class LineItemGenerator
     user = @estimate.user
     return nil unless user
     buckets = batch_buckets(sections)
-    entries = PriceBookItem.for_user(user).select { |i| buckets.include?(TradeBucket.for(i.category)) }
+    entries = PriceBookItem.for_user(user)
+                           .reject { |i| i.context.to_h["category_rollup"] }
+                           .select { |i| buckets.include?(TradeBucket.for(i.category)) }
     return nil if entries.empty?
     PriceBookItem.reference_text(scope: PriceBookItem.where(id: entries.map(&:id)), with_context: true)
   end
