@@ -14,6 +14,21 @@ class EstimateGenerator
   end
 
   def call(resume: false)
+    # Two generators racing one estimate duplicate its sections. The advisory
+    # claim flips status inside a row lock; a second caller sees processing
+    # and refuses. Resume (crash recovery) bypasses the claim deliberately.
+    unless resume
+      claimed = @estimate.with_lock do
+        if @estimate.status == "processing"
+          false
+        else
+          @estimate.update!(status: "processing")
+          true
+        end
+      end
+      raise Ai::Client::Error, "This estimate is already being generated." unless claimed
+    end
+
     resume &&= @estimate.plan_summary.present?
 
     analysis =
