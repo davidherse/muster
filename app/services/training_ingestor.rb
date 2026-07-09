@@ -76,9 +76,9 @@ class TrainingIngestor
 
     replace_price_book_entries(merged)
     upsert_template(merged)
-    spawn_calibration_estimate
     @doc.update!(status: "completed", extraction: merged.slice("project_summary", "template_sections", "category_totals")
       .merge("item_count" => merged["items"].size))
+    spawn_calibration_estimate
   rescue StandardError => e
     @doc.update!(status: "failed", error_message: e.message.to_s.truncate(1000))
     raise
