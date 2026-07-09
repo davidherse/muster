@@ -75,6 +75,7 @@ class TrainingIngestor
     end
 
     replace_price_book_entries(merged)
+    verify_entries(merged)
     upsert_template(merged)
     @doc.update!(status: "completed", extraction: merged.slice("project_summary", "template_sections", "category_totals")
       .merge("item_count" => merged["items"].size))
@@ -156,6 +157,51 @@ class TrainingIngestor
       csv = sheet.sheet(0).to_csv
       csv.length > 300_000 ? csv.first(300_000) : csv
     end
+  end
+
+  # Deterministic post-ingest verification against the document's own
+  # category totals — no external data needed:
+  # 1. An entry worth >=80% of its whole category is a ROLLUP (the category
+  #    package captured as one line) — flagged so it never binds as a
+  #    line-item comparable; a $173k 'overall joinery' allowance stacking on
+  #    itemised joinery is how calibration runs inflate.
+  # 2. Lump entries summing far above the category's actual are double
+  #    counts — largest offenders drop until the category reconciles.
+  def verify_entries(merged)
+    factor = PriceEscalation.factor(@doc.priced_on)
+    actuals = {}
+    Array(merged["category_totals"]).each do |r|
+      v = r["actual_total"].to_f.positive? ? r["actual_total"].to_f : r["quoted_total"].to_f
+      actuals[r["category"]] = v * factor if v.positive?
+    end
+    return if actuals.empty?
+
+    items = PriceBookItem.where("source LIKE ?", "#{source_tag} %").or(
+      PriceBookItem.where("source LIKE ?", "#{source_tag}|%"))
+    flagged = 0
+    dropped = 0
+    items.group_by(&:category).each do |cat, entries|
+      actual = actuals[cat]
+      next unless actual && actual > 10_000
+
+      entries.each do |i|
+        next unless i.unit_cost.to_f >= actual * 0.8
+        i.update!(context: i.context.to_h.merge(
+          "category_rollup" => true,
+          "note" => "rollup of the whole #{cat} package (~category total) — ceiling reference only, never a line-item comparable"))
+        flagged += 1
+      end
+
+      lumps = entries.reject { |i| i.context.to_h["category_rollup"] }
+                     .select { |i| i.uom.to_s =~ /allowance/i }
+                     .sort_by { |i| -i.unit_cost.to_f }
+      while lumps.sum { |i| i.unit_cost.to_f } > actual * 1.15 && lumps.size > 1
+        doomed = lumps.shift
+        doomed.destroy
+        dropped += 1
+      end
+    end
+    Rails.logger.info("TrainingIngestor verify: #{flagged} rollups flagged, #{dropped} double-counts dropped for doc #{@doc.id}")
   end
 
   # Plans uploaded alongside the estimate let the system price the same job
