@@ -168,9 +168,10 @@ class TrainingIngestor
     return if plan_files.empty? || @doc.extraction["category_totals"].blank?
     return if Estimate.exists?(calibration_training_document_id: @doc.id)
 
+    brief = @doc.description.presence || @doc.extraction["project_summary"]
     estimate = @doc.user.estimates.create!(
       name: "Calibration — #{@doc.name}",
-      prompt: "Calibration run: estimate these plans independently. #{@doc.extraction['project_summary']}".truncate(500),
+      prompt: brief.to_s.truncate(2000),
       questionnaire: @doc.questionnaire,
       calibration_training_document_id: @doc.id
     )

@@ -28,6 +28,6 @@ class TrainingDocumentsController < ApplicationController
   private
 
   def document_params
-    params.require(:training_document).permit(:name, :priced_on, files: [], questionnaire: {})
+    params.require(:training_document).permit(:name, :priced_on, :description, files: [], questionnaire: {})
   end
 end

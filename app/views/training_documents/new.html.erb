@@ -19,6 +19,12 @@
       <div>
         <%= form.label :priced_on, "When was this estimate priced?", class: "block text-sm font-medium text-gray-700" %>
         <%= form.date_field :priced_on, required: true, max: Date.current, class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full md:w-64" %>
+      </div>
+
+      <div class="mt-4">
+        <%= form.label :description, "Describe the job in your own words", class: "block text-sm font-medium text-gray-700" %>
+        <p class="text-sm text-gray-500 mt-1">Scope, what was retained vs new, anything unusual about the site or spec. The more you tell us, the better we learn how you price — this description drives the calibration estimate we run against your plans.</p>
+        <%= form.text_area :description, rows: 4, placeholder: "e.g. Raise and build-under of a pre-war Queenslander on a steep block; full repaint incl. retained VJ; new pool; retaining by others…", class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
         <p class="mt-1 text-xs text-gray-500">Rates are escalated to today's dollars from this date (Brisbane construction cost movement).</p>
       </div>
       <div>
