@@ -192,7 +192,10 @@ class EstimateReviewer
         remove or reduce anything. Additions must be priced at recorded PRICE BOOK
         rates where a comparable exists — a completeness correction is not a
         license for market instinct. Hunt for:
-        - features in the analysis or brief with no line items at all
+        - features in the analysis or brief with no line items at all — but
+          NEVER add items whose scope an adopted package/lump allowance in the
+          estimate already covers; a package plus its own contents is double
+          counting, not completeness
         - quantities inconsistent with documented areas/counts (paint priced below
           the stated paint area, fewer openings than the schedule, hire not
           carried for the stated duration)

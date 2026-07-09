@@ -244,7 +244,9 @@ class TrainingIngestor
         source: source_tag + escalation_note,
         source_kind: "user",
         user_id: @doc.user_id,
-        context: @doc.questionnaire,
+        context: @doc.questionnaire.to_h.merge(
+          item["uom"].to_s.match?(/allowance/i) ? { "package" => "package/lump price at its source scope — ADOPT it for that scope OR itemise the scope, never both" } : {}
+        ),
         created_at: Time.current,
         updated_at: Time.current
       }

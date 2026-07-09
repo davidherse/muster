@@ -138,6 +138,13 @@ class LineItemGenerator
         basis does not remove work the BUILDER'S NOTES confirm as included —
         the builder's stated scope outranks drawing notes; cost it and record
         the conflict in assumptions.
+      - Package adoption is exclusive: when a bound comparable is a package or
+        lump allowance covering a scope (a plumbing package, a stone benchtop
+        provisional, a roofing package), adopting it REPLACES itemised buildup
+        for that scope — pricing the package AND itemising its contents is
+        double counting, the classic way a builder's own uploaded rates
+        inflate their next estimate. Adopt the package where it matches the
+        scope; itemise only what the package excludes, and say so.
       - Services on room-scale scopes: electrical and plumbing price from the
         book's recorded rates (per m2, per point, per hour, or a recorded
         room allowance) applied to this job's takeoff quantities and fixture
