@@ -19,6 +19,12 @@
       </div>
 
       <div class="grid gap-2">
+        <%= form.label :estimate_template_id, "Estimate layout", class: ui_label %>
+        <%= form.collection_select :estimate_template_id, EstimateTemplate.order(:name), :id, :name, {}, { class: ui_select } %>
+        <p class="text-xs text-muted-foreground">Controls the sections your estimate is broken into.</p>
+      </div>
+
+      <div class="grid gap-2">
         <%= form.label :plans, "Plans & specifications (PDF)", class: ui_label %>
         <%= form.file_field :plans, accept: "application/pdf", multiple: true, required: true, class: "block w-full text-sm text-muted-foreground file:mr-4 file:rounded-md file:border-0 file:bg-secondary file:px-4 file:py-2 file:text-secondary-foreground file:font-medium file:cursor-pointer hover:file:bg-secondary/80" %>
         <p class="text-xs text-muted-foreground">Select multiple PDFs — architectural plans plus any specification schedule, engineering set, or soil report. Up to 50 MB each.</p>
@@ -31,11 +37,6 @@
 
       <%= render "shared/questionnaire_fields", answers: @estimate.questionnaire, param_root: "estimate" %>
 
-      <div class="grid gap-2">
-        <%= form.label :estimate_template_id, "Estimate layout", class: ui_label %>
-        <%= form.collection_select :estimate_template_id, EstimateTemplate.order(:name), :id, :name, {}, { class: ui_select } %>
-        <p class="text-xs text-muted-foreground">Controls the sections your estimate is broken into.</p>
-      </div>
     </div>
 
     <div class="mt-6 flex items-center gap-3">
