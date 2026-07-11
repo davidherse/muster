@@ -58,7 +58,10 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: ENV.fetch("APP_HOST", "example.com") }
+  config.action_mailer.default_url_options = { host: ENV.fetch("APP_HOST", "muster.build"), protocol: "https" }
+
+  # Allowed request hosts.
+  config.hosts = [ "muster.build", "www.muster.build", /.*\.herokuapp\.com/ ]
 
   # Outgoing SMTP from ENV (see .env.example). Emails are silently skipped if unset.
   if ENV["SMTP_ADDRESS"].present?

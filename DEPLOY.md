@@ -43,7 +43,7 @@ so they run on a dedicated worker dyno.
   the same Postgres).
 - Daily dyno restarts can interrupt an estimate mid-generation; the app's
   resume support picks up from the last costed section via the estimate page.
-- Mail: SendGrid SMTP is configured; set the key and verify the sender:
-      heroku config:set SENDGRID_API_KEY=SG....
+- Mail (SendGrid via the generic SMTP env vars):
+      heroku config:set SMTP_ADDRESS=smtp.sendgrid.net SMTP_PORT=587 SMTP_USERNAME=apikey SMTP_PASSWORD=SG.your-key SMTP_DOMAIN=muster.build
   In SendGrid: authenticate the muster.build domain (Settings -> Sender
   Authentication) so activation emails don't land in spam.
