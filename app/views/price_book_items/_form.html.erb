@@ -1,6 +1,6 @@
 <%= form_with model: item, class: "contents" do |form| %>
   <% if item.errors.any? %>
-    <div class="py-2 px-3 bg-red-50 mb-5 text-red-600 font-medium rounded-lg">
+    <div class="<%= ui_alert(variant: :destructive) %> mb-5">
       <ul class="list-disc list-inside">
         <% item.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -9,36 +9,36 @@
     </div>
   <% end %>
 
-  <div class="bg-white border border-gray-200 rounded-xl p-6 space-y-5">
-    <div>
-      <%= form.label :category, class: "block text-sm font-medium text-gray-700" %>
-      <%= form.text_field :category, required: true, class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+  <div class="<%= ui_card %> p-6 space-y-5">
+    <div class="grid gap-2">
+      <%= form.label :category, class: ui_label %>
+      <%= form.text_field :category, required: true, class: ui_input %>
     </div>
-    <div>
-      <%= form.label :description, class: "block text-sm font-medium text-gray-700" %>
-      <%= form.text_area :description, rows: 2, required: true, class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+    <div class="grid gap-2">
+      <%= form.label :description, class: ui_label %>
+      <%= form.text_area :description, rows: 2, required: true, class: ui_textarea %>
     </div>
     <div class="grid grid-cols-3 gap-4">
-      <div>
-        <%= form.label :item_type, "Type", class: "block text-sm font-medium text-gray-700" %>
-        <%= form.select :item_type, EstimateLineItem::ITEM_TYPES, { include_blank: true }, { class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" } %>
+      <div class="grid gap-2">
+        <%= form.label :item_type, "Type", class: ui_label %>
+        <%= form.select :item_type, EstimateLineItem::ITEM_TYPES, { include_blank: true }, { class: ui_select } %>
       </div>
-      <div>
-        <%= form.label :uom, "UOM", class: "block text-sm font-medium text-gray-700" %>
-        <%= form.text_field :uom, placeholder: "m2, ea, hour…", class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+      <div class="grid gap-2">
+        <%= form.label :uom, "UOM", class: ui_label %>
+        <%= form.text_field :uom, placeholder: "m2, ea, hour…", class: ui_input %>
       </div>
-      <div>
-        <%= form.label :unit_cost, "Unit cost (ex. GST)", class: "block text-sm font-medium text-gray-700" %>
-        <%= form.number_field :unit_cost, step: 0.01, min: 0, required: true, class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+      <div class="grid gap-2">
+        <%= form.label :unit_cost, "Unit cost (ex. GST)", class: ui_label %>
+        <%= form.number_field :unit_cost, step: 0.01, min: 0, required: true, class: ui_input %>
       </div>
     </div>
   </div>
 
-  <div class="mt-6 flex items-center gap-4">
-    <%= form.submit class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium cursor-pointer" %>
-    <%= link_to "Cancel", price_book_items_path, class: "text-gray-600 hover:text-gray-900" %>
+  <div class="mt-6 flex items-center gap-3">
+    <%= form.submit class: ui_button %>
+    <%= link_to "Cancel", price_book_items_path, class: ui_button(variant: :ghost) %>
     <% unless item.new_record? %>
-      <%= button_to "Delete", price_book_item_path(item), method: :delete, data: { turbo_confirm: "Remove this item?" }, class: "ml-auto text-red-600 hover:underline cursor-pointer" %>
+      <%= button_to "Delete", price_book_item_path(item), method: :delete, data: { turbo_confirm: "Remove this item?" }, class: "#{ui_button(variant: :destructive, size: :sm)} ml-auto" %>
     <% end %>
   </div>
 <% end %>

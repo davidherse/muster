@@ -1,36 +1,36 @@
-      <fieldset class="border-t border-gray-100 pt-5">
-        <legend class="text-sm font-semibold text-gray-900">Clarifications <span class="font-normal text-gray-500">— the details that most move an estimate; skip any you're unsure of</span></legend>
+      <fieldset class="border-t border-border pt-5">
+        <legend class="text-sm font-semibold text-foreground">Clarifications <span class="font-normal text-muted-foreground">— the details that most move an estimate; skip any you're unsure of</span></legend>
         <div class="grid md:grid-cols-2 gap-x-6 gap-y-5 mt-4">
           <% EstimateQuestionnaire::QUESTIONS.each do |q| %>
-            <div class="<%= q[:type] == :text || q[:type] == :multi ? "md:col-span-2" : "" %>">
-              <label class="block text-sm font-medium text-gray-700"><%= q[:label] %></label>
+            <div class="<%= q[:type] == :text || q[:type] == :multi ? "md:col-span-2" : "" %> grid gap-2 content-start">
+              <label class="<%= ui_label %>"><%= q[:label] %></label>
               <% case q[:type] %>
               <% when :select %>
                 <%= select_tag "#{param_root}[questionnaire][#{q[:key]}]",
                       options_for_select(q[:options], answers[q[:key]]),
                       include_blank: "— not sure / not applicable —",
-                      class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+                      class: ui_select %>
               <% when :number %>
                 <%= number_field_tag "#{param_root}[questionnaire][#{q[:key]}]", answers[q[:key]],
-                      min: 1, max: 36, step: 1, placeholder: "Let the estimator judge",
-                      class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+                      min: 1, step: 1, placeholder: "Let the estimator judge",
+                      class: ui_input %>
               <% when :multi %>
-                <div class="mt-2 flex flex-wrap gap-x-5 gap-y-2">
+                <div class="flex flex-wrap gap-x-5 gap-y-2">
                   <% q[:options].each do |opt| %>
-                    <label class="inline-flex items-center gap-2 text-sm text-gray-700">
+                    <label class="inline-flex items-center gap-2 text-sm text-foreground">
                       <%= check_box_tag "#{param_root}[questionnaire][#{q[:key]}][]", opt,
                             Array(answers[q[:key]]).include?(opt),
-                            id: "q_#{q[:key]}_#{opt.parameterize}", class: "rounded border-gray-300" %>
+                            id: "q_#{q[:key]}_#{opt.parameterize}", class: "rounded border-input text-primary focus:ring-ring" %>
                       <%= opt %>
                     </label>
                   <% end %>
                 </div>
               <% when :text %>
                 <%= text_area_tag "#{param_root}[questionnaire][#{q[:key]}]", answers[q[:key]],
-                      rows: 2, class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+                      rows: 2, class: ui_textarea %>
               <% end %>
               <% if q[:hint] %>
-                <p class="mt-1 text-xs text-gray-500"><%= q[:hint] %></p>
+                <p class="text-xs text-muted-foreground"><%= q[:hint] %></p>
               <% end %>
             </div>
           <% end %>

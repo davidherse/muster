@@ -1,9 +1,9 @@
 <div class="mx-auto md:w-2/3 w-full">
-  <h1 class="font-bold text-3xl mb-6">New estimate</h1>
+  <h1 class="font-semibold text-3xl tracking-tight mb-6">New estimate</h1>
 
   <%= form_with model: @estimate, class: "contents" do |form| %>
     <% if @estimate.errors.any? %>
-      <div class="py-2 px-3 bg-red-50 mb-5 text-red-600 font-medium rounded-lg" id="error_explanation">
+      <div class="<%= ui_alert(variant: :destructive) %> mb-5" id="error_explanation">
         <ul class="list-disc list-inside">
           <% @estimate.errors.full_messages.each do |message| %>
             <li><%= message %></li>
@@ -12,35 +12,35 @@
       </div>
     <% end %>
 
-    <div class="bg-white border border-gray-200 rounded-xl p-6 space-y-6">
-      <div>
-        <%= form.label :name, "Project name", class: "block text-sm font-medium text-gray-700" %>
-        <%= form.text_field :name, required: true, placeholder: "e.g. 12 Smith St Renovation", class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+    <div class="<%= ui_card %> p-6 space-y-6">
+      <div class="grid gap-2">
+        <%= form.label :name, "Project name", class: ui_label %>
+        <%= form.text_field :name, required: true, placeholder: "e.g. 12 Smith St Renovation", class: ui_input %>
       </div>
 
-      <div>
-        <%= form.label :plans, "Plans & specifications (PDF)", class: "block text-sm font-medium text-gray-700" %>
-        <%= form.file_field :plans, accept: "application/pdf", multiple: true, required: true, class: "block mt-2 w-full text-sm text-gray-600 file:mr-4 file:rounded-md file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-blue-700 file:font-medium hover:file:bg-blue-100" %>
-        <p class="mt-1 text-xs text-gray-500">Select multiple PDFs — architectural plans plus any specification schedule, engineering set, or soil report. Up to 50 MB each.</p>
+      <div class="grid gap-2">
+        <%= form.label :plans, "Plans & specifications (PDF)", class: ui_label %>
+        <%= form.file_field :plans, accept: "application/pdf", multiple: true, required: true, class: "block w-full text-sm text-muted-foreground file:mr-4 file:rounded-md file:border-0 file:bg-secondary file:px-4 file:py-2 file:text-secondary-foreground file:font-medium file:cursor-pointer hover:file:bg-secondary/80" %>
+        <p class="text-xs text-muted-foreground">Select multiple PDFs — architectural plans plus any specification schedule, engineering set, or soil report. Up to 50 MB each.</p>
       </div>
 
-      <div>
-        <%= form.label :prompt, "Additional information", class: "block text-sm font-medium text-gray-700" %>
-        <%= form.text_area :prompt, rows: 5, placeholder: "Anything the plans don't say: finish level, known site issues, inclusions/exclusions, client budget expectations…", class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+      <div class="grid gap-2">
+        <%= form.label :prompt, "Additional information", class: ui_label %>
+        <%= form.text_area :prompt, rows: 5, placeholder: "Anything the plans don't say: finish level, known site issues, inclusions/exclusions, client budget expectations…", class: ui_textarea %>
       </div>
 
       <%= render "shared/questionnaire_fields", answers: @estimate.questionnaire, param_root: "estimate" %>
 
-      <div>
-        <%= form.label :estimate_template_id, "Estimate layout", class: "block text-sm font-medium text-gray-700" %>
-        <%= form.collection_select :estimate_template_id, EstimateTemplate.order(:name), :id, :name, {}, { class: "block shadow-sm rounded-md border border-gray-300 focus:outline-blue-600 px-3 py-2 mt-2 w-full" } %>
-        <p class="mt-1 text-xs text-gray-500">Controls the sections your estimate is broken into.</p>
+      <div class="grid gap-2">
+        <%= form.label :estimate_template_id, "Estimate layout", class: ui_label %>
+        <%= form.collection_select :estimate_template_id, EstimateTemplate.order(:name), :id, :name, {}, { class: ui_select } %>
+        <p class="text-xs text-muted-foreground">Controls the sections your estimate is broken into.</p>
       </div>
     </div>
 
-    <div class="mt-6 flex items-center gap-4">
-      <%= form.submit "Generate estimate", class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium cursor-pointer" %>
-      <%= link_to "Cancel", estimates_path, class: "text-gray-600 hover:text-gray-900" %>
+    <div class="mt-6 flex items-center gap-3">
+      <%= form.submit "Generate estimate", class: ui_button %>
+      <%= link_to "Cancel", estimates_path, class: ui_button(variant: :ghost) %>
     </div>
   <% end %>
 </div>

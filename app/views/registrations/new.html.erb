@@ -1,42 +1,49 @@
-<div class="mx-auto md:w-1/2 w-full">
-  <h1 class="font-bold text-4xl">Create your account</h1>
-
-  <%= form_with model: @user, url: registration_url, class: "contents" do |form| %>
-    <% if @user.errors.any? %>
-      <div class="py-2 px-3 bg-red-50 my-5 text-red-600 font-medium rounded-lg" id="error_explanation">
-        <ul class="list-disc list-inside">
-          <% @user.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-
-    <div class="my-5">
-      <%= form.label :name, class: "block text-sm font-medium text-gray-700" %>
-      <%= form.text_field :name, required: true, autofocus: true, placeholder: "Your name", class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
+<div class="mx-auto max-w-md w-full mt-16">
+  <div class="flex justify-center mb-8">
+    <%= image_tag "muster_logo.svg", alt: "Muster", class: "h-8 w-auto" %>
+  </div>
+  <div class="<%= ui_card %>">
+    <div class="<%= ui_card_header %>">
+      <h1 class="<%= ui_card_title %> text-xl">Create your account</h1>
+      <p class="<%= ui_card_description %>">Muster builds costed estimates from your plans.</p>
     </div>
+    <div class="<%= ui_card_content %>">
+      <%= form_with model: @user, url: registration_url, class: "contents" do |form| %>
+        <% if @user.errors.any? %>
+          <div class="<%= ui_alert(variant: :destructive) %> mb-4" id="error_explanation">
+            <ul class="list-disc list-inside">
+              <% @user.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
 
-    <div class="my-5">
-      <%= form.label :email_address, "Email address", class: "block text-sm font-medium text-gray-700" %>
-      <%= form.email_field :email_address, required: true, autocomplete: "username", placeholder: "you@example.com", class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-    </div>
+        <div class="grid gap-2 mb-4">
+          <%= form.label :name, class: ui_label %>
+          <%= form.text_field :name, required: true, autofocus: true, placeholder: "Your name", class: ui_input %>
+        </div>
 
-    <div class="my-5">
-      <%= form.label :password, class: "block text-sm font-medium text-gray-700" %>
-      <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "At least 8 characters", maxlength: 72, class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-    </div>
+        <div class="grid gap-2 mb-4">
+          <%= form.label :email_address, "Email address", class: ui_label %>
+          <%= form.email_field :email_address, required: true, autocomplete: "username", placeholder: "you@example.com", class: ui_input %>
+        </div>
 
-    <div class="my-5">
-      <%= form.label :password_confirmation, "Confirm password", class: "block text-sm font-medium text-gray-700" %>
-      <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", placeholder: "Repeat your password", maxlength: 72, class: "block shadow-sm rounded-md border border-gray-400 focus:outline-blue-600 px-3 py-2 mt-2 w-full" %>
-    </div>
+        <div class="grid gap-2 mb-4">
+          <%= form.label :password, class: ui_label %>
+          <%= form.password_field :password, required: true, autocomplete: "new-password", placeholder: "At least 8 characters", maxlength: 72, class: ui_input %>
+        </div>
 
-    <div class="sm:flex sm:items-center sm:gap-4">
-      <%= form.submit "Sign up", class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
-      <div class="mt-4 text-sm text-gray-500 sm:mt-0">
-        Already have an account? <%= link_to "Sign in", new_session_path, class: "text-gray-700 underline hover:no-underline" %>
-      </div>
+        <div class="grid gap-2 mb-6">
+          <%= form.label :password_confirmation, "Confirm password", class: ui_label %>
+          <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", maxlength: 72, class: ui_input %>
+        </div>
+
+        <%= form.submit "Sign up", class: "#{ui_button} w-full" %>
+        <div class="mt-4 text-sm text-muted-foreground text-center">
+          Already have an account? <%= link_to "Sign in", new_session_path, class: "underline underline-offset-4 hover:text-foreground" %>
+        </div>
+      <% end %>
     </div>
-  <% end %>
+  </div>
 </div>

@@ -1,7 +1,7 @@
-<% styles = {
-  "draft" => "bg-gray-100 text-gray-700",
-  "processing" => "bg-amber-100 text-amber-700",
-  "completed" => "bg-green-100 text-green-700",
-  "failed" => "bg-red-100 text-red-700"
+<% variants = {
+  "draft" => ui_badge(variant: :outline),
+  "processing" => ui_badge(variant: :secondary),
+  "completed" => ui_badge(variant: :success),
+  "failed" => ui_badge(variant: :destructive)
 } %>
-<span class="text-xs font-semibold px-2.5 py-1 rounded-full <%= styles[estimate.status] %>"><%= estimate.status.capitalize %></span>
+<span class="<%= variants[estimate.status] %>"><%= estimate.status.capitalize %></span>
