@@ -1,6 +1,8 @@
 <div class="mx-auto max-w-md w-full mt-16">
   <div class="flex justify-center mb-8">
-    <%= image_tag "muster_logo.svg", alt: "Muster", class: "h-8 w-auto" %>
+    <%= link_to root_path, title: "Muster home" do %>
+      <%= image_tag "muster_logo.svg", alt: "Muster", class: "h-8 w-auto" %>
+    <% end %>
   </div>
   <div class="<%= ui_card %>">
     <div class="<%= ui_card_header %>">
