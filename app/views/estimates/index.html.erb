@@ -1,31 +1,69 @@
-<div class="flex items-center justify-between mb-8">
-  <h1 class="font-semibold text-3xl tracking-tight">Estimates</h1>
+<div class="flex items-center justify-between mb-6">
+  <div>
+    <h1 class="font-semibold text-3xl tracking-tight">Estimates</h1>
+    <p class="text-sm text-muted-foreground mt-1"><%= @total_count %> estimate<%= "s" unless @total_count == 1 %></p>
+  </div>
   <%= link_to "＋ New estimate", new_estimate_path, class: ui_button %>
 </div>
 
+<%= form_with url: estimates_path, method: :get, class: "mb-5" do |form| %>
+  <%= form.text_field :q, value: params[:q], placeholder: "Search estimates…", class: "#{ui_input} md:w-80" %>
+<% end %>
+
 <% if @estimates.none? %>
   <div class="<%= ui_card %> p-12 text-center text-muted-foreground">
-    <p class="text-lg mb-2 text-foreground font-medium">No estimates yet.</p>
-    <p>Upload a PDF plan and Muster will build a costed estimate for you.</p>
-    <%= link_to "Create your first estimate", new_estimate_path, class: "#{ui_button} mt-6" %>
-  </div>
-<% else %>
-  <div class="<%= ui_card %> divide-y divide-border overflow-hidden">
-    <% @estimates.each do |estimate| %>
-      <%= link_to estimate_path(estimate), class: "flex items-center justify-between px-5 py-4 hover:bg-muted/50 transition-colors" do %>
-        <div>
-          <p class="font-semibold text-foreground"><%= estimate.name %></p>
-          <p class="text-sm text-muted-foreground">
-            <%= estimate.building_type.presence || "—" %> · <%= estimate.created_at.strftime("%-d %b %Y") %>
-          </p>
-        </div>
-        <div class="flex items-center gap-4">
-          <% if estimate.completed? && estimate.total %>
-            <span class="font-semibold text-foreground"><%= number_to_currency(estimate.total, unit: "$", precision: 0) %></span>
-          <% end %>
-          <%= render "status_badge", estimate: estimate %>
-        </div>
-      <% end %>
+    <p class="text-lg mb-2 text-foreground font-medium"><%= params[:q].present? ? "No matches." : "No estimates yet." %></p>
+    <% if params[:q].blank? %>
+      <p>Upload a PDF plan and Muster will build a costed estimate for you.</p>
+      <%= link_to "Create your first estimate", new_estimate_path, class: "#{ui_button} mt-6" %>
     <% end %>
   </div>
+<% else %>
+  <div class="<%= ui_card %> overflow-hidden">
+    <table class="<%= ui_table %>">
+      <thead class="bg-muted/50">
+        <tr class="<%= ui_table_header_row %>">
+          <th class="<%= ui_table_head %> px-5">Project</th>
+          <th class="<%= ui_table_head %>">Status</th>
+          <th class="<%= ui_table_head %> text-right">Estimate</th>
+          <th class="<%= ui_table_head %> text-right hidden md:table-cell">Range</th>
+          <th class="<%= ui_table_head %> px-5 text-right">Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @estimates.each do |estimate| %>
+          <tr class="<%= ui_table_row %> cursor-pointer" onclick="Turbo.visit('<%= estimate_path(estimate) %>')">
+            <td class="<%= ui_table_cell %> px-5">
+              <p class="font-medium text-foreground"><%= link_to estimate.name, estimate_path(estimate), class: "hover:underline underline-offset-4" %></p>
+              <p class="text-xs text-muted-foreground"><%= estimate.building_type.presence || "—" %></p>
+            </td>
+            <td class="<%= ui_table_cell %>"><%= render "status_badge", estimate: estimate %></td>
+            <td class="<%= ui_table_cell %> text-right font-semibold text-foreground">
+              <%= estimate.completed? && estimate.total ? number_to_currency(estimate.total, unit: "$", precision: 0) : "—" %>
+            </td>
+            <td class="<%= ui_table_cell %> text-right text-muted-foreground text-xs hidden md:table-cell">
+              <% if estimate.completed? && estimate.total_low %>
+                <%= number_to_currency(estimate.total_low, unit: "$", precision: 0) %>–<%= number_to_currency(estimate.total_high, unit: "$", precision: 0) %>
+              <% else %>—<% end %>
+            </td>
+            <td class="<%= ui_table_cell %> px-5 text-right text-muted-foreground"><%= estimate.created_at.strftime("%-d %b %Y") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <% if @total_pages > 1 %>
+    <div class="flex items-center justify-between mt-4">
+      <p class="text-sm text-muted-foreground">Page <%= @page %> of <%= @total_pages %></p>
+      <div class="flex gap-2">
+        <% if @page > 1 %>
+          <%= link_to "← Previous", estimates_path(page: @page - 1, q: params[:q].presence), class: ui_button(variant: :outline, size: :sm) %>
+        <% end %>
+        <% if @page < @total_pages %>
+          <%= link_to "Next →", estimates_path(page: @page + 1, q: params[:q].presence), class: ui_button(variant: :outline, size: :sm) %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
 <% end %>

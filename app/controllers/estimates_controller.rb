@@ -1,8 +1,16 @@
 class EstimatesController < ApplicationController
   before_action :set_estimate, only: %i[ show csv status regenerate destroy ]
 
+  PER_PAGE = 15
+
   def index
-    @estimates = Current.user.estimates.recent_first
+    scope = Current.user.estimates.recent_first
+    scope = scope.where("name LIKE ?", "%#{ActiveRecord::Base.sanitize_sql_like(params[:q])}%") if params[:q].present?
+    @total_count = scope.count
+    @page = [ params[:page].to_i, 1 ].max
+    @total_pages = [ (@total_count / PER_PAGE.to_f).ceil, 1 ].max
+    @page = @total_pages if @page > @total_pages
+    @estimates = scope.offset((@page - 1) * PER_PAGE).limit(PER_PAGE)
   end
 
   def new

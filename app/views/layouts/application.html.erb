@@ -22,34 +22,50 @@
 
   <body class="bg-background min-h-screen">
     <% if authenticated? %>
-      <nav class="bg-card border-b border-border">
-        <div class="container mx-auto px-5 py-3 flex items-center justify-between">
-          <div class="flex items-center gap-8">
+      <div class="flex min-h-screen">
+        <aside class="w-64 shrink-0 border-r border-border bg-card flex flex-col fixed inset-y-0">
+          <div class="px-5 py-6 border-b border-border">
             <%= link_to root_path, class: "flex items-center" do %>
-              <%= image_tag "muster_logo.svg", alt: "Muster", class: "h-6 w-auto" %>
+              <%= image_tag "muster_logo.svg", alt: "Muster", class: "h-9 w-auto" %>
             <% end %>
-            <div class="flex gap-1 text-sm font-medium">
-              <%= link_to "Estimates", estimates_path, class: "px-3 py-1.5 rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors" %>
-              <%= link_to "Price Book", price_book_items_path, class: "px-3 py-1.5 rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors" %>
-              <%= link_to "Training", training_documents_path, class: "px-3 py-1.5 rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors" %>
-            </div>
           </div>
-          <div class="flex items-center gap-4 text-sm">
-            <span class="text-muted-foreground"><%= Current.user.email_address %></span>
-            <%= button_to "Sign out", session_path, method: :delete, class: ui_button(variant: :ghost, size: :sm) %>
+          <nav class="flex-1 px-3 py-4 space-y-1 text-sm font-medium">
+            <% nav_items = [ [ "Estimates", estimates_path, "📄" ], [ "Training", training_documents_path, "🎓" ] ] %>
+            <% nav_items << [ "Price Book", price_book_items_path, "📒" ] if Current.user.admin? %>
+            <% nav_items.each do |label, path, icon| %>
+              <% active = request.path.start_with?(path) %>
+              <%= link_to path, class: "flex items-center gap-3 px-3 py-2 rounded-md transition-colors #{active ? 'bg-secondary text-secondary-foreground' : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'}" do %>
+                <span class="text-base leading-none"><%= icon %></span>
+                <span><%= label %></span>
+              <% end %>
+            <% end %>
+          </nav>
+          <div class="px-5 py-4 border-t border-border">
+            <p class="text-xs text-muted-foreground truncate mb-2"><%= Current.user.email_address %></p>
+            <%= button_to "Sign out", session_path, method: :delete, class: "#{ui_button(variant: :outline, size: :sm)} w-full" %>
           </div>
-        </div>
-      </nav>
-    <% end %>
+        </aside>
 
-    <main class="container mx-auto mt-10 mb-20 px-5">
-      <% if alert = flash[:alert] %>
-        <div class="<%= ui_alert(variant: :destructive) %> mb-5" id="alert"><%= alert %></div>
-      <% end %>
-      <% if notice = flash[:notice] %>
-        <div class="<%= ui_alert %> mb-5" id="notice"><%= notice %></div>
-      <% end %>
-      <%= yield %>
-    </main>
+        <main class="flex-1 ml-64 px-8 py-8 max-w-6xl">
+          <% if alert = flash[:alert] %>
+            <div class="<%= ui_alert(variant: :destructive) %> mb-5" id="alert"><%= alert %></div>
+          <% end %>
+          <% if notice = flash[:notice] %>
+            <div class="<%= ui_alert %> mb-5" id="notice"><%= notice %></div>
+          <% end %>
+          <%= yield %>
+        </main>
+      </div>
+    <% else %>
+      <main class="container mx-auto mt-10 mb-20 px-5">
+        <% if alert = flash[:alert] %>
+          <div class="<%= ui_alert(variant: :destructive) %> mb-5" id="alert"><%= alert %></div>
+        <% end %>
+        <% if notice = flash[:notice] %>
+          <div class="<%= ui_alert %> mb-5" id="notice"><%= notice %></div>
+        <% end %>
+        <%= yield %>
+      </main>
+    <% end %>
   </body>
 </html>

@@ -1,4 +1,6 @@
 class PriceBookItemsController < ApplicationController
+  before_action :require_admin
+
   before_action :set_item, only: %i[ edit update destroy ]
 
   def index
@@ -46,4 +48,9 @@ class PriceBookItemsController < ApplicationController
   def item_params
     params.expect(price_book_item: [ :category, :description, :item_type, :uom, :unit_cost ])
   end
+
+  def require_admin
+    redirect_to root_path, alert: "The price book is managed by Muster administrators." unless Current.user&.admin?
+  end
+
 end

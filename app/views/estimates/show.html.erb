@@ -60,19 +60,46 @@
     </div>
   </div>
 
-  <% if @estimate.plan_summary.present? %>
-    <details class="<%= ui_card %> p-5 mb-8">
-      <summary class="font-semibold text-foreground cursor-pointer">Scope of works (from plan analysis)</summary>
-      <p class="mt-3 text-muted-foreground whitespace-pre-line"><%= @estimate.plan_summary["scope_summary"] %></p>
-    </details>
-  <% end %>
+  <% sections = @estimate.sections.includes(:line_items).to_a %>
 
-  <% @estimate.sections.includes(:line_items).each_with_index do |section, s_idx| %>
-    <div class="<%= ui_card %> mb-4 overflow-hidden">
-      <div class="flex items-center justify-between px-5 py-3 bg-muted/50 border-b border-border">
-        <h2 class="font-semibold text-foreground"><%= s_idx + 1 %>. <%= section.name %></h2>
-        <span class="font-semibold text-foreground"><%= number_to_currency(section.subtotal, unit: "$", precision: 2) %></span>
+  <div class="grid md:grid-cols-2 gap-4 mb-8 items-start">
+    <% if @estimate.plan_summary.present? %>
+      <details class="<%= ui_card %> p-5">
+        <summary class="font-semibold text-foreground cursor-pointer">Scope of works <span class="text-muted-foreground font-normal text-sm">(from plan analysis)</span></summary>
+        <p class="mt-3 text-sm text-muted-foreground whitespace-pre-line"><%= @estimate.plan_summary["scope_summary"] %></p>
+      </details>
+    <% end %>
+
+    <div class="<%= ui_card %> p-5">
+      <h2 class="font-semibold text-foreground mb-3">Where the money goes</h2>
+      <div class="space-y-1.5">
+        <% top = sections.sort_by { |sec| -sec.subtotal.to_f }.first(6) %>
+        <% max = top.first&.subtotal.to_f %>
+        <% top.each do |sec| %>
+          <a href="#section-<%= sec.id %>" class="flex items-center gap-3 group">
+            <span class="text-sm text-muted-foreground w-44 truncate group-hover:text-foreground"><%= sec.name %></span>
+            <span class="flex-1 bg-muted rounded-full h-2 overflow-hidden">
+              <span class="block bg-primary h-2 rounded-full" style="width: <%= max.positive? ? (sec.subtotal.to_f / max * 100).round : 0 %>%"></span>
+            </span>
+            <span class="text-sm font-medium text-foreground w-20 text-right"><%= number_to_currency(sec.subtotal, unit: "$", precision: 0) %></span>
+          </a>
+        <% end %>
       </div>
+      <p class="text-xs text-muted-foreground mt-3"><%= sections.size %> sections · <%= sections.sum { |sec| sec.line_items.size } %> line items — click a bar to jump to the detail.</p>
+    </div>
+  </div>
+
+  <% sections.each_with_index do |section, s_idx| %>
+    <details class="<%= ui_card %> mb-3 overflow-hidden group" id="section-<%= section.id %>" <%= "open" if sections.size <= 3 %>>
+      <summary class="flex items-center justify-between px-5 py-3 bg-muted/50 cursor-pointer list-none [&::-webkit-details-marker]:hidden hover:bg-muted transition-colors">
+        <span class="flex items-center gap-3">
+          <span class="text-muted-foreground text-xs transition-transform group-open:rotate-90">▶</span>
+          <h2 class="font-semibold text-foreground inline"><%= s_idx + 1 %>. <%= section.name %></h2>
+          <span class="text-xs text-muted-foreground"><%= section.line_items.size %> items</span>
+        </span>
+        <span class="font-semibold text-foreground"><%= number_to_currency(section.subtotal, unit: "$", precision: 2) %></span>
+      </summary>
+      <div class="border-t border-border">
       <table class="<%= ui_table %>">
         <thead>
           <tr class="<%= ui_table_header_row %>">
@@ -102,7 +129,8 @@
           <% end %>
         </tbody>
       </table>
-    </div>
+      </div>
+    </details>
   <% end %>
 
   <div class="flex justify-end mt-6">

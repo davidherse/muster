@@ -3,6 +3,7 @@
 one:
   name: Dave Builder
   email_address: one@example.com
+  admin: true
   password_digest: <%= password_digest %>
   activated_at: <%= 1.day.ago %>
 
