@@ -1,12 +1,21 @@
 <div class="flex items-center justify-between mb-6">
-  <h1 class="font-semibold text-3xl tracking-tight">Price Book</h1>
+  <div>
+    <h1 class="font-semibold text-3xl tracking-tight">Price Book</h1>
+    <p class="text-sm text-muted-foreground mt-1"><%= @total_count %> item<%= "s" unless @total_count == 1 %></p>
+  </div>
   <%= link_to new_price_book_item_path, class: ui_button do %><%= ui_icon("plus") %> Add item<% end %>
 </div>
 
-<p class="text-muted-foreground mb-4 text-sm">Average unit rates from your historical jobs. Muster grounds its pricing in these — keep them current.</p>
+<p class="text-muted-foreground mb-4 text-sm">Average unit rates from historical jobs. Muster grounds its pricing in these — keep them current.</p>
 
-<%= form_with url: price_book_items_path, method: :get, class: "mb-6" do |form| %>
-  <%= form.text_field :q, value: @query, placeholder: "Search descriptions or categories…", class: "#{ui_input} md:w-96" %>
+<%= form_with url: price_book_items_path, method: :get, class: "mb-6 flex flex-wrap items-center gap-3" do |form| %>
+  <%= form.text_field :q, value: @query, placeholder: "Search descriptions or categories…", class: "#{ui_input} md:w-80" %>
+  <%= form.select :category, options_for_select(@categories, params[:category]), { include_blank: "All categories" }, { class: "#{ui_select} md:w-64", onchange: "this.form.requestSubmit()" } %>
+  <%= form.select :kind, options_for_select([ [ "Base book", "base" ], [ "User books", "user" ], [ "Market reference", "market" ] ], params[:kind]), { include_blank: "All sources" }, { class: "#{ui_select} md:w-44", onchange: "this.form.requestSubmit()" } %>
+  <%= form.submit "Filter", class: ui_button(variant: :secondary, size: :sm) %>
+  <% if @query.present? || params[:category].present? || params[:kind].present? %>
+    <%= link_to "Clear", price_book_items_path, class: ui_button(variant: :ghost, size: :sm) %>
+  <% end %>
 <% end %>
 
 <div class="<%= ui_card %> overflow-hidden">
@@ -15,6 +24,7 @@
       <tr class="<%= ui_table_header_row %>">
         <th class="<%= ui_table_head %> px-5">Category</th>
         <th class="<%= ui_table_head %> w-1/2">Description</th>
+        <th class="<%= ui_table_head %>">Source</th>
         <th class="<%= ui_table_head %>">Type</th>
         <th class="<%= ui_table_head %>">UOM</th>
         <th class="<%= ui_table_head %> text-right">Unit Cost</th>
@@ -26,6 +36,10 @@
         <tr class="<%= ui_table_row %>">
           <td class="<%= ui_table_cell %> px-5 text-muted-foreground"><%= item.category %></td>
           <td class="<%= ui_table_cell %> text-foreground"><%= item.description %></td>
+          <td class="<%= ui_table_cell %>">
+            <% kind_variant = { "base" => :secondary, "user" => :default, "market" => :outline }[item.source_kind] || :outline %>
+            <span class="<%= ui_badge(variant: kind_variant) %>"><%= item.source_kind %></span>
+          </td>
           <td class="<%= ui_table_cell %> text-muted-foreground"><%= item.item_type %></td>
           <td class="<%= ui_table_cell %> text-muted-foreground"><%= item.uom %></td>
           <td class="<%= ui_table_cell %> text-foreground text-right"><%= number_to_currency(item.unit_cost, unit: "$") %></td>
@@ -36,7 +50,19 @@
       <% end %>
     </tbody>
   </table>
-  <% if @items.size == 200 %>
-    <p class="px-5 py-3 text-xs text-muted-foreground border-t border-border">Showing first 200 matches — refine your search to see more.</p>
-  <% end %>
 </div>
+
+<% if @total_pages > 1 %>
+  <div class="flex items-center justify-between mt-4">
+    <p class="text-sm text-muted-foreground">Page <%= @page %> of <%= @total_pages %></p>
+    <div class="flex gap-2">
+      <% keep = { q: @query.presence, category: params[:category].presence, kind: params[:kind].presence } %>
+      <% if @page > 1 %>
+        <%= link_to "← Previous", price_book_items_path(keep.merge(page: @page - 1)), class: ui_button(variant: :outline, size: :sm) %>
+      <% end %>
+      <% if @page < @total_pages %>
+        <%= link_to "Next →", price_book_items_path(keep.merge(page: @page + 1)), class: ui_button(variant: :outline, size: :sm) %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

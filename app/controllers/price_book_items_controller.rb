@@ -3,11 +3,20 @@ class PriceBookItemsController < ApplicationController
 
   before_action :set_item, only: %i[ edit update destroy ]
 
+  PER_PAGE = 25
+
   def index
     @query = params[:q].to_s.strip
-    @items = PriceBookItem.ordered
-    @items = @items.where("description LIKE :q OR category LIKE :q", q: "%#{PriceBookItem.sanitize_sql_like(@query)}%") if @query.present?
-    @items = @items.limit(200)
+    scope = PriceBookItem.ordered
+    scope = scope.where("description LIKE :q OR category LIKE :q", q: "%#{PriceBookItem.sanitize_sql_like(@query)}%") if @query.present?
+    scope = scope.where(category: params[:category]) if params[:category].present?
+    scope = scope.where(source_kind: params[:kind]) if params[:kind].present?
+    @categories = PriceBookItem.distinct.order(:category).pluck(:category)
+    @total_count = scope.count
+    @page = [ params[:page].to_i, 1 ].max
+    @total_pages = [ (@total_count / PER_PAGE.to_f).ceil, 1 ].max
+    @page = @total_pages if @page > @total_pages
+    @items = scope.offset((@page - 1) * PER_PAGE).limit(PER_PAGE)
   end
 
   def new
