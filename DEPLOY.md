@@ -15,9 +15,11 @@ so they run on a dedicated worker dyno.
     heroku config:set ANTHROPIC_API_KEY=sk-ant-...
     heroku config:set MUSTER_INVITE_CODE=CHOOSE-A-CODE
 
-    # File storage (plans/PDFs cannot live on Heroku's ephemeral disk)
-    # Create an S3 bucket (ap-southeast-2) and an IAM user with access to it:
-    heroku config:set AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=... AWS_BUCKET=muster-production AWS_REGION=ap-southeast-2
+    # File storage (plans/PDFs cannot live on Heroku's ephemeral disk).
+    # Cloudflare R2 (default): create a bucket + an R2 API token in the
+    # Cloudflare dashboard (R2 -> Manage API Tokens -> Object Read & Write):
+    heroku config:set R2_ACCOUNT_ID=... R2_ACCESS_KEY_ID=... R2_SECRET_ACCESS_KEY=... R2_BUCKET=muster-production
+    # (S3 alternative: set STORAGE_SERVICE=amazon + AWS_* vars instead.)
 
 ## Deploy
 
