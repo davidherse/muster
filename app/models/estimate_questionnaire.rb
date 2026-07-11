@@ -173,8 +173,8 @@ module EstimateQuestionnaire
 
     "BUILDER'S CLARIFICATIONS (answers to the estimating questionnaire):\n#{lines.join("\n")}"
   end
-end
 
   def self.question(key)
     QUESTIONS.detect { |q| q[:key] == key }
   end
+end

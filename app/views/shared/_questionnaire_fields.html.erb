@@ -22,13 +22,16 @@
                     min: 1, step: 1, placeholder: "Let the estimator judge",
                     class: "#{ui_input} md:max-w-md" %>
             <% when :multi %>
-              <div class="flex flex-wrap gap-x-5 gap-y-2.5">
+              <div class="flex flex-wrap gap-2">
                 <% q[:options].each do |opt| %>
-                  <label class="inline-flex items-center gap-2 text-sm text-foreground">
+                  <label class="cursor-pointer">
                     <%= check_box_tag "#{param_root}[questionnaire][#{q[:key]}][]", opt,
                           Array(answers[q[:key]]).include?(opt),
-                          id: "q_#{q[:key]}_#{opt.parameterize}", class: "rounded border-input text-primary focus:ring-ring" %>
-                    <%= opt %>
+                          id: "q_#{q[:key]}_#{opt.parameterize}", class: "peer sr-only" %>
+                    <span class="inline-flex items-center gap-1.5 rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-muted-foreground shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground peer-focus-visible:ring-2 peer-focus-visible:ring-ring [&>svg]:hidden peer-checked:[&>svg]:inline">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="size-3.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                      <%= opt %>
+                    </span>
                   </label>
                 <% end %>
               </div>
