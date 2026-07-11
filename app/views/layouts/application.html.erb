@@ -23,7 +23,7 @@
   <body class="bg-background min-h-screen">
     <% if authenticated? %>
       <div class="flex min-h-screen" data-controller="sidebar">
-        <aside class="w-56 shrink-0 border-r border-border bg-card flex flex-col fixed inset-y-0 transition-all overflow-hidden" data-sidebar-target="aside">
+        <aside class="w-56 shrink-0 border-r border-border bg-card flex flex-col fixed inset-y-0 transition-all" data-sidebar-target="aside">
           <div class="px-3 py-5 border-b border-border flex items-center justify-between gap-2" data-sidebar-target="header">
             <%= link_to root_path, class: "flex items-center shrink-0", data: { sidebar_target: "label" } do %>
               <%= image_tag "muster_mark.svg", alt: "Muster", class: "h-8 w-auto" %>
