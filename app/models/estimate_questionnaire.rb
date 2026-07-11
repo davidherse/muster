@@ -3,7 +3,34 @@
 # moved estimates against historical actuals (see docs/ACCURACY.md) and that
 # plans alone cannot supply.
 module EstimateQuestionnaire
+  # Maps the builder's stated project type to the analyzer's project_class —
+  # when answered, this BINDS classification (the builder knows what job it
+  # is; a misclassification flips the review direction and rate binding).
+  PROJECT_TYPES = {
+    "New build" => "new_build",
+    "Whole-house renovation" => "whole_house_renovation",
+    "Raise and build under" => "raise_and_build_under",
+    "Extension plus renovation" => "extension_and_renovation",
+    "Partial interior renovation (kitchen/bathrooms/rooms)" => "partial_interior_renovation",
+    "Small works (under ~3 months)" => "small_works"
+  }.freeze
+
   QUESTIONS = [
+    {
+      key: "project_type",
+      label: "What type of job is this?",
+      type: :select,
+      options: PROJECT_TYPES.keys,
+      hint: "Sets how the estimate is reviewed and which of your rates apply. If unsure, leave blank and the plans decide.",
+      prompt_label: "Project type (builder-confirmed)"
+    },
+    {
+      key: "works_floor_area_m2",
+      label: "Floor area of the works (m², all levels)",
+      type: :number,
+      hint: "Total finished floor area the job touches, including new lower levels. Drives whole-house composites; leave blank to measure from plans.",
+      prompt_label: "Works floor area (m², builder-stated)"
+    },
     {
       key: "finish_level",
       label: "Finish level",
