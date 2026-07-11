@@ -79,7 +79,8 @@ module UiHelper
     "trash-2" => '<path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/>',
     "chevron-right" => '<path d="m9 18 6-6-6-6"/>',
     "upload" => '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/>',
-    "search" => '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
+    "search" => '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    "panel-left" => '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/>'
   }.freeze
 
   def ui_icon(name, css: "size-4")
