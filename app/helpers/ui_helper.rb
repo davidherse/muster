@@ -87,6 +87,18 @@ module UiHelper
     %(<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="#{css}" aria-hidden="true">#{paths}</svg>).html_safe
   end
 
+  # shadcn Avatar anatomy: container + fallback with initials.
+  def ui_avatar = "relative flex size-8 shrink-0 overflow-hidden rounded-full"
+  def ui_avatar_fallback = "flex size-full items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-semibold"
+
+  def ui_initials(name)
+    name.to_s.split.first(2).map { |w| w[0] }.join.upcase.presence || "?"
+  end
+
+  # shadcn DropdownMenu anatomy (content + item classes).
+  def ui_dropdown_content = "z-50 min-w-[10rem] overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md"
+  def ui_dropdown_item = "relative flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground"
+
   def ui_table = "w-full caption-bottom text-sm"
   def ui_table_header_row = "border-b border-border"
   def ui_table_head = "h-10 px-2 text-left align-middle font-medium text-muted-foreground"

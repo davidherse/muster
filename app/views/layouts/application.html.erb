@@ -40,9 +40,23 @@
               <% end %>
             <% end %>
           </nav>
-          <div class="px-5 py-4 border-t border-border">
-            <p class="text-xs text-muted-foreground truncate mb-2"><%= Current.user.email_address %></p>
-            <%= button_to "Sign out", session_path, method: :delete, class: "#{ui_button(variant: :outline, size: :sm)} w-full" %>
+          <div class="px-3 py-3 border-t border-border">
+            <details class="relative group/menu">
+              <summary class="flex items-center gap-3 px-2 py-2 rounded-md cursor-pointer list-none [&::-webkit-details-marker]:hidden hover:bg-accent transition-colors">
+                <span class="<%= ui_avatar %>">
+                  <span class="<%= ui_avatar_fallback %>"><%= ui_initials(Current.user.name) %></span>
+                </span>
+                <span class="min-w-0">
+                  <span class="block text-sm font-medium text-foreground truncate"><%= Current.user.name %></span>
+                  <span class="block text-xs text-muted-foreground truncate"><%= Current.user.email_address %></span>
+                </span>
+              </summary>
+              <div class="<%= ui_dropdown_content %> absolute bottom-full left-2 right-2 mb-2">
+                <%= button_to session_path, method: :delete, class: ui_dropdown_item do %>
+                  <%= ui_icon("log-out") %> Sign out
+                <% end %>
+              </div>
+            </details>
           </div>
         </aside>
 
