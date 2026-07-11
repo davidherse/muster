@@ -15,6 +15,26 @@ module EstimateQuestionnaire
     "Small works (under ~3 months)" => "small_works"
   }.freeze
 
+  # Section grouping for the settings-style form layout: title + explanation
+  # on the left, that group's fields on the right.
+  GROUPS = [
+    { key: "job", title: "The job",
+      blurb: "What kind of work this is and how big — these two answers bind how the estimate is reviewed, which rates apply, and the whole-house composites.",
+      questions: %w[project_type works_floor_area_m2 finish_level duration_months] },
+    { key: "building", title: "The building",
+      blurb: "The existing fabric: age drives latent-conditions risk, and the repaint extent is the single biggest painting cost driver.",
+      questions: %w[building_era asbestos repaint_extent] },
+    { key: "structure", title: "Structure & site",
+      blurb: "Major structural scope and the conditions the trades will work in. Tick everything that applies — stated scope is binding.",
+      questions: %w[structural_work site_conditions] },
+    { key: "systems", title: "Systems & externals",
+      blurb: "The things drawings rarely show — on past jobs solar and shutters only ever appeared in the costings, never the plans.",
+      questions: %w[systems_extras external_works] },
+    { key: "scope", title: "Scope notes",
+      blurb: "Who supplies what, and anything explicitly in or out. Exclusions here stop the estimate pricing work that's by others.",
+      questions: %w[pc_items services_scope inclusions exclusions] }
+  ].freeze
+
   QUESTIONS = [
     {
       key: "project_type",
@@ -154,3 +174,7 @@ module EstimateQuestionnaire
     "BUILDER'S CLARIFICATIONS (answers to the estimating questionnaire):\n#{lines.join("\n")}"
   end
 end
+
+  def self.question(key)
+    QUESTIONS.detect { |q| q[:key] == key }
+  end
