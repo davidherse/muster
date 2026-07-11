@@ -24,11 +24,11 @@
     <% if authenticated? %>
       <div class="flex min-h-screen" data-controller="sidebar">
         <aside class="w-56 shrink-0 border-r border-border bg-card flex flex-col fixed inset-y-0 transition-all overflow-hidden" data-sidebar-target="aside">
-          <div class="px-4 py-5 border-b border-border flex items-center justify-between gap-2">
-            <%= link_to root_path, class: "flex items-center shrink-0" do %>
+          <div class="px-3 py-5 border-b border-border flex items-center justify-between gap-2" data-sidebar-target="header">
+            <%= link_to root_path, class: "flex items-center shrink-0", data: { sidebar_target: "label" } do %>
               <%= image_tag "muster_mark.svg", alt: "Muster", class: "h-8 w-auto" %>
             <% end %>
-            <button type="button" data-action="sidebar#toggle" class="text-muted-foreground hover:text-foreground p-1 rounded-md hover:bg-accent transition-colors" title="Toggle sidebar">
+            <button type="button" data-action="sidebar#toggle" class="text-muted-foreground hover:text-foreground p-1.5 rounded-md hover:bg-accent transition-colors shrink-0" title="Toggle sidebar">
               <%= ui_icon("panel-left") %>
             </button>
           </div>
@@ -37,7 +37,7 @@
             <% nav_items << [ "Price Book", price_book_items_path, "book-open" ] if Current.user.admin? %>
             <% nav_items.each do |label, path, icon| %>
               <% active = request.path.start_with?(path) %>
-              <%= link_to path, title: label, class: "flex items-center gap-3 px-2.5 py-2 rounded-md transition-colors #{active ? 'bg-secondary text-secondary-foreground' : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'}" do %>
+              <%= link_to path, title: label, data: { sidebar_target: "item" }, class: "flex items-center gap-3 px-2.5 py-2 rounded-md transition-colors #{active ? 'bg-secondary text-secondary-foreground' : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'}" do %>
                 <span class="shrink-0"><%= ui_icon(icon) %></span>
                 <span data-sidebar-target="label" class="truncate"><%= label %></span>
               <% end %>
@@ -45,7 +45,7 @@
           </nav>
           <div class="px-2.5 py-3 border-t border-border">
             <details class="relative" data-controller="dropdown">
-              <summary class="flex items-center gap-3 px-1.5 py-2 rounded-md cursor-pointer list-none [&::-webkit-details-marker]:hidden hover:bg-accent transition-colors">
+              <summary class="flex items-center gap-3 px-1.5 py-2 rounded-md cursor-pointer list-none [&::-webkit-details-marker]:hidden hover:bg-accent transition-colors" data-sidebar-target="item">
                 <span class="<%= ui_avatar %>">
                   <span class="<%= ui_avatar_fallback %>"><%= ui_initials(Current.user.name) %></span>
                 </span>
