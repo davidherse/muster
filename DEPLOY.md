@@ -43,5 +43,7 @@ so they run on a dedicated worker dyno.
   the same Postgres).
 - Daily dyno restarts can interrupt an estimate mid-generation; the app's
   resume support picks up from the last costed section via the estimate page.
-- Mail: activation emails need an SMTP add-on (e.g. Resend/Postmark) before
-  open signup; configure action_mailer SMTP settings when chosen.
+- Mail: SendGrid SMTP is configured; set the key and verify the sender:
+      heroku config:set SENDGRID_API_KEY=SG....
+  In SendGrid: authenticate the muster.build domain (Settings -> Sender
+  Authentication) so activation emails don't land in spam.
