@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Heroku release phase. All four database roles share one Postgres, which
+# makes db:prepare mark the cache/queue/cable schemas "prepared" after the
+# primary loads — so load any that are actually missing, exactly once.
+set -e
+bin/rails db:prepare
+bin/rails runner '
+  { cache: "solid_cache_entries", queue: "solid_queue_jobs", cable: "solid_cable_messages" }.each do |role, table|
+    next if ActiveRecord::Base.connection.table_exists?(table)
+    puts "Loading #{role} schema (#{table} missing)"
+    system({ "DISABLE_DATABASE_ENVIRONMENT_CHECK" => "1" }, "bin/rails", "db:schema:load:#{role}") || abort("#{role} schema load failed")
+  end
+'
