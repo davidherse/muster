@@ -10,9 +10,9 @@
   <div class="flex items-center gap-3">
     <%= render "status_badge", estimate: @estimate %>
     <% if @estimate.completed? %>
-      <%= link_to "⬇ Download CSV", csv_estimate_path(@estimate), class: ui_button %>
+      <%= link_to csv_estimate_path(@estimate), class: ui_button do %><%= ui_icon("download") %> Download CSV<% end %>
       <% if EstimateTemplate.where("name LIKE ?", "#{Current.user.name} — %").exists? %>
-        <%= link_to "⬇ CSV in my format", csv_estimate_path(@estimate, layout: "mine"), class: ui_button(variant: :secondary) %>
+        <%= link_to csv_estimate_path(@estimate, layout: "mine"), class: ui_button(variant: :secondary) do %><%= ui_icon("download") %> CSV in my format<% end %>
       <% end %>
     <% end %>
     <%= button_to "Delete", estimate_path(@estimate), method: :delete,
@@ -93,7 +93,7 @@
     <details class="<%= ui_card %> mb-3 overflow-hidden group" id="section-<%= section.id %>" <%= "open" if sections.size <= 3 %>>
       <summary class="flex items-center justify-between px-5 py-3 bg-muted/50 cursor-pointer list-none [&::-webkit-details-marker]:hidden hover:bg-muted transition-colors">
         <span class="flex items-center gap-3">
-          <span class="text-muted-foreground text-xs transition-transform group-open:rotate-90">▶</span>
+          <span class="text-muted-foreground transition-transform group-open:rotate-90"><%= ui_icon("chevron-right") %></span>
           <h2 class="font-semibold text-foreground inline"><%= s_idx + 1 %>. <%= section.name %></h2>
           <span class="text-xs text-muted-foreground"><%= section.line_items.size %> items</span>
         </span>

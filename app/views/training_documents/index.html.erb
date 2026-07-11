@@ -1,6 +1,6 @@
 <div class="flex items-center justify-between mb-6">
   <h1 class="font-semibold text-3xl tracking-tight">Training</h1>
-  <%= link_to "＋ Upload an estimate", new_training_document_path, class: ui_button %>
+  <%= link_to new_training_document_path, class: ui_button do %><%= ui_icon("upload") %> Upload an estimate<% end %>
 </div>
 
 <p class="text-muted-foreground mb-6 text-sm md:w-2/3">

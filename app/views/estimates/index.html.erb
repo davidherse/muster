@@ -3,7 +3,7 @@
     <h1 class="font-semibold text-3xl tracking-tight">Estimates</h1>
     <p class="text-sm text-muted-foreground mt-1"><%= @total_count %> estimate<%= "s" unless @total_count == 1 %></p>
   </div>
-  <%= link_to "＋ New estimate", new_estimate_path, class: ui_button %>
+  <%= link_to new_estimate_path, class: ui_button do %><%= ui_icon("plus") %> New estimate<% end %>
 </div>
 
 <%= form_with url: estimates_path, method: :get, class: "mb-5" do |form| %>
@@ -15,7 +15,7 @@
     <p class="text-lg mb-2 text-foreground font-medium"><%= params[:q].present? ? "No matches." : "No estimates yet." %></p>
     <% if params[:q].blank? %>
       <p>Upload a PDF plan and Muster will build a costed estimate for you.</p>
-      <%= link_to "Create your first estimate", new_estimate_path, class: "#{ui_button} mt-6" %>
+      <%= link_to new_estimate_path, class: "#{ui_button} mt-6" do %><%= ui_icon("plus") %> Create your first estimate<% end %>
     <% end %>
   </div>
 <% else %>

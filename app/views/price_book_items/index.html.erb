@@ -1,6 +1,6 @@
 <div class="flex items-center justify-between mb-6">
   <h1 class="font-semibold text-3xl tracking-tight">Price Book</h1>
-  <%= link_to "＋ Add item", new_price_book_item_path, class: ui_button %>
+  <%= link_to new_price_book_item_path, class: ui_button do %><%= ui_icon("plus") %> Add item<% end %>
 </div>
 
 <p class="text-muted-foreground mb-4 text-sm">Average unit rates from your historical jobs. Muster grounds its pricing in these — keep them current.</p>
