@@ -1,3 +1,4 @@
+<% content_for :full_bleed, true %>
 <% content_for :title, "Muster — AI construction estimating software for builders | Estimate from plans" %>
 <% content_for :head do %>
   <meta name="description" content="Muster is a build and renovation estimation assistant for residential builders. Upload your plans and get a trade-broken, costed estimate in minutes — grounded in your own rates, benchmarked on real Australian projects. Now in closed beta.">
@@ -8,7 +9,11 @@
     <%= image_tag "muster_logo.svg", alt: "Muster", class: "h-9 w-auto" %>
     <div class="flex items-center gap-3">
       <span class="<%= ui_badge(variant: :secondary) %>">Closed beta</span>
-      <%= link_to "Sign in", new_session_path, class: ui_button(variant: :outline, size: :sm) %>
+      <% if authenticated? %>
+        <%= link_to "Open Muster →", estimates_path, class: ui_button(size: :sm) %>
+      <% else %>
+        <%= link_to "Sign in", new_session_path, class: ui_button(variant: :outline, size: :sm) %>
+      <% end %>
     </div>
   </header>
 

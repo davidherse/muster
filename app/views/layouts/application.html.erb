@@ -21,7 +21,7 @@
   </head>
 
   <body class="bg-background min-h-screen">
-    <% if authenticated? %>
+    <% if authenticated? && !content_for?(:full_bleed) %>
       <div class="flex min-h-screen" data-controller="sidebar">
         <aside class="w-56 shrink-0 border-r border-border bg-card flex flex-col fixed inset-y-0 transition-all" data-sidebar-target="aside">
           <div class="px-3 py-5 border-b border-border flex items-center justify-between gap-2" data-sidebar-target="header">
