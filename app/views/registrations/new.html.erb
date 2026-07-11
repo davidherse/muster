@@ -20,6 +20,12 @@
         <% end %>
 
         <div class="grid gap-2 mb-4">
+          <%= label_tag "registration[invite_code]", "Invite code", class: ui_label %>
+          <%= text_field_tag "registration[invite_code]", params.dig(:registration, :invite_code), required: true, placeholder: "From your beta invitation", class: ui_input %>
+          <p class="text-xs text-muted-foreground">Muster is in closed beta. No code yet? <%= link_to "Join the wait list", root_path, class: "underline underline-offset-4" %>.</p>
+        </div>
+
+        <div class="grid gap-2 mb-4">
           <%= form.label :name, class: ui_label %>
           <%= form.text_field :name, required: true, autofocus: true, placeholder: "Your name", class: ui_input %>
         </div>
