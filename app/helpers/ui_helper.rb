@@ -80,6 +80,8 @@ module UiHelper
     "chevron-right" => '<path d="m9 18 6-6-6-6"/>',
     "upload" => '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/>',
     "search" => '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    "check" => '<path d="M20 6 9 17l-5-5"/>',
+    "layout-list" => '<rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/><path d="M14 4h7"/><path d="M14 9h7"/><path d="M14 15h7"/><path d="M14 20h7"/>',
     "panel-left" => '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/>'
   }.freeze
 

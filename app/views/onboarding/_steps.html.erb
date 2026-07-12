@@ -1,0 +1,13 @@
+<% steps = [ [ "Upload examples", 1 ], [ "Agree your template", 2 ], [ "Start estimating", 3 ] ] %>
+<ol class="flex items-center gap-2 mb-8 text-sm">
+  <% steps.each do |label, n| %>
+    <li class="flex items-center gap-2">
+      <span class="flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold
+        <%= n <= current ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground' %>">
+        <% if n < current %><%= ui_icon("check", css: "size-3.5") %><% else %><%= n %><% end %>
+      </span>
+      <span class="<%= n == current ? 'font-medium text-foreground' : 'text-muted-foreground' %>"><%= label %></span>
+      <% unless n == steps.size %><span class="mx-1 h-px w-8 bg-border"></span><% end %>
+    </li>
+  <% end %>
+</ol>

@@ -24,13 +24,13 @@
 
       <div class="grid gap-2">
         <%= form.label :description, "Describe the job in your own words", class: ui_label %>
-        <p class="text-sm text-muted-foreground">Scope, what was retained vs new, anything unusual about the site or spec. The more you tell us, the better we learn how you price — this description drives the calibration estimate we run against your plans.</p>
+        <p class="text-sm text-muted-foreground">Scope, what was retained vs new, anything unusual about the site or spec. Scope and context make the extracted structure and rates reusable on future jobs.</p>
         <%= form.text_area :description, rows: 4, placeholder: "e.g. Raise and build-under of a pre-war Queenslander on a steep block; full repaint incl. retained VJ; new pool; retaining by others…", class: ui_textarea %>
       </div>
       <div class="grid gap-2">
         <%= form.label :files, "Estimate documents (PDF, XLSX, or CSV)", class: ui_label %>
         <%= form.file_field :files, multiple: true, required: true, accept: "application/pdf,.xlsx,.xls,.csv", class: "block w-full text-sm text-muted-foreground file:mr-4 file:rounded-md file:border-0 file:bg-secondary file:px-4 file:py-2 file:text-secondary-foreground file:font-medium file:cursor-pointer hover:file:bg-secondary/80" %>
-        <p class="text-xs text-muted-foreground">Include the plans (PDF) alongside the estimate and Muster runs a calibration check against them.</p>
+        <p class="text-xs text-muted-foreground">Spreadsheets and CSV exports are read best; PDFs work too.</p>
       </div>
 
       <%= render "shared/questionnaire_fields", answers: @document.questionnaire, param_root: "training_document" %>
