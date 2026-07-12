@@ -16,7 +16,7 @@ class TrainingIngestor
       },
       category_totals: {
         type: "array",
-        description: "Each category/section's own TOTAL as the document states it (header or subtotal rows) — quoted total, and actual total where the document carries actuals. These are the builder's own carried amounts, used for calibration.",
+        description: "Each category/section's own TOTAL as the document states it (header or subtotal rows) — quoted total, and actual total where the document carries actuals. These are the builder's own carried amounts, used to sanity-check extraction completeness.",
         items: {
           type: "object",
           additionalProperties: false,
@@ -79,7 +79,6 @@ class TrainingIngestor
     upsert_template(merged)
     @doc.update!(status: "completed", extraction: merged.slice("project_summary", "template_sections", "category_totals")
       .merge("item_count" => merged["items"].size))
-    spawn_calibration_estimate
   rescue StandardError => e
     @doc.update!(status: "failed", error_message: e.message.to_s.truncate(1000))
     raise
@@ -209,27 +208,6 @@ class TrainingIngestor
       end
     end
     Rails.logger.info("TrainingIngestor verify: #{flagged} rollups flagged, #{dropped} double-counts dropped for doc #{@doc.id}")
-  end
-
-  # Plans uploaded alongside the estimate let the system price the same job
-  # blind; the pair (their estimate, ours) calibrates their profile when the
-  # run completes. PDFs among the files are treated as plans (estimate
-  # documents arrive as spreadsheets; a PDF-only estimate simply calibrates
-  # from nothing and is skipped by the pairer's minimum).
-  def spawn_calibration_estimate
-    plan_files = @doc.files.select { |f| f.content_type == "application/pdf" }
-    return if plan_files.empty? || @doc.extraction["category_totals"].blank?
-    return if Estimate.exists?(calibration_training_document_id: @doc.id)
-
-    brief = @doc.description.presence || @doc.extraction["project_summary"]
-    estimate = @doc.user.estimates.create!(
-      name: "Calibration — #{@doc.name}",
-      prompt: brief.to_s.truncate(2000),
-      questionnaire: @doc.questionnaire,
-      calibration_training_document_id: @doc.id
-    )
-    plan_files.each { |f| estimate.plans.attach(f.blob) }
-    GenerateEstimateJob.perform_later(estimate)
   end
 
   # Re-ingesting the same document replaces its previous entries.

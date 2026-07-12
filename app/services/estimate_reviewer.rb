@@ -305,16 +305,9 @@ class EstimateReviewer
       documented cause is a review failure in EITHER direction:
       #{metrics_text}
 
-      #{calibration_note}
       THE ESTIMATE TO REVIEW:
       #{estimate_text}
     TEXT
-  end
-
-  def calibration_note
-    profile = @estimate.user && CalibrationProfile.find_by(user: @estimate.user)
-    text = profile&.reference_text
-    text.present? ? "#{text}\n" : ""
   end
 
   def metrics_text
