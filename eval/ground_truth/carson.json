@@ -1,0 +1,425 @@
+{
+  "sections": [
+    "Preliminaries",
+    "Frame Carpenter",
+    "Electrician",
+    "Plumber",
+    "Internal Linings",
+    "Waterproofing and Tiling",
+    "Fixing Carpentry",
+    "Joinery",
+    "Painter",
+    "Glazing",
+    "Fixtures & Fitting's"
+  ],
+  "items": [
+    {
+      "section": "Preliminaries",
+      "description": "QBCC Home Warranty Insurance",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Preliminaries",
+      "description": "Contract, whs and doccumentation",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Preliminaries",
+      "description": "Project management, supervision and scheduling, co ordination",
+      "uom": "Hour",
+      "quantity": 24,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Preliminaries",
+      "description": "Skip bin and rubbish removal",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Preliminaries",
+      "description": "Surface protection, drop sheeting, progressive clean up",
+      "uom": "Hour",
+      "quantity": 12,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Preliminaries",
+      "description": "Removal and demolition of existing,",
+      "uom": "Hour",
+      "quantity": 20,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Frame Carpenter",
+      "description": "Carpentry labour - Plumb pack and straighten existing walls in preparation for new wall linings, install noggings, niche Bring up to liveability code with extra nogging.",
+      "uom": "Hour",
+      "quantity": 18,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Frame Carpenter",
+      "description": "Frame timbers, hardware and fixings",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Frame Carpenter",
+      "description": "Delivery",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Frame Carpenter",
+      "description": "Labour allowance. Pick up materials. Repairs to the Ensuite and bathroom floors due to water damage",
+      "uom": "Hour",
+      "quantity": 32,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Frame Carpenter",
+      "description": "Flooring sheets and fixings including glue",
+      "uom": "Ea",
+      "quantity": 7,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Electrician",
+      "description": "Provisional Sum. Disconnect & rewire as required for new works",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Electrician",
+      "description": "Prime Sum. Light fixtures and fittings allowance",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Plumber",
+      "description": "Provisional Sum. Plumbing works for new bathroom works, Subject to a site inspection before starting to confirm.",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Internal Linings",
+      "description": "Supply, Fix, Set and Finish new internal linings. 10mm SpanShield to ceilings in bathroom & ensuite IF REQUIRED. 6mm Villaboard to bathroom & ensuite. 90mm Cove cornice to bathroom & ensuite",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "PC Allowance. FLOOR TILE BATHROOM + ENSUITE",
+      "uom": "m2",
+      "quantity": 20.58,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "PC Allowance. WALL TILE BATHROOM + ENSUITE",
+      "uom": "m2",
+      "quantity": 32.5,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "PC Allowance. FEATURE TILE BATHROOM + ENSUITE",
+      "uom": "m2",
+      "quantity": 9.63,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Tile delivery",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Waterproof Under Bed water stop angle",
+      "uom": "each",
+      "quantity": 5,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Supply & Install stainless smart waist",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Supply & Install stainless grate 1740mm",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Ensuite Walls",
+      "uom": "lm",
+      "quantity": 12.02,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Bedding Ensuite",
+      "uom": "m2",
+      "quantity": 9.1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Toilet Floor",
+      "uom": "m2",
+      "quantity": 3.91,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Toilet Walls",
+      "uom": "m2",
+      "quantity": 6.38,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Ensuite Up Turns",
+      "uom": "lm",
+      "quantity": 17.98,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Ensuite Floor",
+      "uom": "m2",
+      "quantity": 9.13,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Bedding Toilet",
+      "uom": "m2",
+      "quantity": 3.9,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Waterproof Ensuite walls",
+      "uom": "m2",
+      "quantity": 7.55,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Miter tile edge",
+      "uom": "lm",
+      "quantity": 7.35,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Miter tile edge",
+      "uom": "m2",
+      "quantity": 1.49,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Niche with miter",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Toilet feature wall",
+      "uom": "m2",
+      "quantity": 1.39,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Wet RM floor tile",
+      "uom": "m2",
+      "quantity": 4.98,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Wet RM cement bedding",
+      "uom": "m2",
+      "quantity": 5,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Ensuite Feature wall",
+      "uom": "lm",
+      "quantity": 6.4,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Waterproof Wet RM walls",
+      "uom": "lm",
+      "quantity": 12.32,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Waterproof Ensuite floor",
+      "uom": "m2",
+      "quantity": 9.16,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Wet RM Waterproof Floor",
+      "uom": "m2",
+      "quantity": 3.9,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Wet RM Walls",
+      "uom": "m2",
+      "quantity": 24.26,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Wet room UpTurns",
+      "uom": "lm",
+      "quantity": 20.01,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Wet RM Ledge Bathroom shower",
+      "uom": "lm",
+      "quantity": 1.04,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "WRM Feature wall niche",
+      "uom": "m2",
+      "quantity": 0.48,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Ledge ensuite",
+      "uom": "m2",
+      "quantity": 1.43,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "description": "Silicone work",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Fixing Carpentry",
+      "description": "Fixing Carpentry Labour and materials. Install architraves and moldings where required. re install towel rails and rings etc",
+      "uom": "Hour",
+      "quantity": 8,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Joinery",
+      "description": "Manafacture, Supply & Installation of Ensuite Vanity",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Joinery",
+      "description": "Manafacture, Supply & Installation of Ensuite Linen",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Joinery",
+      "description": "Manafacture, Supply & Installation of Shower Cupboard",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Joinery",
+      "description": "Manafacture, Supply & Installation of Main Vanity",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Joinery",
+      "description": "Manafacture, Supply & Installation of Main Vanity Shelves",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Painter",
+      "description": "Painter - internal supply and install 3 coats of Dulux interior low sheen to walls and ceilings to match colour scheme.",
+      "uom": "Hour",
+      "quantity": 20,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Painter",
+      "description": "Paint and materials",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Glazing",
+      "description": "Ensuite 1 off 2100 x 1170 Door with half return This door requires 3 hinges - 10mm Clear Toughened Shower Screens - WITH CLEAR SHIELD",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Glazing",
+      "description": "Main Bath 1 off 2100 x 900 fIxed only with corner cut out - 10mm Clear Toughened Shower Screens - WITH CLEAR SHIELD",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Glazing",
+      "description": "Gold Metal Framed Oval Mirror, Ceiling Mounted Bathroom Decor, Moden Decorative Mirror  Colour: Polished Nickel Size: 100x55cm including delivery",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fixtures & Fitting's",
+      "description": "All Bathroom Fixtures and Fittings - As per Corner iD Specifications",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    }
+  ],
+  "job": "carson",
+  "source": "6 Carson - J1211-JobCostingsActual-20260703051052.xlsx"
+}
