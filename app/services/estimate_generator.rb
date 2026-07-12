@@ -123,7 +123,7 @@ class EstimateGenerator
   end
 
   def template
-    @estimate.estimate_template || EstimateTemplate.default ||
+    @estimate.estimate_template || EstimateTemplate.for_user(@estimate.user) ||
       raise(Ai::Client::Error, "No estimate template available")
   end
 

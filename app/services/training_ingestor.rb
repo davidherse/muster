@@ -76,9 +76,9 @@ class TrainingIngestor
 
     replace_price_book_entries(merged)
     verify_entries(merged)
-    upsert_template(merged)
     @doc.update!(status: "completed", extraction: merged.slice("project_summary", "template_sections", "category_totals")
       .merge("item_count" => merged["items"].size))
+    refresh_template_proposal
   rescue StandardError => e
     @doc.update!(status: "failed", error_message: e.message.to_s.truncate(1000))
     raise
@@ -244,15 +244,10 @@ class TrainingIngestor
     PriceBookItem.insert_all(rows) if rows.any?
   end
 
-  def upsert_template(result)
-    names = Array(result["template_sections"]).uniq
-    return if names.size < 3
-
-    template = EstimateTemplate.find_or_initialize_by(name: "#{@doc.user.name} — #{@doc.name}")
-    template.update!(
-      description: "Personal template from training upload '#{@doc.name}'. #{result['project_summary']}".truncate(500),
-      sections: names.map { |n| { "name" => n, "hint" => "" } }
-    )
+  # Every completed upload re-synthesizes the user's proposed personal
+  # template from ALL their completed uploads (structure learning).
+  def refresh_template_proposal
+    SynthesizeTemplateJob.perform_later(@doc.user)
   end
 
   def source_tag

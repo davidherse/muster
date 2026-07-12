@@ -14,12 +14,12 @@ class EstimatesController < ApplicationController
   end
 
   def new
-    @estimate = Current.user.estimates.new(estimate_template: EstimateTemplate.default)
+    @estimate = Current.user.estimates.new(estimate_template: EstimateTemplate.for_user(Current.user))
   end
 
   def create
     @estimate = Current.user.estimates.new(estimate_params)
-    @estimate.estimate_template ||= EstimateTemplate.default
+    @estimate.estimate_template ||= EstimateTemplate.for_user(Current.user)
     if @estimate.plans.attached? && @estimate.save
       @estimate.processing!("Queued for analysis…")
       GenerateEstimateJob.perform_later(@estimate)
@@ -68,9 +68,10 @@ class EstimatesController < ApplicationController
     @estimate = Current.user.estimates.find(params[:id])
   end
 
-  # The builder's own layout, learned from their most recent training upload.
+  # The builder's own layout, learned and agreed from their training uploads.
   def personal_template
-    EstimateTemplate.where("name LIKE ?", "#{Current.user.name} — %").order(updated_at: :desc).first
+    t = EstimateTemplate.for_user(Current.user)
+    t&.personal? ? t : nil
   end
 
   def estimate_params

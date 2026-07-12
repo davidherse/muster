@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_11_104810) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_12_022145) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -90,7 +90,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_11_104810) do
     t.text "description"
     t.string "name", null: false
     t.json "sections", default: [], null: false
+    t.string "status", default: "active", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_estimate_templates_on_user_id"
   end
 
   create_table "estimates", force: :cascade do |t|
@@ -174,6 +177,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_11_104810) do
   add_foreign_key "calibration_profiles", "users"
   add_foreign_key "estimate_line_items", "estimate_sections"
   add_foreign_key "estimate_sections", "estimates"
+  add_foreign_key "estimate_templates", "users"
   add_foreign_key "estimates", "estimate_templates"
   add_foreign_key "estimates", "training_documents", column: "calibration_training_document_id"
   add_foreign_key "estimates", "users"

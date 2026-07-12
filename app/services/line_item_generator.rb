@@ -251,7 +251,14 @@ class LineItemGenerator
   end
 
   def request_text(sections)
-    section_list = sections.map { |s| "- #{s['name']}: #{s['hint']}" }.join("\n")
+    section_list = sections.map do |s|
+      line = "- #{s['name']}: #{s['hint']}"
+      typical = Array(s["typical_items"])
+      if typical.any?
+        line += "\n  This builder typically itemises this section as (match their breakdown and wording where the scope applies): #{typical.join('; ')}"
+      end
+      line
+    end.join("\n")
     scoped = scoped_user_rates(sections)
     paint_class = repaint_class
     base_scoped = scoped_base_rates(sections)
