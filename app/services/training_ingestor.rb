@@ -34,13 +34,15 @@ class TrainingIngestor
         items: {
           type: "object",
           additionalProperties: false,
-          required: %w[category description item_type uom unit_cost],
+          required: %w[category description item_type uom unit_cost quantity quantity_kind],
           properties: {
             category: { type: "string", description: "The section/work group it belongs to" },
             description: { type: "string" },
             item_type: { type: "string", enum: EstimateLineItem::ITEM_TYPES },
             uom: { type: "string" },
-            unit_cost: { type: "number", description: "AUD ex. GST per unit as documented" }
+            unit_cost: { type: "number", description: "AUD ex. GST per unit as documented" },
+            quantity: { type: "number", description: "The ESTIMATED (quoted) quantity for this line — the builder's original takeoff (hours, m2, lm, count). Independent of the pricing rules: even when the unit rate is recorded from actuals or as an Allowance total, quantity records the quoted takeoff. 1 for lump/allowance lines with no real takeoff." },
+            quantity_kind: { type: "string", enum: %w[measured lump], description: "'measured' only when the quoted quantity counts real physical units the estimator took off (m2, lm, openings, hours, weeks). 'lump' for allowances, PC/PS sums, packages, and 1-with-a-total lines. Progress-claim style quantities (fractional counts, counts against whole-package descriptions) are 'lump'." }
           }
         }
       }
@@ -78,6 +80,7 @@ class TrainingIngestor
     verify_entries(merged)
     @doc.update!(status: "completed", extraction: merged.slice("project_summary", "template_sections", "category_totals")
       .merge("item_count" => merged["items"].size))
+    QuantityNorms.derive!(@doc.user)
     refresh_template_proposal
   rescue StandardError => e
     @doc.update!(status: "failed", error_message: e.message.to_s.truncate(1000))
@@ -182,8 +185,7 @@ class TrainingIngestor
       return
     end
 
-    items = PriceBookItem.where("source LIKE ?", "#{source_tag} %").or(
-      PriceBookItem.where("source LIKE ?", "#{source_tag}|%"))
+    items = PriceBookItem.from_training_doc(@doc.user, @doc.id)
     flagged = 0
     dropped = 0
     items.group_by(&:category).each do |cat, entries|
@@ -212,8 +214,7 @@ class TrainingIngestor
 
   # Re-ingesting the same document replaces its previous entries.
   def replace_price_book_entries(result)
-    PriceBookItem.where(user: @doc.user, source_kind: "user")
-      .where("source LIKE ?", "#{source_tag}%").delete_all
+    PriceBookItem.from_training_doc(@doc.user, @doc.id).delete_all
 
     factor = PriceEscalation.factor(@doc.priced_on)
     escalation_note = factor == 1.0 ? "" : " | escalated x#{factor} from #{@doc.priced_on.strftime('%Y-%m')}"
@@ -235,6 +236,9 @@ class TrainingIngestor
         source_kind: "user",
         user_id: @doc.user_id,
         context: @doc.questionnaire.to_h.merge(
+          "qty" => item["quantity"].to_f,
+          "qty_kind" => item["quantity_kind"].presence || "lump"
+        ).merge(
           has_actuals && item["uom"].to_s.match?(/allowance/i) ? { "package" => "package/lump price at its source scope — ADOPT it for that scope OR itemise the scope, never both" } : {}
         ),
         created_at: Time.current,

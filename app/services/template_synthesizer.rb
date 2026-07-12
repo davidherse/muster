@@ -83,8 +83,7 @@ class TemplateSynthesizer
   def evidence_text(docs)
     parts = docs.sort_by(&:created_at).map do |doc|
       ex = doc.extraction
-      items = PriceBookItem.where(user: @user, source_kind: "user")
-                           .where("source LIKE ?", "training:#{doc.id}%")
+      items = PriceBookItem.from_training_doc(@user, doc.id)
       sample = items.group_by(&:category).map do |cat, entries|
         lines = entries.first(10).map { |i| "    - #{i.description} (#{i.uom})" }
         "  #{cat}:\n#{lines.join("\n")}"

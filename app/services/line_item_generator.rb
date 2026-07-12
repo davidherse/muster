@@ -262,6 +262,7 @@ class LineItemGenerator
     scoped = scoped_user_rates(sections)
     paint_class = repaint_class
     base_scoped = scoped_base_rates(sections)
+    norms = norms_text(sections)
     market_scoped = scoped_market_rates(sections)
     <<~TEXT
       PLAN ANALYSIS:
@@ -273,6 +274,7 @@ class LineItemGenerator
       #{base_scoped&.dig(:other).present? ? "BASE BOOK LUMP-SUM ALLOWANCES FROM OTHER JOB CLASSES (advisory — derive a unit rate per each entry's context and scale to this job before any use):\n#{base_scoped[:other]}\n" : ''}
       #{market_scoped.present? ? "PUBLISHED MARKET REFERENCE (Archicentre Australia, cited; consumer prices ex GST incl builder margin, standard finishes — use ONLY where neither book answers, as sanity bounds: builder cost normally lands under these; documented premium spec may exceed them):\n#{market_scoped}\n" : ''}
       #{paint_class ? "REPAINT COMPOSITE CLASS (computed from the builder's stated extent and the job class — use the book's '#{paint_class}' composite; do not re-derive the class): #{paint_class}\n" : ''}
+      #{norms.present? ? "#{norms}\n" : ''}
       Produce line items for exactly these sections. The "name" field must be the exact
       section name as written before the colon below \u2014 do not append the description:
       #{section_list}
@@ -297,6 +299,36 @@ class LineItemGenerator
     else
       "full repaint of standard character home"
     end
+  end
+
+  # The builder's own quantity norms for this batch's trades, scaled to this
+  # job's works area. Quantities — especially labour hours — are where AI
+  # estimates diverge most from human takeoffs, and every builder crews work
+  # differently; their own past jobs are the best predictor.
+  def norms_text(sections)
+    norms = QuantityNorms.for_class(@estimate.user, @analysis["project_class"])
+    return nil unless norms
+    area = @analysis["floor_area_m2"].to_f
+    return nil unless area.positive?
+
+    buckets = batch_buckets(sections)
+    lines = buckets.flat_map do |bucket|
+      (norms.dig("buckets", bucket) || {}).filter_map do |uom, s|
+        expected = (s["per_m2"].to_f * area).round
+        next if expected.zero?
+        spread = s["n"].to_i > 1 ? " (range #{(s['min'].to_f * area).round}–#{(s['max'].to_f * area).round} across #{s['n']} jobs)" : ""
+        "  - #{bucket}: ~#{expected} #{uom} total across the trade for this #{area.round} m2 job#{spread}"
+      end
+    end
+    if buckets.include?("preliminaries") && (sup = norms["supervision_hours_per_week"])
+      lines << "  - supervision/project management: ~#{sup['value']} hours per week#{sup['n'].to_i > 1 ? " (their range #{sup['min']}–#{sup['max']} h/wk)" : ''}"
+    end
+    return nil if lines.empty?
+
+    <<~TEXT.strip
+      THIS BUILDER'S QUANTITY NORMS — takeoff intensities from their own past jobs of this class, scaled to this job's works area. Labour hours and measured quantities should land near these totals unless the documents show cause; when your takeoff differs by more than ~30%, re-check the takeoff before keeping it:
+      #{lines.join("\n")}
+    TEXT
   end
 
   # Deterministic retrieval: only the book entries whose trade bucket matches
