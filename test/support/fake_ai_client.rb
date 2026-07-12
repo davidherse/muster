@@ -37,6 +37,16 @@ class FakeAiClient
           { "category" => "Prelims", "description" => "Zero cost note", "item_type" => "Mat", "uom" => "ea", "unit_cost" => 0 }
         ]
       }
+    elsif schema == TemplateSynthesizer::SCHEMA
+      {
+        "template_name" => "Renovation template",
+        "sections" => [
+          { "name" => "Prelims", "hint" => "Site setup and supervision", "typical_items" => [ "Supervision (Hour)" ] },
+          { "name" => "Carpentry", "hint" => "Framing and fixout", "typical_items" => [] },
+          { "name" => "Wet Areas", "hint" => "Bathroom and laundry fitout", "typical_items" => [ "Semi-frameless shower screen (ea)" ] },
+          { "name" => "Painting", "hint" => "Internal and external painting", "typical_items" => [ "Internal repaint (m2)" ] }
+        ]
+      }
     elsif schema == EstimateAssessor::SCHEMA
       { "confidence" => "high", "expected_variance_pct" => 10.0,
         "rationale" => "Well documented.", "strengths" => [ "docs" ], "risks" => [ "none" ] }
