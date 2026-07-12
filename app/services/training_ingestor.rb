@@ -41,7 +41,7 @@ class TrainingIngestor
             item_type: { type: "string", enum: EstimateLineItem::ITEM_TYPES },
             uom: { type: "string" },
             unit_cost: { type: "number", description: "AUD ex. GST per unit as documented" },
-            quantity: { type: "number", description: "The ESTIMATED (quoted) quantity for this line — the builder's original takeoff (hours, m2, lm, count). Independent of the pricing rules: even when the unit rate is recorded from actuals or as an Allowance total, quantity records the quoted takeoff. 1 for lump/allowance lines with no real takeoff." },
+            quantity: { type: "number", description: "The builder's ORIGINAL QUOTED takeoff quantity (hours, m2, lm, count) — always from the estimate/quoted column, NEVER from actual/claimed columns. This deliberately opposes the pricing rules: unit_cost prefers actuals, quantity NEVER does — it records what the estimator originally allowed, which is what future estimates must learn. 1 for lump/allowance lines with no real takeoff." },
             quantity_kind: { type: "string", enum: %w[measured lump], description: "'measured' only when the quoted quantity counts real physical units the estimator took off (m2, lm, openings, hours, weeks). 'lump' for allowances, PC/PS sums, packages, and 1-with-a-total lines. Progress-claim style quantities (fractional counts, counts against whole-package descriptions) are 'lump'." }
           }
         }

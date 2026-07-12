@@ -16,6 +16,11 @@ CONTEXT = {
 
 CONTEXT.each do |name, extra|
   doc = USER.training_documents.find_by!(name: name)
+  if ENV["FORCE"].blank? && doc.status == "completed" &&
+     PriceBookItem.from_training_doc(USER, doc.id).any? { |i| i.context.to_h["qty_kind"].present? }
+    puts "#{name}: already has quantities, skipping"
+    next
+  end
   doc.update!(questionnaire: doc.questionnaire.to_h.merge(extra))
   puts "#{name}: re-ingesting…"
   TrainingIngestor.new(doc).call
