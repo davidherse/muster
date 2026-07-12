@@ -36,6 +36,11 @@ jobs =
   end
 
 rows = jobs.map do |job|
+  out_path = OUT_DIR.join("#{job}.json")
+  if File.exist?(out_path) && ENV["FORCE"].blank? && ENV["ESTIMATE"].blank?
+    puts "#{job}: result exists, loading (FORCE=1 to re-score)"
+    next JSON.parse(File.read(out_path), symbolize_names: true)
+  end
   gt_path = Rails.root.join("eval/ground_truth/#{job}.json")
   abort("no ground truth for #{job} — run extract_ground_truth.rb first") unless File.exist?(gt_path)
   gt = JSON.parse(File.read(gt_path))

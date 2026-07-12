@@ -1,0 +1,1415 @@
+{
+  "sections": [
+    "Preliminaries",
+    "Hire Items and Scaffolding",
+    "Temporary Services",
+    "Structural Steel",
+    "Site Preparation and Demolition",
+    "Termite Protection",
+    "Concreter",
+    "Ground floor framing",
+    "First Floor Framing",
+    "Windows and Doors",
+    "Lockup Carpenter",
+    "Front Stairs",
+    "Front Carport,",
+    "Electrical",
+    "Plumber",
+    "Air Conditioning, Mechanical Services",
+    "Insulation",
+    "Plasterer",
+    "Waterproofing",
+    "Tiling",
+    "Fixing Carpentry",
+    "Floor Coverings",
+    "Joinery",
+    "Glazing",
+    "Front Fence, Balustrade, Screens",
+    "Site Cleaning and waste removal",
+    "Fixtures & Fitting's",
+    "Clothes Lines, Mailbox, Pegboard, shelving, bench top",
+    "PAINTING",
+    "Int. Cleaner",
+    "SIDE AND REAR FENCES",
+    "Misc Jobs",
+    "Landscaping",
+    "Garage Door",
+    "SILICONE WORK AND CAULKING"
+  ],
+  "items": [
+    {
+      "section": "Preliminaries",
+      "description": "QBCC Home Owners Warranty Insurance policy. For renovations, alterations, additions, repairs, extensions, or the construction of a related roofed building such as a shed, carport or similar, or the construction of a swimming pool",
+      "uom": "ea",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Preliminaries",
+      "description": "QLeave. The total levy rate from 1 July 2020 is 0.575%.",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Preliminaries",
+      "description": "Workplace Health and Safety, systems and management, site signage",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Preliminaries",
+      "description": "Public liability and construction Insurance",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Preliminaries",
+      "description": "Project management",
+      "uom": "",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Preliminaries",
+      "description": "Engineering fees for inspections",
+      "uom": "Ea",
+      "quantity": 5,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Preliminaries",
+      "description": "Concrete Slab X-ray",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Hire Items and Scaffolding",
+      "description": "Temp site fence hire including erection & dismantle,",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Hire Items and Scaffolding",
+      "description": "Propping and lifting equipment",
+      "uom": "Week",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Hire Items and Scaffolding",
+      "description": "Trestles and plank systems, scaffold hire, edge protection including erecting and dismantle",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Hire Items and Scaffolding",
+      "description": "Miscellaneous hire equipment concrete cutting saw, tools and machinery",
+      "uom": "",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Temporary Services",
+      "description": "Site toilet hire drop and pick up",
+      "uom": "Week",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Temporary Services",
+      "description": "Site toilet fortnightly pump out and clean",
+      "uom": "Ea",
+      "quantity": 44,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Structural Steel",
+      "description": "Supply structural steel components including manufacturing and delivery to site",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Structural Steel",
+      "description": "Labour to fit Steel",
+      "uom": "Hour",
+      "quantity": 96,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Structural Steel",
+      "description": "Delivery",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Structural Steel",
+      "description": "Bolts and fixings",
+      "uom": "",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Structural Steel",
+      "description": "Site welding",
+      "uom": "Hour",
+      "quantity": 8,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Structural Steel",
+      "description": "Steel lifter hire",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Site Preparation and Demolition",
+      "description": "Cut up existing driveway and lower bathroom for shower waste",
+      "uom": "Hour",
+      "quantity": 8,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Site Preparation and Demolition",
+      "description": "Remove split AC system",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Site Preparation and Demolition",
+      "description": "Machine and man to excavate and remove existing posts and slabs, bore new footings, slab prep, driveway prep",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Site Preparation and Demolition",
+      "description": "Machine and man to clean up site, dispose of excess fill and rubble, truck hire and disposal fees",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Site Preparation and Demolition",
+      "description": "Lower level demolition",
+      "uom": "Hour",
+      "quantity": 96,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Site Preparation and Demolition",
+      "description": "Upper level demolition",
+      "uom": "Hour",
+      "quantity": 120,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Site Preparation and Demolition",
+      "description": "Concrete cutting saw hire",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Termite Protection",
+      "description": "Termite barrier protection system",
+      "uom": "m2",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Concreter",
+      "description": "Concrete. Bored Piers. This quote has allowed for 900mm of concrete in a 450mm diameter hole",
+      "uom": "m3",
+      "quantity": 4,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Concreter",
+      "description": "Concrete. Prep and pour garage Slab",
+      "uom": "m2",
+      "quantity": 3.47,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Concreter",
+      "description": "Concrete. Prep and pour Carport, Front under croft, Stair landing  and driveway slab",
+      "uom": "m2",
+      "quantity": 65.78,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Concreter",
+      "description": "Concrete pump - Boom or Line pump",
+      "uom": "each",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Concreter",
+      "description": "Pump washout offsite",
+      "uom": "each",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Set out and mark out new wall frames",
+      "uom": "Hour",
+      "quantity": 16,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Build and install lower level wall frames",
+      "uom": "Hour",
+      "quantity": 120,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Install bracing and tie down",
+      "uom": "Hour",
+      "quantity": 32,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Plumb, pack and straighten wall frames",
+      "uom": "Hour",
+      "quantity": 32,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Install beams and floor systems",
+      "uom": "Hour",
+      "quantity": 40,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Install Scyon flooring to new bathroom floor",
+      "uom": "Hour",
+      "quantity": 16,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Install Structrfloor to new internal floor frame",
+      "uom": "Hour",
+      "quantity": 8,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Bracing ply 4mm 3m. 41 x 900, 8 x 1200",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Power Truss, Fixings, threaded rod, nuts, bolts, nails, screws, Chemset",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "James Hardie Flooring SCYON SECURA EXT 2700X600X19MM wet areas",
+      "uom": "m2",
+      "quantity": 16.07,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Structrfloor flooring 3600 X 800 X 19MM internal floor",
+      "uom": "m2",
+      "quantity": 11.45,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "B2 Bearer 200x50 HWD",
+      "uom": "lm",
+      "quantity": 10.8,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "J1 100x50 HWD Joists 22 @ 1.8M",
+      "uom": "each",
+      "quantity": 24,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "L3 150 x 42 SMART LVL 15. 1@ 2.4M, 2 @ 1.2M",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "L1 2 X 90 X 45 MGP 12. 2 @ .6M",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "L4 170 X 42MM SMART LVL 2 @ 1.8M",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "BR2 100 X 50MM HARDWOOD 4 @ 3.6M",
+      "uom": "each",
+      "quantity": 4,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Fixings, Miscellaneous propping, framing timbers",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Delivery",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Bottom Plate (Framing 3.0m x 90 x 35 Load bearing)",
+      "uom": "lm",
+      "quantity": 91.24,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Nogs (Framing 3.0m x 90 x 35 Load bearing)",
+      "uom": "lm",
+      "quantity": 91.24,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Top Plate (Framing 3.0m x 90 x 35 Load bearing)",
+      "uom": "lm",
+      "quantity": 91.24,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Ribbon Plate (Framing 3.0m x 90 x 35 Load bearing)",
+      "uom": "lm",
+      "quantity": 91.24,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Studs (Framing 3.0m x 90 x 35 Load bearing)",
+      "uom": "each",
+      "quantity": 202.553,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Nails (Framing 3.0m x 90 x 35 Load bearing)",
+      "uom": "each",
+      "quantity": 1824.8,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Nails (Junctions and Jambs 3m 90 x 35 MGP 12)",
+      "uom": "each",
+      "quantity": 416,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Studs (Junctions and Jambs 3m 90 x 35 MGP 12)",
+      "uom": "each",
+      "quantity": 104,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Studs (Junctions and Jambs 2.7m 90 x 35 mgp12)",
+      "uom": "each",
+      "quantity": 78,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Ground floor framing",
+      "description": "Nails (Junctions and Jambs 2.7m 90 x 35 mgp12)",
+      "uom": "each",
+      "quantity": 312,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "First Floor Framing",
+      "description": "Set out and mark out new wall frames",
+      "uom": "Hour",
+      "quantity": 20,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "First Floor Framing",
+      "description": "Build and install upper level wall frames",
+      "uom": "Hour",
+      "quantity": 72,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "First Floor Framing",
+      "description": "Install bracing and tie down",
+      "uom": "Hour",
+      "quantity": 24,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "First Floor Framing",
+      "description": "Plumb, pack and straighten wall frames",
+      "uom": "Hour",
+      "quantity": 16,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "First Floor Framing",
+      "description": "Build and install beams and lintels",
+      "uom": "Hour",
+      "quantity": 40,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "First Floor Framing",
+      "description": "90 x 35 MGP 12 top plates x 2",
+      "uom": "lm",
+      "quantity": 48.62,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "First Floor Framing",
+      "description": "90 x 35 MGP 12 studs 2.7m",
+      "uom": "lm",
+      "quantity": 39.61,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "First Floor Framing",
+      "description": "Bracing ply 4mm 3m. 21 x 900, 4 x 1200",
+      "uom": "each",
+      "quantity": 25,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "First Floor Framing",
+      "description": "Fixings, threaded rod, nuts, bolts, nails, screws, Chemset",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "First Floor Framing",
+      "description": "L1, 2 X 90 X 45. MGP 12. 2 @ 4.8M",
+      "uom": "lm",
+      "quantity": 9.6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "First Floor Framing",
+      "description": "L3. 150 X 42 SMART LVL 15. 1 @ 4.8M",
+      "uom": "lm",
+      "quantity": 4.8,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "First Floor Framing",
+      "description": "L4 170 X 42 SMART LVL 15. 1 @ 2.4M",
+      "uom": "lm",
+      "quantity": 3.6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "First Floor Framing",
+      "description": "L5. 200 X 42 SMART LVL 15. 1 @ 3.6M",
+      "uom": "lm",
+      "quantity": 3.6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "First Floor Framing",
+      "description": "RB1. 200 X 63 SMART LVL 15.",
+      "uom": "lm",
+      "quantity": 24.6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "First Floor Framing",
+      "description": "RB2. 230 X 65 HYNE TIMBER BEAM 17 GLT CAMBERED",
+      "uom": "lm",
+      "quantity": 19.8,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "First Floor Framing",
+      "description": "Miscellaneous framing and blocking timbers as required",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "First Floor Framing",
+      "description": "90 x 35 MGP 12 bottom plates, nogging (90 x 35 MGP 12 bottom plates, nogging)",
+      "uom": "lm",
+      "quantity": 46.34,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Windows and Doors",
+      "description": "Supply, standard colour, aluminium windows and doors. As per Dowell quote",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Lockup Carpenter",
+      "description": "Install Aluminium windows and door",
+      "uom": "Hour",
+      "quantity": 32,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Lockup Carpenter",
+      "description": "Install stops, moldings, cover strips,",
+      "uom": "Hour",
+      "quantity": 16,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Lockup Carpenter",
+      "description": "Lock Up hardware",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Lockup Carpenter",
+      "description": "Stops, moldings, cover strips, jambs and sills",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Lockup Carpenter",
+      "description": "PRIMELINE WEATHERBOARD - 4200 x 300mm HERITAGE cladding, (Supply and Install)",
+      "uom": "m2",
+      "quantity": 138.52,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Lockup Carpenter",
+      "description": "Labour to install cladding (Supply and Install. PRIMELINE WEATHERBOARD - 4200 x 300mm HERITAGE cladding,)",
+      "uom": "m2",
+      "quantity": 138.52,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Lockup Carpenter",
+      "description": "Stainless Steel DA nails (Supply and Install. PRIMELINE WEATHERBOARD - 4200 x 300mm HERITAGE cladding,)",
+      "uom": "m2",
+      "quantity": 138.52,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Front Stairs",
+      "description": "Front Stairs, steel stringers, hot dipped galvanised",
+      "uom": "pair",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Front Stairs",
+      "description": "Front Stairs, timber treads 250 x 50mm hardwood, arris edges",
+      "uom": "16",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Front Stairs",
+      "description": "Carpenter, Install steel stringers and treads",
+      "uom": "Hour",
+      "quantity": 16,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Front Stairs",
+      "description": "Fixings and concrete",
+      "uom": "",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Front Carport,",
+      "description": "Carpentry, Set out for carport",
+      "uom": "Hour",
+      "quantity": 16,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Front Carport,",
+      "description": "Carpentry set up and pour post footings",
+      "uom": "Hour",
+      "quantity": 16,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Front Carport,",
+      "description": "Carpentry. Install beams and roof frame, tie down and bracing",
+      "uom": "Hour",
+      "quantity": 32,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Front Carport,",
+      "description": "Carpentry. Frame and install gable ends, facia's, soffits, vertical batten to front gable",
+      "uom": "Hour",
+      "quantity": 24,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Front Carport,",
+      "description": "Steel posts",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Front Carport,",
+      "description": "Concrete for post footings",
+      "uom": "m3",
+      "quantity": 4,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Front Carport,",
+      "description": "Beams and Trusses",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Front Carport,",
+      "description": "Roofing, Edge Protection System, installation and removal",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Front Carport,",
+      "description": "Roofing and guttering to match existing. Metal Corrugated, Metal battens, Supply and install Anticon blanket insulation.",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Front Carport,",
+      "description": "Hook up new roof to stormwater system",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Front Carport,",
+      "description": "Materials, Framing, cladding, fascia's, soffits",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Front Carport,",
+      "description": "Miscellaneous consumables and fixings",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Electrical",
+      "description": "Disconnect & rewire and fit off as per plans and specifications. All lighting and fans supplied by the client",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Plumber",
+      "description": "Provide Hot & Cold water services, Drainage and storm water system",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Air Conditioning, Mechanical Services",
+      "description": "Removal of outdoor split system",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Air Conditioning, Mechanical Services",
+      "description": "Daikin Inverter 3 phase Reverse Cycle Ducted Air Conditioner supplied and installed as per Cruice Bros quote 1869",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Insulation",
+      "description": "External wall insulation batts to new only R1.5",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Insulation",
+      "description": "Roof insulation batts only to new only R3.5",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Insulation",
+      "description": "Between floor insulation batts R2.5 HD Acoustic",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Insulation",
+      "description": "Delivery",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Insulation",
+      "description": "OPTION 3 Quote Number: T06899",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Plasterer",
+      "description": "10mm SpanShield to Ceilings throughout ground floor and Liv/kit/din/hall/new linen/WIR/ens/bath/WC & deck ceiling to first floor 10mm MastaShield to walls throughout ground floor and on first floor.",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Plasterer",
+      "description": "Patch & repair existing as required",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Plasterer",
+      "description": "6mm Villaboard to bathroom and tap wall in laundry & bath on ground floor + bath & Ensuite on first floor. 90mm Cove Cornice throughout ground floor and where new ceilings are installed on first floor.",
+      "uom": "",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Waterproofing",
+      "description": "LOWER LEVEL, Supply and install waterproof membrane to Bathrooms",
+      "uom": "m2",
+      "quantity": 20.39,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Waterproofing",
+      "description": "UPPER LEVEL, Supply and install waterproof membrane to Bathrooms",
+      "uom": "m2",
+      "quantity": 36.57,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "LOWER LEVEL. PC Allowance for Floor Tiles.",
+      "uom": "m2",
+      "quantity": 13.12,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "LOWER LEVEL. PC Allowance for wall tiles. BATHROOM. 2000mm High in the shower, 1200mm high for the remaining walls",
+      "uom": "m2",
+      "quantity": 32.36,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "LOWER LEVEL. PC Allowance for wall tiles. LAUNDRY / BAR SPLASHBACK Approximately 600mm high",
+      "uom": "m2",
+      "quantity": 2.78,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "UPPER LEVEL. PC Allowance for Floor Tiles.",
+      "uom": "m2",
+      "quantity": 15.74,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "UPPER LEVEL. PC Allowance for wall tiles. BATHROOM / ENSUITE. 2000mm High in the shower, 1200mm high for the remaining walls",
+      "uom": "m2",
+      "quantity": 37.4,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Delivery of tiles to site",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Tiling",
+      "description": "LOWER. Tile bed. Cement screed to floor wastes",
+      "uom": "m2",
+      "quantity": 14,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "LOWER LEVEL. Labour to lay tiles, floor,",
+      "uom": "m2",
+      "quantity": 13.08,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "LOWER LEVEL. Labour to lay tiles, walls",
+      "uom": "m2",
+      "quantity": 36,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "UPPER. Tile bed. Cement screed to floor wastes",
+      "uom": "m2",
+      "quantity": 16,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "UPPER LEVEL. Labour to lay tiles, floor,",
+      "uom": "m2",
+      "quantity": 15.74,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "UPPER LEVEL. Labour to lay tiles, walls",
+      "uom": "m2",
+      "quantity": 40,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Silicone work",
+      "uom": "lm",
+      "quantity": 130,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Aluminium angles, surface grinding, wall skimming allowance",
+      "uom": "Ea",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Floor wastes",
+      "uom": "Ea",
+      "quantity": 6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fixing Carpentry",
+      "description": "Fixing Carpentry Labour",
+      "uom": "Hour",
+      "quantity": 40,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fixing Carpentry",
+      "description": "Fixing Hardware",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Fixing Carpentry",
+      "description": "Skirting 18mm thick. To be confirmed",
+      "uom": "lm",
+      "quantity": 154.92,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fixing Carpentry",
+      "description": "Architrave 18mm thick. To be confirmed",
+      "uom": "lm",
+      "quantity": 129.6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fixing Carpentry",
+      "description": "Fit off bathroom and fixtures",
+      "uom": "Hour",
+      "quantity": 16,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fixing Carpentry",
+      "description": "HUME EVOLUTION CAVITY UNIT 90mm - 2040 x 820mm (Cavity sliding units,)",
+      "uom": "Ea",
+      "quantity": 7,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fixing Carpentry",
+      "description": "Hume Internal Door Caprice CAP (Cavity sliding units,)",
+      "uom": "Ea",
+      "quantity": 7,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fixing Carpentry",
+      "description": "SCHLAGE SLIDING DOOR SET RND SATIN CHROME - PRIVACY (Cavity sliding units,)",
+      "uom": "Ea",
+      "quantity": 7,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fixing Carpentry",
+      "description": "Door Jamb 112mm x 18mm (Cavity sliding units,)",
+      "uom": "Ea",
+      "quantity": 7,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fixing Carpentry",
+      "description": "Architrave (Cavity sliding units,)",
+      "uom": "Ea",
+      "quantity": 14,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fixing Carpentry",
+      "description": "Lever set (New Internal Doorways. Doors to be confirmed)",
+      "uom": "Ea",
+      "quantity": 12,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fixing Carpentry",
+      "description": "Door, Hume Caprice (New Internal Doorways. Doors to be confirmed)",
+      "uom": "Ea",
+      "quantity": 12,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fixing Carpentry",
+      "description": "latch (New Internal Doorways. Doors to be confirmed)",
+      "uom": "Ea",
+      "quantity": 12,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fixing Carpentry",
+      "description": "Architrave (New Internal Doorways. Doors to be confirmed)",
+      "uom": "Ea",
+      "quantity": 24,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fixing Carpentry",
+      "description": "Door keeper (New Internal Doorways. Doors to be confirmed)",
+      "uom": "Ea",
+      "quantity": 12,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fixing Carpentry",
+      "description": "JAMBSET 112mm - 2040 x 520-870mm 2 HINGE (New Internal Doorways. Doors to be confirmed)",
+      "uom": "Ea",
+      "quantity": 12,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fixing Carpentry",
+      "description": "Carpentry Labour (New Internal Doorways. Doors to be confirmed)",
+      "uom": "Ea",
+      "quantity": 72,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Floor Coverings",
+      "description": "To supply, install, sand and polish flooring to match existing as best as possible, Excluding garage and store room",
+      "uom": "m2",
+      "quantity": 110.01,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Floor Coverings",
+      "description": "Supply and install waterproof membrane",
+      "uom": "m2",
+      "quantity": 59.69,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Floor Coverings",
+      "description": "Supply and install new flooring",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Floor Coverings",
+      "description": "Sand and polish upper and lower flooring",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Floor Coverings",
+      "description": "Stair treads",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Joinery",
+      "description": "Provisional Sum upper kitchen",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Joinery",
+      "description": "Provisional Sum Upper bathroom vanity",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Joinery",
+      "description": "Provisional Sum Upper Ensuite vanity",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Joinery",
+      "description": "Provisional Sum Upper Walk in Robe",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Joinery",
+      "description": "Provisional Sum  lower laundry / bar",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Joinery",
+      "description": "Provisional Sum  lower water closet vanity",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Joinery",
+      "description": "Provisional Sum  lower bathroom vanity",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Joinery",
+      "description": "Provisional Sum  lower bed 4 walk in robe",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Joinery",
+      "description": "Provisional Sum  lower bed 5 walk in robe",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Joinery",
+      "description": "Provisional Sum  lower storage cupboard",
+      "uom": "",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Joinery",
+      "description": "Install benchtop surface protection",
+      "uom": "",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Glazing",
+      "description": "Bathroom, upper floor: Shower panel using 10mm clear toughened glass and polished chrome fittings.",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Glazing",
+      "description": "Mirror, upper floor bathroom,",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Glazing",
+      "description": "Ensuite, upper floor: Shower panel and door using 10mm clear toughened glass and polished chrome fittings.",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Glazing",
+      "description": "Mirror, upper floor Ensuite",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Glazing",
+      "description": "Mirror, lower water closet",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Glazing",
+      "description": "Bathroom, lower floor: Shower panel and door using 10mm clear toughened glass and polished chrome fittings.",
+      "uom": "",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Glazing",
+      "description": "Main bath: Frameless shower panel using 10mm clear toughened glass. Glass supporting shelf required. Owners to supply x4 fixing brackets. 1 @ 2100 x 1200 approx.",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Glazing",
+      "description": "Bed 4+5 ensuite: Frameless shower screen using 10mm clear toughened glass. Consisting of a hinged door and fixed panel either side. Glass supporting shelf required. Owners to supply x7 fixing brackets, x2 hinges, x1 handle. 1 @ 2100 x 1600 approx.",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Glazing",
+      "description": "Master ensuite: Frameless shower screen using 10mm clear toughened glass. Consisting of a hanged door and fixed panel either side. Glass supporting shelf required. Owners to supply x7 fixing brackets, x2 hinges, x1 handle. 1 @ 2100 x 1600 approx.",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Glazing",
+      "description": "Walk in robe: 4mm mirrors with polished edges fitted to wall. 2 @ 2000 x 900 approx.",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Front Fence, Balustrade, Screens",
+      "description": "Supply & install aluminium fence panels with vertical slats. Gate, screening and balustrade, window hoods",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Site Cleaning and waste removal",
+      "description": "Progressive site clean and skip bins for rubbish removal. All building refuse to be discarded from site",
+      "uom": "Ea",
+      "quantity": 10,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fixtures & Fitting's",
+      "description": "Prime cost allowance for all taps, toilets, fixtures and fittings, deliveries",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Clothes Lines, Mailbox, Pegboard, shelving, bench top",
+      "description": "Supply letterbox & Numerals",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "PAINTING",
+      "description": "PAINT LABOUR AND MATERIALS ESTIMATE",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Int. Cleaner",
+      "description": "Internal professional clean including windows on completion",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "SIDE AND REAR FENCES",
+      "description": "SIDE FENCE",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "SIDE AND REAR FENCES",
+      "description": "Side and Rear Fences Adjustment - Retaining Walls",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "SIDE AND REAR FENCES",
+      "description": "BACK FENCE",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Landscaping",
+      "description": "Landscaping ",
+      "uom": "Lab",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Landscaping",
+      "description": "LED STRIP LIGHTING",
+      "uom": "Lab",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Landscaping",
+      "description": "CLOTHESLINE",
+      "uom": "Lab",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Landscaping",
+      "description": "DEMOLISH ROBINS STAIRS",
+      "uom": "Lab",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Garage Door",
+      "description": "Garage door as per Dynamic Doors quote",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Garage Door",
+      "description": "Jamb Seal Kit",
+      "uom": "Ea",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Garage Door",
+      "description": "GARAGE DOOR CATEGORY ADJUSTMENT",
+      "uom": "each",
+      "quantity": -1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "SILICONE WORK AND CAULKING",
+      "description": "CAULKING TO SKIRTING AND SHELVES",
+      "uom": "Sub",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "SILICONE WORK AND CAULKING",
+      "description": "Supply and installed silicone to around of the perimeter",
+      "uom": "Sub",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "SILICONE WORK AND CAULKING",
+      "description": "Supply and installed silicone to interior.",
+      "uom": "Sub",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "SILICONE WORK AND CAULKING",
+      "description": "Supply and installed polyurethane to exterior. ",
+      "uom": "Sub",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "SILICONE WORK AND CAULKING",
+      "description": "PREP WORK FOR SILICONE",
+      "uom": "Lab",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "SILICONE WORK AND CAULKING",
+      "description": "SILICONE",
+      "uom": "Mat",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    }
+  ],
+  "job": "hilda",
+  "source": "Hilda - J1068-JobCostingsActual-20260609051503.xlsx"
+}
