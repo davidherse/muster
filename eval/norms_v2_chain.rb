@@ -8,9 +8,10 @@ $stdout.sync = true
 
 USER = User.find_by!(email_address: "david.test@example.com")
 
-while Estimate.where(status: "processing").exists?
+while Estimate.uncached { Estimate.where(status: "processing").exists? }
   puts "waiting for in-flight generation… (#{Time.current.strftime('%H:%M')})"
   sleep 120
+  ActiveRecord::Base.connection_pool.release_connection
 end
 
 %w[Hilda Constitution Carberry Benecia].each do |short|
