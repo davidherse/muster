@@ -118,6 +118,22 @@ class LineItemGenerator
         never mark such a section inapplicable or return it empty. Conversely,
         never cost a pool, raise, or similar major feature that neither the
         documents nor the builder's notes support.
+      - LABOUR HOURS ANCHOR TO THE BUILDER'S OWN LINES: user-book hour entries
+        carry the builder's original takeoff in their context tags (qty: their
+        quoted hours, plus the source job's works_floor_area_m2 and duration).
+        For every Lab/hours line, find the closest comparable for the SAME
+        ACTIVITY (decking install, wall framing, strip-out, fix-out, PM) and
+        scale its hours to this job by the activity's own measure \u2014 deck m2,
+        wall lm, opening count, weeks of duration \u2014 never by total floor area
+        alone. State the working in assumptions ("their 84h decking on ~60m2
+        deck \u2192 25m2 here \u2248 35h"). Free-read hours ONLY where the book has no
+        comparable activity, and mark those low confidence. Crew-time optimism
+        and pessimism are both errors: the builder's own quoted hours are the
+        target, not what a generic crew might achieve.
+      - EVERY measured quantity (m2, lm, ea, Hour) must show its takeoff
+        working in assumptions: the plan dimensions it derives from, the
+        takeoff entry it cites, or the comparable-scaling arithmetic. A
+        measured quantity with no working is a review failure.
       - Wet areas: tiling and waterproofing quantities come STRICTLY from the
         analysis wet_area_takeoff rooms (floor_m2 / wall_tile_m2) \u2014 never from
         your own re-reading of the plans and never rounded up. Cite the takeoff

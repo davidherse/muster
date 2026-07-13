@@ -90,9 +90,18 @@ class QuantityNorms
     sup = docs.filter_map { |d| d[:supervision_hours_per_week] }
     {
       "buckets" => buckets,
-      "supervision_hours_per_week" => sup.any? ? { "value" => median(sup), "n" => sup.size, "min" => sup.min, "max" => sup.max } : nil,
+      "supervision_hours_per_week" => supervision_norm(sup),
       "docs" => docs.size
     }.compact
+  end
+
+  # Do-no-harm gate: a supervision norm only acts when the builder's jobs
+  # agree with each other. Wildly inconsistent readings (usually one
+  # mis-extracted line) must do nothing rather than swing estimates.
+  def supervision_norm(values)
+    return nil if values.empty?
+    return nil if values.size > 1 && values.max > values.min * 3
+    { "value" => median(values), "n" => values.size, "min" => values.min, "max" => values.max }
   end
 
   def stat(values)
