@@ -26,7 +26,10 @@ jobs.each do |job|
   estimate = USER.estimates.create!(
     name: "#{NAMES.fetch(job)} (#{tag})",
     prompt: cfg["prompt"],
-    questionnaire: cfg["questionnaire"]
+    questionnaire: cfg["questionnaire"],
+    # TEMPLATE=default pins the shared template, isolating template effects
+    # from prompt/book effects across experiment cells.
+    estimate_template: ENV["TEMPLATE"] == "default" ? EstimateTemplate.global.active.order(:id).first : nil
   )
   Array(cfg["plan"]).each do |path|
     estimate.plans.attach(io: File.open(path), filename: File.basename(path), content_type: "application/pdf")
