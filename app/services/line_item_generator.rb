@@ -118,18 +118,25 @@ class LineItemGenerator
         never mark such a section inapplicable or return it empty. Conversely,
         never cost a pool, raise, or similar major feature that neither the
         documents nor the builder's notes support.
-      - LABOUR HOURS ANCHOR TO THE BUILDER'S OWN LINES: user-book hour entries
-        carry the builder's original takeoff in their context tags (qty: their
-        quoted hours, plus the source job's works_floor_area_m2 and duration).
-        For every Lab/hours line, find the closest comparable for the SAME
-        ACTIVITY (decking install, wall framing, strip-out, fix-out, PM) and
-        scale its hours to this job by the activity's own measure \u2014 deck m2,
-        wall lm, opening count, weeks of duration \u2014 never by total floor area
-        alone. State the working in assumptions ("their 84h decking on ~60m2
-        deck \u2192 25m2 here \u2248 35h"). Free-read hours ONLY where the book has no
-        comparable activity, and mark those low confidence. Crew-time optimism
-        and pessimism are both errors: the builder's own quoted hours are the
-        target, not what a generic crew might achieve.
+      - LABOUR HOURS ANCHOR TO THE BUILDER'S OWN LINES \u2014 DERIVE, NEVER COPY:
+        user-book hour entries carry the builder's original takeoff in their
+        context tags (qty: their quoted hours). A comparable's hours belong to
+        ITS job's scope, so copying them is wrong whenever the scope differs \u2014
+        which is almost always. The procedure for every Lab/hours line:
+        (1) find the comparable hour line for the SAME ACTIVITY AND SAME VERB \u2014
+        a set-out line anchors set-out, an install line anchors install, never
+        cross them; (2) find that comparable's scope denominator in its
+        SIBLING book lines from the same category/job (their decking-supply
+        m2 next to their decking-install hours, their steel member/tonnage
+        lines next to their steel-fit hours) and derive the productivity
+        (hours per m2/lm/member); (3) multiply by THIS job's quantity for
+        that activity from the analysis takeoff. State all three steps in
+        assumptions ("their 72h install \u00f7 60m2 deck = 1.2h/m2 \u00d7 25m2 here =
+        30h"). When no sibling denominator exists, scale by the most honest
+        measure available and say which; when the book has no comparable
+        activity at all, free-read and mark low confidence. Crew-time
+        optimism and pessimism are both errors: the builder's own quoted
+        productivity is the target, not what a generic crew might achieve.
       - EVERY measured quantity (m2, lm, ea, Hour) must show its takeoff
         working in assumptions: the plan dimensions it derives from, the
         takeoff entry it cites, or the comparable-scaling arithmetic. A
