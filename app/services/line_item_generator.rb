@@ -168,6 +168,14 @@ class LineItemGenerator
         double counting, the classic way a builder's own uploaded rates
         inflate their next estimate. Adopt the package where it matches the
         scope; itemise only what the package excludes, and say so.
+      - MATCH THE BUILDER'S COMPONENT BREAKDOWN: where the section's typical
+        items or the builder's own book itemise a trade's supply into
+        components (roofing sheets, flashings and fasteners as separate
+        lines; appliances item by item; frames, hardware and fixings split
+        out), produce the same component lines when they are in scope — one
+        bundled supply line where the builder carries five component lines is
+        a structure failure even when the money is right. This is itemisation
+        of NON-package scope; it does not override package adoption above.
       - Services on room-scale scopes: electrical and plumbing price from the
         book's recorded rates (per m2, per point, per hour, or a recorded
         room allowance) applied to this job's takeoff quantities and fixture
