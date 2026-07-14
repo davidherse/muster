@@ -1,14 +1,14 @@
 {
   "job": "rosalie",
-  "estimate_id": 314,
+  "estimate_id": 317,
   "gt_items": 294,
-  "est_items": 232,
-  "item_recall_pct": 65.0,
-  "item_precision_pct": 68.5,
-  "section_coverage_pct": 74.3,
-  "qty_pairs": 9,
-  "qty_median_ape_pct": 66.7,
-  "qty_within_20_pct": 33.3,
+  "est_items": 229,
+  "item_recall_pct": 65.6,
+  "item_precision_pct": 71.2,
+  "section_coverage_pct": 77.1,
+  "qty_pairs": 7,
+  "qty_median_ape_pct": 6.2,
+  "qty_within_20_pct": 57.1,
   "sections": [
     {
       "section": "Preliminaries",
@@ -18,7 +18,7 @@
     {
       "section": "Hire Items and Scaffolding",
       "items": 6,
-      "covered": 6
+      "covered": 5
     },
     {
       "section": "Temporary Services",
@@ -33,22 +33,22 @@
     {
       "section": "Concrete Works",
       "items": 14,
-      "covered": 8
+      "covered": 5
     },
     {
       "section": "Structural Steel",
       "items": 17,
-      "covered": 13
+      "covered": 14
     },
     {
       "section": "Floor frame Systems",
       "items": 4,
-      "covered": 2
+      "covered": 3
     },
     {
       "section": "Timber Frames - Supply",
       "items": 12,
-      "covered": 4
+      "covered": 10
     },
     {
       "section": "Bracing & Tie Down - Supply",
@@ -58,7 +58,7 @@
     {
       "section": "Roof Framing and Trusses",
       "items": 3,
-      "covered": 1
+      "covered": 2
     },
     {
       "section": "Cladding - Chamfer Boards - Supply",
@@ -68,17 +68,17 @@
     {
       "section": "Fixout & Fitoff - Supply",
       "items": 36,
-      "covered": 19
+      "covered": 22
     },
     {
       "section": "Balustrade & External Stairs",
       "items": 5,
-      "covered": 1
+      "covered": 0
     },
     {
       "section": "Roofing",
       "items": 14,
-      "covered": 3
+      "covered": 2
     },
     {
       "section": "Aluminium Windows and Doors",
@@ -88,7 +88,7 @@
     {
       "section": "Labour Hours",
       "items": 34,
-      "covered": 30
+      "covered": 26
     },
     {
       "section": "Floor Coverings",
@@ -103,7 +103,7 @@
     {
       "section": "Electrical",
       "items": 11,
-      "covered": 11
+      "covered": 9
     },
     {
       "section": "Plumber",
@@ -113,7 +113,7 @@
     {
       "section": "Joinery",
       "items": 21,
-      "covered": 15
+      "covered": 16
     },
     {
       "section": "Tiling",
@@ -123,7 +123,7 @@
     {
       "section": "Air Conditioning",
       "items": 2,
-      "covered": 1
+      "covered": 2
     },
     {
       "section": "Painting",
@@ -133,7 +133,7 @@
     {
       "section": "Swimming Pool Works",
       "items": 7,
-      "covered": 3
+      "covered": 2
     },
     {
       "section": "Internal Linings",
@@ -143,7 +143,7 @@
     {
       "section": "Glazing",
       "items": 11,
-      "covered": 3
+      "covered": 5
     },
     {
       "section": "Site Cleaning and waste removal",
@@ -158,17 +158,17 @@
     {
       "section": "Plumbing Fixtures PC Items",
       "items": 3,
-      "covered": 2
+      "covered": 3
     },
     {
       "section": "Appliances",
       "items": 4,
-      "covered": 1
+      "covered": 3
     },
     {
       "section": "VARIATION WORKS",
       "items": 21,
-      "covered": 12
+      "covered": 7
     },
     {
       "section": "SKYLIGHTS",
@@ -178,7 +178,7 @@
     {
       "section": "Preliminary Landscape Works",
       "items": 7,
-      "covered": 2
+      "covered": 3
     },
     {
       "section": "Silicone Works",
@@ -192,47 +192,23 @@
       "description": "Engineer-Site Visit, Inspections - Fees",
       "uom": "Ea",
       "gt_qty": 3.0,
-      "est_qty": 5.0,
-      "ape": 66.7
+      "est_qty": 6.0,
+      "ape": 100.0
     },
     {
       "gt_index": 14,
       "description": "Site toilet fortnightly pump out and clean",
       "uom": "Ea",
       "gt_qty": 7.0,
-      "est_qty": 22.0,
-      "ape": 214.3
-    },
-    {
-      "gt_index": 16,
-      "description": "Footings - Concrete - Grey Base - 20/25 Mpa - Zone 1",
-      "uom": "m3",
-      "gt_qty": 6.0,
-      "est_qty": 1.0,
-      "ape": -83.3
+      "est_qty": 21.0,
+      "ape": 200.0
     },
     {
       "gt_index": 18,
       "description": "Earthworks - Hand excavation. Spoil to be spread out on site",
       "uom": "Hour",
       "gt_qty": 40.0,
-      "est_qty": 60.0,
-      "ape": 50.0
-    },
-    {
-      "gt_index": 53,
-      "description": "Lintels - L1 - Smart LVL 13 - 200 X 45 LVL E13 - Treated H2S",
-      "uom": "lm",
-      "gt_qty": 5.4,
-      "est_qty": 12.0,
-      "ape": 122.2
-    },
-    {
-      "gt_index": 85,
-      "description": "Cavity Slider Unit - Cavity Slider Unit Evolution - 2040 X 870 X 90",
-      "uom": "Ea",
-      "gt_qty": 3.0,
-      "est_qty": 3.0,
+      "est_qty": 40.0,
       "ape": 0.0
     },
     {
@@ -240,48 +216,51 @@
       "description": "Skirting - FJ Pine Moulding - Classic - 86 x 19",
       "uom": "lm",
       "gt_qty": 57.2,
-      "est_qty": 160.0,
-      "ape": 179.7
+      "est_qty": 260.0,
+      "ape": 354.5
+    },
+    {
+      "gt_index": 104,
+      "description": "Stops / Catches - Quality",
+      "uom": "Ea",
+      "gt_qty": 6.0,
+      "est_qty": 6.0,
+      "ape": 0.0
     },
     {
       "gt_index": 134,
       "description": "Supply & install .42 BMT colourbond (incl anticon, fascia, gutter, barges, battens, flashing etc)",
       "uom": "m2",
       "gt_qty": 37.3,
-      "est_qty": 30.0,
-      "ape": -19.6
+      "est_qty": 35.0,
+      "ape": -6.2
     },
     {
       "gt_index": 141,
       "description": "Site Supervision and Project Management",
       "uom": "Hour",
       "gt_qty": 416.0,
-      "est_qty": 450.0,
-      "ape": 8.2
+      "est_qty": 430.0,
+      "ape": 3.4
     }
   ],
   "unmatched_gt": [
+    "Hire Items and Scaffolding: Temporary pool fencing during pool renovation works",
     "Concrete Works: Delivery - Truck Standby Time",
     "Concrete Works: Delivery - Steel Reo. Zone 1",
+    "Concrete Works: Bar Chairs - SOG 50/65 - Straight Bar 50/65",
+    "Concrete Works: Deformed Bar - N12 x 6000mm (bend onsite)",
+    "Concrete Works: Fabric Mesh - SL82 2400 x 6000",
     "Concrete Works: Dowells - R12 x 600MM Galv.",
     "Concrete Works: Chemical Anchors - Applicator Gun - Epoxy - Ramset Universal",
     "Concrete Works: Delivery",
     "Concrete Works: CREDIT BACK FOR CHANGE IN ENGINEERING DESIGN. Footings - Concrete - Grey Base - 20/25 Mpa - Zone 1",
-    "Structural Steel: Packer/Nail plate Allowance",
     "Structural Steel: Cross Braces - with Adjustable Turnbuckles Galv. (up to 6m)",
     "Structural Steel: CREDIT BACK FOR CHANGE IN ENGINEERING DESIGN. Post SHS 90 x 90 x 5 (DuraGal/SupaGal) with Base/Top - 2600mm",
     "Structural Steel: CREDIT BACK FOR CHANGE IN ENGINEERING DESIGN. Post SHS 75 x 75 x 4 (DuraGal/SupaGal) with Base/Top - 1800mm",
-    "Floor frame Systems: Delivery charges",
     "Floor frame Systems: CREDIT BACK FOR CHANGE IN ENGINEERING DESIGN. Floor frame and roof framing systems",
-    "Timber Frames - Supply: Lintels - L1 Lower - GL15C Pine - 260 X 65 15C H2",
-    "Timber Frames - Supply: Lintels - L2 - Pine MGP10 - 140 x 45 T2",
-    "Timber Frames - Supply: Lintels - L3 - Pine MGP10 - 140 x 45 T2",
-    "Timber Frames - Supply: Lintels - L4 - Pine MGP10 - 190 x 45 T2",
     "Timber Frames - Supply: Bath & Spa - Plywood - Structural - CD 12 x 1200 x 2400mm",
     "Timber Frames - Supply: Manhole Frame - Pine MGP10 - 70 x 35 T2",
-    "Timber Frames - Supply: Wall Wrap - Sarking Clips - Sisalation - Foil Fasteners 23 x 23mm",
-    "Timber Frames - Supply: Delivery",
-    "Roof Framing and Trusses: Hardware and fixings",
     "Roof Framing and Trusses: Delivery",
     "Cladding - Chamfer Boards - Supply: Delivery",
     "Cladding - Chamfer Boards - Supply: Negative variation for reusing existing chamferboards instead of buying new.",
@@ -297,15 +276,14 @@
     "Fixout & Fitoff - Supply: PC. Door handle - Circular Privacy Sliding Cavity Set",
     "Fixout & Fitoff - Supply: PC. Door handle - Circular Cavity Slider Passage",
     "Fixout & Fitoff - Supply: PC. Door handle - Dummy set",
-    "Fixout & Fitoff - Supply: PC. Clothes Line - Wall Mounted Large",
-    "Fixout & Fitoff - Supply: PC. Letterbox",
     "Fixout & Fitoff - Supply: PC. Trader Hook",
     "Fixout & Fitoff - Supply: PC. Victorian Hat & Coat Hooks",
-    "Fixout & Fitoff - Supply: PC. Internal Door Stops",
     "Balustrade & External Stairs: Stairs (1) - Flight 1 - Steel Stringers - Hot Dip Galv - Standard - 4 Treads",
     "Balustrade & External Stairs: Stairs (1) - Stair - Treads - Hardwood - sawn F14 - per metre - 200mm x 50mm",
     "Balustrade & External Stairs: Bolts - Cupheads M10 (Galv.) - 65mm (with Nut)",
     "Balustrade & External Stairs: Grey Base - Post Mix Dry",
+    "Balustrade & External Stairs: Rails 90 x 45 F27 KD Standard or better",
+    "Roofing: Handrail 32mm diameter Dowel",
     "Roofing: Tradco Hand Rail Bracket Polished Brass 75mm",
     "Roofing: Spotted Gum - 40 x 40 DAR Screening - 42 X 42 FJ Pine Treated H3 Pre-Primed",
     "Roofing: Spotted Gum - 90 x 45 F27 KD Standard or better",
@@ -317,23 +295,28 @@
     "Roofing: E/O for small job",
     "Roofing: Delivery",
     "Roofing: LOWER ROOF SHEETED BY BUILTHOMES",
+    "Labour Hours: Carpentry team labour on site",
     "Labour Hours: Site Induction",
+    "Labour Hours: Sub Floor Framing",
+    "Labour Hours: Checking Deliveries",
     "Labour Hours: Stair Void Skylight",
+    "Labour Hours: Bailey - Digging prep for stairs on deck - 7hrs. Concreting steps - 1hr",
     "Labour Hours: Levi - Deck Stairs",
     "Labour Hours: Reuben - Window Hoods",
     "Floor Coverings: Materials",
-    "Joinery: Laundry Refer to Drawings Supplied",
+    "Electrical: Installing additional RCBO's for the new circuits to the switchboard has been allowed for but no allowance has been made for repositioning or upgrading meter box/switchboard.",
+    "Electrical: Supply and install LED battens to under croft and bunker light to southern external wall.",
     "Joinery: Living Cabinetry 3000x400x500 5x PTO Drawers Refer to Drawings Supplied",
-    "Joinery: Makeup Station 1915x400x600 4x PTO Drawers Mirror And Ottoman Not Inc. Refer to Drawings Supplied",
     "Joinery: Play Room Storage 3000x2450x550",
+    "Joinery: Bed 4 Robe Refer to Drawings Supplied",
     "Joinery: Increase depth of kitchen cabinetry to allow for depth of fridge.",
-    "Joinery: Supply and install cabinetry to the office/study as per drawings from Concepts Unlimited",
-    "Air Conditioning: Existing AC system decommission, degas and disposal",
+    "Joinery: Supply and install stone splashback to kitchen due to lack of specification of material in plans. BUILDERS MARGIN WAIVEDFOR THIS COMPONENT",
     "Painting: Supply and Fit Black Louvre Galleries to Existing Louvre Frames",
     "Swimming Pool Works: Demo - Existing tiles to pool areas - Remove + Dispose + Prepare",
     "Swimming Pool Works: Honed / Polish Concrete around pool. Provisional Sum",
     "Swimming Pool Works: Pool Fencing - metal is existing to remain. Remove and reinstate after powder coating to new colour. Existing posts to remain and painted",
     "Swimming Pool Works: PS. Honed / Polish Concrete around pool. Provisional Sum",
+    "Swimming Pool Works: Pool fence compliance rectification work",
     "Internal Linings: Quoted by: Bmac interiors. Contingency for material price rise Feb 25",
     "Internal Linings: Option for furring channel on Aclips",
     "Internal Linings: Wallpaper = 700mm x 10m",
@@ -341,29 +324,28 @@
     "Glazing: Mirror Cabinet. Pill White Mirror Cabinet LP5010W",
     "Glazing: Mirror - - Sphere LED Mirror 800",
     "Glazing: Wardrobe Doors in pearl white and mirrored panels, using the mirror line frame 2 off 2400 x 1800 1 off 2400 x 2910",
-    "Glazing: PC. Mirror - Baltic Oval Brass 650 x 1000",
     "Glazing: PC. Mirror Cabinet. Pill White Mirror Cabinet LP5010W",
     "Glazing: PC. Mirror - Sphere LED Mirror 800",
-    "Glazing: Mirror - Option 1 Baltic Oval Brass 650 x 1000",
     "Glazing: Mirror Cabinet. Pill White Mirror Cabinet LP5010W",
-    "Plumbing Fixtures PC Items: Delivery",
-    "Appliances: Stocks Appliances quote #34212013743",
     "Appliances: Delivery",
-    "Appliances: Stocks Appliances quote #34212013743",
+    "VARIATION WORKS: Termite damage repair, bulkheads and warped walls. Remove plaster, reframe where required, install new plaster.",
     "VARIATION WORKS: Drainage under house. Extend existing drainage line under house to prevent water sitting under house.",
+    "VARIATION WORKS: Window 2. Supply and install new security screens to louvre sections of windows to meet pool regulations",
+    "VARIATION WORKS: Main deck. Rebuild existing main deck with new bearers, joists, decking boards, balustrade. Decking material TBC",
+    "VARIATION WORKS: Laundry deck. Rebuild existing laundry deck with new bearers, joists, decking boards. Decking material TBC",
     "VARIATION WORKS: Pool bench seat. Dismantle and dispose of pool bench seat.",
     "VARIATION WORKS: Doors. Reuse 2x existing internal doors and 1x external door.",
     "VARIATION WORKS: Price increase due to confirmation of decking material for deck replacement in VARIATION 1. DecoDeck 134x25mm. Main Deck",
     "VARIATION WORKS: Price increase due to confirmation of decking material for deck replacement in VARIATION 1. DecoDeck 134x25mm. Laundry Deck",
     "VARIATION WORKS: Labour and materials to demolish and reframe laundry ceiling to gain as much head height as possible.",
+    "VARIATION WORKS: Adjustment to Provisional Sum for rusty steel post work in VARIATION 1",
     "VARIATION WORKS: Upgrade existing glass balustrade and proposed stainless balustrade to perimeter of deck with new glass balustrade system as per quote",
     "VARIATION WORKS: Supply and install window awning to kitchen window, powder coated Dover White to match awning around pool window",
     "VARIATION WORKS: VARIATION. Install in wall safe in bed 1 wall. Set and sand plaster.",
+    "Preliminary Landscape Works: Project Management - Landscaping",
     "Preliminary Landscape Works: Landscaping Tree Removal",
     "Preliminary Landscape Works: Entry Path Tile Removal",
-    "Preliminary Landscape Works: Materials",
-    "Preliminary Landscape Works: Fence and Hedge Removal",
-    "Preliminary Landscape Works: Painting Fences"
+    "Preliminary Landscape Works: Fence and Hedge Removal"
   ],
   "alignment": [
     {
@@ -397,7 +379,7 @@
     {
       "gt": 4,
       "est": [
-        6
+        5
       ],
       "qty_comparable": true
     },
@@ -418,182 +400,156 @@
     {
       "gt": 7,
       "est": [
-        11
+        9,
+        26
       ],
       "qty_comparable": false
     },
     {
       "gt": 8,
       "est": [
-        14
+        12
       ],
       "qty_comparable": false
     },
     {
       "gt": 9,
       "est": [
-        15
+        13
       ],
       "qty_comparable": false
     },
     {
       "gt": 10,
       "est": [
-        12
+        10
       ],
       "qty_comparable": false
     },
     {
       "gt": 11,
       "est": [
-        20
-      ],
-      "qty_comparable": false
-    },
-    {
-      "gt": 12,
-      "est": [
-        217
+        7
       ],
       "qty_comparable": false
     },
     {
       "gt": 13,
       "est": [
-        17
+        15
       ],
       "qty_comparable": false
     },
     {
       "gt": 14,
       "est": [
-        18
+        16
       ],
       "qty_comparable": true
     },
     {
       "gt": 15,
       "est": [
-        29,
-        30
+        28,
+        29
       ],
       "qty_comparable": false
     },
     {
       "gt": 16,
       "est": [
-        31
+        33
       ],
-      "qty_comparable": true
+      "qty_comparable": false
     },
     {
       "gt": 18,
       "est": [
-        22
+        20
       ],
       "qty_comparable": true
     },
     {
       "gt": 19,
       "est": [
-        35
-      ],
-      "qty_comparable": false
-    },
-    {
-      "gt": 21,
-      "est": [
-        32
-      ],
-      "qty_comparable": false
-    },
-    {
-      "gt": 22,
-      "est": [
-        32
-      ],
-      "qty_comparable": false
-    },
-    {
-      "gt": 23,
-      "est": [
-        32
+        34
       ],
       "qty_comparable": false
     },
     {
       "gt": 25,
       "est": [
-        49
+        48
       ],
       "qty_comparable": false
     },
     {
       "gt": 28,
       "est": [
-        22
+        20
       ],
       "qty_comparable": false
     },
     {
       "gt": 30,
       "est": [
-        36
+        37
       ],
       "qty_comparable": false
     },
     {
       "gt": 31,
       "est": [
-        36
+        37
       ],
       "qty_comparable": false
     },
     {
       "gt": 32,
       "est": [
-        36
+        37
       ],
       "qty_comparable": false
     },
     {
       "gt": 33,
       "est": [
-        37
+        38
       ],
       "qty_comparable": false
     },
     {
       "gt": 34,
       "est": [
-        37
+        38
       ],
       "qty_comparable": false
     },
     {
       "gt": 35,
       "est": [
-        37
+        38
       ],
       "qty_comparable": false
     },
     {
       "gt": 36,
       "est": [
-        37
+        38
       ],
       "qty_comparable": false
     },
     {
       "gt": 37,
       "est": [
-        37
+        38
       ],
       "qty_comparable": false
     },
     {
       "gt": 38,
       "est": [
+        35,
         36
       ],
       "qty_comparable": false
@@ -601,6 +557,7 @@
     {
       "gt": 39,
       "est": [
+        35,
         36
       ],
       "qty_comparable": false
@@ -608,37 +565,52 @@
     {
       "gt": 40,
       "est": [
-        207
+        198
       ],
       "qty_comparable": false
     },
     {
       "gt": 41,
       "est": [
-        39,
-        40
+        40,
+        41
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 42,
+      "est": [
+        38
       ],
       "qty_comparable": false
     },
     {
       "gt": 44,
       "est": [
-        36
+        41
       ],
       "qty_comparable": false
     },
     {
       "gt": 47,
       "est": [
-        57,
-        58
+        46,
+        64
       ],
       "qty_comparable": false
     },
     {
       "gt": 48,
       "est": [
-        63
+        48,
+        61
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 49,
+      "est": [
+        62
       ],
       "qty_comparable": false
     },
@@ -646,354 +618,397 @@
       "gt": 51,
       "est": [
         46,
-        70,
-        71,
-        72
+        58,
+        59
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 52,
+      "est": [
+        57
       ],
       "qty_comparable": false
     },
     {
       "gt": 53,
       "est": [
-        47
+        57
       ],
-      "qty_comparable": true
+      "qty_comparable": false
+    },
+    {
+      "gt": 54,
+      "est": [
+        57
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 55,
+      "est": [
+        57
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 56,
+      "est": [
+        57
+      ],
+      "qty_comparable": false
     },
     {
       "gt": 58,
       "est": [
-        130
+        119
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 60,
+      "est": [
+        119
       ],
       "qty_comparable": false
     },
     {
       "gt": 61,
       "est": [
-        49
+        48,
+        61
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 62,
+      "est": [
+        62
       ],
       "qty_comparable": false
     },
     {
       "gt": 63,
       "est": [
-        48,
-        73
+        47,
+        60
       ],
       "qty_comparable": false
     },
     {
       "gt": 64,
       "est": [
-        48,
-        73
+        47,
+        60
       ],
       "qty_comparable": false
     },
     {
       "gt": 65,
       "est": [
-        49,
-        74
+        48,
+        61
       ],
       "qty_comparable": false
     },
     {
       "gt": 66,
       "est": [
-        49,
-        74
+        48,
+        61
       ],
       "qty_comparable": false
     },
     {
       "gt": 67,
       "est": [
-        49,
-        74
+        48,
+        61
       ],
       "qty_comparable": false
     },
     {
       "gt": 68,
       "est": [
-        49,
-        74
+        48,
+        61
       ],
       "qty_comparable": false
     },
     {
       "gt": 69,
       "est": [
-        49,
-        74
+        48,
+        61
       ],
       "qty_comparable": false
     },
     {
       "gt": 70,
       "est": [
-        49,
-        74
+        48,
+        61
       ],
       "qty_comparable": false
     },
     {
       "gt": 71,
       "est": [
-        49,
-        74
+        48,
+        61
       ],
       "qty_comparable": false
     },
     {
       "gt": 72,
       "est": [
-        78
+        64
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 73,
+      "est": [
+        68
       ],
       "qty_comparable": false
     },
     {
       "gt": 75,
       "est": [
-        88
+        80
       ],
       "qty_comparable": false
     },
     {
       "gt": 76,
       "est": [
-        96
+        86
       ],
       "qty_comparable": false
     },
     {
       "gt": 77,
       "est": [
-        96
+        86
       ],
       "qty_comparable": false
     },
     {
       "gt": 78,
       "est": [
-        96
+        86
       ],
       "qty_comparable": false
     },
     {
       "gt": 79,
       "est": [
-        89
+        82
       ],
       "qty_comparable": false
     },
     {
       "gt": 80,
       "est": [
-        90
+        81
       ],
       "qty_comparable": false
     },
     {
       "gt": 83,
       "est": [
-        165
+        152
       ],
       "qty_comparable": false
     },
     {
       "gt": 84,
       "est": [
-        165
+        152
       ],
       "qty_comparable": false
     },
     {
       "gt": 85,
       "est": [
-        166
+        153
       ],
-      "qty_comparable": true
+      "qty_comparable": false
     },
     {
       "gt": 86,
       "est": [
-        168
+        155
       ],
       "qty_comparable": false
     },
     {
       "gt": 87,
       "est": [
-        168
+        155
       ],
       "qty_comparable": false
     },
     {
       "gt": 88,
       "est": [
-        169
+        156
       ],
       "qty_comparable": false
     },
     {
       "gt": 89,
       "est": [
-        169
+        156
       ],
       "qty_comparable": false
     },
     {
       "gt": 91,
       "est": [
-        172
+        154
       ],
       "qty_comparable": false
     },
     {
       "gt": 92,
       "est": [
-        167
+        154
       ],
       "qty_comparable": false
     },
     {
       "gt": 93,
       "est": [
-        167
+        154
       ],
       "qty_comparable": false
     },
     {
       "gt": 94,
       "est": [
-        96
+        86
       ],
       "qty_comparable": false
     },
     {
       "gt": 95,
       "est": [
-        161
+        148
       ],
       "qty_comparable": false
     },
     {
       "gt": 96,
       "est": [
-        161
+        148
       ],
       "qty_comparable": false
     },
     {
       "gt": 97,
       "est": [
-        160
+        147
       ],
       "qty_comparable": true
     },
     {
       "gt": 98,
       "est": [
-        219
+        212
       ],
-      "qty_comparable": false
+      "qty_comparable": true
     },
     {
       "gt": 99,
       "est": [
-        218
+        211
       ],
       "qty_comparable": true
     },
     {
       "gt": 103,
       "est": [
-        171
+        157
       ],
       "qty_comparable": false
     },
     {
       "gt": 104,
       "est": [
-        170
+        158
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 113,
+      "est": [
+        212
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 114,
+      "est": [
+        211
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 117,
+      "est": [
+        157
       ],
       "qty_comparable": false
     },
     {
       "gt": 118,
       "est": [
-        219
-      ],
-      "qty_comparable": false
-    },
-    {
-      "gt": 123,
-      "est": [
-        99
-      ],
-      "qty_comparable": false
-    },
-    {
-      "gt": 124,
-      "est": [
-        99
+        212
       ],
       "qty_comparable": false
     },
     {
       "gt": 129,
       "est": [
-        125
+        114
       ],
       "qty_comparable": false
     },
     {
       "gt": 134,
       "est": [
-        80
+        69
       ],
       "qty_comparable": true
     },
     {
       "gt": 138,
       "est": [
-        82,
-        83
+        73,
+        74,
+        75,
+        76
       ],
       "qty_comparable": false
     },
     {
       "gt": 139,
       "est": [
-        86
-      ],
-      "qty_comparable": false
-    },
-    {
-      "gt": 140,
-      "est": [
-        158
+        77
       ],
       "qty_comparable": false
     },
     {
       "gt": 141,
       "est": [
-        5
+        4
       ],
       "qty_comparable": true
     },
     {
       "gt": 142,
-      "est": [
-        23,
-        24
-      ],
-      "qty_comparable": false
-    },
-    {
-      "gt": 144,
       "est": [
         21,
         22
@@ -1001,9 +1016,16 @@
       "qty_comparable": false
     },
     {
+      "gt": 144,
+      "est": [
+        19,
+        20
+      ],
+      "qty_comparable": false
+    },
+    {
       "gt": 145,
       "est": [
-        38,
         39
       ],
       "qty_comparable": false
@@ -1011,770 +1033,748 @@
     {
       "gt": 146,
       "est": [
-        41,
         42,
         43,
-        44
+        44,
+        45
       ],
       "qty_comparable": false
     },
     {
       "gt": 147,
       "est": [
-        65,
-        66,
-        67,
-        68,
-        69
+        53,
+        54,
+        55,
+        56,
+        57
       ],
       "qty_comparable": false
     },
     {
       "gt": 148,
       "est": [
-        220
+        213
       ],
       "qty_comparable": false
     },
     {
       "gt": 149,
       "est": [
-        220
-      ],
-      "qty_comparable": false
-    },
-    {
-      "gt": 150,
-      "est": [
-        50,
-        52
-      ],
-      "qty_comparable": false
-    },
-    {
-      "gt": 151,
-      "est": [
-        220
+        213
       ],
       "qty_comparable": false
     },
     {
       "gt": 152,
       "est": [
-        31
+        33
       ],
       "qty_comparable": false
     },
     {
       "gt": 153,
       "est": [
-        88
+        80
       ],
       "qty_comparable": false
     },
     {
       "gt": 154,
       "est": [
-        93
+        84
       ],
       "qty_comparable": false
     },
     {
       "gt": 155,
       "est": [
-        76
+        63
       ],
       "qty_comparable": false
     },
     {
       "gt": 156,
       "est": [
-        12
+        10
       ],
       "qty_comparable": false
     },
     {
       "gt": 157,
       "est": [
-        91
+        78
       ],
       "qty_comparable": false
     },
     {
       "gt": 158,
       "est": [
-        93
+        84
       ],
       "qty_comparable": false
     },
     {
       "gt": 159,
       "est": [
-        173
+        159
       ],
       "qty_comparable": false
     },
     {
       "gt": 160,
       "est": [
-        173
+        159
       ],
       "qty_comparable": false
     },
     {
       "gt": 161,
       "est": [
-        124
+        112
       ],
       "qty_comparable": false
     },
     {
       "gt": 162,
       "est": [
-        124
+        113
       ],
       "qty_comparable": false
     },
     {
       "gt": 164,
       "est": [
-        161
+        145,
+        148
       ],
       "qty_comparable": false
     },
     {
       "gt": 165,
       "est": [
-        158
+        145
       ],
       "qty_comparable": false
     },
     {
       "gt": 166,
       "est": [
-        158,
-        164
+        145
       ],
       "qty_comparable": false
     },
     {
       "gt": 167,
       "est": [
-        160
-      ],
-      "qty_comparable": false
-    },
-    {
-      "gt": 168,
-      "est": [
-        34
+        145,
+        147
       ],
       "qty_comparable": false
     },
     {
       "gt": 169,
       "est": [
-        164
+        145,
+        151
       ],
       "qty_comparable": false
     },
     {
       "gt": 172,
       "est": [
-        125
+        114
       ],
       "qty_comparable": false
     },
     {
       "gt": 173,
       "est": [
-        227
+        220,
+        225
       ],
       "qty_comparable": false
     },
     {
       "gt": 174,
       "est": [
-        156,
-        157
+        143,
+        144
       ],
       "qty_comparable": false
     },
     {
       "gt": 175,
       "est": [
-        153,
-        154
+        140,
+        141
       ],
       "qty_comparable": false
     },
     {
       "gt": 177,
       "est": [
-        228
+        221
       ],
       "qty_comparable": false
     },
     {
       "gt": 178,
       "est": [
-        228
+        222
       ],
       "qty_comparable": false
     },
     {
       "gt": 179,
       "est": [
-        128
+        117
       ],
       "qty_comparable": false
     },
     {
       "gt": 180,
       "est": [
-        126
+        115
       ],
       "qty_comparable": false
     },
     {
       "gt": 181,
       "est": [
-        127,
-        129
+        116,
+        118
       ],
       "qty_comparable": false
     },
     {
       "gt": 182,
       "est": [
-        101
-      ],
-      "qty_comparable": false
-    },
-    {
-      "gt": 183,
-      "est": [
-        105
+        89
       ],
       "qty_comparable": false
     },
     {
       "gt": 184,
       "est": [
-        102
+        90
       ],
       "qty_comparable": false
     },
     {
       "gt": 185,
       "est": [
-        102
+        90
       ],
       "qty_comparable": false
     },
     {
       "gt": 186,
       "est": [
-        102
+        90
       ],
       "qty_comparable": false
     },
     {
       "gt": 187,
       "est": [
-        103
+        91
       ],
       "qty_comparable": false
     },
     {
       "gt": 188,
       "est": [
-        104
-      ],
-      "qty_comparable": false
-    },
-    {
-      "gt": 189,
-      "est": [
-        102
+        92
       ],
       "qty_comparable": false
     },
     {
       "gt": 190,
       "est": [
-        102
+        90
       ],
       "qty_comparable": false
     },
     {
       "gt": 191,
       "est": [
-        102
+        90
       ],
       "qty_comparable": false
     },
     {
       "gt": 192,
       "est": [
-        105
+        94
       ],
       "qty_comparable": false
     },
     {
       "gt": 193,
       "est": [
-        109,
-        110
+        97,
+        98
       ],
       "qty_comparable": false
     },
     {
       "gt": 194,
       "est": [
-        117,
-        118,
-        119
+        104,
+        105
       ],
       "qty_comparable": false
     },
     {
       "gt": 195,
       "est": [
-        121
+        107
       ],
       "qty_comparable": false
     },
     {
       "gt": 196,
       "est": [
-        175
+        160
       ],
       "qty_comparable": false
     },
     {
       "gt": 197,
       "est": [
-        178
+        163
       ],
       "qty_comparable": false
     },
     {
       "gt": 198,
       "est": [
-        176
+        161
       ],
       "qty_comparable": false
     },
     {
       "gt": 199,
       "est": [
-        178
+        163
       ],
       "qty_comparable": false
     },
     {
       "gt": 200,
       "est": [
-        182
+        167
       ],
       "qty_comparable": false
     },
     {
       "gt": 201,
       "est": [
-        175
+        160
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 202,
+      "est": [
+        170
       ],
       "qty_comparable": false
     },
     {
       "gt": 204,
       "est": [
-        181
+        166
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 205,
+      "est": [
+        165
       ],
       "qty_comparable": false
     },
     {
       "gt": 206,
       "est": [
-        181
+        166
       ],
       "qty_comparable": false
     },
     {
       "gt": 207,
       "est": [
-        178
+        163
       ],
       "qty_comparable": false
     },
     {
       "gt": 209,
       "est": [
-        180
+        168
       ],
       "qty_comparable": false
     },
     {
       "gt": 210,
       "est": [
-        180
-      ],
-      "qty_comparable": false
-    },
-    {
-      "gt": 211,
-      "est": [
-        180
+        169
       ],
       "qty_comparable": false
     },
     {
       "gt": 212,
       "est": [
-        179
+        164
       ],
       "qty_comparable": false
     },
     {
       "gt": 213,
       "est": [
-        177
+        162
       ],
       "qty_comparable": false
     },
     {
-      "gt": 216,
+      "gt": 215,
       "est": [
-        177
+        171
       ],
       "qty_comparable": false
     },
     {
       "gt": 217,
       "est": [
-        147,
-        148,
-        149,
-        150
+        136,
+        137
       ],
       "qty_comparable": false
     },
     {
       "gt": 218,
       "est": [
-        142
+        131
       ],
       "qty_comparable": false
     },
     {
       "gt": 219,
       "est": [
-        143
+        132
       ],
       "qty_comparable": false
     },
     {
       "gt": 220,
       "est": [
-        152
+        139
       ],
       "qty_comparable": false
     },
     {
       "gt": 221,
       "est": [
-        142
+        131
       ],
       "qty_comparable": false
     },
     {
       "gt": 222,
       "est": [
-        143
+        132
       ],
       "qty_comparable": false
     },
     {
       "gt": 223,
       "est": [
-        123
+        109
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 224,
+      "est": [
+        111
       ],
       "qty_comparable": false
     },
     {
       "gt": 225,
       "est": [
-        208
+        199,
+        200
       ],
       "qty_comparable": false
     },
     {
       "gt": 226,
       "est": [
-        210
+        201,
+        202
       ],
       "qty_comparable": false
     },
     {
       "gt": 228,
       "est": [
-        86
+        77
       ],
       "qty_comparable": false
     },
     {
       "gt": 231,
       "est": [
-        186
+        175
       ],
       "qty_comparable": false
     },
     {
       "gt": 234,
       "est": [
-        186
-      ],
-      "qty_comparable": false
-    },
-    {
-      "gt": 235,
-      "est": [
-        213
+        175
       ],
       "qty_comparable": false
     },
     {
       "gt": 236,
       "est": [
-        136
+        125
       ],
       "qty_comparable": false
     },
     {
       "gt": 238,
       "est": [
-        136
+        125
       ],
       "qty_comparable": false
     },
     {
       "gt": 242,
       "est": [
-        132,
-        135
+        121,
+        124,
+        125
       ],
       "qty_comparable": false
     },
     {
       "gt": 243,
       "est": [
-        187,
-        189
+        176,
+        178
       ],
       "qty_comparable": false
     },
     {
       "gt": 244,
       "est": [
-        188,
-        190
+        177,
+        179
       ],
       "qty_comparable": false
     },
     {
       "gt": 245,
       "est": [
-        191,
-        192
+        180
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 249,
+      "est": [
+        180
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 252,
+      "est": [
+        180
       ],
       "qty_comparable": false
     },
     {
       "gt": 254,
       "est": [
-        221
+        214
       ],
       "qty_comparable": false
     },
     {
       "gt": 255,
       "est": [
-        222
+        215
       ],
       "qty_comparable": false
     },
     {
       "gt": 256,
       "est": [
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
         193,
         194,
         195,
-        196,
-        197,
-        198,
-        199,
-        200,
-        201,
-        202,
-        203
+        196
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 257,
+      "est": [
+        197
       ],
       "qty_comparable": false
     },
     {
       "gt": 258,
       "est": [
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
         193,
         194,
         195,
-        196,
-        197,
-        198,
-        199,
-        200,
-        201,
-        202,
-        203
+        196
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 259,
+      "est": [
+        228
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 261,
+      "est": [
+        228
       ],
       "qty_comparable": false
     },
     {
       "gt": 262,
       "est": [
-        112
-      ],
-      "qty_comparable": false
-    },
-    {
-      "gt": 263,
-      "est": [
-        75,
-        136
+        228
       ],
       "qty_comparable": false
     },
     {
       "gt": 264,
       "est": [
-        207
+        198
       ],
       "qty_comparable": false
     },
     {
       "gt": 266,
       "est": [
-        86
-      ],
-      "qty_comparable": false
-    },
-    {
-      "gt": 267,
-      "est": [
-        86
-      ],
-      "qty_comparable": false
-    },
-    {
-      "gt": 268,
-      "est": [
-        52,
-        54,
-        56,
-        57,
-        58,
-        99
-      ],
-      "qty_comparable": false
-    },
-    {
-      "gt": 269,
-      "est": [
-        52,
-        54,
-        56,
-        57,
-        58
+        77
       ],
       "qty_comparable": false
     },
     {
       "gt": 270,
       "est": [
-        97
+        83
       ],
       "qty_comparable": false
     },
     {
       "gt": 275,
       "est": [
-        124
+        112
       ],
       "qty_comparable": false
     },
     {
       "gt": 276,
       "est": [
-        107,
-        108
+        95,
+        96
       ],
       "qty_comparable": false
     },
     {
       "gt": 277,
       "est": [
-        105
+        94
       ],
       "qty_comparable": false
     },
     {
       "gt": 279,
       "est": [
-        160,
-        161
-      ],
-      "qty_comparable": false
-    },
-    {
-      "gt": 280,
-      "est": [
-        207
+        147,
+        148
       ],
       "qty_comparable": false
     },
     {
       "gt": 284,
       "est": [
-        124
+        113
       ],
       "qty_comparable": false
     },
     {
-      "gt": 285,
+      "gt": 288,
       "est": [
-        229
+        224
       ],
       "qty_comparable": false
     },
     {
       "gt": 289,
       "est": [
-        229
+        223
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 291,
+      "est": [
+        204
       ],
       "qty_comparable": false
     },
     {
       "gt": 292,
       "est": [
-        226,
-        223
+        219
       ],
       "qty_comparable": false
     },
     {
       "gt": 293,
       "est": [
-        223,
-        224
+        217
       ],
       "qty_comparable": false
     }

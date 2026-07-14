@@ -60,6 +60,45 @@
     </div>
   </div>
 
+  <% if Array(@estimate.open_questions).any? %>
+    <div class="<%= ui_card %> mb-8 overflow-hidden">
+      <div class="border-b border-border bg-secondary/50 px-5 py-3">
+        <h2 class="font-semibold text-foreground">Questions that would tighten this estimate</h2>
+        <p class="text-xs text-muted-foreground">The estimator's own unknowns, biggest dollar swing first. Answer one and only the affected sections re-cost.</p>
+      </div>
+      <div class="divide-y divide-border">
+        <% Array(@estimate.open_questions).each do |q| %>
+          <div class="px-5 py-4">
+            <p class="font-medium text-foreground"><%= q["question"] %></p>
+            <p class="text-xs text-muted-foreground mt-0.5">
+              <%= q["why"] %>
+              <% if q["swing_low"].to_f.nonzero? || q["swing_high"].to_f.nonzero? %>
+                · swings roughly <%= number_to_currency(q["swing_low"], unit: "$", precision: 0) %>–<%= number_to_currency(q["swing_high"], unit: "$", precision: 0) %>
+              <% end %>
+              <% if Array(q["sections"]).any? %> · affects: <%= q["sections"].join(", ") %><% end %>
+            </p>
+            <%= form_with url: answer_question_estimate_path(@estimate), class: "mt-2 flex items-center gap-2" do |f| %>
+              <%= f.hidden_field :question_id, value: q["id"] %>
+              <%= f.text_field :answer, placeholder: "Your answer…", class: "#{ui_input} max-w-xl" %>
+              <%= f.submit "Answer & re-cost", class: ui_button(variant: :secondary, size: :sm) %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if Array(@estimate.clarifications).any? %>
+    <div class="<%= ui_card %> mb-8 px-5 py-4">
+      <h2 class="font-semibold text-foreground mb-2">Clarified scope</h2>
+      <ul class="space-y-1 text-sm">
+        <% Array(@estimate.clarifications).each do |c| %>
+          <li><span class="text-muted-foreground"><%= c["question"] %></span> — <span class="text-foreground font-medium"><%= c["answer"] %></span></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
   <% sections = @estimate.sections.includes(:line_items).to_a %>
 
   <div class="grid md:grid-cols-2 gap-4 mb-8 items-start">

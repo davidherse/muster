@@ -1,5 +1,5 @@
 class EstimatesController < ApplicationController
-  before_action :set_estimate, only: %i[ show csv status regenerate destroy ]
+  before_action :set_estimate, only: %i[ show csv status regenerate answer_question destroy ]
 
   PER_PAGE = 15
 
@@ -35,6 +35,27 @@ class EstimatesController < ApplicationController
 
   def status
     render json: { status: @estimate.status, progress: @estimate.progress, note: @estimate.progress_note }
+  end
+
+  # Answering a clarifying question binds the answer and re-costs only the
+  # sections it affects (the resume machinery re-costs whatever is missing
+  # from costed_sections, then re-reviews).
+  def answer_question
+    return redirect_to(@estimate, alert: "The estimate is currently generating.") if @estimate.processing?
+    question = Array(@estimate.open_questions).find { |q| q["id"].to_s == params[:question_id].to_s }
+    answer = params[:answer].to_s.strip
+    return redirect_to(@estimate, alert: "Pick a question and give an answer.") if question.nil? || answer.blank?
+
+    @estimate.update!(
+      clarifications: Array(@estimate.clarifications) + [ question.slice("question").merge("answer" => answer) ],
+      open_questions: Array(@estimate.open_questions) - [ question ]
+    )
+    affected = @estimate.sections.where(name: Array(question["sections"]))
+    @estimate.update!(costed_sections: @estimate.costed_sections - affected.map(&:name))
+    affected.destroy_all
+    @estimate.update!(status: "processing", error_message: nil, progress_note: "Re-costing #{question['sections'].to_a.join(', ')}…")
+    GenerateEstimateJob.perform_later(@estimate, resume: true)
+    redirect_to @estimate, notice: "Answer locked in — re-costing the affected sections."
   end
 
   def regenerate

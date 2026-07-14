@@ -37,6 +37,12 @@ class FakeAiClient
           { "category" => "Prelims", "description" => "Zero cost note", "item_type" => "Mat", "uom" => "ea", "unit_cost" => 0, "quantity" => 1, "quantity_kind" => "lump" }
         ]
       }
+    elsif schema == QuestionHarvester::SCHEMA
+      { "questions" => [
+        { "question" => "Are the appliances owner-supplied or builder-supplied?",
+          "why" => "Assumed builder-supplied at standard allowance",
+          "sections" => [ "Wet Areas" ], "swing_low" => -8000, "swing_high" => 0 }
+      ] }
     elsif schema == TemplateSynthesizer::SCHEMA
       {
         "template_name" => "Renovation template",

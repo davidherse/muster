@@ -280,6 +280,7 @@ class LineItemGenerator
       #{JSON.pretty_generate(@analysis)}
 
       #{@estimate.brief_text.present? ? "BUILDER'S NOTES:\n#{@estimate.brief_text}\n" : ''}
+      #{clarifications_text.present? ? "CLARIFIED SCOPE — direct answers from the builder/client; these BIND over plan inferences and assumptions:\n#{clarifications_text}\n" : ''}
       #{scoped.present? ? "THIS BUILDER'S OWN RATES FOR THESE TRADES (from their uploaded estimates; BINDING where a comparable exists \u2014 do not upgrade the spec beyond them without explicit documentation):\n#{scoped}\n" : ''}
       #{base_scoped&.dig(:matched).present? ? "BASE BOOK RATES — BINDING where a comparable exists (recorded same-class rates, plus unit-priced rates from all of this builder's jobs: unit rates transfer across job sizes — apply them to THIS job's quantities). Prefer same-class entries, then unit-priced entries; resort to market instinct only where the book has no comparable, and flag those lines low confidence. Do not upgrade the spec beyond recorded rates without explicit documentation:\n#{base_scoped[:matched]}\n" : ''}
       #{base_scoped&.dig(:other).present? ? "BASE BOOK LUMP-SUM ALLOWANCES FROM OTHER JOB CLASSES (advisory — derive a unit rate per each entry's context and scale to this job before any use):\n#{base_scoped[:other]}\n" : ''}
@@ -310,6 +311,10 @@ class LineItemGenerator
     else
       "full repaint of standard character home"
     end
+  end
+
+  def clarifications_text
+    Array(@estimate.clarifications).map { |c| "  - Q: #{c['question']}\n    A: #{c['answer']}" }.join("\n")
   end
 
   # The builder's own quantity norms for this batch's trades, scaled to this
