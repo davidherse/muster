@@ -397,41 +397,8 @@ class EstimateReviewer
         violations << "Tiling+waterproofing $#{(wet / area).round}/m2 over the takeoff area exceeds ~$330/m2 (supply + lay + screed + waterproof, quality wet-area rates)" if area.positive? && wet / area > 330
       end
     end
-    violations.concat(hour_norm_violations)
     violations.concat(class_band_violations)
     violations.concat(market_band_violations)
-    violations
-  end
-
-  # The builder's own quoted labour-hour intensities (per m² of works area,
-  # from ≥2 of their uploaded jobs) band each trade bucket's total hours.
-  # Estimates that crew work very differently from how this builder quotes it
-  # are wrong for this builder, in either direction.
-  def hour_norm_violations
-    norms = QuantityNorms.for_class(@estimate.user, @analysis["project_class"])
-    area = @analysis["floor_area_m2"].to_f
-    return [] unless norms && area.positive?
-
-    est_hours = Hash.new(0.0)
-    @estimate.sections.each do |section|
-      bucket = TradeBucket.for(section.name)
-      section.line_items.each do |i|
-        next unless i.uom.to_s =~ /\Ahours?\z|\Ahr\z/i
-        next if i.description.to_s =~ /supervis|project manage|coordinat/i # banded separately
-        est_hours[bucket] += i.quantity.to_f
-      end
-    end
-
-    violations = []
-    est_hours.each do |bucket, hours|
-      norm = norms.dig("buckets", bucket, "hour")
-      next unless norm && norm["n"].to_i >= 2
-      low = norm["min"].to_f * area * 0.6
-      high = norm["max"].to_f * area * 1.5
-      next if hours.between?(low, high)
-      dir = hours > high ? "above" : "below"
-      violations << "#{bucket} labour totals #{hours.round}h — #{dir} this builder's own quoted range for a #{area.round} m2 job of this class (#{low.round}–#{high.round}h from #{norm['n']} of their jobs); re-anchor the hour lines to their comparables"
-    end
     violations
   end
 

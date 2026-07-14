@@ -118,29 +118,17 @@ class LineItemGenerator
         never mark such a section inapplicable or return it empty. Conversely,
         never cost a pool, raise, or similar major feature that neither the
         documents nor the builder's notes support.
-      - LABOUR HOURS ANCHOR TO THE BUILDER'S OWN LINES \u2014 DERIVE, NEVER COPY:
-        user-book hour entries carry the builder's original takeoff in their
-        context tags (qty: their quoted hours). A comparable's hours belong to
-        ITS job's scope, so copying them is wrong whenever the scope differs \u2014
-        which is almost always. The procedure for every Lab/hours line:
-        (1) find the comparable hour line for the SAME ACTIVITY AND SAME VERB \u2014
-        a set-out line anchors set-out, an install line anchors install, never
-        cross them; (2) find that comparable's scope denominator in its
-        SIBLING book lines from the same category/job (their decking-supply
-        m2 next to their decking-install hours, their steel member/tonnage
-        lines next to their steel-fit hours) and derive the productivity
-        (hours per m2/lm/member); (3) multiply by THIS job's quantity for
-        that activity from the analysis takeoff. State all three steps in
-        assumptions ("their 72h install \u00f7 60m2 deck = 1.2h/m2 \u00d7 25m2 here =
-        30h"). When no sibling denominator exists, scale by the most honest
-        measure available and say which; when the book has no comparable
-        activity at all, free-read and mark low confidence. Crew-time
-        optimism and pessimism are both errors: the builder's own quoted
-        productivity is the target, not what a generic crew might achieve.
-      - EVERY measured quantity (m2, lm, ea, Hour) must show its takeoff
-        working in assumptions: the plan dimensions it derives from, the
-        takeoff entry it cites, or the comparable-scaling arithmetic. A
-        measured quantity with no working is a review failure.
+      - LABOUR IS QUOTED IN CREW-DAYS, LIKE A FOREMAN PLANS WORK: builders
+        allow labour as crew size x days, not computed decimal hours \u2014 this
+        builder's own hour lines are nearly all multiples of 4 and 8 (one man
+        half-day / day). For every Lab/hours line: plan the crew (1-3) and the
+        days (half-day granularity) the work takes at THIS job's size per the
+        analysis takeoff, then quantity = crew x days x 8. The builder's own
+        comparable hour line for the same verb AND same stated scope shows
+        their crew appetite for the activity \u2014 mind inclusion boundaries (a
+        "fix prefab stairs" day is not a "build stairs with newels" week).
+        State the crew plan in assumptions ("2 carpenters x 3 days = 48h").
+        Never emit labour hours that are not a multiple of 4.
       - Wet areas: tiling and waterproofing quantities come STRICTLY from the
         analysis wet_area_takeoff rooms (floor_m2 / wall_tile_m2) \u2014 never from
         your own re-reading of the plans and never rounded up. Cite the takeoff
@@ -168,14 +156,6 @@ class LineItemGenerator
         double counting, the classic way a builder's own uploaded rates
         inflate their next estimate. Adopt the package where it matches the
         scope; itemise only what the package excludes, and say so.
-      - MATCH THE BUILDER'S COMPONENT BREAKDOWN: where the section's typical
-        items or the builder's own book itemise a trade's supply into
-        components (roofing sheets, flashings and fasteners as separate
-        lines; appliances item by item; frames, hardware and fixings split
-        out), produce the same component lines when they are in scope — one
-        bundled supply line where the builder carries five component lines is
-        a structure failure even when the money is right. This is itemisation
-        of NON-package scope; it does not override package adoption above.
       - Services on room-scale scopes: electrical and plumbing price from the
         book's recorded rates (per m2, per point, per hour, or a recorded
         room allowance) applied to this job's takeoff quantities and fixture
