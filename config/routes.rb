@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       get :csv
       get :status
       post :regenerate
-      post :answer_question
+      post :answer_questions
     end
   end
   resources :price_book_items, path: "price-book"

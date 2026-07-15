@@ -1,5 +1,5 @@
 class EstimatesController < ApplicationController
-  before_action :set_estimate, only: %i[ show csv status regenerate answer_question destroy ]
+  before_action :set_estimate, only: %i[ show csv status regenerate answer_questions destroy ]
 
   PER_PAGE = 15
 
@@ -37,25 +37,28 @@ class EstimatesController < ApplicationController
     render json: { status: @estimate.status, progress: @estimate.progress, note: @estimate.progress_note }
   end
 
-  # Answering a clarifying question binds the answer and re-costs only the
-  # sections it affects (the resume machinery re-costs whatever is missing
-  # from costed_sections, then re-reviews).
-  def answer_question
+  # The questions wizard submits all answers at once. Answered questions bind
+  # as clarified scope and their sections re-cost in ONE resume run; anything
+  # left blank is marked skipped and never gates or re-asks again.
+  def answer_questions
     return redirect_to(@estimate, alert: "The estimate is currently generating.") if @estimate.processing?
-    question = Array(@estimate.open_questions).find { |q| q["id"].to_s == params[:question_id].to_s }
-    answer = params[:answer].to_s.strip
-    return redirect_to(@estimate, alert: "Pick a question and give an answer.") if question.nil? || answer.blank?
+    answers = params.fetch(:answers, {}).permit!.to_h
 
+    answered, skipped = Array(@estimate.open_questions).partition { |q| answers[q["id"].to_s].to_s.strip.present? }
+    clarified = answered.map { |q| q.slice("question").merge("answer" => answers[q["id"].to_s].to_s.strip) }
     @estimate.update!(
-      clarifications: Array(@estimate.clarifications) + [ question.slice("question").merge("answer" => answer) ],
-      open_questions: Array(@estimate.open_questions) - [ question ]
+      clarifications: Array(@estimate.clarifications) + clarified,
+      open_questions: skipped.map { |q| q.merge("skipped" => true) }
     )
-    affected = @estimate.sections.where(name: Array(question["sections"]))
+    return redirect_to(@estimate, notice: "No problem — here's the estimate as it stands.") if answered.empty?
+
+    affected = @estimate.sections.where(name: answered.flat_map { |q| Array(q["sections"]) }.uniq)
     @estimate.update!(costed_sections: @estimate.costed_sections - affected.map(&:name))
     affected.destroy_all
-    @estimate.update!(status: "processing", error_message: nil, progress_note: "Re-costing #{question['sections'].to_a.join(', ')}…")
+    @estimate.update!(status: "processing", error_message: nil,
+      progress_note: "Improving the estimate with your #{answered.size} answer#{'s' if answered.size > 1}…")
     GenerateEstimateJob.perform_later(@estimate, resume: true)
-    redirect_to @estimate, notice: "Answer locked in — re-costing the affected sections."
+    redirect_to @estimate, notice: "Answers locked in — improving the estimate."
   end
 
   def regenerate

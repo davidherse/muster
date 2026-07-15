@@ -39,14 +39,21 @@ class QuestionHarvester
       content: [ { type: "text", text: evidence_text } ],
       schema: SCHEMA
     )
-    questions = Array(result["questions"]).first(8).each_with_index.map do |q, i|
-      q.slice("question", "why", "sections", "swing_low", "swing_high").merge("id" => i + 1)
+    fresh = Array(result["questions"]).first(8).map do |q|
+      q.slice("question", "why", "sections", "swing_low", "swing_high")
     end
-    @estimate.update!(open_questions: questions)
-    questions
+    # Skipped questions stay on record (never gating, never re-asked) so a
+    # re-harvest can't resurrect something the user declined.
+    combined = (fresh + skipped_questions).each_with_index.map { |q, i| q.merge("id" => i + 1) }
+    @estimate.update!(open_questions: combined)
+    combined
   end
 
   private
+
+  def skipped_questions
+    Array(@estimate.open_questions).select { |q| q["skipped"] }
+  end
 
   def instructions
     <<~PROMPT
@@ -81,6 +88,7 @@ class QuestionHarvester
       #{@estimate.questionnaire.to_h.map { |k, v| "  #{k}: #{Array(v).join(', ')}" }.join("\n")}
 
       #{@estimate.clarifications.present? ? "ALREADY CLARIFIED (do not re-ask):\n#{Array(@estimate.clarifications).map { |c| "  Q: #{c['question']} A: #{c['answer']}" }.join("\n")}\n" : ''}
+      #{skipped_questions.any? ? "DECLINED — the user chose not to answer these; do not re-ask or rephrase them:\n#{skipped_questions.map { |q| "  #{q['question']}" }.join("\n")}\n" : ''}
       THE DRAFT ESTIMATE (total $#{@estimate.line_items.sum { |i| i.total.to_f }.round}):
       #{lines.join("\n\n")}
     TEXT
