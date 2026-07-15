@@ -19,6 +19,13 @@ class QuestionsWizardTest < ActionDispatch::IntegrationTest
     assert_match "A few questions before you see the number", response.body
     assert_match "of 2", response.body
     assert_no_match(/Where the money goes/, response.body)
+    assert_match "Questions for you", response.body
+  end
+
+  test "needs_answers? drives the badge, skipped questions do not" do
+    assert @estimate.needs_answers?
+    @estimate.update!(open_questions: @estimate.open_questions.map { |q| q.merge("skipped" => true) })
+    assert_not @estimate.needs_answers?
   end
 
   test "answered questions bind, skipped ones never gate again" do

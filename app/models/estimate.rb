@@ -17,6 +17,12 @@ class Estimate < ApplicationRecord
     define_method("#{s}?") { status == s }
   end
 
+  # Completed but gated behind unanswered clarifying questions — the user's
+  # move, and the UI should say so.
+  def needs_answers?
+    completed? && Array(open_questions).any? { |q| !q["skipped"] }
+  end
+
   # The full brief the AI works from: free-text prompt plus questionnaire answers.
   def brief_text
     [ prompt.presence, EstimateQuestionnaire.to_prompt(questionnaire) ].compact.join("\n\n").presence
