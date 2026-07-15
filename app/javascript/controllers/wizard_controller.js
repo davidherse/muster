@@ -40,7 +40,9 @@ export default class extends Controller {
     this.counterTarget.textContent = this.index + 1
     this.barTarget.style.width = `${(this.index / this.stepTargets.length) * 100}%`
     this.backButtonTarget.classList.toggle("invisible", this.index === 0)
-    this.nextButtonTarget.classList.toggle("hidden", this.index === last)
-    this.submitButtonTarget.classList.toggle("hidden", this.index !== last)
+    // ui_button carries inline-flex, which outranks the `hidden` utility in
+    // the compiled CSS — inline display is the only reliable toggle here.
+    this.nextButtonTarget.style.display = this.index === last ? "none" : ""
+    this.submitButtonTarget.style.display = this.index === last ? "" : "none"
   }
 }

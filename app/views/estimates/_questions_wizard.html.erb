@@ -38,7 +38,7 @@
       <div class="flex items-center gap-2">
         <button type="button" data-action="wizard#skip" class="<%= ui_button(variant: :outline) %>">Skip this one</button>
         <button type="button" data-action="wizard#next" data-wizard-target="nextButton" class="<%= ui_button %>">Next</button>
-        <%= f.submit "Improve the estimate", class: "#{ui_button} hidden", data: { wizard_target: "submitButton" } %>
+        <%= f.submit "Improve the estimate", class: ui_button, style: "display: none", data: { wizard_target: "submitButton" } %>
       </div>
     </div>
   <% end %>
