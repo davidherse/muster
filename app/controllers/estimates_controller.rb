@@ -73,11 +73,15 @@ class EstimatesController < ApplicationController
     redirect_to @estimate, notice: resume ? "Resuming the estimate from where it stopped." : "Regenerating the estimate."
   end
 
+  # One export that does the right thing: the builder's own layout when they
+  # have an agreed template, the standard layout otherwise. No export while
+  # clarifying questions still gate the number.
   def csv
     return redirect_to(@estimate, alert: "The estimate isn't ready yet.") unless @estimate.completed?
-    layout = personal_template if params[:layout] == "mine"
+    return redirect_to(@estimate, alert: "Answer or skip the open questions first — the number isn't final yet.") if @estimate.needs_answers?
+    layout = personal_template
     send_data EstimateCsv.new(@estimate, layout: layout).generate,
-      filename: "#{@estimate.name.parameterize}-estimate#{layout ? '-my-format' : ''}.csv",
+      filename: "#{@estimate.name.parameterize}-estimate.csv",
       type: "text/csv"
   end
 

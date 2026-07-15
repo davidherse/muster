@@ -9,11 +9,8 @@
   </div>
   <div class="flex items-center gap-3">
     <%= render "status_badge", estimate: @estimate %>
-    <% if @estimate.completed? %>
+    <% if @estimate.completed? && !@estimate.needs_answers? %>
       <%= link_to csv_estimate_path(@estimate), class: ui_button do %><%= ui_icon("download") %> Download CSV<% end %>
-      <% if EstimateTemplate.where("name LIKE ?", "#{Current.user.name} — %").exists? %>
-        <%= link_to csv_estimate_path(@estimate, layout: "mine"), class: ui_button(variant: :secondary) do %><%= ui_icon("download") %> CSV in my format<% end %>
-      <% end %>
     <% end %>
     <%= button_to "Delete", estimate_path(@estimate), method: :delete,
         data: { turbo_confirm: "Delete this estimate?" },
