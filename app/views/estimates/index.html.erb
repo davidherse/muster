@@ -39,10 +39,10 @@
             </td>
             <td class="<%= ui_table_cell %>"><%= render "status_badge", estimate: estimate %></td>
             <td class="<%= ui_table_cell %> text-right font-semibold text-foreground">
-              <%= estimate.completed? && estimate.total ? number_to_currency(estimate.total, unit: "$", precision: 0) : "—" %>
+              <%= estimate.completed? && !estimate.needs_answers? && estimate.total ? number_to_currency(estimate.total, unit: "$", precision: 0) : "—" %>
             </td>
             <td class="<%= ui_table_cell %> text-right text-muted-foreground text-xs hidden md:table-cell">
-              <% if estimate.completed? && estimate.total_low %>
+              <% if estimate.completed? && !estimate.needs_answers? && estimate.total_low %>
                 <%= number_to_currency(estimate.total_low, unit: "$", precision: 0) %>–<%= number_to_currency(estimate.total_high, unit: "$", precision: 0) %>
               <% else %>—<% end %>
             </td>
