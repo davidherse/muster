@@ -74,11 +74,15 @@ class EstimateGenerator
     @estimate.update!(status: "completed", progress: 100, progress_note: nil)
 
     # The clarifying-questions harness: what would the estimator ask before
-    # standing behind this number? Failure here must not fail the estimate.
-    begin
-      QuestionHarvester.new(@estimate, client: @client).call
-    rescue StandardError => e
-      Rails.logger.warn("QuestionHarvester failed for estimate #{@estimate.id}: #{e.message}")
+    # standing behind this number? One round only — an estimate the user has
+    # already clarified or skipped through finishes clean rather than
+    # re-gating forever. Failure here must not fail the estimate.
+    if @estimate.clarifications.blank? && Array(@estimate.open_questions).empty?
+      begin
+        QuestionHarvester.new(@estimate, client: @client).call
+      rescue StandardError => e
+        Rails.logger.warn("QuestionHarvester failed for estimate #{@estimate.id}: #{e.message}")
+      end
     end
   rescue StandardError => e
     @estimate.fail!(friendly_message(e))

@@ -1,0 +1,2704 @@
+{
+  "job": "benecia",
+  "estimate_id": 321,
+  "gt_items": 371,
+  "est_items": 300,
+  "item_recall_pct": 72.8,
+  "item_precision_pct": 68.0,
+  "section_coverage_pct": 88.6,
+  "qty_pairs": 56,
+  "qty_median_ape_pct": 0.0,
+  "qty_within_20_pct": 69.6,
+  "sections": [
+    {
+      "section": "Preliminaries",
+      "items": 13,
+      "covered": 10
+    },
+    {
+      "section": "Hire Items and Scaffolding",
+      "items": 6,
+      "covered": 6
+    },
+    {
+      "section": "Temporary Services",
+      "items": 2,
+      "covered": 2
+    },
+    {
+      "section": "Site Preparation",
+      "items": 17,
+      "covered": 8
+    },
+    {
+      "section": "Asbestos removal",
+      "items": 2,
+      "covered": 2
+    },
+    {
+      "section": "House raising and shifting",
+      "items": 2,
+      "covered": 2
+    },
+    {
+      "section": "Termite Protection",
+      "items": 1,
+      "covered": 1
+    },
+    {
+      "section": "Concrete Works",
+      "items": 10,
+      "covered": 7
+    },
+    {
+      "section": "Blocklayer",
+      "items": 6,
+      "covered": 4
+    },
+    {
+      "section": "Structural Steel",
+      "items": 5,
+      "covered": 3
+    },
+    {
+      "section": "Ground floor framing",
+      "items": 27,
+      "covered": 25
+    },
+    {
+      "section": "First Floor Framing",
+      "items": 25,
+      "covered": 23
+    },
+    {
+      "section": "Roofing",
+      "items": 4,
+      "covered": 4
+    },
+    {
+      "section": "Windows",
+      "items": 5,
+      "covered": 2
+    },
+    {
+      "section": "Lockup Carpenter",
+      "items": 5,
+      "covered": 3
+    },
+    {
+      "section": "15",
+      "items": 10,
+      "covered": 5
+    },
+    {
+      "section": "Balustrade, Fret work, Battening and Gates",
+      "items": 8,
+      "covered": 6
+    },
+    {
+      "section": "Electrical",
+      "items": 10,
+      "covered": 4
+    },
+    {
+      "section": "Plumber",
+      "items": 5,
+      "covered": 5
+    },
+    {
+      "section": "Mechanical Services",
+      "items": 3,
+      "covered": 3
+    },
+    {
+      "section": "Security system",
+      "items": 5,
+      "covered": 4
+    },
+    {
+      "section": "Fire Place",
+      "items": 8,
+      "covered": 8
+    },
+    {
+      "section": "Skylights",
+      "items": 1,
+      "covered": 1
+    },
+    {
+      "section": "Internal stairs",
+      "items": 3,
+      "covered": 3
+    },
+    {
+      "section": "Insulation",
+      "items": 11,
+      "covered": 6
+    },
+    {
+      "section": "Plasterer",
+      "items": 5,
+      "covered": 5
+    },
+    {
+      "section": "Waterproofing",
+      "items": 3,
+      "covered": 3
+    },
+    {
+      "section": "Tiling",
+      "items": 17,
+      "covered": 14
+    },
+    {
+      "section": "Floor Coverings",
+      "items": 3,
+      "covered": 2
+    },
+    {
+      "section": "Fixing Carpentry",
+      "items": 4,
+      "covered": 4
+    },
+    {
+      "section": "Section 29",
+      "items": 29,
+      "covered": 20
+    },
+    {
+      "section": "Joinery",
+      "items": 11,
+      "covered": 11
+    },
+    {
+      "section": "Renderer",
+      "items": 1,
+      "covered": 1
+    },
+    {
+      "section": "Glazing",
+      "items": 9,
+      "covered": 6
+    },
+    {
+      "section": "Alfresco Tiling, Stone wall feature",
+      "items": 2,
+      "covered": 1
+    },
+    {
+      "section": "Fixtures & Fitting's",
+      "items": 16,
+      "covered": 10
+    },
+    {
+      "section": "Painting",
+      "items": 8,
+      "covered": 8
+    },
+    {
+      "section": "Fencing",
+      "items": 5,
+      "covered": 2
+    },
+    {
+      "section": "Pool",
+      "items": 29,
+      "covered": 15
+    },
+    {
+      "section": "Garage Door",
+      "items": 2,
+      "covered": 2
+    },
+    {
+      "section": "Clothes Lines, Mailbox, Pegboard, shelving, bench top",
+      "items": 12,
+      "covered": 2
+    },
+    {
+      "section": "Site Cleaning and waste removal",
+      "items": 1,
+      "covered": 1
+    },
+    {
+      "section": "Int. Cleaner",
+      "items": 2,
+      "covered": 2
+    },
+    {
+      "section": "UPPER BATHROOM RENOVATION",
+      "items": 18,
+      "covered": 14
+    }
+  ],
+  "quantity_detail": [
+    {
+      "gt_index": 6,
+      "description": "Engineering fees for inspections",
+      "uom": "Ea",
+      "gt_qty": 7.0,
+      "est_qty": 6.0,
+      "ape": -14.3
+    },
+    {
+      "gt_index": 43,
+      "description": "Strip footings SF1, RW1 as per engineering detail, labour & materials",
+      "uom": "m2",
+      "gt_qty": 96.64,
+      "est_qty": 27.0,
+      "ape": -72.1
+    },
+    {
+      "gt_index": 46,
+      "description": "Slab on ground, place and finish, including sand, plastic, chairs,  steel, & labour",
+      "uom": "m2",
+      "gt_qty": 93.82,
+      "est_qty": 175.0,
+      "ape": 86.5
+    },
+    {
+      "gt_index": 47,
+      "description": "Concrete pump - Boom or Line pump",
+      "uom": "Ea",
+      "gt_qty": 5.0,
+      "est_qty": 4.0,
+      "ape": -20.0
+    },
+    {
+      "gt_index": 50,
+      "description": "Slab for gas bottles to sit on",
+      "uom": "m2",
+      "gt_qty": 2.0,
+      "est_qty": 2.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 51,
+      "description": "Prepare and install tank plinth slab",
+      "uom": "m2",
+      "gt_qty": 5.35,
+      "est_qty": 4.0,
+      "ape": -25.2
+    },
+    {
+      "gt_index": 53,
+      "description": "Masonry Blocks, supply, install,  retaining walls and front fence",
+      "uom": "m2",
+      "gt_qty": 79.73,
+      "est_qty": 67.0,
+      "ape": -16.0
+    },
+    {
+      "gt_index": 54,
+      "description": "Masonry Blocks, supply, install, for tank plinth approximately 3m wide  x 1.4m wide x .4m high",
+      "uom": "m2",
+      "gt_qty": 1.91,
+      "est_qty": 4.2,
+      "ape": 119.9
+    },
+    {
+      "gt_index": 57,
+      "description": "Line pump for core filling Blocks walls",
+      "uom": "Ea",
+      "gt_qty": 2.0,
+      "est_qty": 1.0,
+      "ape": -50.0
+    },
+    {
+      "gt_index": 63,
+      "description": "Site welding",
+      "uom": "Hour",
+      "gt_qty": 8.0,
+      "est_qty": 8.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 64,
+      "description": "Set out and mark out new wall frames and stairwell",
+      "uom": "Hour",
+      "gt_qty": 16.0,
+      "est_qty": 16.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 65,
+      "description": "Build and install lower level wall frames",
+      "uom": "Hour",
+      "gt_qty": 120.0,
+      "est_qty": 120.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 66,
+      "description": "Install bracing and tie down",
+      "uom": "Hour",
+      "gt_qty": 32.0,
+      "est_qty": 32.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 67,
+      "description": "Plumb, pack and straighten wall frames",
+      "uom": "Hour",
+      "gt_qty": 16.0,
+      "est_qty": 16.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 68,
+      "description": "Install posts",
+      "uom": "Hour",
+      "gt_qty": 24.0,
+      "est_qty": 24.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 69,
+      "description": "Install beams and floor systems",
+      "uom": "Hour",
+      "gt_qty": 120.0,
+      "est_qty": 120.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 70,
+      "description": "Install Scyon external flooring to new external decks",
+      "uom": "Hour",
+      "gt_qty": 24.0,
+      "est_qty": 24.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 71,
+      "description": "Install structrfloor to new internal floor frame",
+      "uom": "Hour",
+      "gt_qty": 24.0,
+      "est_qty": 24.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 72,
+      "description": "Build and install lower level Pergola frame",
+      "uom": "Hour",
+      "gt_qty": 16.0,
+      "est_qty": 16.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 91,
+      "description": "Set out and mark out new wall frames and stairwell",
+      "uom": "Hour",
+      "gt_qty": 20.0,
+      "est_qty": 20.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 92,
+      "description": "Build and install upper level wall frames",
+      "uom": "Hour",
+      "gt_qty": 72.0,
+      "est_qty": 72.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 93,
+      "description": "Install bracing and tie down",
+      "uom": "Hour",
+      "gt_qty": 24.0,
+      "est_qty": 24.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 94,
+      "description": "Plumb, pack and straighten wall frames",
+      "uom": "Hour",
+      "gt_qty": 16.0,
+      "est_qty": 16.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 95,
+      "description": "Build and install beams and roof frame",
+      "uom": "Hour",
+      "gt_qty": 120.0,
+      "est_qty": 120.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 96,
+      "description": "Install timber fascia",
+      "uom": "Hour",
+      "gt_qty": 20.0,
+      "est_qty": 20.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 99,
+      "description": "90 x 35 MGP 12 studs 2.7m",
+      "uom": "each",
+      "gt_qty": 156.0,
+      "est_qty": 156.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 104,
+      "description": "RB1 240 x 45 LVL 13, Roof Beam",
+      "uom": "lm",
+      "gt_qty": 17.26,
+      "est_qty": 17.26,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 105,
+      "description": "RB2 240 x 63 LVL 13, Roof Beam",
+      "uom": "lm",
+      "gt_qty": 4.17,
+      "est_qty": 4.17,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 106,
+      "description": "RB3 195 x 65 BEAM 17C, Roof Beam",
+      "uom": "lm",
+      "gt_qty": 2.94,
+      "est_qty": 2.94,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 107,
+      "description": "RB4 230 x 65 BEAM 17C, Roof Beam",
+      "uom": "lm",
+      "gt_qty": 4.65,
+      "est_qty": 4.65,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 108,
+      "description": "RB5 295 x 85 BEAM 17C, Roof Beam",
+      "uom": "lm",
+      "gt_qty": 6.15,
+      "est_qty": 6.15,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 112,
+      "description": "PINE FJ FASCIA PRIMED H3 230 x 31mm",
+      "uom": "lm",
+      "gt_qty": 34.28,
+      "est_qty": 35.36,
+      "ape": 3.2
+    },
+    {
+      "gt_index": 113,
+      "description": "Beam specified by the engineer.  BEAM 17C GLUE LAM 230 X 65 H2 STRUCT PINE MEGABEAM",
+      "uom": "lm",
+      "gt_qty": 4.8,
+      "est_qty": 4.8,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 126,
+      "description": "Install Aluminium windows and door",
+      "uom": "Hour",
+      "gt_qty": 32.0,
+      "est_qty": 48.0,
+      "ape": 50.0
+    },
+    {
+      "gt_index": 140,
+      "description": "External balustrade front with Kwila laminated 90 x 90 posts,",
+      "uom": "lm",
+      "gt_qty": 8.54,
+      "est_qty": 8.0,
+      "ape": -6.3
+    },
+    {
+      "gt_index": 141,
+      "description": "External balustrade rear",
+      "uom": "lm",
+      "gt_qty": 7.22,
+      "est_qty": 20.0,
+      "ape": 177.0
+    },
+    {
+      "gt_index": 142,
+      "description": "External fretwork",
+      "uom": "lm",
+      "gt_qty": 14.31,
+      "est_qty": 25.0,
+      "ape": 74.7
+    },
+    {
+      "gt_index": 143,
+      "description": "External timber battening",
+      "uom": "lm",
+      "gt_qty": 28.78,
+      "est_qty": 40.0,
+      "ape": 39.0
+    },
+    {
+      "gt_index": 146,
+      "description": "2 x metal framed gates with timber batten to gas store 1 x barrel bolt to each gate",
+      "uom": "each",
+      "gt_qty": 2.0,
+      "est_qty": 2.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 164,
+      "description": "2 x Downstairs outlets",
+      "uom": "each",
+      "gt_qty": 2.0,
+      "est_qty": 2.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 179,
+      "description": "3 x Fixed skylight supply & fit",
+      "uom": "Ea",
+      "gt_qty": 3.0,
+      "est_qty": 2.0,
+      "ape": -33.3
+    },
+    {
+      "gt_index": 199,
+      "description": "Supply and install waterproofing membrane to block retaining walls",
+      "uom": "m2",
+      "gt_qty": 80.0,
+      "est_qty": 63.0,
+      "ape": -21.3
+    },
+    {
+      "gt_index": 201,
+      "description": "Supply and install waterproof membrane to upper deck",
+      "uom": "m2",
+      "gt_qty": 32.0,
+      "est_qty": 31.0,
+      "ape": -3.1
+    },
+    {
+      "gt_index": 207,
+      "description": "PC Allowance for Wall Tiles laundry splash back. White Darth Soho Bianco Matte, Laid subway",
+      "uom": "m2",
+      "gt_qty": 3.15,
+      "est_qty": 7.0,
+      "ape": 122.2
+    },
+    {
+      "gt_index": 208,
+      "description": "Labour to lay Tiles, Ground floor, Rumpus, Bed 4 MPR",
+      "uom": "m2",
+      "gt_qty": 66.45,
+      "est_qty": 75.0,
+      "ape": 12.9
+    },
+    {
+      "gt_index": 215,
+      "description": "Floor wastes",
+      "uom": "Ea",
+      "gt_qty": 3.0,
+      "est_qty": 4.0,
+      "ape": 33.3
+    },
+    {
+      "gt_index": 219,
+      "description": "To supply, install, sand and polish European Oak Engineered parquetry 600x120x15mm in herringbone bone pattern with one block border around the perimeter",
+      "uom": "m2",
+      "gt_qty": 131.0,
+      "est_qty": 95.0,
+      "ape": -27.5
+    },
+    {
+      "gt_index": 222,
+      "description": "Fixing Carpentry Labour",
+      "uom": "Hour",
+      "gt_qty": 112.0,
+      "est_qty": 96.0,
+      "ape": -14.3
+    },
+    {
+      "gt_index": 224,
+      "description": "Skirting Interim SK451 18mm thickness Height 135 UPPER (EXCLUDING EXISTING BEDROOMS AND BATHROOMS) AND LOWER",
+      "uom": "lm",
+      "gt_qty": 145.63,
+      "est_qty": 200.0,
+      "ape": 37.3
+    },
+    {
+      "gt_index": 225,
+      "description": "Architrave SK451 18mm thickness Height 90 WINDOWS AND EXTERNAL DOORS",
+      "uom": "lm",
+      "gt_qty": 109.86,
+      "est_qty": 90.0,
+      "ape": -18.1
+    },
+    {
+      "gt_index": 227,
+      "description": "Installation of 90 x 42mm timbers for decorative raked ceiling in level 1 living \"EXPOSED RAFTER LOOK\" approximately 1m apart with hip and ridge",
+      "uom": "hour",
+      "gt_qty": 32.0,
+      "est_qty": 25.0,
+      "ape": -21.9
+    },
+    {
+      "gt_index": 244,
+      "description": "Architrave (New Internal Doorways Caprice CAP)",
+      "uom": "Ea",
+      "gt_qty": 14.0,
+      "est_qty": 14.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 338,
+      "description": "Supply letterbox & Numerals",
+      "uom": "Ea",
+      "gt_qty": 1.0,
+      "est_qty": 1.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 350,
+      "description": "Progressive site clean and skip bins for rubbish removal. All building refuse to be discarded from site",
+      "uom": "Ea",
+      "gt_qty": 10.0,
+      "est_qty": 10.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 369,
+      "description": "Frameless shower panel using 10mm clear toughened glass and polished chrome fittings. 1 @ 2100 x 1200 approx.",
+      "uom": "Ea",
+      "gt_qty": 1.0,
+      "est_qty": 1.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 370,
+      "description": "Clear Shield glass protection.",
+      "uom": "Ea",
+      "gt_qty": 1.0,
+      "est_qty": 3.0,
+      "ape": 200.0
+    }
+  ],
+  "unmatched_gt": [
+    "Preliminaries: Engineering inspection credit that has been paid by clients",
+    "Preliminaries: QBCC Insurance adjustment",
+    "Preliminaries: QLEAVE Adjustment",
+    "Site Preparation: Crusher Dust per tonne delivered, based on full 10m load.",
+    "Site Preparation: Labour to fill tank plinth with crusher dust",
+    "Site Preparation: Labour to spot and work with machine",
+    "Site Preparation: Dump fee's for clean bricks, pavers and concrete",
+    "Site Preparation: Crusher Dust per tonne delivered, based on full 10m load.",
+    "Site Preparation: Back fill retaining walls, pool base, 20mm aggregate per tonne, delivered  based on full 10m load",
+    "Site Preparation: Machine, 4 ton combo/ posi combo",
+    "Site Preparation: Truck hire to remove m3 fill and m3 concrete, bricks and pavers",
+    "Site Preparation: Dump fee's for clean fill",
+    "Concrete Works: Concrete supply and deliver",
+    "Concrete Works: Post Pads inc labour & materials",
+    "Concrete Works: Alfresco slab and stairs",
+    "Blocklayer: 20MPa Core fill Mix Concrete",
+    "Blocklayer: Labour to Core Fill Concrete",
+    "Structural Steel: Labour to fit Steel",
+    "Structural Steel: Delivery",
+    "Ground floor framing: Delete building of the robe in the MPR",
+    "Ground floor framing: Use recycled timbers for the pergola's where possible",
+    "First Floor Framing: Carpentry Labour for pick up and deliver from hardware store and installation for two",
+    "First Floor Framing: Materials change and labour reduction",
+    "Windows: Supply, standard colour, aluminium windows and doors. Excluding the entry door and side lights.",
+    "Windows: Supply and install commercial grade aluminium windows and doors.",
+    "Windows: Supply and install retractable fly screens for the existing windows",
+    "Lockup Carpenter: Install stops, moldings, cover strips,",
+    "Lockup Carpenter: Install frames on two sides of the carport to allow for new Blueboard and rendered bulkhead to hide garage door tracks",
+    "15: Front roof gable Infill",
+    "15: Build in carport section as per clients design including bracing and fine texture cladding. paint with 1 coat of undercoat and two coats of top coat to match new colour scheme",
+    "15: Replace 2 x bubbling soffit sheets out the front of bedroom two",
+    "15: Silicone ensuite shower screen and patch tile in ensuite niche",
+    "15: Replace bubbling soffit sheets",
+    "Balustrade, Fret work, Battening and Gates: 140 x 42mm handrail to back deck",
+    "Balustrade, Fret work, Battening and Gates: Supply and install Aluminium screen across the front of House in Pearl white",
+    "Electrical: Electrical extra scope",
+    "Electrical: Relocate overhead power line to front southern corner of the house",
+    "Electrical: Tv and Soundbar Install",
+    "Electrical: Tv antenna supply and install",
+    "Electrical: Extra power point in the laundry cabinet for washing machine due to relocation",
+    "Electrical: Power point and conduit replacement in garage for garage door and switched lighting",
+    "Security system: OPTION included, Keypad to open gate from street side.",
+    "Insulation: GROUND FLOOR WALL WRAP (TO NEW ONLY)",
+    "Insulation: FIRST FLOOR WALL WRAP (TO NEW ONLY)",
+    "Insulation: FLASHING 300mm",
+    "Insulation: BREATHER TAPE UP",
+    "Insulation: STRINGINGS",
+    "Tiling: Labour to tile front porch and stairs",
+    "Tiling: Mitred external corners, surface grinding, wall skimming allowance",
+    "Tiling: Tile slab edge of tiled path",
+    "Floor Coverings: Sealing of stone tiles and pavers. Sealing of natural stone to ground floor, alfresco and side paths. level 1 entry deck and path, rear deck",
+    "Section 29: Fit off bathroom and fixtures",
+    "Section 29: Timber for decorative raked ceiling in level 1 living \"EXPOSED RAFTER LOOK\" rafter size 90 x 42mm",
+    "Section 29: Hinges (Replace 6 existing doors to Hume Internal Door Caprice CAP)",
+    "Section 29: Tradco Magnetic Wall Mounted Door Stop - 93mm (Replace 6 existing doors to Hume Internal Door Caprice CAP)",
+    "Section 29: GAINSBOROUGH LATCH 70mm BACKSET - BRIGHT CHROME (Replace 6 existing doors to Hume Internal Door Caprice CAP)",
+    "Section 29: Remove existing door furniture to French Door in master bedroom, patch up old holes and replace with new as per specification. Labour",
+    "Section 29: Remove existing window furniture to existing windows, patch up old holes and replace with new friction sliders, Casement fastener tear drop long throw and barrel bolts. Labour",
+    "Section 29: Replace glass Payne in bed 2 casement window. materials and labour",
+    "Section 29: Installing hose reels",
+    "Glazing: Supply and install a mirror in the gym. 4mm mirror with polished edges. 1 @ 1800 x 900",
+    "Glazing: Under stair wine store room door",
+    "Glazing: Under stair wine store room window",
+    "Alfresco Tiling, Stone wall feature: Supply and install natural stone wall cladding to pool wall",
+    "Fixtures & Fitting's: Butler 600 Single Bowl Sink White",
+    "Fixtures & Fitting's: WINSLOW WALL SET WITH JUMPER VALVE CROSS",
+    "Fixtures & Fitting's: WINSLOW WALL SET WITH 230MM SPOUT",
+    "Fixtures & Fitting's: WALL MOUNTED TOILET BRUSH HOLDER",
+    "Fixtures & Fitting's: Mizu Drift Bottle Trap W Remov Base CP",
+    "Fixtures & Fitting's: P&W Basin Pop Down 40mm CP",
+    "Fencing: Stone installation labour",
+    "Fencing: Stone sealing",
+    "Fencing: wash down and paint the fences 2 x side 1 x rear",
+    "Pool: Glass to include being coated with Enduro Shield",
+    "Pool: Magnapool Minerals 10kg",
+    "Pool: Pool blanket roller Eilite rollers",
+    "Pool: Pool blanket Daisy 525 Titanium Green",
+    "Pool: Pool heater",
+    "Pool: Telescopic pool pole 8 - 16 ft",
+    "Pool: Pool Scoop",
+    "Pool: Pool Brush",
+    "Pool: CPR Sign",
+    "Pool: Spa electrics lights builders kit - 2 buckets, 2 trims, 2 lights, 2 cables, 50Kwatt transformer",
+    "Pool: Enclosure for pool equipment with liftable lid for maintenance access",
+    "Pool: Add a pool ledge to the western wall of the pool shell. Full length of the pool and a continuation of the second step",
+    "Pool: Coordination and management on site with trades and engineer, correspondence, find supplier for stainless steel dowel.",
+    "Pool: Stainless steel dowel connections around pool, recommended by the engineer, supplied and installed",
+    "Clothes Lines, Mailbox, Pegboard, shelving, bench top: Supply and install workshop peg board, shelving and bench as specified",
+    "Clothes Lines, Mailbox, Pegboard, shelving, bench top: Install rubber floor tiles in gym, supplied by client",
+    "Clothes Lines, Mailbox, Pegboard, shelving, bench top: Excavate post footings and spread soil on site .45m x .45m x .7m",
+    "Clothes Lines, Mailbox, Pegboard, shelving, bench top: Concrete",
+    "Clothes Lines, Mailbox, Pegboard, shelving, bench top: Timber Post material",
+    "Clothes Lines, Mailbox, Pegboard, shelving, bench top: Stainless steel wire and buckles",
+    "Clothes Lines, Mailbox, Pegboard, shelving, bench top: Paint materials and labour to gap fill and bog holes, 2 coats oil primer, 2 coats Weathershield",
+    "Clothes Lines, Mailbox, Pegboard, shelving, bench top: Deliveries",
+    "Clothes Lines, Mailbox, Pegboard, shelving, bench top: Supply and install workshop peg board, shelving and bench. Actual",
+    "Clothes Lines, Mailbox, Pegboard, shelving, bench top: Install rubber floor tiles in gym, supplied by client. Actual",
+    "UPPER BATHROOM RENOVATION: Carpentry, labour and materials including drop down floor",
+    "UPPER BATHROOM RENOVATION: External corners",
+    "UPPER BATHROOM RENOVATION: Preliminaries and co ordination",
+    "UPPER BATHROOM RENOVATION: Carpentry materials"
+  ],
+  "alignment": [
+    {
+      "gt": 0,
+      "est": [
+        0
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 1,
+      "est": [
+        1
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 2,
+      "est": [
+        4
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 3,
+      "est": [
+        2
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 4,
+      "est": [
+        10
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 5,
+      "est": [
+        197
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 6,
+      "est": [
+        7
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 7,
+      "est": [
+        3
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 8,
+      "est": [
+        8
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 10,
+      "est": [
+        9
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 13,
+      "est": [
+        19
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 14,
+      "est": [
+        20
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 15,
+      "est": [
+        14,
+        15
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 16,
+      "est": [
+        16
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 17,
+      "est": [
+        11,
+        12,
+        13
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 18,
+      "est": [
+        13
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 19,
+      "est": [
+        17
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 20,
+      "est": [
+        18
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 21,
+      "est": [
+        40
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 22,
+      "est": [
+        41
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 23,
+      "est": [
+        29,
+        199
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 24,
+      "est": [
+        44
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 25,
+      "est": [
+        44
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 26,
+      "est": [
+        43,
+        60
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 28,
+      "est": [
+        21
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 29,
+      "est": [
+        22,
+        23
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 38,
+      "est": [
+        32,
+        33
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 39,
+      "est": [
+        32
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 40,
+      "est": [
+        220
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 41,
+      "est": [
+        221
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 42,
+      "est": [
+        35,
+        36,
+        37,
+        38
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 43,
+      "est": [
+        49
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 46,
+      "est": [
+        47
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 47,
+      "est": [
+        54
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 48,
+      "est": [
+        196
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 50,
+      "est": [
+        53
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 51,
+      "est": [
+        52
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 52,
+      "est": [
+        55
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 53,
+      "est": [
+        58
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 54,
+      "est": [
+        215
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 57,
+      "est": [
+        59
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 58,
+      "est": [
+        58
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 60,
+      "est": [
+        222
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 62,
+      "est": [
+        225
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 63,
+      "est": [
+        223
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 64,
+      "est": [
+        237
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 65,
+      "est": [
+        234
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 66,
+      "est": [
+        235
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 67,
+      "est": [
+        236
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 68,
+      "est": [
+        238
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 69,
+      "est": [
+        243
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 70,
+      "est": [
+        245
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 71,
+      "est": [
+        244
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 72,
+      "est": [
+        239
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 73,
+      "est": [
+        227
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 74,
+      "est": [
+        228
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 75,
+      "est": [
+        226
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 76,
+      "est": [
+        229
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 77,
+      "est": [
+        232
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 78,
+      "est": [
+        240
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 79,
+      "est": [
+        241
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 80,
+      "est": [
+        242
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 81,
+      "est": [
+        230
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 82,
+      "est": [
+        230
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 83,
+      "est": [
+        230
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 84,
+      "est": [
+        230
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 85,
+      "est": [
+        230
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 86,
+      "est": [
+        239
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 87,
+      "est": [
+        231
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 88,
+      "est": [
+        233
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 91,
+      "est": [
+        272
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 92,
+      "est": [
+        268
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 93,
+      "est": [
+        270
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 94,
+      "est": [
+        271
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 95,
+      "est": [
+        269
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 96,
+      "est": [
+        273
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 97,
+      "est": [
+        251
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 98,
+      "est": [
+        252
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 99,
+      "est": [
+        250
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 100,
+      "est": [
+        256
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 101,
+      "est": [
+        266
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 102,
+      "est": [
+        264
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 103,
+      "est": [
+        274
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 104,
+      "est": [
+        257
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 105,
+      "est": [
+        258
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 106,
+      "est": [
+        259
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 107,
+      "est": [
+        260
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 108,
+      "est": [
+        261
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 109,
+      "est": [
+        263
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 110,
+      "est": [
+        263
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 111,
+      "est": [
+        263
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 112,
+      "est": [
+        277,
+        265
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 113,
+      "est": [
+        262
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 116,
+      "est": [
+        66
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 117,
+      "est": [
+        66
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 118,
+      "est": [
+        70
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 119,
+      "est": [
+        67
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 120,
+      "est": [
+        72
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 123,
+      "est": [
+        78
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 125,
+      "est": [
+        73
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 126,
+      "est": [
+        76
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 127,
+      "est": [
+        80,
+        81
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 130,
+      "est": [
+        90
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 131,
+      "est": [
+        83
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 133,
+      "est": [
+        169
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 134,
+      "est": [
+        89
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 137,
+      "est": [
+        89
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 140,
+      "est": [
+        95
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 141,
+      "est": [
+        94
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 142,
+      "est": [
+        97
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 143,
+      "est": [
+        98
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 145,
+      "est": [
+        100
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 146,
+      "est": [
+        99
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 148,
+      "est": [
+        105
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 149,
+      "est": [
+        106,
+        108
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 150,
+      "est": [
+        109
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 152,
+      "est": [
+        107
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 158,
+      "est": [
+        112
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 159,
+      "est": [
+        113
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 160,
+      "est": [
+        115
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 161,
+      "est": [
+        113
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 162,
+      "est": [
+        114
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 163,
+      "est": [
+        118
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 164,
+      "est": [
+        120
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 165,
+      "est": [
+        119
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 166,
+      "est": [
+        111
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 167,
+      "est": [
+        111
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 168,
+      "est": [
+        111
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 169,
+      "est": [
+        111
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 171,
+      "est": [
+        219
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 172,
+      "est": [
+        219
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 173,
+      "est": [
+        219
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 174,
+      "est": [
+        219
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 175,
+      "est": [
+        219
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 176,
+      "est": [
+        219
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 177,
+      "est": [
+        219
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 178,
+      "est": [
+        219
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 179,
+      "est": [
+        121
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 180,
+      "est": [
+        124,
+        125
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 181,
+      "est": [
+        124,
+        125
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 182,
+      "est": [
+        126
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 187,
+      "est": [
+        127
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 188,
+      "est": [
+        128
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 189,
+      "est": [
+        129
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 190,
+      "est": [
+        130
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 191,
+      "est": [
+        131
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 193,
+      "est": [
+        132
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 194,
+      "est": [
+        282
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 195,
+      "est": [
+        286
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 196,
+      "est": [
+        283,
+        287
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 197,
+      "est": [
+        287
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 198,
+      "est": [
+        282,
+        283
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 199,
+      "est": [
+        136
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 200,
+      "est": [
+        133,
+        134
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 201,
+      "est": [
+        135
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 202,
+      "est": [
+        147
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 203,
+      "est": [
+        139
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 204,
+      "est": [
+        151
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 205,
+      "est": [
+        143
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 206,
+      "est": [
+        143
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 207,
+      "est": [
+        144
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 208,
+      "est": [
+        140
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 209,
+      "est": [
+        142,
+        145
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 210,
+      "est": [
+        145
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 211,
+      "est": [
+        148
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 213,
+      "est": [
+        150
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 215,
+      "est": [
+        149
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 216,
+      "est": [
+        143,
+        145
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 217,
+      "est": [
+        139,
+        143
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 219,
+      "est": [
+        152
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 220,
+      "est": [
+        155
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 222,
+      "est": [
+        168
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 223,
+      "est": [
+        169,
+        171
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 224,
+      "est": [
+        165
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 225,
+      "est": [
+        166
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 227,
+      "est": [
+        281
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 229,
+      "est": [
+        158
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 231,
+      "est": [
+        161
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 234,
+      "est": [
+        162
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 235,
+      "est": [
+        163
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 236,
+      "est": [
+        163
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 237,
+      "est": [
+        163
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 238,
+      "est": [
+        159
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 239,
+      "est": [
+        160
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 240,
+      "est": [
+        161
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 241,
+      "est": [
+        162
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 242,
+      "est": [
+        193
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 243,
+      "est": [
+        169
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 244,
+      "est": [
+        160
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 245,
+      "est": [
+        159
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 246,
+      "est": [
+        158
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 247,
+      "est": [
+        158
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 251,
+      "est": [
+        193
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 252,
+      "est": [
+        169
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 253,
+      "est": [
+        193
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 255,
+      "est": [
+        289
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 256,
+      "est": [
+        289
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 257,
+      "est": [
+        289
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 258,
+      "est": [
+        289
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 259,
+      "est": [
+        289
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 260,
+      "est": [
+        289
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 261,
+      "est": [
+        289
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 262,
+      "est": [
+        290
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 263,
+      "est": [
+        290
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 264,
+      "est": [
+        291
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 265,
+      "est": [
+        289
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 266,
+      "est": [
+        172
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 267,
+      "est": [
+        173
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 268,
+      "est": [
+        176
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 269,
+      "est": [
+        177
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 273,
+      "est": [
+        72
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 274,
+      "est": [
+        175
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 275,
+      "est": [
+        176
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 276,
+      "est": [
+        147,
+        148
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 278,
+      "est": [
+        186
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 279,
+      "est": [
+        180
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 280,
+      "est": [
+        183
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 282,
+      "est": [
+        187
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 283,
+      "est": [
+        189
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 285,
+      "est": [
+        182
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 286,
+      "est": [
+        185
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 288,
+      "est": [
+        189
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 289,
+      "est": [
+        188
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 293,
+      "est": [
+        192
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 294,
+      "est": [
+        194
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 295,
+      "est": [
+        194
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 296,
+      "est": [
+        194
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 297,
+      "est": [
+        194
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 298,
+      "est": [
+        194
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 299,
+      "est": [
+        194
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 300,
+      "est": [
+        194
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 301,
+      "est": [
+        194
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 302,
+      "est": [
+        195
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 303,
+      "est": [
+        196
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 307,
+      "est": [
+        15
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 308,
+      "est": [
+        110
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 309,
+      "est": [
+        294
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 310,
+      "est": [
+        54
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 311,
+      "est": [
+        297
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 312,
+      "est": [
+        298
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 313,
+      "est": [
+        296
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 314,
+      "est": [
+        295
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 316,
+      "est": [
+        299
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 317,
+      "est": [
+        299
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 318,
+      "est": [
+        299
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 319,
+      "est": [
+        299
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 329,
+      "est": [
+        299
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 330,
+      "est": [
+        51
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 332,
+      "est": [
+        296
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 336,
+      "est": [
+        75
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 337,
+      "est": [
+        75
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 338,
+      "est": [
+        218
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 343,
+      "est": [
+        217
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 350,
+      "est": [
+        198
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 351,
+      "est": [
+        200
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 352,
+      "est": [
+        200
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 353,
+      "est": [
+        198
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 354,
+      "est": [
+        21
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 356,
+      "est": [
+        112
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 357,
+      "est": [
+        133
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 358,
+      "est": [
+        146
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 359,
+      "est": [
+        142
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 360,
+      "est": [
+        145
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 361,
+      "est": [
+        141,
+        143
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 362,
+      "est": [
+        168
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 364,
+      "est": [
+        149
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 367,
+      "est": [
+        128
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 368,
+      "est": [
+        150
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 369,
+      "est": [
+        174
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 370,
+      "est": [
+        176
+      ],
+      "qty_comparable": true
+    }
+  ],
+  "total_err": 9.7
+}
