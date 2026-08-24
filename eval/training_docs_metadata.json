@@ -1,0 +1,165 @@
+[
+  {
+    "name": "Hilda (historical job)",
+    "file": "Hilda - J1068-JobCostingsActual-20260609051503.xlsx",
+    "priced_on": "2021-06-01",
+    "description": null,
+    "questionnaire": {
+      "finish_level": "High-end",
+      "repaint_extent": "New work plus touch-ups (retained areas untouched)",
+      "duration_months": "11",
+      "building_era": "Pre-1946 character home",
+      "asbestos": "None present",
+      "structural_work": [
+        "Build-in-under",
+        "New slab or extension footprint"
+      ],
+      "systems_extras": [
+        "Ducted A/C",
+        "Fireplace"
+      ],
+      "external_works": [
+        "Boundary fencing",
+        "Pergola / carport"
+      ],
+      "services_scope": "Partial upgrade plus new work",
+      "exclusions": "Pool excluded (by others).",
+      "works_floor_area_m2": "300",
+      "project_type": "Extension plus renovation"
+    }
+  },
+  {
+    "name": "Constitution (historical job)",
+    "file": "Constitution - J1135-JobCostingsActual-20260609050935.xlsx",
+    "priced_on": "2024-10-01",
+    "description": null,
+    "questionnaire": {
+      "finish_level": "High-end",
+      "repaint_extent": "Full repaint inside and out, incl. retained linings (VJ, trim, fretwork)",
+      "duration_months": "14",
+      "building_era": "Pre-1946 character home",
+      "asbestos": "Present — removal required",
+      "structural_work": [
+        "Existing pool retained",
+        "New slab or extension footprint"
+      ],
+      "site_conditions": [
+        "Sloped block"
+      ],
+      "systems_extras": [
+        "Ducted A/C",
+        "Solar PV",
+        "Home battery",
+        "Plantation shutters"
+      ],
+      "services_scope": "Partial upgrade plus new work",
+      "works_floor_area_m2": "400",
+      "project_type": "Extension plus renovation"
+    }
+  },
+  {
+    "name": "Carberry (historical job)",
+    "file": "Carberry - 1522 - Built_Excel Workbook.xlsx",
+    "priced_on": "2025-10-01",
+    "description": null,
+    "questionnaire": {
+      "finish_level": "High-end",
+      "repaint_extent": "Full repaint inside and out, incl. retained linings (VJ, trim, fretwork)",
+      "duration_months": "12",
+      "building_era": "Pre-1946 character home",
+      "structural_work": [
+        "Retaining walls",
+        "New slab or extension footprint"
+      ],
+      "site_conditions": [
+        "Sloped block"
+      ],
+      "systems_extras": [
+        "Ducted A/C",
+        "Fireplace"
+      ],
+      "external_works": [
+        "Retaining walls"
+      ],
+      "services_scope": "Partial upgrade plus new work",
+      "exclusions": "No pool.",
+      "works_floor_area_m2": "330",
+      "project_type": "Extension plus renovation"
+    }
+  },
+  {
+    "name": "Benecia (historical job)",
+    "file": "BENECIA RENOVATION.xlsx",
+    "priced_on": "2023-01-01",
+    "description": null,
+    "questionnaire": {
+      "finish_level": "High-end",
+      "repaint_extent": "Full repaint inside and out, incl. retained linings (VJ, trim, fretwork)",
+      "duration_months": "13",
+      "building_era": "Pre-1946 character home",
+      "asbestos": "Present — removal required",
+      "structural_work": [
+        "House raise / restumping",
+        "Build-in-under",
+        "New pool",
+        "New slab or extension footprint"
+      ],
+      "site_conditions": [
+        "Sloped block",
+        "Reactive / P-class soil"
+      ],
+      "systems_extras": [
+        "Ducted A/C",
+        "Fireplace"
+      ],
+      "services_scope": "Full rewire and replumb",
+      "works_floor_area_m2": "300",
+      "project_type": "Raise and build under"
+    }
+  },
+  {
+    "name": "Carson bathrooms (historical job)",
+    "file": "6 Carson - J1211-JobCostingsActual-20260703051052.xlsx",
+    "priced_on": "2026-04-01",
+    "description": null,
+    "questionnaire": {
+      "finish_level": "High-end",
+      "repaint_extent": "New work only",
+      "duration_months": "2",
+      "asbestos": "None present",
+      "site_conditions": [
+        "Flat, straightforward site"
+      ],
+      "external_works": [
+        "All external works by others"
+      ],
+      "pc_items": "Builder-supplied",
+      "services_scope": "Partial upgrade plus new work",
+      "exclusions": "Internal renovation of main bathroom and ensuite only - no external works, roofing, structural, or landscaping. No kitchen.",
+      "works_floor_area_m2": "16",
+      "project_type": "Partial interior renovation (kitchen/bathrooms/rooms)"
+    }
+  },
+  {
+    "name": "Rosalie (historical job)",
+    "file": "77 Rosalie - J1162-JobCostingsActual-20260703050947.xlsx",
+    "priced_on": "2025-06-01",
+    "description": "Whole-house renovation of a large Queenslander at 77 Rosalie St.",
+    "questionnaire": {
+      "works_floor_area_m2": "314",
+      "duration_months": "12",
+      "project_type": "Whole-house renovation"
+    }
+  },
+  {
+    "name": "Huxham (historical job)",
+    "file": "17 Huxham - J1187-JobCostingsActual-20260703050859.xlsx",
+    "priced_on": "2026-05-01",
+    "description": "Raise and build-under of a Queenslander on a steep block at 17 Huxham Tce, with rear deck and pool.",
+    "questionnaire": {
+      "works_floor_area_m2": "350",
+      "duration_months": "14",
+      "project_type": "Raise and build under"
+    }
+  }
+]
