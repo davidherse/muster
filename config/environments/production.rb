@@ -60,8 +60,14 @@ Rails.application.configure do
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: ENV.fetch("APP_HOST", "muster.build"), protocol: "https" }
 
-  # Allowed request hosts.
-  config.hosts = [ "muster.build", "www.muster.build", /.*\.herokuapp\.com/ ]
+  # Behind a TLS-terminating proxy everywhere we deploy (Heroku router,
+  # tailscale serve) — trust X-Forwarded-Proto.
+  config.assume_ssl = true
+
+  # Allowed request hosts. Tailscale MagicDNS names allowed for self-hosting;
+  # EXTRA_HOSTS extends the list (comma-separated).
+  config.hosts = [ "muster.build", "www.muster.build", /.*\.herokuapp\.com/, /.+\.ts\.net/ ]
+  ENV.fetch("EXTRA_HOSTS", "").split(",").each { |h| config.hosts << h.strip if h.present? }
 
   # Outgoing SMTP from ENV (see .env.example). Emails are silently skipped if unset.
   if ENV["SMTP_ADDRESS"].present?
