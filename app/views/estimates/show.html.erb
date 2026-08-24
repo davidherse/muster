@@ -9,11 +9,8 @@
   </div>
   <div class="flex items-center gap-3">
     <%= render "status_badge", estimate: @estimate %>
-    <% if @estimate.completed? %>
+    <% if @estimate.completed? && !@estimate.needs_answers? %>
       <%= link_to csv_estimate_path(@estimate), class: ui_button do %><%= ui_icon("download") %> Download CSV<% end %>
-      <% if EstimateTemplate.where("name LIKE ?", "#{Current.user.name} — %").exists? %>
-        <%= link_to csv_estimate_path(@estimate, layout: "mine"), class: ui_button(variant: :secondary) do %><%= ui_icon("download") %> CSV in my format<% end %>
-      <% end %>
     <% end %>
     <%= button_to "Delete", estimate_path(@estimate), method: :delete,
         data: { turbo_confirm: "Delete this estimate?" },
@@ -45,6 +42,10 @@
   </div>
 
 <% elsif @estimate.completed? %>
+  <% pending_questions = Array(@estimate.open_questions).reject { |q| q["skipped"] } %>
+  <% if pending_questions.any? %>
+    <%= render "questions_wizard", estimate: @estimate, questions: pending_questions %>
+  <% else %>
   <div class="grid grid-cols-3 gap-4 mb-8">
     <div class="<%= ui_card %> p-5">
       <p class="text-sm text-muted-foreground">Low estimate</p>
@@ -59,6 +60,17 @@
       <p class="text-2xl font-bold text-foreground"><%= number_to_currency(@estimate.total_high, unit: "$", precision: 0) %></p>
     </div>
   </div>
+
+  <% if Array(@estimate.clarifications).any? %>
+    <div class="<%= ui_card %> mb-8 px-5 py-4">
+      <h2 class="font-semibold text-foreground mb-2">Clarified scope</h2>
+      <ul class="space-y-1 text-sm">
+        <% Array(@estimate.clarifications).each do |c| %>
+          <li><span class="text-muted-foreground"><%= c["question"] %></span> — <span class="text-foreground font-medium"><%= c["answer"] %></span></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
   <% sections = @estimate.sections.includes(:line_items).to_a %>
 
@@ -139,6 +151,7 @@
         class: ui_button(variant: :ghost, size: :sm) %>
   </div>
 
+  <% end %>
 <% else %>
   <div class="<%= ui_card %> p-8 text-center">
     <p class="text-muted-foreground mb-4">This estimate hasn't been generated yet.</p>

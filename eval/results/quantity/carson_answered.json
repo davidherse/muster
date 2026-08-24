@@ -1,0 +1,624 @@
+{
+  "job": "carson",
+  "estimate_id": 323,
+  "gt_items": 58,
+  "est_items": 72,
+  "item_recall_pct": 87.9,
+  "item_precision_pct": 77.8,
+  "section_coverage_pct": 90.9,
+  "qty_pairs": 22,
+  "qty_median_ape_pct": 0.0,
+  "qty_within_20_pct": 86.4,
+  "sections": [
+    {
+      "section": "Preliminaries",
+      "items": 6,
+      "covered": 6
+    },
+    {
+      "section": "Frame Carpenter",
+      "items": 5,
+      "covered": 0
+    },
+    {
+      "section": "Electrician",
+      "items": 2,
+      "covered": 2
+    },
+    {
+      "section": "Plumber",
+      "items": 1,
+      "covered": 1
+    },
+    {
+      "section": "Internal Linings",
+      "items": 1,
+      "covered": 1
+    },
+    {
+      "section": "Waterproofing and Tiling",
+      "items": 31,
+      "covered": 29
+    },
+    {
+      "section": "Fixing Carpentry",
+      "items": 1,
+      "covered": 1
+    },
+    {
+      "section": "Joinery",
+      "items": 5,
+      "covered": 5
+    },
+    {
+      "section": "Painter",
+      "items": 2,
+      "covered": 2
+    },
+    {
+      "section": "Glazing",
+      "items": 3,
+      "covered": 3
+    },
+    {
+      "section": "Fixtures & Fitting's",
+      "items": 1,
+      "covered": 1
+    }
+  ],
+  "quantity_detail": [
+    {
+      "gt_index": 2,
+      "description": "Project management, supervision and scheduling, co ordination",
+      "uom": "Hour",
+      "gt_qty": 24.0,
+      "est_qty": 36.0,
+      "ape": 50.0
+    },
+    {
+      "gt_index": 5,
+      "description": "Removal and demolition of existing,",
+      "uom": "Hour",
+      "gt_qty": 20.0,
+      "est_qty": 32.0,
+      "ape": 60.0
+    },
+    {
+      "gt_index": 19,
+      "description": "Waterproof Under Bed water stop angle",
+      "uom": "each",
+      "gt_qty": 5.0,
+      "est_qty": 2.0,
+      "ape": -60.0
+    },
+    {
+      "gt_index": 20,
+      "description": "Supply & Install stainless smart waist",
+      "uom": "each",
+      "gt_qty": 1.0,
+      "est_qty": 1.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 21,
+      "description": "Supply & Install stainless grate 1740mm",
+      "uom": "each",
+      "gt_qty": 1.0,
+      "est_qty": 1.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 23,
+      "description": "Bedding Ensuite",
+      "uom": "m2",
+      "gt_qty": 9.1,
+      "est_qty": 9.1,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 24,
+      "description": "Toilet Floor",
+      "uom": "m2",
+      "gt_qty": 3.91,
+      "est_qty": 3.91,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 25,
+      "description": "Toilet Walls",
+      "uom": "m2",
+      "gt_qty": 6.38,
+      "est_qty": 6.38,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 27,
+      "description": "Ensuite Floor",
+      "uom": "m2",
+      "gt_qty": 9.13,
+      "est_qty": 9.13,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 28,
+      "description": "Bedding Toilet",
+      "uom": "m2",
+      "gt_qty": 3.9,
+      "est_qty": 3.9,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 30,
+      "description": "Miter tile edge",
+      "uom": "lm",
+      "gt_qty": 7.35,
+      "est_qty": 7.35,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 31,
+      "description": "Miter tile edge",
+      "uom": "m2",
+      "gt_qty": 1.49,
+      "est_qty": 1.49,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 32,
+      "description": "Niche with miter",
+      "uom": "each",
+      "gt_qty": 1.0,
+      "est_qty": 1.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 33,
+      "description": "Toilet feature wall",
+      "uom": "m2",
+      "gt_qty": 1.39,
+      "est_qty": 1.39,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 34,
+      "description": "Wet RM floor tile",
+      "uom": "m2",
+      "gt_qty": 4.98,
+      "est_qty": 4.98,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 35,
+      "description": "Wet RM cement bedding",
+      "uom": "m2",
+      "gt_qty": 5.0,
+      "est_qty": 5.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 40,
+      "description": "Wet RM Walls",
+      "uom": "m2",
+      "gt_qty": 24.26,
+      "est_qty": 24.26,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 42,
+      "description": "Wet RM Ledge Bathroom shower",
+      "uom": "lm",
+      "gt_qty": 1.04,
+      "est_qty": 1.04,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 43,
+      "description": "WRM Feature wall niche",
+      "uom": "m2",
+      "gt_qty": 0.48,
+      "est_qty": 0.48,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 44,
+      "description": "Ledge ensuite",
+      "uom": "m2",
+      "gt_qty": 1.43,
+      "est_qty": 1.43,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 46,
+      "description": "Fixing Carpentry Labour and materials. Install architraves and moldings where required. re install towel rails and rings etc",
+      "uom": "Hour",
+      "gt_qty": 8.0,
+      "est_qty": 8.0,
+      "ape": 0.0
+    },
+    {
+      "gt_index": 52,
+      "description": "Painter - internal supply and install 3 coats of Dulux interior low sheen to walls and ceilings to match colour scheme.",
+      "uom": "Hour",
+      "gt_qty": 20.0,
+      "est_qty": 18.0,
+      "ape": -10.0
+    }
+  ],
+  "unmatched_gt": [
+    "Frame Carpenter: Carpentry labour - Plumb pack and straighten existing walls in preparation for new wall linings, install noggings, niche Bring up to liveability code with extra nogging.",
+    "Frame Carpenter: Frame timbers, hardware and fixings",
+    "Frame Carpenter: Delivery",
+    "Frame Carpenter: Labour allowance. Pick up materials. Repairs to the Ensuite and bathroom floors due to water damage",
+    "Frame Carpenter: Flooring sheets and fixings including glue",
+    "Waterproofing and Tiling: Ensuite Up Turns",
+    "Waterproofing and Tiling: Wet room UpTurns"
+  ],
+  "alignment": [
+    {
+      "gt": 0,
+      "est": [
+        0
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 1,
+      "est": [
+        3
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 2,
+      "est": [
+        5
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 3,
+      "est": [
+        11
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 4,
+      "est": [
+        9,
+        30
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 5,
+      "est": [
+        8
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 11,
+      "est": [
+        35
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 12,
+      "est": [
+        36
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 13,
+      "est": [
+        37
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 14,
+      "est": [
+        15,
+        16,
+        17
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 15,
+      "est": [
+        38
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 16,
+      "est": [
+        39
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 17,
+      "est": [
+        40
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 18,
+      "est": [
+        41
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 19,
+      "est": [
+        20
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 20,
+      "est": [
+        60
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 21,
+      "est": [
+        59
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 22,
+      "est": [
+        49
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 23,
+      "est": [
+        43
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 24,
+      "est": [
+        47
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 25,
+      "est": [
+        50
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 27,
+      "est": [
+        46
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 28,
+      "est": [
+        44
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 29,
+      "est": [
+        19
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 30,
+      "est": [
+        56
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 31,
+      "est": [
+        57
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 32,
+      "est": [
+        58
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 33,
+      "est": [
+        52
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 34,
+      "est": [
+        45
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 35,
+      "est": [
+        42
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 36,
+      "est": [
+        51
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 37,
+      "est": [
+        19
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 38,
+      "est": [
+        19
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 39,
+      "est": [
+        19
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 40,
+      "est": [
+        48
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 42,
+      "est": [
+        54
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 43,
+      "est": [
+        53
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 44,
+      "est": [
+        55
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 45,
+      "est": [
+        32,
+        33,
+        34
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 46,
+      "est": [
+        62
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 47,
+      "est": [
+        66
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 48,
+      "est": [
+        67
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 49,
+      "est": [
+        68
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 50,
+      "est": [
+        64
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 51,
+      "est": [
+        65
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 52,
+      "est": [
+        27
+      ],
+      "qty_comparable": true
+    },
+    {
+      "gt": 53,
+      "est": [
+        29
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 54,
+      "est": [
+        22,
+        24
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 55,
+      "est": [
+        21,
+        23
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 56,
+      "est": [
+        26,
+        70
+      ],
+      "qty_comparable": false
+    },
+    {
+      "gt": 57,
+      "est": [
+        71
+      ],
+      "qty_comparable": false
+    }
+  ],
+  "total_err": -0.2
+}

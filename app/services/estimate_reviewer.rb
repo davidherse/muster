@@ -275,9 +275,10 @@ class EstimateReviewer
           era alone does not make a heritage repaint, but documented heritage
           fabric across the repaint scope does — verify the painting $/m2 metric
           against the class the documented fabric supports before correcting
-        - supervision/PM hours outside this builder's documented 8-11 hours/week
-          band (check the computed metrics) without documented heavy-character
-          complexity; statutory levies and insurance premiums computed on this
+        - supervision/PM hours outside this builder's own hours/week band
+          (check the computed metrics — the band comes from THEIR past jobs of
+          this class when they have uploads, else 8-11) without documented
+          heavy-character complexity; statutory levies and insurance premiums computed on this
           estimate's own inflated total instead of the documented scope's value
         - lump-sum allowances adopted from a comparable whose source scope is far
           larger than this job (a whole-house supply allowance carried into
@@ -305,16 +306,9 @@ class EstimateReviewer
       documented cause is a review failure in EITHER direction:
       #{metrics_text}
 
-      #{calibration_note}
       THE ESTIMATE TO REVIEW:
       #{estimate_text}
     TEXT
-  end
-
-  def calibration_note
-    profile = @estimate.user && CalibrationProfile.find_by(user: @estimate.user)
-    text = profile&.reference_text
-    text.present? ? "#{text}\n" : ""
   end
 
   def metrics_text
@@ -378,7 +372,17 @@ class EstimateReviewer
     violations = []
     if months.positive? && pm_hours.positive?
       hrs_wk = pm_hours / (months * 4.33)
-      violations << "Supervision #{hrs_wk.round(1)} hrs/week is outside this builder's documented 8-11 band (18 for heavy-character)" if hrs_wk > 12.5 || hrs_wk < 6
+      # The builder's own supervision norm (from their uploaded takeoffs for
+      # this job class) outranks the generic band — a builder who runs a
+      # 16 m² bathroom at 3 h/wk must not be inflated to a whole-house 8-11.
+      own = QuantityNorms.for_class(@estimate.user, @analysis["project_class"])&.dig("supervision_hours_per_week")
+      if own
+        low = [ own["min"].to_f * 0.7, 0.1 ].max
+        high = own["max"].to_f * 1.3
+        violations << "Supervision #{hrs_wk.round(1)} hrs/week is outside THIS BUILDER'S OWN #{own['min']}–#{own['max']} hrs/week band (median #{own['value']}, from #{own['n']} of their past job#{'s' if own['n'].to_i > 1} of this class)" if hrs_wk > high || hrs_wk < low
+      else
+        violations << "Supervision #{hrs_wk.round(1)} hrs/week is outside this builder's documented 8-11 band (18 for heavy-character)" if hrs_wk > 12.5 || hrs_wk < 6
+      end
     end
     if %w[partial_interior_renovation small_works].include?(@analysis["project_class"])
       rooms = [ @analysis["wet_area_count"].to_i, Array(@analysis["rooms"]).size, 1 ].reject(&:zero?).min

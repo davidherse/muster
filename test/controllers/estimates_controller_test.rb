@@ -57,14 +57,24 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Analysing plans…", body["note"]
   end
 
-  test "csv downloads for completed estimate" do
+  test "csv downloads for completed estimate with no pending questions" do
     @estimate.plans.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "plan.pdf", content_type: "application/pdf")
     EstimateGenerator.new(@estimate, client: FakeAiClient.new).call
+    @estimate.reload.update!(open_questions: [])
 
     get csv_estimate_url(@estimate)
     assert_response :success
     assert_equal "text/csv", response.media_type
     assert_match "TOTAL (ex. GST)", response.body
+  end
+
+  test "csv is blocked while questions gate the estimate" do
+    @estimate.plans.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "plan.pdf", content_type: "application/pdf")
+    EstimateGenerator.new(@estimate, client: FakeAiClient.new).call
+    assert @estimate.reload.needs_answers?
+
+    get csv_estimate_url(@estimate)
+    assert_redirected_to estimate_url(@estimate)
   end
 
   test "csv redirects when not completed" do

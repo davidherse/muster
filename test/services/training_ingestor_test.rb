@@ -9,7 +9,9 @@ class TrainingIngestorTest < ActiveSupport::TestCase
     @doc.files.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "estimate.pdf", content_type: "application/pdf")
   end
 
-  test "ingests rates into the user price book with context and builds a template" do
+  include ActiveJob::TestHelper
+
+  test "ingests rates into the user price book with context and queues template synthesis" do
     TrainingIngestor.new(@doc, client: FakeAiClient.new).call
 
     entries = PriceBookItem.for_user(users(:one))
@@ -19,8 +21,7 @@ class TrainingIngestorTest < ActiveSupport::TestCase
     assert_equal "High-end", screen.context["finish_level"]
     assert_equal "training:#{@doc.id}", screen.source
 
-    template = EstimateTemplate.find_by!(name: "Dave Builder — 12 Smith St")
-    assert_equal %w[Prelims Carpentry Wet\ Areas Painting], template.section_names
+    assert_enqueued_with(job: SynthesizeTemplateJob, args: [ users(:one) ])
     assert @doc.reload.completed?
     assert_equal 3, @doc.extraction["item_count"]
   end

@@ -70,23 +70,19 @@ class EstimateGenerator
     usage = @client.respond_to?(:usage_totals) ? @client.usage_totals : nil
     @estimate.update!(assessment: review.merge(usage: usage))
 
-    # Deterministic builder calibration: visible per-section adjustment lines
-    # from the user's learned profile, applied after review so the reviewed
-    # book-grounded estimate stays intact underneath.
-    unless @estimate.calibration_training_document_id?
-      if (profile = @estimate.user && CalibrationProfile.find_by(user: @estimate.user))
-        profile.apply!(@estimate)
-      end
-    end
-
     @estimate.recalculate_totals!
     @estimate.update!(status: "completed", progress: 100, progress_note: nil)
 
-    # A calibration run pairs against its source upload and re-derives the
-    # builder's profile (with its own do-no-harm gates).
-    if @estimate.calibration_training_document_id?
-      doc = TrainingDocument.find_by(id: @estimate.calibration_training_document_id)
-      CalibrationPairer.new(doc, @estimate).call if doc&.status == "completed"
+    # The clarifying-questions harness: what would the estimator ask before
+    # standing behind this number? One round only — an estimate the user has
+    # already clarified or skipped through finishes clean rather than
+    # re-gating forever. Failure here must not fail the estimate.
+    if @estimate.clarifications.blank? && Array(@estimate.open_questions).empty?
+      begin
+        QuestionHarvester.new(@estimate, client: @client).call
+      rescue StandardError => e
+        Rails.logger.warn("QuestionHarvester failed for estimate #{@estimate.id}: #{e.message}")
+      end
     end
   rescue StandardError => e
     @estimate.fail!(friendly_message(e))
@@ -139,7 +135,7 @@ class EstimateGenerator
   end
 
   def template
-    @estimate.estimate_template || EstimateTemplate.default ||
+    @estimate.estimate_template || EstimateTemplate.for_user(@estimate.user) ||
       raise(Ai::Client::Error, "No estimate template available")
   end
 

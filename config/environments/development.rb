@@ -1,6 +1,11 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+  # Reachable over Tailscale: MagicDNS hostnames, plus anything set via
+  # DEV_HOST (comma-separated) for custom names.
+  config.hosts << /.+\.ts\.net/
+  ENV.fetch("DEV_HOST", "").split(",").each { |h| config.hosts << h.strip if h.present? }
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Make code changes take effect immediately without server restart.

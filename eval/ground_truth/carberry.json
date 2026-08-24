@@ -1,0 +1,2140 @@
+{
+  "sections": [
+    "Preliminaries ",
+    "Demolition",
+    "Site Establishment ",
+    "Earthworks",
+    "Sleeper Retaining Walls",
+    "Footings to Blocks",
+    "Blockwork - Retaining",
+    "Bored Piers - Concrete Footings",
+    "Concrete Slab & Footings",
+    "Termite Protection",
+    "Supply - Steel - Posts & Beams",
+    "Supply - Timber Frames",
+    "Supply - Timber Roof Frames & Trusses",
+    "Supply - Timber Posts",
+    "Supply - Bracing & Tie Down",
+    "Supply - Timber Floor Frames",
+    "Supply - Floor Sheets",
+    "Supply - External Fibre Cement Ceilings",
+    "Supply - Decking",
+    "Supply - Flooring - Timber",
+    "Supply - Window & Door - Top Flashings",
+    "Supply - Windows & Doors - Aluminium",
+    "Supply - Cladding - Weatherboards",
+    "Supply - Fixout & Fitoff",
+    "Supply - Stairs - External",
+    "Supply - Balustrades",
+    "Carpentry & General Labour",
+    "Insulation",
+    "Fire Place",
+    "Roofing",
+    "Electrical",
+    "Plumbing & Drainage",
+    "Plumbing - Gas",
+    "Plumbing - Fixtures & Fittings",
+    "Garage Doors",
+    "Plasterer",
+    "Cabinetry & Bench Tops",
+    "Water Proofing",
+    "Tiling",
+    "Air-conditioning",
+    "Stairs - Internal",
+    "Painting",
+    "Carpet",
+    "Fencing & Gates",
+    "Appliances",
+    "Site Supervision"
+  ],
+  "items": [
+    {
+      "section": "Preliminaries ",
+      "description": "Site Visit/ Design/ Documentation/ Inspections - Fees - Per Project large",
+      "uom": "Job",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Preliminaries ",
+      "description": "Fees - Private Certifier/ Fees Building/ Fees Water/ all Inspections",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Preliminaries ",
+      "description": "Fees - Residential survey fees - identification/ mark boundaires/ setout building/ certificate",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Demolition",
+      "description": "Jackhammer - Large Bosch Brute  (incl.Point & Chisel)",
+      "uom": "day",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Demolition",
+      "description": "Cleaning equipment - water pressure cleaner - Electric/petrol",
+      "uom": "days",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Demolition",
+      "description": "Hire - Concrete Floor Saw 400 mm   (Blade Extra)",
+      "uom": "day",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Demolition",
+      "description": "Hire - Diamond Blade 400mm  (Inc .1mm wear/day)",
+      "uom": "day",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Demolition",
+      "description": "Tarps - 7m x 11m (24' x 36') Blue",
+      "uom": "week",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Demolition",
+      "description": "Acrows - Prop No. 3   2.5m - 3.9m (8' - 12')",
+      "uom": "day",
+      "quantity": 5,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Demolition",
+      "description": "Delivery - Steel Reo. Zone 1",
+      "uom": "each",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Demolition",
+      "description": "Skip Bins - 10 m3",
+      "uom": "each",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Demolition",
+      "description": "Truck waste removal - per load - 11 tonne Bogie tipper truck - concrete/brick/asphalt - per load",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Demolition",
+      "description": "Permit - Road / Sidewalk",
+      "uom": "each",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Demolition",
+      "description": "Filter Masks   (Pack of 3)",
+      "uom": "each",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Demolition",
+      "description": "Dust Fibre Suits",
+      "uom": "each",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Site Establishment ",
+      "description": "Site & Safety Sign ",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Site Establishment ",
+      "description": "Tempory Power Pole - Rental / week",
+      "uom": "week",
+      "quantity": 40,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Site Establishment ",
+      "description": "Tempory Power Pole - Supply/ Install/ Removal",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Site Establishment ",
+      "description": "Tempory Power Pole - Electricity & Tariff Fees",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Site Establishment ",
+      "description": "Tempory Power Pole - Optional Connection",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Site Establishment ",
+      "description": "Site Toilet - Chemical Freshwater Flush (Cleaned Fortnightly)",
+      "uom": "per month",
+      "quantity": 10,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Site Establishment ",
+      "description": "Site Toilet - Restock Fee",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Site Establishment ",
+      "description": "Site Toilet - Delivery & Pickup",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Site Establishment ",
+      "description": "Site Fencing - Erosion Silt Barrier Personalised - up to 30m (supply & install)",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Site Establishment ",
+      "description": "Site Fencing - Mesh Panels 1800 high - up to 35m (up to 6 months)",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Site Establishment ",
+      "description": "Setout Site Profiles (install & removal)",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Site Establishment ",
+      "description": "Floor / Wall Protection - Ram Board 1.15 x 960mm x 30.5m Pre-Tapped",
+      "uom": "30m2 Roll",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Site Establishment ",
+      "description": "Skip Bins - 10 m3",
+      "uom": "each",
+      "quantity": 10,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Site Establishment ",
+      "description": "Truck - Waste Removal - Truck waste removal - per load - 11 tonne Bogie tipper truck - hard fill - per load",
+      "uom": "Load",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Site Establishment ",
+      "description": "Domestic - Final Builders Clean - Dwelling up to 3 Stories",
+      "uom": "m2",
+      "quantity": 330.3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Site Establishment ",
+      "description": "Scaffolding",
+      "uom": "Allowance",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Earthworks",
+      "description": "Cut & Fill Platform - Earthworks - Excavator 4-6 Tonne",
+      "uom": "hr",
+      "quantity": 40,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Earthworks",
+      "description": "Dig Footings - Excavator - Block Footings",
+      "uom": "hrs",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Earthworks",
+      "description": "Dig Footings - Excavator",
+      "uom": "hrs",
+      "quantity": 6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Earthworks",
+      "description": "Dig Footings- Drill Bored Piers",
+      "uom": "hrs",
+      "quantity": 6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Earthworks",
+      "description": "Slab Preparation ",
+      "uom": "hr",
+      "quantity": 4,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Earthworks",
+      "description": "Backfill Retaining",
+      "uom": "hrs",
+      "quantity": 4,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Sleeper Retaining Walls",
+      "description": "Retaining Walls - Retaining Wall - complete concrete sleeper w/t steel H post - 1000mm high",
+      "uom": "Lm",
+      "quantity": 25.3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Footings to Blocks",
+      "description": "Concrete - Grey Base - 20/25 Mpa - Zone 1",
+      "uom": "m3",
+      "quantity": 9,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Footings to Blocks",
+      "description": "Concrete - Delivery - Truck Standby Time",
+      "uom": "hr",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Footings to Blocks",
+      "description": "Concrete Pump - Minimum Charge",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Footings to Blocks",
+      "description": "X-Axis Supply - Deformed Bar - N12 x 6000mm (Straight)",
+      "uom": "each",
+      "quantity": 6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Footings to Blocks",
+      "description": "Y-Axis Supply - Deformed Bar - N12 x 6000mm (Straight)",
+      "uom": "each",
+      "quantity": 5,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Footings to Blocks",
+      "description": "Trench Mesh - L12TM4  12 x 300 x 6000mm",
+      "uom": "each",
+      "quantity": 4,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Footings to Blocks",
+      "description": "Trench Mesh - L12TM4  12 x 300 x 6000mm",
+      "uom": "each",
+      "quantity": 4,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Footings to Blocks",
+      "description": "Top - Deformed Bar - N12 x 6000mm (Straight)",
+      "uom": "each",
+      "quantity": 7,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Footings to Blocks",
+      "description": "Bottom - Deformed Bar - N12 x 6000mm (Straight)",
+      "uom": "each",
+      "quantity": 7,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Footings to Blocks",
+      "description": "Toe Footing to Block - Starter Bars - N12 to suit",
+      "uom": "each",
+      "quantity": 20,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Footings to Blocks",
+      "description": "Heel Footing to Block - Starter Bars - N12 to suit",
+      "uom": "each",
+      "quantity": 45,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Footings to Blocks",
+      "description": "Bar Chairs - SOG 50/65",
+      "uom": "100/pack",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Footings to Blocks",
+      "description": "Bar Chairs - TM Supports 290 x 65mm",
+      "uom": "20/pack",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Footings to Blocks",
+      "description": "Delivery - Steel Reo. Zone 1",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Footings to Blocks",
+      "description": "Prep and pour footings - Concretor Labour - Day Rate (Premium)",
+      "uom": "day",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "200 Series - 20.01  Standard (Cnr)",
+      "uom": "each",
+      "quantity": 22,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "200 Series - 20.48  H Block",
+      "uom": "each",
+      "quantity": 146,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "200 Series - 20.01  Standard",
+      "uom": "each",
+      "quantity": 15,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "200 Series - 20.09  Control Joint Full",
+      "uom": "each",
+      "quantity": 6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "200 Series - 20.10  Control Joint 1/2",
+      "uom": "each",
+      "quantity": 6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "200 Series - 20.45  Clean Out Block",
+      "uom": "each",
+      "quantity": 45,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "200 Series - 50.45a Tile Biscuit & Spring",
+      "uom": "each",
+      "quantity": 45,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "15mm Foam Cavity Filler's - 2m lengths",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "Sealant - Sika-Flex Pro Multipurpose (Grey)",
+      "uom": "310ml",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "Grey Base - Blockfill 10/25 Mpa",
+      "uom": "m3",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "Concrete - Delivery - Truck Standby Time",
+      "uom": "hr",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "Concrete Pump - Minimum Charge",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "Vertical - Deformed Bar - N12 x 6000mm (Straight)",
+      "uom": "each",
+      "quantity": 9,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "Horizontal - Deformed Bar - N12 x 6000mm (Straight)",
+      "uom": "each",
+      "quantity": 9,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "Corner Bars - N12  600 x 600 - 90 deg.",
+      "uom": "each",
+      "quantity": 7,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "Delivery - Steel Reo. Zone 1",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "Supply & Apply - Sealer",
+      "uom": "20 Ltr",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "Core Flute 1200 x 1800mm",
+      "uom": "each",
+      "quantity": 10,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "Geotext Fabric",
+      "uom": "m2",
+      "quantity": 29,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "Accessories - Agi Pipe Slotted  100mm x 20m  Socked",
+      "uom": "20m Roll",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "20mm Drainage Gravel - Accessories - Gravel 20mm (300mm width)",
+      "uom": "m3",
+      "quantity": 6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "Gravel - Delivery - Steel Reo. Zone 1",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Blockwork - Retaining",
+      "description": "Day Rate",
+      "uom": "each",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Bored Piers - Concrete Footings",
+      "description": "Footings - Concrete - Grey Base - 20/25 Mpa - Zone 1",
+      "uom": "m3",
+      "quantity": 17,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Bored Piers - Concrete Footings",
+      "description": "Delivery - Truck Standby Time",
+      "uom": "hr",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Bored Piers - Concrete Footings",
+      "description": "Concrete Pump - Minimum Charge",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Bored Piers - Concrete Footings",
+      "description": "Delivery - Steel Reo. Zone 1",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Concrete Slab & Footings",
+      "description": "Slab and thickenings - Concrete - Grey Base - 25MPa  Generic Exposed",
+      "uom": "m3",
+      "quantity": 8,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Concrete Slab & Footings",
+      "description": "Concrete - Delivery - Truck Standby Time",
+      "uom": "hr",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Concrete Slab & Footings",
+      "description": "Concrete Pump - Minimum Charge",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Concrete Slab & Footings",
+      "description": "Crusher Dust - Gravel - Crusher Dust  - Brown",
+      "uom": "m3",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Concrete Slab & Footings",
+      "description": "Plastic Membrane - 200um 4m x 50m = 200m2 Roll (Black)",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Concrete Slab & Footings",
+      "description": "PVC Tape - 50mm x 30mtr Grey Roll",
+      "uom": "each",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Concrete Slab & Footings",
+      "description": "Tie Wire - Coil Black 1.6mm x 5kg",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Concrete Slab & Footings",
+      "description": "Delivery - Steel Reo. Zone 1",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Concrete Slab & Footings",
+      "description": "Delivery - Landscape Yard",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Concrete Slab & Footings",
+      "description": "Fabric Mesh - SL82  2400 x 6000",
+      "uom": "each",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Concrete Slab & Footings",
+      "description": "Bar Chairs - SOG 50/65",
+      "uom": "100/pack",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Concrete Slab & Footings",
+      "description": "Deformed Bar - N12 x 6000mm (Straight)",
+      "uom": "each",
+      "quantity": 8,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Concrete Slab & Footings",
+      "description": "Dowells - R16 x 600mm",
+      "uom": "each",
+      "quantity": 23,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Concrete Slab & Footings",
+      "description": "Chemical Anchors - Chemset 101 Injection with Nozzle Tap  (Twin Pack)",
+      "uom": "2 x 400ml",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Concrete Slab & Footings",
+      "description": "Able-Flex - Foamjoint 10 x 200mm x 25m (Sticky Back)",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Concrete Slab & Footings",
+      "description": "Sundry Materials",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Concrete Slab & Footings",
+      "description": "Concretor Labour - Day Rate (Premium)",
+      "uom": "day",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Termite Protection",
+      "description": "Supply & Install - Slab Penetrations up to 12",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Termite Protection",
+      "description": "Supply & Install - Steel Post Penetrations up to 10",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Termite Protection",
+      "description": "Supply & Install ",
+      "uom": "Lm",
+      "quantity": 54.3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Steel - Posts & Beams",
+      "description": "Post SHS 75 x 75 x 4 (HD Galv.) with Base/Top - 3000mm",
+      "uom": "each",
+      "quantity": 40,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Steel - Posts & Beams",
+      "description": "Bolts - Cupheads M12 (Galv.) - 260mm  (with Nut)",
+      "uom": "each",
+      "quantity": 80,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Steel - Posts & Beams",
+      "description": "Cross Braces - with Adjustable Turnbuckles Galv.  (up to 6m)",
+      "uom": "each",
+      "quantity": 9,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Steel - Posts & Beams",
+      "description": "Welding - Onsite - half day minimum charge",
+      "uom": "hr",
+      "quantity": 8,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Steel - Posts & Beams",
+      "description": "Delivery - Steel Fabrication",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Frames",
+      "description": "Framing - Pine MGP12 - 90 x 35 T2",
+      "uom": "Lm",
+      "quantity": 305,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Frames",
+      "description": "L1 - Smart LVL 13 - 90 X 45 LVL E13 - Treated H2S",
+      "uom": "Lm",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Frames",
+      "description": "L2 - Smart LVL 13 - 170 X 45 LVL E13 - Treated H2S",
+      "uom": "Lm",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Frames",
+      "description": "L3 - Smart LVL 13 - 200 X 45 LVL E13 - Treated H2S",
+      "uom": "Lm",
+      "quantity": 7,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Frames",
+      "description": "L4 - Smart LVL 13 - 200 X 63 LVL E13 - Treated H2S",
+      "uom": "Lm",
+      "quantity": 5,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Frames",
+      "description": "Pine MGP10 - 70 x 35 T2",
+      "uom": "Lm",
+      "quantity": 644,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Frames",
+      "description": "Plywood - Structural - CD 12 x 1200 x 2400mm",
+      "uom": "sheet",
+      "quantity": 34,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Frames",
+      "description": "Sisalation - 1350mm x 60mtr Breather = 80m2",
+      "uom": "Roll",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Frames",
+      "description": "Sarking Clips - Sisalation - Foil Fasteners 23 x 23mm",
+      "uom": "500/Box",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Frames",
+      "description": "Hardware & Deliveries",
+      "uom": "%",
+      "quantity": 18500,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Supply - Timber Roof Frames & Trusses",
+      "description": "Trusses - MGP10 blue - up to - 25 degree pitch ",
+      "uom": "m2",
+      "quantity": 142.7,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Roof Frames & Trusses",
+      "description": "Unscheduled Roof Members to alter existing pitches",
+      "uom": "Lm",
+      "quantity": 67,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Roof Frames & Trusses",
+      "description": "Pine MGP12 - 70 x 35 T2",
+      "uom": "Lm",
+      "quantity": 286,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Roof Frames & Trusses",
+      "description": "Deck Beam - F27KD - 190mm x 45mm",
+      "uom": "Lm",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Roof Frames & Trusses",
+      "description": "Tie down/ straps/ transfer blocks etc",
+      "uom": "m2",
+      "quantity": 173.3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Roof Frames & Trusses",
+      "description": "Hardware & Deliveries",
+      "uom": "%",
+      "quantity": 22975,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Supply - Timber Posts",
+      "description": "Timber Posts - Merbau/Kwila - dressed kd - per metre - 190mm x 190mm",
+      "uom": "Lm",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Posts",
+      "description": "Post Supports - T Blade 10 x 200 x 200mm (M12 Holes) HD Galv.",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Posts",
+      "description": "Bolts - Cupheads M12 (Galv.) - 220mm  (with Nut)",
+      "uom": "each",
+      "quantity": 16,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Bracing & Tie Down",
+      "description": "Plywood - Bracing - 3050 x 900  x 4.0mm F27",
+      "uom": "sheet",
+      "quantity": 14,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Bracing & Tie Down",
+      "description": "Plywood - Bracing - 3050 x 1200 x 4.0mm F27",
+      "uom": "sheet",
+      "quantity": 24,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Bracing & Tie Down",
+      "description": "Cyclone Rod - M12 x 3600mm (Galv.)",
+      "uom": "each",
+      "quantity": 44,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Bracing & Tie Down",
+      "description": "Cyclone Rod - M12  Hex Nut ZP",
+      "uom": "each",
+      "quantity": 88,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Bracing & Tie Down",
+      "description": "Cyclone Rod - M12  Couplers Nut  ZP",
+      "uom": "each",
+      "quantity": 44,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Bracing & Tie Down",
+      "description": "Cyclone Rod - M12 x 50 x 50 x 3mm - Sq Washer",
+      "uom": "each",
+      "quantity": 88,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Bracing & Tie Down",
+      "description": "Strapping - 1.0mm x 30 x 50mtr",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Bracing & Tie Down",
+      "description": "Nails - 45 X 2.5 Coil Nail (0-DEG-Plastic) Flat Head Ring Shank Gal / Coil 300",
+      "uom": "each",
+      "quantity": 14,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Bracing & Tie Down",
+      "description": "Screws - Coach - Coach - M12 x 50mm  Galv.",
+      "uom": "each",
+      "quantity": 152,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Bracing & Tie Down",
+      "description": "Washers - Square - M12 50 x 50 x 3 (Galv.)",
+      "uom": "each",
+      "quantity": 152,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Floor Frames",
+      "description": "FB1 - Smart LVL 13 - 200 X 63 LVL E13 - Treated H2S",
+      "uom": "Lm",
+      "quantity": 90.6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Floor Frames",
+      "description": "FJ1 - Supply - Smart Frame - I-Joist - 240 x 40 T2",
+      "uom": "Lm",
+      "quantity": 407,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Floor Frames",
+      "description": "Allowance",
+      "uom": "m2",
+      "quantity": 121,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Floor Frames",
+      "description": "DJ1 - Supply - F17 Hardwood -  190mm x 45mm",
+      "uom": "Lm",
+      "quantity": 107,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Floor Frames",
+      "description": "DB1 - Smart LVL 13 - 200 X 45 LVL E13 - Treated H3 LOSP",
+      "uom": "Lm",
+      "quantity": 4,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Floor Frames",
+      "description": "Hardware Allowance",
+      "uom": "m2",
+      "quantity": 152.7,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Timber Floor Frames",
+      "description": "Delivery - Timber & Hardware",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Floor Sheets",
+      "description": "Particle Board - 19 x 900 x 3600mm  Ylw Tng T2",
+      "uom": "sheet",
+      "quantity": 42,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Floor Sheets",
+      "description": "Scyon Secura - 19 x 600 x 2700 (Exterior) ",
+      "uom": "sheet",
+      "quantity": 5,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Floor Sheets",
+      "description": "Scyon Secura - - Scyon Secura - 19 x 600 x 2700 (Interior)",
+      "uom": "sheet",
+      "quantity": 13,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Floor Sheets",
+      "description": "Nails - Senco Framing 75 x 3.06mm Points",
+      "uom": "2000/Box",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Floor Sheets",
+      "description": "Screws - Chipboard - Timberfix (Csunk-Phil) Zinc - 8g x 50mm",
+      "uom": "500/Box",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Floor Sheets",
+      "description": "Glues - Maxbond - Trade Adhesive 320g",
+      "uom": "320g",
+      "quantity": 30,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Floor Sheets",
+      "description": "Floor Sheet Sealer  -  4 Litres - Paint - Deck Sealer - Cabot's Bar DK",
+      "uom": "4 Litre",
+      "quantity": 4,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Floor Sheets",
+      "description": "Paint Roller",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Floor Sheets",
+      "description": "Delivery - Timber & Hardware",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - External Fibre Cement Ceilings",
+      "description": "HardieFlex FC - 6 x 900 x 3000",
+      "uom": "sheet",
+      "quantity": 19,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - External Fibre Cement Ceilings",
+      "description": "Perimeter Cover Mould - Pine FJ Primed - 66 X 11 FJ Pine Treated H3 Pre-Primed - DAR - 31 X 11 FJ",
+      "uom": "Lm",
+      "quantity": 102.5,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - External Fibre Cement Ceilings",
+      "description": "Plastic PVC Joint Strip - 'H' 6 x 3000mm",
+      "uom": "each",
+      "quantity": 39,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - External Fibre Cement Ceilings",
+      "description": "Nails - Fibre Cement  25 x 2.0mm Galv.",
+      "uom": "2kg",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - External Fibre Cement Ceilings",
+      "description": "Nails - Paslode Impulse TrimMaster 38mm Galv. (Angled) B20738",
+      "uom": "2000/Box",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - External Fibre Cement Ceilings",
+      "description": "Delivery - Timber & Hardware",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Decking",
+      "description": "Spotted Gum - 86 x 19 P/Round Decking (Std & Better)",
+      "uom": "Lm",
+      "quantity": 393,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Decking",
+      "description": "Screws - Quick Drive - 10G X 60 Quikdrive Screws Winged (Decking To Hardwood) - Galvanised / PK1000",
+      "uom": "each",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Decking",
+      "description": "Joist Protection - Protect-A-Deck PVC 50mm x 25m Roll",
+      "uom": "25m/Roll",
+      "quantity": 4,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Decking",
+      "description": "Delivery - Timber & Hardware",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Flooring - Timber",
+      "description": "Supply - Flooring -  engineered floating flooring - quality - 1 strip",
+      "uom": "m2",
+      "quantity": 101.9,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Window & Door - Top Flashings",
+      "description": "Flashing -  75 x 38 Z flashing (Galv.)  16mm Roll",
+      "uom": "Lm",
+      "quantity": 25,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Window & Door - Top Flashings",
+      "description": "Sealant - Sika-Flex Pro Multipurpose (Grey) - Sausage",
+      "uom": "600ml",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Windows & Doors - Aluminium",
+      "description": "Aluminium Double Hung Window - Double Hung Windows (Magnum or similar)",
+      "uom": "m2",
+      "quantity": 831.6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Windows & Doors - Aluminium",
+      "description": "Aluminium Sliding Window - Sliding Windows (Magnum or similar)",
+      "uom": "m2",
+      "quantity": 484.05,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Windows & Doors - Aluminium",
+      "description": "Aluminium Stacker Door - Sliding Stacker Doors (Magnum or similar)",
+      "uom": "m2",
+      "quantity": 701.8,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Cladding - Weatherboards",
+      "description": "175 X 25 X 6 CCA H3 Treated Hardwood Weatherboard",
+      "uom": "Lm",
+      "quantity": 1063,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Cladding - Weatherboards",
+      "description": "Nails - Bullethead 65 x 3.15mm Galv.",
+      "uom": "5kg",
+      "quantity": 11,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Cladding - Weatherboards",
+      "description": "Windows and Stops",
+      "uom": "Lm",
+      "quantity": 4.92,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Cladding - Weatherboards",
+      "description": "Sealers Sika-Flex Pro Multipurpose (Grey)",
+      "uom": "310ml",
+      "quantity": 8,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Internal Doors - Corinthian - Readicote MDF  820 x 2040",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Internal Doors - Corinthian - Readicote MDF  720 x 2040",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Cupboard - Internal Doors - Corinthian - Readicote MDF  620 x 2040",
+      "uom": "each",
+      "quantity": 4,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Cupboard - Internal Doors - Corinthian - Readicote MDF  520 x 2040",
+      "uom": "each",
+      "quantity": 6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Re-hang existing door",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Colonial Doors to match existing",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Framed/ Laundry or Garage Entry Door- Timber & Glass",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Cavity Slider Unit - Cavity Slider Unit Evolution - 2040 X 720 X 90",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Locks - Passage Set - Lever - Average",
+      "uom": "each",
+      "quantity": 4,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "External Door",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Locks - Sliding Door Set - Average - Privacy",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Cupboard Door - Dummy Handles",
+      "uom": "each",
+      "quantity": 10,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Hinges - Quality",
+      "uom": "each",
+      "quantity": 28,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Door Jambs - Pine FJ - DAR - 112 X 18 FJ Pine White-Primed - DPR",
+      "uom": "Lm",
+      "quantity": 84.3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Garage Door - Jambs - 140 x 31 x 5400mm Pine FJ H3 Primed",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Pine FJ - DAR - 31 X 18 FJ Pine White-Primed - DAR",
+      "uom": "Lm",
+      "quantity": 75.6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Architrave - Pine FJ - Splade/Bevel - 66 X 11 FJ Pine White-Primed - Bevel Splay",
+      "uom": "Lm",
+      "quantity": 199.8,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Skirting - Pine FJ - Splade/Bevel - 92 X 11 FJ Pine White-Primed - Bevel Splay",
+      "uom": "Lm",
+      "quantity": 157,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Highlite or Breezeway",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Clothes Line - Wall Mounted",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Letter Box",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Nails - 38 X 16G C-Brad Angled - Paslode Impulse With Gas / 2000",
+      "uom": "each",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Cupboard Door Stops - Stops / Catches - Metal Double Roller - Zinc",
+      "uom": "each",
+      "quantity": 10,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Stops / Catches - Average",
+      "uom": "each",
+      "quantity": 14,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "External Door Stops - Stops - Stops / Catches - Prestige",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Fixout & Fitoff",
+      "description": "Delivery - Timber & Hardware",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Stairs - External",
+      "description": "Stairs (1) - Flight 1 - Steel Stringers - Hot Dip Galv - Standard - 5 Treads",
+      "uom": "Pair",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Stairs - External",
+      "description": "Stairs (1) - Flight 2 - Steel Stringers - Hot Dip Galv - Standard - 6 Treads",
+      "uom": "Pair",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Stairs - External",
+      "description": "Additional RHS - Steel Stringers - horizontal",
+      "uom": "Pair",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Stairs - External",
+      "description": "Treads - Hwd F14 Sawn - Hardwood - sawn F14 - per metre - 250mm x 75mm",
+      "uom": "Lm",
+      "quantity": 87.802,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Stairs - External",
+      "description": "Stairs (2) - Flight 1 - Steel Stringers - Hot Dip Galv - Standard - 2 Treads",
+      "uom": "Pair",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Stairs - External",
+      "description": "Treads - Hwd F14 Sawn - Hardwood - sawn F14 - per metre - 250mm x 75mm",
+      "uom": "Lm",
+      "quantity": 87.802,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Stairs - External",
+      "description": "Treated - Hwd F14 Sawn - Hardwood - sawn F14 - per metre - 150mm x 50mm",
+      "uom": "Lm",
+      "quantity": 14,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Stairs - External",
+      "description": "Merbau/Kwila - dressed kd - per metre - 90mm x 19mm",
+      "uom": "Lm",
+      "quantity": 37,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Stairs - External",
+      "description": "allowance",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Supply - Balustrades",
+      "description": "Kwila / Merbau - Merbau/Kwila - dressed kd - per metre - 90mm x 45mm",
+      "uom": "Lm",
+      "quantity": 16,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Balustrades",
+      "description": "Merbau/Kwila - dressed kd - per metre - 90mm x 90mm",
+      "uom": "Lm",
+      "quantity": 13.5,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Balustrades",
+      "description": "Merbau/Kwila - dressed kd - per metre - 90mm x 45mm",
+      "uom": "Lm",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Balustrades",
+      "description": "Kwila / Merbau - Merbau/Kwila - dressed kd - per metre - 90mm x 45mm",
+      "uom": "Lm",
+      "quantity": 16,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Balustrades",
+      "description": "Balustrades - 68 X 19 Balustrade / Screening - Kwila",
+      "uom": "Lm",
+      "quantity": 157,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Balustrades",
+      "description": "Balustrade - Tenons - Rail Fixings",
+      "uom": "each",
+      "quantity": 32,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Balustrades",
+      "description": "Bolts - Cupheads M12 (Galv.) - 150mm  (with Nut)",
+      "uom": "each",
+      "quantity": 18,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Balustrades",
+      "description": "Screws - Batten - 14g x 75mm Galv.",
+      "uom": "each",
+      "quantity": 8,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Balustrades",
+      "description": "Batten screws - Screws - Batten - 14g x 75mm Z/P",
+      "uom": "100/Box",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Supply - Balustrades",
+      "description": "Nails - Senco Finishing  50mm x 1.83mm",
+      "uom": "3000/Box",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Carpentry & General Labour",
+      "description": "Carpentry and Onsite Labour per week (average 2 men)",
+      "uom": "weeks",
+      "quantity": 40,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Insulation",
+      "description": "Ceilings -  Batts ceiling - glasswool - R 3.0 - 140mm thick",
+      "uom": "m2",
+      "quantity": 13.376,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Insulation",
+      "description": "Perimeter Walls - Supply & Install Wall Batts",
+      "uom": "m2",
+      "quantity": 9.581,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Insulation",
+      "description": "Internal Walls - Supply & Install Wall Batts",
+      "uom": "m2",
+      "quantity": 9.581,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fire Place",
+      "description": "PS Fireplace",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Roofing",
+      "description": "Supply & install .42 BMT colourbond & Clear (incl anticon/ fascia/ gutter/ barges/ battens/ flashing etc)",
+      "uom": "m2",
+      "quantity": 171.3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Electrical",
+      "description": "Allowance per m2 (Medium)",
+      "uom": "m2",
+      "quantity": 330.3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Electrical",
+      "description": "Light Fittings -  PC",
+      "uom": "PC",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Plumber to make safe/ underslab drainage etc",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Hourly Rate - Demo Set up toilets water etc",
+      "uom": "hr",
+      "quantity": 16,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Site Tap",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Hose Taps",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Water feed - Fridge",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Vanity - Connection",
+      "uom": "each",
+      "quantity": 4,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Vanity - Drainage Point",
+      "uom": "each",
+      "quantity": 4,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Kitchen Sink - Connection",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Kitchen Sink - Drainage Point",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Dishwasher Connection",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Shower - Connection",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Shower - Drainage Point",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Bath - Connection",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Bath -  Drainage Point",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Toilet - Connection",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Toilet - Drainage Point",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Laundry Tub - Connection",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Laundry Tub - Drainage Point",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Laundry - Washing Machine Stops",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Temper Valve",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Floor Waste - Connection",
+      "uom": "each",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Floor Waste - Drainage Point",
+      "uom": "each",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Stormwater - Connection to Street",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Stormwater - Drainage Point",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Domestic - Stormwater Pit",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Disconnect/Reconnect Water Tank",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing & Drainage",
+      "description": "Downpipes - Quality - including connection and underground stormwater",
+      "uom": "each",
+      "quantity": 5,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing - Gas",
+      "description": "Hot Water Systems - Rinnai Infinity 26 Gas Instantaneous - 24/26Ltr",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing - Gas",
+      "description": "Gas supply - complete - copper - in house - l2m run to hotplate or heater - 15mm & 20mm diamete",
+      "uom": "each",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plumbing - Fixtures & Fittings",
+      "description": "See Attached Spreadsheet",
+      "uom": "PC",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Garage Doors",
+      "description": "Garage door - sectional custom - up to - 5.4m wide - including motor",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plasterer",
+      "description": "Total Area - Supply and Install - Plasterboard and setting - standard - 10mm thick - fix to wall",
+      "uom": "m2",
+      "quantity": 546.1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plasterer",
+      "description": "Plasterboard and setting - standard - 10mm thick - fix to ceiling",
+      "uom": "m2",
+      "quantity": 127.7,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Plasterer",
+      "description": "Cornice - to match existing  (supply/ fix/ set & sand) - adjust accordingly",
+      "uom": "Lm",
+      "quantity": 198.6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Cabinetry & Bench Tops",
+      "description": "Kitchen - Quality",
+      "uom": "Lm",
+      "quantity": 12.1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Cabinetry & Bench Tops",
+      "description": "Bathroom Joinery - Quality",
+      "uom": "Lm",
+      "quantity": 3.6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Cabinetry & Bench Tops",
+      "description": "Linen/Storage fitout (basic shelving only - Doors elsewhere)",
+      "uom": "Lm",
+      "quantity": 2.8,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Cabinetry & Bench Tops",
+      "description": "Robes fitout (basic shelving and rail only - Doors elsewhere)",
+      "uom": "Lm",
+      "quantity": 3.6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Cabinetry & Bench Tops",
+      "description": "Outdoor Kitchen and benches",
+      "uom": "Lm",
+      "quantity": 4.0,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Cabinetry & Bench Tops",
+      "description": "Walk-in Joinery -  Medium level Joinery",
+      "uom": "Lm",
+      "quantity": 4.2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Cabinetry & Bench Tops",
+      "description": "Study Joinery",
+      "uom": "Lm",
+      "quantity": 1.7,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Cabinetry & Bench Tops",
+      "description": "Joinery - Fireplace - seat",
+      "uom": "Lm",
+      "quantity": 3.6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Water Proofing",
+      "description": "Supply & Apply - Waterproofing - complete wet area bathroom - large (8m2)",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Water Proofing",
+      "description": "Supply & Apply - Waterproofing - external fibreglass / polyurethane - balcony / verandah",
+      "uom": "m2",
+      "quantity": 6.8,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Lay Rate - Floors - Quality - Ensuite 1",
+      "uom": "m2",
+      "quantity": 7.6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Lay Rate - Floors - Quality - Bathroom 1",
+      "uom": "m2",
+      "quantity": 10.7,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Lay Rate - Floors - Quality - Exterior 1",
+      "uom": "m2",
+      "quantity": 4,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Lay Rate - Floors - Quality - Exterior 2",
+      "uom": "m2",
+      "quantity": 6.8,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Lay Rate - Walls - Quality - Ensuite 1",
+      "uom": "m2",
+      "quantity": 33.7,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Lay Rate - Walls - Quality - Bathroom 1",
+      "uom": "m2",
+      "quantity": 53.6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Lay Rate - Walls - Quality - Laundry",
+      "uom": "m2",
+      "quantity": 2.2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Lay Rate - Walls - Quality - Kitchen",
+      "uom": "m2",
+      "quantity": 4.9,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Lay Rate - Walls - Quality - BBQ",
+      "uom": "m2",
+      "quantity": 2.2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Ensuite 1 - Tiles Supply - Floors ($65)",
+      "uom": "m2",
+      "quantity": 9,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Bathroom 1  - Tiles Supply - Floors ($65)",
+      "uom": "m2",
+      "quantity": 12,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Exterior 1 - Tiles Supply - Floors ($65)",
+      "uom": "m2",
+      "quantity": 5,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Exterior 2 - Tiles Supply - Floors ($65)",
+      "uom": "m2",
+      "quantity": 8,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Ensuite 1 - Tiles Supply - Walls ($65)",
+      "uom": "m2",
+      "quantity": 38,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Bathroom 1 - Tiles Supply - Walls ($65)",
+      "uom": "m2",
+      "quantity": 59,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Laundry - Tiles Supply - Walls ($65)",
+      "uom": "m2",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Kitchen - Tiles Supply - Walls ($65)",
+      "uom": "m2",
+      "quantity": 6,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "BBQ - Tiles Supply - Walls ($65)",
+      "uom": "m2",
+      "quantity": 3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Tiles Supply - Delivery",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Lay Rate - Floor Bedding (minimum charge per floor/ supply & install)",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Lay Rate - Floor Bedding (supply & install per m2) + (minimum charge)",
+      "uom": "m2",
+      "quantity": 19,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Tiling",
+      "description": "Silicon Corking Per Room  (supply & apply)",
+      "uom": "each",
+      "quantity": 2,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Air-conditioning",
+      "description": "Allowance",
+      "uom": "PS",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Stairs - Internal",
+      "description": "Allowance - Per Tread",
+      "uom": "each",
+      "quantity": 13,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Painting",
+      "description": "Supply & Apply - All new & Existing work",
+      "uom": "m2",
+      "quantity": 330.3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Carpet",
+      "description": "Supply and Install Carpet",
+      "uom": "m2",
+      "quantity": 58.3,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fencing & Gates",
+      "description": "Quality Powdercoated Balustrades/Fencing/Screens (incl Gates)",
+      "uom": "Lm",
+      "quantity": 9.5,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fencing & Gates",
+      "description": "Automatic Sliding Driveway Gate",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Fencing & Gates",
+      "description": "Gate - Powder coated Pedestrian Gate",
+      "uom": "each",
+      "quantity": 1,
+      "quantity_kind": "measured"
+    },
+    {
+      "section": "Appliances",
+      "description": "Appliance allowance (see spreadsheet)",
+      "uom": "PC",
+      "quantity": 1,
+      "quantity_kind": "lump"
+    },
+    {
+      "section": "Site Supervision",
+      "description": "Site Supervision Allowance 3 hrs per day / Month",
+      "uom": "months",
+      "quantity": 10,
+      "quantity_kind": "measured"
+    }
+  ],
+  "job": "carberry",
+  "source": "Carberry - 1522 - Built_Excel Workbook.xlsx"
+}

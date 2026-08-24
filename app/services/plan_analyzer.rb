@@ -48,7 +48,7 @@ class PlanAnalyzer
       wet_area_count: { type: "integer", description: "Bathrooms, ensuites, laundries, WCs requiring waterproofing" },
       quantity_takeoff: {
         type: "array",
-        description: "Binding measured quantities for the major scalable trades beyond wet areas — one entry per work type present in scope: floor coverings by type and level (timber/carpet/tiles m2), new concrete slabs and paths (m2), retaining walls (lm x avg height), new decking (m2), new external cladding (m2), driveway (m2), scaffold/perimeter access (lm of scaffolded perimeter x number of lifts), new internal stairs (count), engineered footings/piers (count x depth per the engineering drawings), structural steel (member count or tonnes per the engineering drawings), sanitaryware/fixtures (count per the schedule). Measure from dimension chains and stated areas; omit work types not in scope",
+        description: "Binding measured quantities for the major scalable trades beyond wet areas — one entry per work type present in scope: floor coverings by type and level (timber/carpet/tiles m2), new concrete slabs and paths (m2), retaining walls (lm x avg height), new decking (m2), new external cladding (m2), driveway (m2), scaffold/perimeter access (lm of scaffolded perimeter x number of lifts), new internal stairs (count), engineered footings/piers (count x depth per the engineering drawings), structural steel (member count or tonnes per the engineering drawings), sanitaryware/fixtures (count per the schedule), PLUS the labour-driving framing extents: new roof area and framing type (m2, trussed vs stick-framed), new wall framing per level (lm of new wall lines from the floor plans), sub-floor framing / floor systems (m2 of new bearer-joist or joisted floor area), external stairs (count of flights x approx rises each), demolition/strip-out extents (m2 of linings, roofing or structure removed per the demolition notes). These framing extents are what labour hours scale by — a job without them cannot have its carpentry hours derived. Measure from dimension chains and stated areas; omit work types not in scope",
         items: {
           type: "object",
           additionalProperties: false,
@@ -205,7 +205,7 @@ class PlanAnalyzer
   end
 
   def template_section_names
-    template = @estimate.estimate_template || EstimateTemplate.default
+    template = @estimate.estimate_template || EstimateTemplate.for_user(@estimate.user)
     template ? template.section_names : []
   end
 

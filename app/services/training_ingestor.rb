@@ -16,7 +16,7 @@ class TrainingIngestor
       },
       category_totals: {
         type: "array",
-        description: "Each category/section's own TOTAL as the document states it (header or subtotal rows) — quoted total, and actual total where the document carries actuals. These are the builder's own carried amounts, used for calibration.",
+        description: "Each category/section's own TOTAL as the document states it (header or subtotal rows) — quoted total, and actual total where the document carries actuals. These are the builder's own carried amounts, used to sanity-check extraction completeness.",
         items: {
           type: "object",
           additionalProperties: false,
@@ -34,13 +34,15 @@ class TrainingIngestor
         items: {
           type: "object",
           additionalProperties: false,
-          required: %w[category description item_type uom unit_cost],
+          required: %w[category description item_type uom unit_cost quantity quantity_kind],
           properties: {
             category: { type: "string", description: "The section/work group it belongs to" },
             description: { type: "string" },
             item_type: { type: "string", enum: EstimateLineItem::ITEM_TYPES },
             uom: { type: "string" },
-            unit_cost: { type: "number", description: "AUD ex. GST per unit as documented" }
+            unit_cost: { type: "number", description: "AUD ex. GST per unit as documented" },
+            quantity: { type: "number", description: "The builder's ORIGINAL QUOTED takeoff quantity (hours, m2, lm, count) — always from the estimate/quoted column, NEVER from actual/claimed columns. This deliberately opposes the pricing rules: unit_cost prefers actuals, quantity NEVER does — it records what the estimator originally allowed, which is what future estimates must learn. 1 for lump/allowance lines with no real takeoff." },
+            quantity_kind: { type: "string", enum: %w[measured lump], description: "'measured' only when the quoted quantity counts real physical units the estimator took off (m2, lm, openings, hours, weeks). 'lump' for allowances, PC/PS sums, packages, and 1-with-a-total lines. Progress-claim style quantities (fractional counts, counts against whole-package descriptions) are 'lump'." }
           }
         }
       }
@@ -76,10 +78,10 @@ class TrainingIngestor
 
     replace_price_book_entries(merged)
     verify_entries(merged)
-    upsert_template(merged)
     @doc.update!(status: "completed", extraction: merged.slice("project_summary", "template_sections", "category_totals")
       .merge("item_count" => merged["items"].size))
-    spawn_calibration_estimate
+    QuantityNorms.derive!(@doc.user)
+    refresh_template_proposal
   rescue StandardError => e
     @doc.update!(status: "failed", error_message: e.message.to_s.truncate(1000))
     raise
@@ -183,8 +185,7 @@ class TrainingIngestor
       return
     end
 
-    items = PriceBookItem.where("source LIKE ?", "#{source_tag} %").or(
-      PriceBookItem.where("source LIKE ?", "#{source_tag}|%"))
+    items = PriceBookItem.from_training_doc(@doc.user, @doc.id)
     flagged = 0
     dropped = 0
     items.group_by(&:category).each do |cat, entries|
@@ -211,31 +212,9 @@ class TrainingIngestor
     Rails.logger.info("TrainingIngestor verify: #{flagged} rollups flagged, #{dropped} double-counts dropped for doc #{@doc.id}")
   end
 
-  # Plans uploaded alongside the estimate let the system price the same job
-  # blind; the pair (their estimate, ours) calibrates their profile when the
-  # run completes. PDFs among the files are treated as plans (estimate
-  # documents arrive as spreadsheets; a PDF-only estimate simply calibrates
-  # from nothing and is skipped by the pairer's minimum).
-  def spawn_calibration_estimate
-    plan_files = @doc.files.select { |f| f.content_type == "application/pdf" }
-    return if plan_files.empty? || @doc.extraction["category_totals"].blank?
-    return if Estimate.exists?(calibration_training_document_id: @doc.id)
-
-    brief = @doc.description.presence || @doc.extraction["project_summary"]
-    estimate = @doc.user.estimates.create!(
-      name: "Calibration — #{@doc.name}",
-      prompt: brief.to_s.truncate(2000),
-      questionnaire: @doc.questionnaire,
-      calibration_training_document_id: @doc.id
-    )
-    plan_files.each { |f| estimate.plans.attach(f.blob) }
-    GenerateEstimateJob.perform_later(estimate)
-  end
-
   # Re-ingesting the same document replaces its previous entries.
   def replace_price_book_entries(result)
-    PriceBookItem.where(user: @doc.user, source_kind: "user")
-      .where("source LIKE ?", "#{source_tag}%").delete_all
+    PriceBookItem.from_training_doc(@doc.user, @doc.id).delete_all
 
     factor = PriceEscalation.factor(@doc.priced_on)
     escalation_note = factor == 1.0 ? "" : " | escalated x#{factor} from #{@doc.priced_on.strftime('%Y-%m')}"
@@ -257,6 +236,9 @@ class TrainingIngestor
         source_kind: "user",
         user_id: @doc.user_id,
         context: @doc.questionnaire.to_h.merge(
+          "qty" => item["quantity"].to_f,
+          "qty_kind" => item["quantity_kind"].presence || "lump"
+        ).merge(
           has_actuals && item["uom"].to_s.match?(/allowance/i) ? { "package" => "package/lump price at its source scope — ADOPT it for that scope OR itemise the scope, never both" } : {}
         ),
         created_at: Time.current,
@@ -266,15 +248,10 @@ class TrainingIngestor
     PriceBookItem.insert_all(rows) if rows.any?
   end
 
-  def upsert_template(result)
-    names = Array(result["template_sections"]).uniq
-    return if names.size < 3
-
-    template = EstimateTemplate.find_or_initialize_by(name: "#{@doc.user.name} — #{@doc.name}")
-    template.update!(
-      description: "Personal template from training upload '#{@doc.name}'. #{result['project_summary']}".truncate(500),
-      sections: names.map { |n| { "name" => n, "hint" => "" } }
-    )
+  # Every completed upload re-synthesizes the user's proposed personal
+  # template from ALL their completed uploads (structure learning).
+  def refresh_template_proposal
+    SynthesizeTemplateJob.perform_later(@doc.user)
   end
 
   def source_tag

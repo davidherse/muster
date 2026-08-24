@@ -1,0 +1,49 @@
+<div class="mx-auto md:w-2/3 w-full" data-controller="wizard">
+  <div class="mb-6">
+    <h1 class="font-semibold text-2xl tracking-tight mb-1">A few questions before you see the number</h1>
+    <p class="text-sm text-muted-foreground">
+      The estimator found <%= questions.size %> unknown<%= "s" if questions.size > 1 %> that swing this estimate.
+      Answer what you can — skip anything you don't know.
+    </p>
+  </div>
+
+  <div class="mb-4">
+    <div class="flex items-center justify-between text-sm mb-2">
+      <span class="font-medium text-foreground">Question <span data-wizard-target="counter">1</span> of <%= questions.size %></span>
+    </div>
+    <div class="h-1.5 w-full rounded-full bg-secondary overflow-hidden">
+      <div data-wizard-target="bar" class="h-full rounded-full bg-primary transition-all" style="width: 0%"></div>
+    </div>
+  </div>
+
+  <%= form_with url: answer_questions_estimate_path(estimate), class: "contents" do |f| %>
+    <% questions.each_with_index do |q, i| %>
+      <div data-wizard-target="step" class="<%= 'hidden' unless i.zero? %>">
+        <div class="<%= ui_card %> p-6">
+          <p class="font-medium text-lg text-foreground"><%= q["question"] %></p>
+          <p class="text-sm text-muted-foreground mt-2"><%= q["why"] %></p>
+          <% if q["swing_low"].to_f.nonzero? || q["swing_high"].to_f.nonzero? %>
+            <p class="text-xs text-muted-foreground mt-1">
+              Swings roughly <%= number_to_currency(q["swing_low"], unit: "$", precision: 0) %> to <%= number_to_currency(q["swing_high"], unit: "$", precision: 0) %>
+            </p>
+          <% end %>
+          <%= text_area_tag "answers[#{q['id']}]", nil, rows: 3, placeholder: "Your answer — a sentence is plenty…",
+                class: "#{ui_textarea} mt-4", data: { wizard_target: "input" } %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="mt-5 flex items-center justify-between">
+      <button type="button" data-action="wizard#back" data-wizard-target="backButton" class="<%= ui_button(variant: :ghost) %> invisible">Back</button>
+      <div class="flex items-center gap-2">
+        <button type="button" data-action="wizard#skip" class="<%= ui_button(variant: :outline) %>">Skip this one</button>
+        <button type="button" data-action="wizard#next" data-wizard-target="nextButton" class="<%= ui_button %>">Next</button>
+        <%= f.submit "Improve the estimate", class: ui_button, style: "display: none", data: { wizard_target: "submitButton" } %>
+      </div>
+    </div>
+  <% end %>
+
+  <p class="mt-6 text-xs text-muted-foreground text-center">
+    Skipped questions won't be asked again. Answers re-cost only the sections they affect.
+  </p>
+</div>

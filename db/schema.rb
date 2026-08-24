@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_11_104810) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_14_114752) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -90,19 +90,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_11_104810) do
     t.text "description"
     t.string "name", null: false
     t.json "sections", default: [], null: false
+    t.string "status", default: "active", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_estimate_templates_on_user_id"
   end
 
   create_table "estimates", force: :cascade do |t|
     t.json "assessment", default: {}, null: false
     t.string "building_type"
     t.integer "calibration_training_document_id"
+    t.json "clarifications"
     t.json "costed_sections", default: [], null: false
     t.datetime "created_at", null: false
     t.text "error_message"
     t.integer "estimate_template_id"
     t.string "floor_area"
     t.string "name", null: false
+    t.json "open_questions"
     t.json "plan_summary"
     t.integer "progress", default: 0
     t.string "progress_note"
@@ -164,7 +169,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_11_104810) do
     t.datetime "created_at", null: false
     t.string "email_address", null: false
     t.string "name"
+    t.datetime "onboarded_at"
     t.string "password_digest", null: false
+    t.json "quantity_norms"
     t.datetime "updated_at", null: false
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
@@ -174,6 +181,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_11_104810) do
   add_foreign_key "calibration_profiles", "users"
   add_foreign_key "estimate_line_items", "estimate_sections"
   add_foreign_key "estimate_sections", "estimates"
+  add_foreign_key "estimate_templates", "users"
   add_foreign_key "estimates", "estimate_templates"
   add_foreign_key "estimates", "training_documents", column: "calibration_training_document_id"
   add_foreign_key "estimates", "users"

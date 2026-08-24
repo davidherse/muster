@@ -118,6 +118,17 @@ class LineItemGenerator
         never mark such a section inapplicable or return it empty. Conversely,
         never cost a pool, raise, or similar major feature that neither the
         documents nor the builder's notes support.
+      - LABOUR IS QUOTED IN CREW-DAYS, LIKE A FOREMAN PLANS WORK: builders
+        allow labour as crew size x days, not computed decimal hours \u2014 this
+        builder's own hour lines are nearly all multiples of 4 and 8 (one man
+        half-day / day). For every Lab/hours line: plan the crew (1-3) and the
+        days (half-day granularity) the work takes at THIS job's size per the
+        analysis takeoff, then quantity = crew x days x 8. The builder's own
+        comparable hour line for the same verb AND same stated scope shows
+        their crew appetite for the activity \u2014 mind inclusion boundaries (a
+        "fix prefab stairs" day is not a "build stairs with newels" week).
+        State the crew plan in assumptions ("2 carpenters x 3 days = 48h").
+        Never emit labour hours that are not a multiple of 4.
       - Wet areas: tiling and waterproofing quantities come STRICTLY from the
         analysis wet_area_takeoff rooms (floor_m2 / wall_tile_m2) \u2014 never from
         your own re-reading of the plans and never rounded up. Cite the takeoff
@@ -251,23 +262,31 @@ class LineItemGenerator
   end
 
   def request_text(sections)
-    section_list = sections.map { |s| "- #{s['name']}: #{s['hint']}" }.join("\n")
+    section_list = sections.map do |s|
+      line = "- #{s['name']}: #{s['hint']}"
+      typical = Array(s["typical_items"])
+      if typical.any?
+        line += "\n  This builder typically itemises this section as (match their breakdown and wording where the scope applies): #{typical.join('; ')}"
+      end
+      line
+    end.join("\n")
     scoped = scoped_user_rates(sections)
     paint_class = repaint_class
-    calibration = nil # price calibration is applied deterministically post-review
     base_scoped = scoped_base_rates(sections)
+    norms = norms_text(sections)
     market_scoped = scoped_market_rates(sections)
     <<~TEXT
       PLAN ANALYSIS:
       #{JSON.pretty_generate(@analysis)}
 
       #{@estimate.brief_text.present? ? "BUILDER'S NOTES:\n#{@estimate.brief_text}\n" : ''}
+      #{clarifications_text.present? ? "CLARIFIED SCOPE — direct answers from the builder/client; these BIND over plan inferences and assumptions:\n#{clarifications_text}\n" : ''}
       #{scoped.present? ? "THIS BUILDER'S OWN RATES FOR THESE TRADES (from their uploaded estimates; BINDING where a comparable exists \u2014 do not upgrade the spec beyond them without explicit documentation):\n#{scoped}\n" : ''}
       #{base_scoped&.dig(:matched).present? ? "BASE BOOK RATES — BINDING where a comparable exists (recorded same-class rates, plus unit-priced rates from all of this builder's jobs: unit rates transfer across job sizes — apply them to THIS job's quantities). Prefer same-class entries, then unit-priced entries; resort to market instinct only where the book has no comparable, and flag those lines low confidence. Do not upgrade the spec beyond recorded rates without explicit documentation:\n#{base_scoped[:matched]}\n" : ''}
       #{base_scoped&.dig(:other).present? ? "BASE BOOK LUMP-SUM ALLOWANCES FROM OTHER JOB CLASSES (advisory — derive a unit rate per each entry's context and scale to this job before any use):\n#{base_scoped[:other]}\n" : ''}
       #{market_scoped.present? ? "PUBLISHED MARKET REFERENCE (Archicentre Australia, cited; consumer prices ex GST incl builder margin, standard finishes — use ONLY where neither book answers, as sanity bounds: builder cost normally lands under these; documented premium spec may exceed them):\n#{market_scoped}\n" : ''}
       #{paint_class ? "REPAINT COMPOSITE CLASS (computed from the builder's stated extent and the job class — use the book's '#{paint_class}' composite; do not re-derive the class): #{paint_class}\n" : ''}
-      #{calibration.present? ? "#{calibration}\n" : ''}
+      #{norms.present? ? "#{norms}\n" : ''}
       Produce line items for exactly these sections. The "name" field must be the exact
       section name as written before the colon below \u2014 do not append the description:
       #{section_list}
@@ -292,6 +311,40 @@ class LineItemGenerator
     else
       "full repaint of standard character home"
     end
+  end
+
+  def clarifications_text
+    Array(@estimate.clarifications).map { |c| "  - Q: #{c['question']}\n    A: #{c['answer']}" }.join("\n")
+  end
+
+  # The builder's own quantity norms for this batch's trades, scaled to this
+  # job's works area. Quantities — especially labour hours — are where AI
+  # estimates diverge most from human takeoffs, and every builder crews work
+  # differently; their own past jobs are the best predictor.
+  def norms_text(sections)
+    norms = QuantityNorms.for_class(@estimate.user, @analysis["project_class"])
+    return nil unless norms
+    area = @analysis["floor_area_m2"].to_f
+    return nil unless area.positive?
+
+    buckets = batch_buckets(sections)
+    lines = buckets.flat_map do |bucket|
+      (norms.dig("buckets", bucket) || {}).filter_map do |uom, s|
+        expected = (s["per_m2"].to_f * area).round
+        next if expected.zero?
+        spread = s["n"].to_i > 1 ? " (range #{(s['min'].to_f * area).round}–#{(s['max'].to_f * area).round} across #{s['n']} jobs)" : ""
+        "  - #{bucket}: ~#{expected} #{uom} total across the trade for this #{area.round} m2 job#{spread}"
+      end
+    end
+    if buckets.include?("preliminaries") && (sup = norms["supervision_hours_per_week"])
+      lines << "  - supervision/project management: ~#{sup['value']} hours per week#{sup['n'].to_i > 1 ? " (their range #{sup['min']}–#{sup['max']} h/wk)" : ''}"
+    end
+    return nil if lines.empty?
+
+    <<~TEXT.strip
+      THIS BUILDER'S QUANTITY NORMS — takeoff intensities from their own past jobs of this class, scaled to this job's works area. Labour hours and measured quantities should land near these totals unless the documents show cause; when your takeoff differs by more than ~30%, re-check the takeoff before keeping it:
+      #{lines.join("\n")}
+    TEXT
   end
 
   # Deterministic retrieval: only the book entries whose trade bucket matches
@@ -330,22 +383,6 @@ class LineItemGenerator
     }
   end
 
-  # Calibration lines scoped to this batch's trade buckets: how this
-  # builder's own graded estimates run relative to book-grounded output.
-  def calibration_text(sections)
-    profile = @estimate.user && CalibrationProfile.find_by(user: @estimate.user)
-    return nil unless profile&.buckets&.present?
-    buckets = batch_buckets(sections)
-    relevant = profile.buckets.select { |b, _| buckets.include?(b) }
-    return nil if relevant.empty?
-    lines = relevant.map do |bucket, v|
-      dir = v["bias_pct"].positive? ? "ABOVE" : "BELOW"
-      "  - #{bucket}: ~#{v['bias_pct'].abs}% #{dir} the book-grounded level (#{v['n']} graded jobs)"
-    end
-    "BUILDER CALIBRATION — this builder's own estimates for these trades run as follows relative to book-grounded output; align rates, quantity generosity and cost classification toward their style (this encodes their valuation posture, where they carry supervision/site costs, and regional pricing):
-#{lines.join("
-")}"
-  end
 
   def scoped_market_rates(sections)
     buckets = batch_buckets(sections)

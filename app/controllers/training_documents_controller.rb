@@ -20,8 +20,9 @@ class TrainingDocumentsController < ApplicationController
 
   def destroy
     document = Current.user.training_documents.find(params[:id])
-    PriceBookItem.where(user: Current.user, source_kind: "user", source: "training:#{document.id}").delete_all
+    PriceBookItem.from_training_doc(Current.user, document.id).delete_all
     document.destroy
+    QuantityNorms.derive!(Current.user)
     redirect_to training_documents_path, notice: "Training document and its rates removed."
   end
 

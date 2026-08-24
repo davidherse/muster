@@ -32,9 +32,25 @@ class FakeAiClient
         "project_summary" => "Two storey renovation estimate.",
         "template_sections" => [ "Prelims", "Carpentry", "Wet Areas", "Painting" ],
         "items" => [
-          { "category" => "Wet Areas", "description" => "Semi-frameless shower screen", "item_type" => "Mat", "uom" => "ea", "unit_cost" => 890.0 },
-          { "category" => "Painting", "description" => "Internal repaint", "item_type" => "Sub", "uom" => "m2", "unit_cost" => 38.0 },
-          { "category" => "Prelims", "description" => "Zero cost note", "item_type" => "Mat", "uom" => "ea", "unit_cost" => 0 }
+          { "category" => "Wet Areas", "description" => "Semi-frameless shower screen", "item_type" => "Mat", "uom" => "ea", "unit_cost" => 890.0, "quantity" => 2, "quantity_kind" => "measured" },
+          { "category" => "Painting", "description" => "Internal repaint", "item_type" => "Sub", "uom" => "m2", "unit_cost" => 38.0, "quantity" => 120, "quantity_kind" => "measured" },
+          { "category" => "Prelims", "description" => "Zero cost note", "item_type" => "Mat", "uom" => "ea", "unit_cost" => 0, "quantity" => 1, "quantity_kind" => "lump" }
+        ]
+      }
+    elsif schema == QuestionHarvester::SCHEMA
+      { "questions" => [
+        { "question" => "Are the appliances owner-supplied or builder-supplied?",
+          "why" => "Assumed builder-supplied at standard allowance",
+          "sections" => [ "Wet Areas" ], "swing_low" => -8000, "swing_high" => 0 }
+      ] }
+    elsif schema == TemplateSynthesizer::SCHEMA
+      {
+        "template_name" => "Renovation template",
+        "sections" => [
+          { "name" => "Prelims", "hint" => "Site setup and supervision", "typical_items" => [ "Supervision (Hour)" ] },
+          { "name" => "Carpentry", "hint" => "Framing and fixout", "typical_items" => [] },
+          { "name" => "Wet Areas", "hint" => "Bathroom and laundry fitout", "typical_items" => [ "Semi-frameless shower screen (ea)" ] },
+          { "name" => "Painting", "hint" => "Internal and external painting", "typical_items" => [ "Internal repaint (m2)" ] }
         ]
       }
     elsif schema == EstimateAssessor::SCHEMA
