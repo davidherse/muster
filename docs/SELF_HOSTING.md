@@ -71,6 +71,47 @@ TLS handled by Tailscale, visible only inside your tailnet. The app already
 allows `*.ts.net` hostnames in development; for a custom name set
 `DEV_HOST=myname.example`.
 
+## Production mode (recommended once it's working)
+
+Development mode is the quickest start; production mode adds eager loading,
+real caching, digested assets, and a proper background worker. With no
+`DATABASE_URL` set it automatically uses SQLite (four databases under
+`storage/`) — no Postgres needed.
+
+```sh
+# .env in the app directory (dotenv loads it automatically):
+#   RAILS_ENV=production
+#   ANTHROPIC_API_KEY=sk-ant-...
+#   STORAGE_SERVICE=local
+#   APP_HOST=<machine>.<tailnet>.ts.net      # used in generated links/emails
+#   MUSTER_INVITE_CODE=pick-something        # sign-up gate
+
+# copy config/master.key from your dev machine (NOT in git) — it decrypts
+# credentials including secret_key_base; production won't boot without it.
+
+bin/rails assets:precompile
+bin/rails db:prepare        # creates + seeds all four SQLite databases
+bin/rails server            # web
+bin/jobs                    # background worker, as a second process/unit
+```
+
+Both processes need the same env. `tailscale serve --bg 3000` works exactly as
+in dev — production trusts the proxy's TLS (`assume_ssl`) and allows `*.ts.net`
+hosts (extend with `EXTRA_HOSTS=name1,name2`).
+
+### Environment variables reference
+
+| Variable | Needed? | Purpose |
+|---|---|---|
+| `ANTHROPIC_API_KEY` | required | estimate generation |
+| `RAILS_MASTER_KEY` (or `config/master.key` file) | required in production | decrypts credentials / secret_key_base |
+| `STORAGE_SERVICE=local` | required in production self-host | else it defaults to Cloudflare R2 and wants `R2_*` keys |
+| `APP_HOST` | recommended | hostname used in generated links (defaults muster.build) |
+| `MUSTER_INVITE_CODE` | recommended | sign-up invite gate (defaults MUSTER-BETA) |
+| `EXTRA_HOSTS` | optional | extra allowed hostnames, comma-separated |
+| `SMTP_ADDRESS/PORT/USERNAME/PASSWORD/DOMAIN` | optional | outgoing email; unset = emails skipped (activate users via console) |
+| `ESTIMATOR_MODEL`, `ESTIMATOR_BATCH_SIZE`, `ESTIMATOR_REVIEW_MODE` | optional | estimator tuning overrides |
+
 ## Notes / gotchas
 
 - **Email isn't configured in dev** — account activation links are printed to
