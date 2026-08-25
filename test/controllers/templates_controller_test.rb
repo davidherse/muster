@@ -80,4 +80,61 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
     get templates_url
     assert_no_match(/Deriving your template/, response.body)
   end
+
+  test "edit my personal template renders the section rows" do
+    sign_in_as @user
+    mine = EstimateTemplate.create!(name: "Mine", user: @user, status: "active",
+      sections: [ { "name" => "Demolition", "hint" => "Strip out", "typical_items" => [ "Skip bin (ea)" ] } ])
+    get edit_template_url(mine)
+    assert_response :success
+    assert_select "input[name='template[sections][][name]'][value='Demolition']"
+    assert_select "input[name='template[sections][][hint]'][value='Strip out']"
+    assert_select "textarea[name='template[sections][][typical_items]']", text: "Skip bin (ea)"
+  end
+
+  test "cannot edit another user's personal template" do
+    sign_in_as @user
+    theirs = EstimateTemplate.create!(name: "Theirs", user: @admin, status: "active", sections: [ { "name" => "A" } ])
+    get edit_template_url(theirs)
+    assert_redirected_to templates_url
+    patch template_url(theirs), params: { template: { name: "Hijack", sections: [ { name: "B" } ] } }
+    assert_redirected_to templates_url
+    assert_equal "Theirs", theirs.reload.name
+  end
+
+  test "non-admins cannot edit the default, admins can" do
+    sign_in_as @user
+    get edit_template_url(@default)
+    assert_redirected_to templates_url
+
+    sign_in_as @admin
+    get edit_template_url(@default)
+    assert_response :success
+  end
+
+  test "update normalises rows and preserves order" do
+    sign_in_as @user
+    mine = EstimateTemplate.create!(name: "Mine", user: @user, status: "active", sections: [ { "name" => "Old" } ])
+    patch template_url(mine), params: { template: { name: "Mine v2", sections: [
+      { name: " Prelims ", hint: "Setup", typical_items: "Supervision (Hour)\r\n\r\nSkip bin (ea)" },
+      { name: "", hint: "dropped", typical_items: "" },
+      { name: "Painting", hint: "", typical_items: "" }
+    ] } }
+    assert_redirected_to templates_url
+    mine.reload
+    assert_equal "Mine v2", mine.name
+    assert_equal [ "Prelims", "Painting" ], mine.section_names
+    assert_equal [ "Supervision (Hour)", "Skip bin (ea)" ], mine.sections.first["typical_items"]
+  end
+
+  test "update with no named sections re-renders with an error" do
+    sign_in_as @user
+    mine = EstimateTemplate.create!(name: "Mine", user: @user, status: "active", sections: [ { "name" => "Old" } ])
+    patch template_url(mine), params: { template: { name: "Mine", sections: [ { name: "", hint: "", typical_items: "" } ] } }
+    assert_response :unprocessable_entity
+    # A blank-named row is dropped by sections_form=, so the error is the
+    # presence validation, rendered HTML-escaped as "Sections can&#39;t be blank".
+    assert_match "Sections can", response.body
+    assert_equal [ "Old" ], mine.reload.section_names
+  end
 end

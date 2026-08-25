@@ -1,0 +1,12 @@
+<%# locals: (section:) %>
+<div class="<%= ui_card %> p-4 grid gap-3" data-sections-target="row">
+  <div class="flex items-center gap-2">
+    <span class="text-xs font-mono text-muted-foreground w-6 text-right" data-sections-target="index"></span>
+    <input type="text" name="template[sections][][name]" value="<%= section["name"] %>" placeholder="Section name" required class="<%= ui_input %> flex-1">
+    <button type="button" data-action="sections#up" title="Move up" class="<%= ui_button(variant: :ghost, size: :sm) %>">↑</button>
+    <button type="button" data-action="sections#down" title="Move down" class="<%= ui_button(variant: :ghost, size: :sm) %>">↓</button>
+    <button type="button" data-action="sections#remove" title="Remove section" class="<%= ui_button(variant: :ghost, size: :sm) %>">✕</button>
+  </div>
+  <input type="text" name="template[sections][][hint]" value="<%= section["hint"] %>" placeholder="What belongs here (one line)" class="<%= ui_input %>">
+  <textarea name="template[sections][][typical_items]" rows="3" placeholder="Typical line items, one per line — e.g. Plasterboard supply & fix (m2)" class="<%= ui_textarea %>"><%= Array(section["typical_items"]).join("\n") %></textarea>
+</div>
