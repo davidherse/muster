@@ -27,6 +27,12 @@
       <div class="bg-primary h-3 rounded-full transition-all" data-poll-target="bar" style="width: <%= [ @estimate.progress.to_i, 3 ].max %>%"></div>
     </div>
     <p class="text-xs text-muted-foreground mt-4">This page updates automatically. Reading plans and costing ~40 sections takes a few minutes.</p>
+    <% if @estimate.generation_stalled? %>
+      <div class="mt-6 flex flex-col items-center gap-3">
+        <p class="text-sm text-muted-foreground">This run looks stalled.</p>
+        <%= button_to "Try again", regenerate_estimate_path(@estimate, resume: 1), method: :post, class: ui_button(variant: :outline, size: :sm) %>
+      </div>
+    <% end %>
   </div>
 
 <% elsif @estimate.failed? %>

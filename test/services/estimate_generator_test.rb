@@ -1,5 +1,24 @@
 require "test_helper"
 
+# Reads the estimate's claim straight from the database before each AI call
+# and lets the test move the clock on, so a run's heartbeat is observable.
+class ClaimProbeAiClient < FakeAiClient
+  attr_reader :claim_times
+
+  def initialize(estimate, tick, **options)
+    super(**options)
+    @estimate = estimate
+    @tick = tick
+    @claim_times = []
+  end
+
+  def complete_json(**)
+    @claim_times << Estimate.find(@estimate.id).claimed_at
+    @tick.call
+    super
+  end
+end
+
 class EstimateGeneratorTest < ActiveSupport::TestCase
   setup do
     @estimate = users(:one).estimates.create!(name: "Reno", estimate_template: estimate_templates(:standard))
@@ -108,13 +127,35 @@ class EstimateGeneratorTest < ActiveSupport::TestCase
   end
 
   test "a fresh run takes over an abandoned claim" do
-    # update_columns (not update!) so updated_at is NOT bumped — this simulates
-    # a worker that claimed the row and then died without ever touching it again.
-    @estimate.update_columns(claimed_at: 1.hour.ago, updated_at: 1.hour.ago, status: "processing")
+    # The real path: a worker claimed the row an hour ago and died, then the
+    # user hit Regenerate — which marks the estimate processing (bumping
+    # updated_at) right before enqueuing. Only the stale claim says the old
+    # run is gone, so only the claim may be trusted to judge liveness.
+    @estimate.update_columns(claimed_at: 1.hour.ago, status: "processing")
+    @estimate.processing!("Queued for analysis…")
+
     EstimateGenerator.new(@estimate, client: FakeAiClient.new).call
     @estimate.reload
     assert @estimate.completed?
     assert_nil @estimate.claimed_at
+  end
+
+  test "a live run keeps refreshing its own claim as it works" do
+    travel_to Time.current do
+      # Five minutes of wall clock per AI call: without a heartbeat the claim
+      # would go stale mid-run and a second run could take the estimate over.
+      client = ClaimProbeAiClient.new(@estimate, -> { travel 5.minutes })
+      EstimateGenerator.new(@estimate, client: client, batch_size: 1).call
+
+      seen = client.claim_times.compact
+      assert_operator seen.size, :>, 1, "expected several AI calls to probe"
+      assert_operator seen.last, :>, seen.first,
+        "the run must heartbeat claimed_at while it works, not claim once and go quiet"
+
+      @estimate.reload
+      assert @estimate.completed?
+      assert_nil @estimate.claimed_at, "a finished run releases its claim"
+    end
   end
 
   test "a reused generator instance does not release a claim it didn't take" do

@@ -105,6 +105,45 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "regenerate refuses a live run" do
+    @estimate.update!(status: "processing")
+    @estimate.update_columns(claimed_at: Time.current)
+    assert_no_enqueued_jobs only: GenerateEstimateJob do
+      post regenerate_estimate_url(@estimate)
+    end
+    assert_redirected_to estimate_url(@estimate)
+    assert_match "already being generated", flash[:alert]
+  end
+
+  test "regenerate resumes a stalled run" do
+    # A worker died mid-run: Solid Queue never re-dispatches it, so the estimate
+    # sits processing with a claim nothing is refreshing. Try again must work.
+    @estimate.update!(status: "processing", plan_summary: { "a" => 1 }, progress: 48)
+    @estimate.update_columns(claimed_at: 1.hour.ago)
+    assert_enqueued_with(job: GenerateEstimateJob, args: [ @estimate, { resume: true } ]) do
+      post regenerate_estimate_url(@estimate, resume: true)
+    end
+    assert @estimate.reload.processing?
+    assert_equal 48, @estimate.progress
+  end
+
+  test "show offers Try again on a stalled run" do
+    @estimate.update!(status: "processing")
+    @estimate.update_columns(claimed_at: 1.hour.ago)
+    get estimate_url(@estimate)
+    assert_response :success
+    assert_match "This run looks stalled", response.body
+    assert_select "form[action=?]", regenerate_estimate_path(@estimate, resume: 1)
+  end
+
+  test "show does not offer Try again on a live run" do
+    @estimate.update!(status: "processing")
+    @estimate.update_columns(claimed_at: Time.current)
+    get estimate_url(@estimate)
+    assert_response :success
+    assert_no_match(/This run looks stalled/, response.body)
+  end
+
   test "destroy removes estimate" do
     assert_difference("Estimate.count", -1) do
       delete estimate_url(@estimate)
