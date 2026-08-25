@@ -66,13 +66,20 @@ class TemplatesController < ApplicationController
   end
 
   # Polled while a re-derive runs; same shape as onboarding#status.
+  #
+  # Terminal as soon as there is a proposal to review OR nothing is deriving
+  # any more — the window expired, the job failed, or the documents finished
+  # without one. Without that second case the card spins forever and the index
+  # never re-offers Re-derive. The "still deriving" test mirrors index's
+  # @deriving exactly, so the spinner and the poll can never disagree.
   def status
     proposal_ready = EstimateTemplate.proposal_for(Current.user).present?
     pending = Current.user.training_documents.where(status: %w[pending processing]).count
     session.delete(:template_rederive) if proposal_ready
+    ready = proposal_ready || (pending.zero? && !rederive_pending?)
     render json: {
-      status: proposal_ready ? "ready" : "processing",
-      progress: proposal_ready ? 100 : (pending.zero? ? 80 : 40),
+      status: ready ? "ready" : "processing",
+      progress: ready ? 100 : (pending.zero? ? 80 : 40),
       note: pending.positive? ? "Reading #{pending} document#{'s' if pending > 1}…" : "Deriving your estimate template…"
     }
   end

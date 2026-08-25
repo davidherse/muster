@@ -178,6 +178,32 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "processing", response.parsed_body["status"]
   end
 
+  test "status stops reporting processing once the re-derive window expires" do
+    sign_in_as @user
+    @user.training_documents.create!(name: "Doc", status: "completed")
+    post rederive_templates_url
+    get status_templates_url
+    assert_equal "processing", response.parsed_body["status"]
+
+    # The job died without producing a proposal: the poll must reach a
+    # terminal state so the page reloads and re-offers Re-derive.
+    travel 11.minutes
+    get status_templates_url
+    assert_equal "ready", response.parsed_body["status"]
+  end
+
+  test "status keeps polling while training documents are still being read" do
+    sign_in_as @user
+    @user.training_documents.create!(name: "Doc", status: "processing")
+    get status_templates_url
+    assert_equal "processing", response.parsed_body["status"]
+
+    # The index shows its spinner for exactly this state; if status called it
+    # ready the page would reload every poll tick.
+    get templates_url
+    assert_match "Deriving your template", response.body
+  end
+
   test "status reports ready once a proposal exists" do
     sign_in_as @user
     EstimateTemplate.create!(name: "P", user: @user, status: "proposed", sections: [ { "name" => "A" } ])
