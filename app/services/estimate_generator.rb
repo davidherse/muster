@@ -14,20 +14,7 @@ class EstimateGenerator
   end
 
   def call(resume: false)
-    # Two generators racing one estimate duplicate its sections. The advisory
-    # claim flips status inside a row lock; a second caller sees processing
-    # and refuses. Resume (crash recovery) bypasses the claim deliberately.
-    unless resume
-      claimed = @estimate.with_lock do
-        if @estimate.status == "processing"
-          false
-        else
-          @estimate.update!(status: "processing")
-          true
-        end
-      end
-      raise Ai::Client::Error, "This estimate is already being generated." unless claimed
-    end
+    claim!(resume)
 
     resume &&= @estimate.plan_summary.present?
 
@@ -87,6 +74,8 @@ class EstimateGenerator
   rescue StandardError => e
     @estimate.fail!(friendly_message(e))
     raise
+  ensure
+    release_claim
   end
 
   private
@@ -97,6 +86,28 @@ class EstimateGenerator
       reason = error.is_a?(Anthropic::Errors::RateLimitError) ? "Rate limited" : "AI service busy"
       @estimate.update_progress!(@estimate.progress, "#{reason} — retrying in #{delay}s (attempt #{attempt + 1})…")
     })
+  end
+
+  # Two generators racing one estimate duplicate its sections. A fresh run
+  # claims the estimate inside a row lock and refuses if another run holds
+  # the claim; resume (crash recovery) takes the claim over deliberately.
+  # The claim is separate from status: the controller sets "processing"
+  # before enqueuing so the UI shows progress immediately, and that must
+  # not read as "someone else owns this".
+  def claim!(resume)
+    @estimate.with_lock do
+      if !resume && @estimate.claimed_at.present?
+        raise Ai::Client::Error, "This estimate is already being generated."
+      end
+      @estimate.update!(claimed_at: Time.current, status: "processing")
+    end
+    @claimed = true
+  end
+
+  # Only the run that holds the claim may release it — a refused run must
+  # not free the claim of the run that refused it.
+  def release_claim
+    @estimate.update_column(:claimed_at, nil) if @claimed
   end
 
   def fresh_analysis

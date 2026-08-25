@@ -87,6 +87,42 @@ class EstimateGeneratorTest < ActiveSupport::TestCase
     assert_equal 3, @estimate.reload.costed_sections.size
     assert_equal 2, @estimate.sections.count
   end
+
+  test "a queued estimate the controller marked processing can be claimed" do
+    @estimate.processing!("Queued for analysis…")
+    EstimateGenerator.new(@estimate, client: FakeAiClient.new).call
+    @estimate.reload
+    assert @estimate.completed?
+    assert_nil @estimate.claimed_at
+  end
+
+  test "a fresh run refuses an estimate another run has claimed and leaves that claim alone" do
+    @estimate.update!(claimed_at: Time.current, status: "processing")
+    error = assert_raises(Ai::Client::Error) do
+      EstimateGenerator.new(@estimate, client: FakeAiClient.new).call
+    end
+    assert_equal "This estimate is already being generated.", error.message
+    @estimate.reload
+    assert @estimate.failed?
+    assert_not_nil @estimate.claimed_at, "the refused run must not release the other run's claim"
+  end
+
+  test "resume takes over a stale claim" do
+    EstimateGenerator.new(@estimate, client: FakeAiClient.new).call
+    @estimate.update!(claimed_at: 1.hour.ago, status: "processing")
+    EstimateGenerator.new(@estimate, client: FakeAiClient.new).call(resume: true)
+    @estimate.reload
+    assert @estimate.completed?
+    assert_nil @estimate.claimed_at
+  end
+
+  test "a failed run releases its claim" do
+    client = FakeAiClient.new(fail_with: Ai::Client::RefusalError.new("The model declined this request."))
+    assert_raises(Ai::Client::RefusalError) do
+      EstimateGenerator.new(@estimate, client: client).call
+    end
+    assert_nil @estimate.reload.claimed_at
+  end
 end
 
 class EstimateGeneratorPartialScopeTest < ActiveSupport::TestCase

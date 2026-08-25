@@ -111,4 +111,19 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to estimates_url
   end
+
+  test "a created estimate actually generates when its job runs" do
+    Ai::Client.stub(:new, ->(*_, **_) { FakeAiClient.new }) do
+      perform_enqueued_jobs(only: GenerateEstimateJob) do
+        post estimates_url, params: { estimate: {
+          name: "Queued Job",
+          estimate_template_id: estimate_templates(:standard).id,
+          plans: [ fixture_file_upload("plan.pdf", "application/pdf") ]
+        } }
+      end
+    end
+    estimate = Estimate.order(:id).last
+    assert estimate.completed?, "expected completed, got #{estimate.status}: #{estimate.error_message}"
+    assert_equal 2, estimate.sections.count
+  end
 end
