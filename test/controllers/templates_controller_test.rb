@@ -137,4 +137,69 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
     assert_match "Sections can", response.body
     assert_equal [ "Old" ], mine.reload.section_names
   end
+
+  test "customise copies the default into a personal template and opens the editor" do
+    sign_in_as @user
+    post customise_templates_url
+    copy = EstimateTemplate.personal_for(@user)
+    assert copy.present?
+    assert_redirected_to edit_template_url(copy)
+    assert_equal @default.sections, copy.sections
+
+    post customise_templates_url
+    assert_redirected_to templates_url
+    assert_equal 1, EstimateTemplate.active.where(user: @user).count
+  end
+
+  test "rederive enqueues synthesis when there are completed training documents" do
+    sign_in_as @user
+    post rederive_templates_url
+    assert_redirected_to templates_url
+    assert_match "Upload at least one", flash[:alert]
+
+    @user.training_documents.create!(name: "Doc", status: "completed")
+    assert_enqueued_with(job: SynthesizeTemplateJob, args: [ @user ]) do
+      post rederive_templates_url
+    end
+    assert_redirected_to templates_url
+
+    get templates_url
+    assert_match "Deriving your template", response.body
+    get status_templates_url
+    assert_equal "processing", response.parsed_body["status"]
+  end
+
+  test "status reports ready once a proposal exists" do
+    sign_in_as @user
+    EstimateTemplate.create!(name: "P", user: @user, status: "proposed", sections: [ { "name" => "A" } ])
+    get status_templates_url
+    assert_equal "ready", response.parsed_body["status"]
+  end
+
+  test "accept activates the proposal and supersedes the previous personal template" do
+    sign_in_as @user
+    old = EstimateTemplate.create!(name: "Old", user: @user, status: "active", sections: [ { "name" => "A" } ])
+    proposal = EstimateTemplate.create!(name: "P", user: @user, status: "proposed", sections: [ { "name" => "B" } ])
+    post accept_templates_url
+    assert_redirected_to templates_url
+    assert_equal proposal, EstimateTemplate.personal_for(@user)
+    assert_not EstimateTemplate.exists?(old.id)
+  end
+
+  test "accept without a proposal explains itself" do
+    sign_in_as @user
+    post accept_templates_url
+    assert_redirected_to templates_url
+    assert_match "no proposal", flash[:alert]
+  end
+
+  test "discard destroys the proposal and keeps the current template" do
+    sign_in_as @user
+    mine = EstimateTemplate.create!(name: "Mine", user: @user, status: "active", sections: [ { "name" => "A" } ])
+    EstimateTemplate.create!(name: "P", user: @user, status: "proposed", sections: [ { "name" => "B" } ])
+    delete discard_templates_url
+    assert_redirected_to templates_url
+    assert_nil EstimateTemplate.proposal_for(@user)
+    assert_equal mine, EstimateTemplate.personal_for(@user)
+  end
 end
