@@ -97,7 +97,7 @@ class EstimateGeneratorTest < ActiveSupport::TestCase
   end
 
   test "a fresh run refuses an estimate another run has claimed and leaves that claim alone" do
-    @estimate.update!(claimed_at: Time.current, status: "processing")
+    @estimate.update!(claimed_at: Time.current, updated_at: Time.current, status: "processing")
     error = assert_raises(Ai::Client::Error) do
       EstimateGenerator.new(@estimate, client: FakeAiClient.new).call
     end
@@ -107,7 +107,26 @@ class EstimateGeneratorTest < ActiveSupport::TestCase
     assert_not_nil @estimate.claimed_at, "the refused run must not release the other run's claim"
   end
 
-  test "resume takes over a stale claim" do
+  test "a fresh run takes over an abandoned claim" do
+    # update_columns (not update!) so updated_at is NOT bumped — this simulates
+    # a worker that claimed the row and then died without ever touching it again.
+    @estimate.update_columns(claimed_at: 1.hour.ago, updated_at: 1.hour.ago, status: "processing")
+    EstimateGenerator.new(@estimate, client: FakeAiClient.new).call
+    @estimate.reload
+    assert @estimate.completed?
+    assert_nil @estimate.claimed_at
+  end
+
+  test "a reused generator instance does not release a claim it didn't take" do
+    generator = EstimateGenerator.new(@estimate, client: FakeAiClient.new)
+    generator.call
+    # Simulate another, live run claiming the estimate after this instance finished.
+    @estimate.update_columns(claimed_at: Time.current, status: "processing", updated_at: Time.current)
+    assert_raises(Ai::Client::Error) { generator.call }
+    assert_not_nil @estimate.reload.claimed_at, "a refused call on a reused instance must not release the other run's claim"
+  end
+
+  test "resume takes over an existing claim" do
     EstimateGenerator.new(@estimate, client: FakeAiClient.new).call
     @estimate.update!(claimed_at: 1.hour.ago, status: "processing")
     EstimateGenerator.new(@estimate, client: FakeAiClient.new).call(resume: true)

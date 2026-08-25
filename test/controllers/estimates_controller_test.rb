@@ -122,8 +122,9 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
         } }
       end
     end
-    estimate = Estimate.order(:id).last
+    estimate = Estimate.find_by!(name: "Queued Job")
     assert estimate.completed?, "expected completed, got #{estimate.status}: #{estimate.error_message}"
     assert_equal 2, estimate.sections.count
+    assert_nil estimate.claimed_at
   end
 end

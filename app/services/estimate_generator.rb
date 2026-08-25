@@ -6,6 +6,10 @@
 # the plan analysis or already-costed sections.
 class EstimateGenerator
   BATCH_SIZE = ENV.fetch("ESTIMATOR_BATCH_SIZE", 6).to_i
+  # A claim never expires on its own — a hard-killed worker leaves claimed_at
+  # set forever unless something re-evaluates it. A claim older than this is
+  # treated as abandoned. See claim! for how liveness is judged.
+  CLAIM_STALE_AFTER = 15.minutes
 
   def initialize(estimate, client: nil, batch_size: BATCH_SIZE)
     @estimate = estimate
@@ -89,14 +93,24 @@ class EstimateGenerator
   end
 
   # Two generators racing one estimate duplicate its sections. A fresh run
-  # claims the estimate inside a row lock and refuses if another run holds
-  # the claim; resume (crash recovery) takes the claim over deliberately.
-  # The claim is separate from status: the controller sets "processing"
-  # before enqueuing so the UI shows progress immediately, and that must
-  # not read as "someone else owns this".
+  # claims the estimate inside a row lock and refuses if another run's claim
+  # is still live; resume (crash recovery) takes over any existing claim
+  # deliberately. The claim is separate from status: the controller sets
+  # "processing" before enqueuing so the UI shows progress immediately, and
+  # that must not read as "someone else owns this".
+  #
+  # claimed_at alone can't tell a running generator from a crashed one, so
+  # liveness is judged from updated_at: this generator writes progress to
+  # the row on every batch and every retry callback, so a live run keeps
+  # touching it, while a hard-killed worker stops — its claim goes stale
+  # within CLAIM_STALE_AFTER and a fresh run may take it over. (On SQLite,
+  # `with_lock` is a transaction + reload rather than a true row lock; it
+  # still serializes correctly under SQLite's single-writer model, but
+  # that's not a cross-database guarantee.)
   def claim!(resume)
+    @claimed = false
     @estimate.with_lock do
-      if !resume && @estimate.claimed_at.present?
+      if !resume && claim_live?
         raise Ai::Client::Error, "This estimate is already being generated."
       end
       @estimate.update!(claimed_at: Time.current, status: "processing")
@@ -104,8 +118,13 @@ class EstimateGenerator
     @claimed = true
   end
 
-  # Only the run that holds the claim may release it — a refused run must
-  # not free the claim of the run that refused it.
+  def claim_live?
+    @estimate.claimed_at.present? && @estimate.updated_at > CLAIM_STALE_AFTER.ago
+  end
+
+  # Only the run that holds the claim may release it — a refused run (or a
+  # second call on a reused instance that got refused) must not free the
+  # claim of the run that actually holds it.
   def release_claim
     @estimate.update_column(:claimed_at, nil) if @claimed
   end
