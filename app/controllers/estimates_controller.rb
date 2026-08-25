@@ -19,6 +19,9 @@ class EstimatesController < ApplicationController
 
   def create
     @estimate = Current.user.estimates.new(estimate_params)
+    # estimate_template_id arrives from a form the user controls: only their
+    # own agreed template and the shared default are theirs to build on.
+    @estimate.estimate_template = nil unless EstimateTemplate.available_to(Current.user).include?(@estimate.estimate_template)
     @estimate.estimate_template ||= EstimateTemplate.for_user(Current.user)
     if @estimate.plans.attached? && @estimate.save
       @estimate.processing!("Queued for analysis…")

@@ -36,6 +36,28 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
     assert estimate.plans.attached?
   end
 
+  test "create ignores a template the user may not build on" do
+    theirs = EstimateTemplate.create!(name: "Someone else's", user: users(:two), status: "active", sections: [ { "name" => "A" } ])
+    post estimates_url, params: { estimate: {
+      name: "Borrowed Layout",
+      estimate_template_id: theirs.id,
+      plans: [ fixture_file_upload("plan.pdf", "application/pdf") ]
+    } }
+    estimate = Estimate.find_by!(name: "Borrowed Layout")
+    assert_equal estimate_templates(:standard), estimate.estimate_template,
+      "another user's template must never be adopted, even when its id is posted"
+  end
+
+  test "create keeps the user's own personal template" do
+    mine = EstimateTemplate.create!(name: "My agreed one", user: @user, status: "active", sections: [ { "name" => "A" } ])
+    post estimates_url, params: { estimate: {
+      name: "My Layout",
+      estimate_template_id: mine.id,
+      plans: [ fixture_file_upload("plan.pdf", "application/pdf") ]
+    } }
+    assert_equal mine, Estimate.find_by!(name: "My Layout").estimate_template
+  end
+
   test "create without plan re-renders with error" do
     assert_no_enqueued_jobs only: GenerateEstimateJob do
       post estimates_url, params: { estimate: { name: "No plan" } }
