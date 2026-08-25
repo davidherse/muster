@@ -27,28 +27,44 @@ claim.
 
 - Migration: `add_column :estimates, :claimed_at, :datetime`.
 - `EstimateGenerator#call`:
-  - Fresh run: inside the existing `with_lock`, refuse if `claimed_at` is
-    present; otherwise set `claimed_at: Time.current, status: "processing"`.
-    The refusal message is unchanged.
+  - Fresh run: inside the existing `with_lock`, refuse if the claim is still
+    live (`Estimate#claim_live?`); otherwise set
+    `claimed_at: Time.current, status: "processing"`. The refusal message is
+    unchanged.
   - Resume run: inside a lock, set `claimed_at` without refusing (so a fresh
     call cannot race a resume). Behaviour otherwise unchanged.
   - `ensure` at the end of `call` clears `claimed_at` — success, failure and
     refusal all release the claim.
-- Controller unchanged: it keeps `processing!("Queued for analysis…")` for
-  the UI; its `processing?` guards on regenerate/answer_questions stay.
-- Crash semantics are unchanged from today: a killed process leaves the
-  claim set; when Solid Queue re-runs the job it is refused, the estimate is
-  marked failed, and "Try again" resumes.
+- Controller: it keeps `processing!("Queued for analysis…")` for the UI. Its
+  regenerate/answer_questions guards refuse only a run that is genuinely
+  live — `processing? && !generation_stalled?` — so a dead run is not a dead
+  end.
+- Crash recovery: Solid Queue 1.4.0 does NOT re-dispatch a job whose worker
+  was killed — it fails that claimed execution — so nothing re-runs the job
+  and the estimate would sit `processing` forever. So the run heartbeats its
+  own claim: `EstimateGenerator` rewrites `claimed_at` on every batch and
+  every retry callback. After `Estimate::CLAIM_STALE_AFTER` (15 minutes)
+  with no heartbeat the estimate is `generation_stalled?`; the show page
+  offers "Try again" beneath the progress bar, and `#regenerate` resumes it
+  (or restarts it when there is no plan analysis to resume from), with the
+  fresh run taking over the stale claim.
 
 ### Tests (written first)
 
 - `EstimateGeneratorTest`:
   - an estimate the controller just marked `processing!` is not refused;
-  - a second fresh call while `claimed_at` is set raises
+  - a second fresh call while the claim is live raises
     `Ai::Client::Error` with the existing message and marks the estimate
     failed;
   - a resume run with `claimed_at` set succeeds;
+  - a fresh run takes over a claim that stopped being heartbeated, even
+    though the controller bumped `updated_at` on the way in;
+  - a run refreshes its own `claimed_at` while it works;
   - `claimed_at` is nil after a completed run and after a failed run.
+- `EstimateTest`: `claim_live?` and `generation_stalled?` across a live
+  claim, a stale claim, and a queued-but-never-claimed estimate.
+- `EstimatesControllerTest`: regenerate refuses a live run, resumes a
+  stalled one; the show page offers "Try again" only when stalled.
 - `EstimatesControllerTest`: `post /estimates` then `perform_enqueued_jobs`
   with the fake AI client → estimate ends `completed`, not `failed`.
 
