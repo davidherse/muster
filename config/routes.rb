@@ -14,6 +14,15 @@ Rails.application.routes.draw do
   end
   resources :price_book_items, path: "price-book"
   resources :training_documents, path: "training", only: %i[ index new create destroy ]
+  resources :templates, only: %i[ index edit update ] do
+    collection do
+      post :customise
+      post :rederive
+      post :accept
+      delete :discard
+      get :status
+    end
+  end
 
   get  "onboarding",          to: "onboarding#uploads",       as: :onboarding
   post "onboarding/uploads",  to: "onboarding#create_upload", as: :onboarding_uploads
