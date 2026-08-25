@@ -57,4 +57,27 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
     get templates_url
     assert_match "Re-derive", response.body
   end
+
+  test "deriving state expires after the window" do
+    sign_in_as @user
+    @user.training_documents.create!(name: "Doc", status: "completed")
+    post rederive_templates_url
+    get templates_url
+    assert_match "Deriving your template", response.body
+
+    travel 11.minutes
+    get templates_url
+    assert_match "Re-derive", response.body
+    assert_no_match(/Deriving your template/, response.body)
+  end
+
+  test "deriving state is per user" do
+    sign_in_as @user
+    @user.training_documents.create!(name: "Doc", status: "completed")
+    post rederive_templates_url
+
+    sign_in_as @admin
+    get templates_url
+    assert_no_match(/Deriving your template/, response.body)
+  end
 end
