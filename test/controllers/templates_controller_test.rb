@@ -99,6 +99,46 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
     assert_select "input[name='template[sections][][name]'][value='Demolition']"
     assert_select "input[name='template[sections][][hint]'][value='Strip out']"
     assert_select "textarea[name='template[sections][][typical_items]']", text: "Skip bin (ea)"
+    # The form's fields must post under the same "template" scope the
+    # controller reads (template_params), not the model-derived
+    # "estimate_template" scope form_with would use by default.
+    assert_select "input[name='template[name]'][value=?]", mine.name
+    assert_select "input[name^='estimate_template[']", count: 0
+  end
+
+  test "edit form round-trips through the controller's param contract" do
+    sign_in_as @user
+    mine = EstimateTemplate.create!(name: "Mine", user: @user, status: "active",
+      sections: [
+        { "name" => "Demolition", "hint" => "Strip out", "typical_items" => [ "Skip bin (ea)" ] },
+        { "name" => "Painting", "hint" => "", "typical_items" => [] }
+      ])
+    get edit_template_url(mine)
+    assert_response :success
+
+    # Rebuild exactly what a browser would submit from the rendered form:
+    # the name field plus one hash per section row (skipping the <template>
+    # blueprint, which lives outside data-sections-target="list").
+    name_field = css_select("form input[name='template[name]']").first
+    assert name_field, "expected the form to render a template[name] input"
+    name_value = name_field["value"]
+
+    row_nodes = css_select("form [data-sections-target='list'] [data-sections-target='row']")
+    assert_equal 2, row_nodes.length
+    rows = row_nodes.map do |row|
+      {
+        name: css_select(row, "input[name='template[sections][][name]']").first["value"],
+        hint: css_select(row, "input[name='template[sections][][hint]']").first["value"],
+        typical_items: css_select(row, "textarea[name='template[sections][][typical_items]']").first.text
+      }
+    end
+    rows.first[:name] = "Renamed via form"
+
+    patch template_url(mine), params: { template: { name: name_value, sections: rows } }
+    assert_redirected_to templates_path
+    mine.reload
+    assert_equal "Renamed via form", mine.section_names.first
+    assert_equal "Mine", mine.name
   end
 
   test "cannot edit another user's personal template" do
