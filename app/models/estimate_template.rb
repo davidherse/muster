@@ -81,10 +81,14 @@ class EstimateTemplate < ApplicationRecord
   # user so they can adjust it. Returns nil when they already have one.
   def customise_for(user)
     return nil if self.class.personal_for(user)
+    # Names are globally unique, and two builders can share a display name —
+    # the second copy would raise on create. Disambiguate rather than 500.
+    base = "#{user.name} — #{name}".truncate(120)
+    base = "#{base} (#{user.id})" if self.class.exists?(name: base)
     self.class.create!(
       user: user,
       status: "active",
-      name: "#{user.name} — #{name}".truncate(120),
+      name: base,
       description: "Customised from #{name}.",
       sections: sections.deep_dup
     )

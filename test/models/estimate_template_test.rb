@@ -48,6 +48,18 @@ class EstimateTemplateTest < ActiveSupport::TestCase
     assert_nil @default.customise_for(@user), "refuses when a personal template already exists"
   end
 
+  test "customise_for disambiguates when another user shares a display name" do
+    @default.customise_for(@user)
+    twin = User.create!(name: @user.name, email_address: "dup@example.com",
+      password: "password-123", activated_at: Time.current)
+
+    copy = @default.customise_for(twin)
+    assert copy.persisted?, "a shared display name must not blow up the copy"
+    assert_equal twin, copy.user
+    assert_equal "#{twin.name} — #{@default.name} (#{twin.id})", copy.name
+    assert_equal @default.sections, copy.sections
+  end
+
   test "personal_for and proposal_for" do
     assert_nil EstimateTemplate.personal_for(@user)
     assert_nil EstimateTemplate.proposal_for(@user)
