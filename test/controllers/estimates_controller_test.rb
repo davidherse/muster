@@ -127,4 +127,17 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
     assert_equal 2, estimate.sections.count
     assert_nil estimate.claimed_at
   end
+
+  test "new lists only my personal template and the default as layouts" do
+    theirs = EstimateTemplate.create!(name: "Someone else's", user: users(:two), status: "active", sections: [ { "name" => "A" } ])
+    proposal = EstimateTemplate.create!(name: "My unagreed proposal", user: @user, status: "proposed", sections: [ { "name" => "A" } ])
+    mine = EstimateTemplate.create!(name: "My agreed one", user: @user, status: "active", sections: [ { "name" => "A" } ])
+    get new_estimate_url
+    assert_response :success
+    assert_select "select[name='estimate[estimate_template_id]'] option", count: 2
+    assert_select "option[value='#{mine.id}']"
+    assert_select "option[value='#{estimate_templates(:standard).id}']"
+    assert_select "option[value='#{theirs.id}']", count: 0
+    assert_select "option[value='#{proposal.id}']", count: 0
+  end
 end
