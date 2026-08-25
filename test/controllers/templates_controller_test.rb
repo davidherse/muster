@@ -51,6 +51,15 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
     assert_match discard_templates_path, response.body
   end
 
+  test "accepting or discarding a proposal asks for confirmation first" do
+    sign_in_as @user
+    EstimateTemplate.create!(name: "Proposal", user: @user, status: "proposed", sections: [ { "name" => "Wet Areas", "hint" => "" } ])
+    get templates_url
+    # Both destroy the user's current sections or the proposal outright.
+    assert_select "form[action=?] [data-turbo-confirm]", accept_templates_path
+    assert_select "form[action=?] [data-turbo-confirm]", discard_templates_path
+  end
+
   test "index offers re-derive only with completed training documents" do
     sign_in_as @user
     @user.training_documents.create!(name: "Doc", status: "completed")

@@ -13,10 +13,12 @@
       </div>
       <%= render "sections_list", sections: @proposal.sections %>
       <div class="p-6 pt-4 flex items-center gap-3 border-t border-border">
-        <%= button_to accept_templates_path, class: ui_button do %>
+        <%= button_to accept_templates_path, class: ui_button,
+            data: { turbo_confirm: "Replace your current template? Your current sections will be deleted." } do %>
           <%= ui_icon("check") %> Accept this template
         <% end %>
-        <%= button_to "Discard", discard_templates_path, method: :delete, class: ui_button(variant: :ghost) %>
+        <%= button_to "Discard", discard_templates_path, method: :delete,
+            data: { turbo_confirm: "Discard this proposal?" }, class: ui_button(variant: :ghost) %>
       </div>
     </section>
   <% elsif @deriving %>
