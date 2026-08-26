@@ -129,6 +129,7 @@ class LineItemGenerator
         "fix prefab stairs" day is not a "build stairs with newels" week).
         State the crew plan in assumptions ("2 carpenters x 3 days = 48h").
         Never emit labour hours that are not a multiple of 4.
+      #{crew_labour_rule}
       - Wet areas: tiling and waterproofing quantities come STRICTLY from the
         analysis wet_area_takeoff rooms (floor_m2 / wall_tile_m2) \u2014 never from
         your own re-reading of the plans and never rounded up. Cite the takeoff
@@ -246,6 +247,9 @@ class LineItemGenerator
         to \$1.1M consistently record ~8-11 supervision hours per week for the
         build duration \u2014 scale supervision with duration, not contract value.
         No percentage targets; build it item by item like the price book does.
+      - SUPERVISION ONCE: project management and site supervision are costed
+        only in the Site Supervision section (when the template has one) —
+        never as Preliminaries lines, and never in both.
       - Hire and temporary services: weekly/monthly rates x the portion of
         duration_months each item is actually on site.
       - Cost every entry in special_features explicitly (pool, solar, shutters,
@@ -259,6 +263,33 @@ class LineItemGenerator
         fixtures, tiling and glazing; but do not upgrade trades the brief leaves
         standard.
     PROMPT
+  end
+
+  # This builder carries carpentry as a standing crew paid by the week — their
+  # book records "Carpentry and Onsite Labour per week", and their own
+  # estimates cost the whole build from it. Pricing carpentry task-by-task
+  # ignores that line and loses most of the labour on a long build, so the
+  # rule fires only where the template actually carries the crew section and
+  # the builder has told us how long the job runs.
+  def crew_labour_rule
+    section = @estimate.estimate_template&.section_names&.find { |n| n =~ /carpentry.*general labour/i }
+    return "" if section.blank?
+    months = @estimate.questionnaire.to_h["duration_months"].to_f
+    return "" unless months.positive?
+    weeks = (months * 4.33).round
+
+    <<~RULE.strip
+      - CREW LABOUR FOR THE BUILD DURATION: this builder carries carpentry as a
+        standing crew, not per-task hours. In the '#{section}' section, cost the
+        crew for the full duration: #{weeks} weeks × the builder's own per-week
+        crew rate from the USER PRICE BOOK ('Carpentry and Onsite Labour per
+        week' — average 2 men), plus a site labourer per week where the book
+        carries one (typically ~75% of the duration). Because the crew is costed
+        there, the framing, floor, wall, roof-framing, lockup and fixing
+        carpentry sections carry MATERIALS and specialist subcontract/hire tasks
+        only — do NOT add general carpentry Lab hours in those sections; they are
+        inside the crew weeks. State the crew plan in assumptions.
+    RULE
   end
 
   def request_text(sections)
@@ -296,7 +327,10 @@ class LineItemGenerator
   # The repaint composite class is computed, not chosen — the model kept
   # oscillating between defensible readings (raise vs heritage) on jobs that
   # are both. Raise/build-under jobs use their own composite; heritage needs
-  # stated character fabric in the extent AND a character-era building.
+  # stated character fabric in the extent AND a character-era building —
+  # the extent question names VJ, trim and fretwork even on a post-1990
+  # rendered house, where the heritage composite ($493/m2) is 2.5x the
+  # standard one.
   def repaint_class
     q = @estimate.questionnaire.to_h
     extent = q["repaint_extent"].to_s
@@ -304,13 +338,21 @@ class LineItemGenerator
     return "selective scope" if extent =~ /selective|partial|new work/i
     if @analysis["project_class"] == "raise_and_build_under"
       "full repaint incl raise/build-under new lower level"
-    elsif extent =~ /VJ|fretwork|character|heritage/i &&
-          (q["building_era"].to_s =~ /1946|character/i ||
-           @analysis["internal_lining_type"].to_s =~ /VJ|tongue|T&G|board/i)
+    elsif extent =~ /VJ|fretwork|character|heritage/i && character_era?(q["building_era"])
       "full heritage repaint"
     else
       "full repaint of standard character home"
     end
+  end
+
+  # A stated era decides: "Post-1990" or "1946–1990" rules the heritage
+  # composite out however characterful the retained linings read — only a
+  # pre-1946 building is character fabric. Only when the builder left the
+  # era blank may the analysis's lining type stand in as evidence.
+  def character_era?(era)
+    era = era.to_s
+    return era.match?(/pre-?1946|character/i) if era.present?
+    @analysis["internal_lining_type"].to_s.match?(/VJ|tongue|T&G|board/i)
   end
 
   def clarifications_text
