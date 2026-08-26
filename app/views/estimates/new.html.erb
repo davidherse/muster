@@ -20,7 +20,7 @@
 
       <div class="grid gap-2">
         <%= form.label :estimate_template_id, "Estimate layout", class: ui_label %>
-        <%= form.collection_select :estimate_template_id, EstimateTemplate.order(:name), :id, :name, {}, { class: ui_select } %>
+        <%= form.collection_select :estimate_template_id, EstimateTemplate.available_to(Current.user), :id, :name, {}, { class: ui_select } %>
         <p class="text-xs text-muted-foreground">Controls the sections your estimate is broken into.</p>
       </div>
 

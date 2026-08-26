@@ -19,6 +19,9 @@ class EstimatesController < ApplicationController
 
   def create
     @estimate = Current.user.estimates.new(estimate_params)
+    # estimate_template_id arrives from a form the user controls: only their
+    # own agreed template and the shared default are theirs to build on.
+    @estimate.estimate_template = nil unless EstimateTemplate.available_to(Current.user).include?(@estimate.estimate_template)
     @estimate.estimate_template ||= EstimateTemplate.for_user(Current.user)
     if @estimate.plans.attached? && @estimate.save
       @estimate.processing!("Queued for analysis…")
@@ -41,7 +44,7 @@ class EstimatesController < ApplicationController
   # as clarified scope and their sections re-cost in ONE resume run; anything
   # left blank is marked skipped and never gates or re-asks again.
   def answer_questions
-    return redirect_to(@estimate, alert: "The estimate is currently generating.") if @estimate.processing?
+    return redirect_to(@estimate, alert: "The estimate is currently generating.") if @estimate.processing? && !@estimate.generation_stalled?
     answers = params.fetch(:answers, {}).permit!.to_h
 
     answered, skipped = Array(@estimate.open_questions).partition { |q| answers[q["id"].to_s].to_s.strip.present? }
@@ -62,8 +65,10 @@ class EstimatesController < ApplicationController
   end
 
   def regenerate
-    return redirect_to(@estimate, alert: "This estimate is already being generated.") if @estimate.processing?
-    resume = params[:resume].present? && @estimate.failed? && @estimate.plan_summary.present?
+    # Only a genuinely live run is untouchable: a stalled one (its worker died,
+    # and Solid Queue never re-dispatches it) must be retryable from the UI.
+    return redirect_to(@estimate, alert: "This estimate is already being generated.") if @estimate.processing? && !@estimate.generation_stalled?
+    resume = params[:resume].present? && (@estimate.failed? || @estimate.generation_stalled?) && @estimate.plan_summary.present?
     if resume
       @estimate.update!(status: "processing", error_message: nil, progress_note: "Resuming…")
     else

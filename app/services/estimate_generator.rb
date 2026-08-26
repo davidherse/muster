@@ -14,20 +14,7 @@ class EstimateGenerator
   end
 
   def call(resume: false)
-    # Two generators racing one estimate duplicate its sections. The advisory
-    # claim flips status inside a row lock; a second caller sees processing
-    # and refuses. Resume (crash recovery) bypasses the claim deliberately.
-    unless resume
-      claimed = @estimate.with_lock do
-        if @estimate.status == "processing"
-          false
-        else
-          @estimate.update!(status: "processing")
-          true
-        end
-      end
-      raise Ai::Client::Error, "This estimate is already being generated." unless claimed
-    end
+    claim!(resume)
 
     resume &&= @estimate.plan_summary.present?
 
@@ -61,6 +48,7 @@ class EstimateGenerator
       done += batch.size
       percent = 20 + (70.0 * done / all_sections.size).round
       @estimate.update_progress!(percent, "Costed #{done} of #{all_sections.size} sections…")
+      heartbeat!
     end
 
     @estimate.update_progress!(92, "Reviewing the estimate…")
@@ -87,6 +75,8 @@ class EstimateGenerator
   rescue StandardError => e
     @estimate.fail!(friendly_message(e))
     raise
+  ensure
+    release_claim
   end
 
   private
@@ -96,7 +86,50 @@ class EstimateGenerator
     Ai::Client.new(on_retry: lambda { |error, attempt, delay|
       reason = error.is_a?(Anthropic::Errors::RateLimitError) ? "Rate limited" : "AI service busy"
       @estimate.update_progress!(@estimate.progress, "#{reason} — retrying in #{delay}s (attempt #{attempt + 1})…")
+      heartbeat!
     })
+  end
+
+  # Two generators racing one estimate duplicate its sections. A fresh run
+  # claims the estimate inside a row lock and refuses if another run's claim
+  # is still live; resume (crash recovery) takes over any existing claim
+  # deliberately. The claim is separate from status: the controller sets
+  # "processing" before enqueuing so the UI shows progress immediately, and
+  # that must not read as "someone else owns this".
+  #
+  # A bare claimed_at can't tell a running generator from a crashed one, so
+  # the claim itself is a heartbeat: this run rewrites claimed_at on every
+  # batch and every retry callback, while a hard-killed worker stops. A claim
+  # not refreshed within Estimate::CLAIM_STALE_AFTER is abandoned and a fresh
+  # run may take it over (Estimate#claim_live?). updated_at can't stand in for
+  # this — the controller marks the estimate processing right before enqueuing,
+  # so it is always fresh when the job starts. (On SQLite, `with_lock` is a
+  # transaction + reload rather than a true row lock; it still serializes
+  # correctly under SQLite's single-writer model, but that's not a
+  # cross-database guarantee.)
+  def claim!(resume)
+    @claimed = false
+    @estimate.with_lock do
+      if !resume && @estimate.claim_live?
+        raise Ai::Client::Error, "This estimate is already being generated."
+      end
+      @estimate.update!(claimed_at: Time.current, status: "processing")
+    end
+    @claimed = true
+  end
+
+  # Proof of life for the claim, so a run that outlives CLAIM_STALE_AFTER is
+  # never mistaken for an abandoned one. update_column: never a validation,
+  # never a touch of updated_at, no interference with the work in flight.
+  def heartbeat!
+    @estimate.update_column(:claimed_at, Time.current) if @claimed
+  end
+
+  # Only the run that holds the claim may release it — a refused run (or a
+  # second call on a reused instance that got refused) must not free the
+  # claim of the run that actually holds it.
+  def release_claim
+    @estimate.update_column(:claimed_at, nil) if @claimed
   end
 
   def fresh_analysis

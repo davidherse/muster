@@ -10,27 +10,8 @@
       will be re-derived.
     </p>
 
-    <div class="<%= ui_card %> divide-y divide-border overflow-hidden">
-      <% @proposal.sections.each_with_index do |section, i| %>
-        <div class="px-5 py-4">
-          <div class="flex items-baseline gap-3">
-            <span class="text-xs font-mono text-muted-foreground w-6 text-right"><%= i + 1 %></span>
-            <div>
-              <p class="font-medium text-foreground"><%= section["name"] %></p>
-              <% if section["hint"].present? %>
-                <p class="text-sm text-muted-foreground"><%= section["hint"] %></p>
-              <% end %>
-              <% if Array(section["typical_items"]).any? %>
-                <div class="mt-2 flex flex-wrap gap-1.5">
-                  <% section["typical_items"].each do |item| %>
-                    <span class="<%= ui_badge(variant: :outline) %>"><%= item %></span>
-                  <% end %>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      <% end %>
+    <div class="<%= ui_card %> overflow-hidden">
+      <%= render "templates/sections_list", sections: @proposal.sections %>
     </div>
 
     <div class="mt-6 flex items-center gap-3">

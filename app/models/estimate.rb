@@ -17,6 +17,20 @@ class Estimate < ApplicationRecord
     define_method("#{s}?") { status == s }
   end
 
+  # A generation run heartbeats claimed_at while it works; a claim older
+  # than this is treated as abandoned (the worker died) and may be taken over.
+  CLAIM_STALE_AFTER = 15.minutes
+
+  def claim_live?
+    claimed_at.present? && claimed_at > CLAIM_STALE_AFTER.ago
+  end
+
+  # Processing, but neither claimed recently nor touched recently — the run
+  # died or was never picked up. The UI offers "Try again" in this state.
+  def generation_stalled?
+    processing? && (claimed_at || updated_at) <= CLAIM_STALE_AFTER.ago
+  end
+
   # Completed but gated behind unanswered clarifying questions — the user's
   # move, and the UI should say so.
   def needs_answers?

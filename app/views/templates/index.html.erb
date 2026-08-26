@@ -1,0 +1,77 @@
+<div class="mx-auto md:w-2/3 w-full">
+  <h1 class="font-semibold text-3xl tracking-tight mb-2">Templates</h1>
+  <p class="text-muted-foreground mb-6 text-sm">
+    The sections your estimates are broken into, in your order. Edits apply to
+    new estimates and regenerations; existing estimates keep their sections.
+  </p>
+
+  <% if @proposal %>
+    <section class="<%= ui_card %> mb-6 overflow-hidden">
+      <div class="<%= ui_card_header %>">
+        <h2 class="<%= ui_card_title %>">Proposed template</h2>
+        <p class="<%= ui_card_description %>">Derived from your training documents. Accept to replace your current template, or discard to keep it.</p>
+      </div>
+      <%= render "sections_list", sections: @proposal.sections %>
+      <div class="p-6 pt-4 flex items-center gap-3 border-t border-border">
+        <%= button_to accept_templates_path, class: ui_button,
+            data: { turbo_confirm: "Replace your current template? Your current sections will be deleted." } do %>
+          <%= ui_icon("check") %> Accept this template
+        <% end %>
+        <%= button_to "Discard", discard_templates_path, method: :delete,
+            data: { turbo_confirm: "Discard this proposal?" }, class: ui_button(variant: :ghost) %>
+      </div>
+    </section>
+  <% elsif @deriving %>
+    <section class="<%= ui_card %> p-6 mb-6" data-controller="poll" data-poll-url-value="<%= status_templates_path %>">
+      <h2 class="<%= ui_card_title %> mb-3">Deriving your template…</h2>
+      <div class="h-2 w-full rounded-full bg-secondary overflow-hidden">
+        <div data-poll-target="bar" class="h-full rounded-full bg-primary transition-all" style="width: 40%"></div>
+      </div>
+      <p data-poll-target="note" class="mt-3 text-sm text-muted-foreground">Working…</p>
+    </section>
+  <% end %>
+
+  <section class="<%= ui_card %> mb-6 overflow-hidden">
+    <div class="<%= ui_card_header %>">
+      <h2 class="<%= ui_card_title %>">Your template</h2>
+      <% if @personal %>
+        <p class="<%= ui_card_description %>"><%= @personal.name %> · <%= pluralize(@personal.sections.size, "section") %></p>
+      <% else %>
+        <p class="<%= ui_card_description %>">You don't have a personal template yet — estimates use <%= @default&.name %>. Customise the default, or upload training documents and re-derive one.</p>
+      <% end %>
+    </div>
+    <% if @personal %>
+      <%= render "sections_list", sections: @personal.sections %>
+    <% end %>
+    <div class="p-6 pt-4 flex items-center gap-3 border-t border-border">
+      <% if @personal %>
+        <%= link_to edit_template_path(@personal), class: ui_button do %>Edit sections<% end %>
+      <% elsif @default %>
+        <%= button_to "Customise the default", customise_templates_path, class: ui_button %>
+      <% end %>
+      <% if @completed_docs.positive? && !@proposal && !@deriving %>
+        <%= button_to rederive_templates_path, class: ui_button(variant: :outline) do %>
+          Re-derive from <%= pluralize(@completed_docs, "training document") %>
+        <% end %>
+      <% end %>
+    </div>
+  </section>
+
+  <% if @default %>
+    <section class="<%= ui_card %> overflow-hidden">
+      <div class="<%= ui_card_header %>">
+        <h2 class="<%= ui_card_title %>"><%= @default.name %></h2>
+        <p class="<%= ui_card_description %>">The shared default · <%= pluralize(@default.sections.size, "section") %><%= " · managed by Muster administrators" unless Current.user.admin? %></p>
+      </div>
+      <details class="px-6 pb-4">
+        <summary class="text-sm text-muted-foreground cursor-pointer">Show sections</summary>
+        <div class="mt-3 -mx-5"><%= render "sections_list", sections: @default.sections %></div>
+      </details>
+      <% if Current.user.admin? %>
+        <div class="p-6 pt-4 flex items-center gap-3 border-t border-border">
+          <%= link_to "Edit default", edit_template_path(@default), class: ui_button(variant: :outline) %>
+        </div>
+      <% end %>
+    </section>
+  <% end %>
+</div>

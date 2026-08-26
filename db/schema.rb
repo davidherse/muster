@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_14_114752) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_25_122214) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -100,6 +100,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_14_114752) do
     t.json "assessment", default: {}, null: false
     t.string "building_type"
     t.integer "calibration_training_document_id"
+    t.datetime "claimed_at"
     t.json "clarifications"
     t.json "costed_sections", default: [], null: false
     t.datetime "created_at", null: false
