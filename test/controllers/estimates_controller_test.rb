@@ -259,7 +259,7 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
     e = analysed_estimate
     get edit_estimate_url(e)
     assert_select "[data-controller=recost]"
-    assert_select "textarea[name='clarifications[0]'][data-recost-sections='Structural Steel']"
+    assert_select "textarea[name='clarifications[0]'][data-recost-sections='[\"Structural Steel\"]']"
     assert_select "[data-recost-sections='*']"
     assert_select "input[type=checkbox][data-recost-target=section][data-section='Preliminaries']"
     assert_select "input[type=hidden][name=recost_submitted]" do |elements|
@@ -383,5 +383,54 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
     assert_equal [], e.costed_sections
     assert_equal({ "finish_level" => "Luxury" }, e.questionnaire)
     assert_equal "Re-costing 3 sections…", e.progress_note
+  end
+
+  test "a nil prompt posted as a blank string is not a change" do
+    e = @user.estimates.create!(name: "Analysed", estimate_template: estimate_templates(:standard), status: "completed",
+      plan_summary: { "project_class" => "whole_house_renovation", "floor_area_m2" => 120.0, "scope_summary" => "Reno." },
+      costed_sections: [ "Preliminaries", "Structural Steel", "Solar Power System" ])
+    e.sections.create!(name: "Preliminaries", position: 1)
+    assert_nil e.prompt
+    assert_no_enqueued_jobs(only: GenerateEstimateJob) do
+      patch estimate_url(e), params: { estimate: { name: "Renamed", prompt: "" } }
+    end
+    assert_equal "Saved. Nothing re-costed.", flash[:notice]
+    assert_equal "Renamed", e.reload.name
+  end
+
+  test "a prompt that only differs by surrounding whitespace is not a change" do
+    e = analysed_estimate
+    assert_no_enqueued_jobs(only: GenerateEstimateJob) do
+      patch estimate_url(e), params: { estimate: { name: "Analysed", prompt: "Original brief\r\n" }, clarifications: { "0" => "Prefab" } }
+    end
+    assert_equal "Saved. Nothing re-costed.", flash[:notice]
+  end
+
+  test "a genuinely changed prompt re-costs everything" do
+    e = analysed_estimate
+    assert_enqueued_with(job: GenerateEstimateJob, args: [ e, { resume: true } ]) do
+      patch estimate_url(e), params: { estimate: { name: "Analysed", prompt: "Changed" }, clarifications: { "0" => "Prefab" } }
+    end
+    e.reload
+    assert_equal [], e.costed_sections
+    assert_equal 0, e.sections.count
+  end
+
+  test "an edit re-costs through the resume path without re-analysing" do
+    e = analysed_estimate
+    fake = FakeAiClient.new
+    Ai::Client.stub(:new, ->(*_, **_) { fake }) do
+      perform_enqueued_jobs(only: GenerateEstimateJob) do
+        patch estimate_url(e), params: { estimate: { name: "Analysed", prompt: "Original brief" },
+                                         clarifications: { "0" => "Site-built with newels" } }
+      end
+    end
+    assert e.reload.completed?, e.error_message
+    assert_equal 0, fake.calls.count { |c| c[:schema] == PlanAnalyzer::SCHEMA }
+    asked = fake.calls.select { |c| c[:schema] == LineItemGenerator::SCHEMA }
+              .flat_map { |c| c[:content].map { |b| b[:text] || b["text"] } }.join
+    assert_includes asked, "Structural Steel"
+    assert_not_includes asked, "Preliminaries"
+    assert_includes asked, "Site-built with newels"
   end
 end

@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 // Pre-ticks the re-cost checklist as the user edits: a field (or container)
-// carrying data-recost-sections="A|B" ticks those sections; "*" ticks all.
+// carrying data-recost-sections='["A","B"]' (JSON) ticks those sections; "*" ticks all.
 // Auto-ticking never marks the checklist as "submitted" — the hidden field
 // stays blank so the server can fall back to its own computed default when
 // nothing was manually chosen. Only a deliberate action (ticking/unticking a
@@ -13,7 +13,7 @@ export default class extends Controller {
     const carrier = event.target.closest("[data-recost-sections]")
     if (!carrier) return
     const spec = carrier.dataset.recostSections
-    const names = spec === "*" ? null : spec.split("|")
+    const names = spec === "*" ? null : JSON.parse(spec)
     this.sectionTargets.forEach((box) => {
       if (names === null || names.includes(box.dataset.section)) box.checked = true
     })

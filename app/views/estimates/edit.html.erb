@@ -33,7 +33,7 @@
         <div class="grid gap-2">
           <label class="<%= ui_label %>"><%= c["question"] %></label>
           <%= text_area_tag "clarifications[#{i}]", c["answer"], rows: 2, class: ui_textarea,
-                data: { recost_sections: (c["sections"].presence || @sections).join("|"), action: "input->recost#touch" } %>
+                data: { recost_sections: (c["sections"].presence || @sections).to_json, action: "input->recost#touch" } %>
           <p class="text-xs text-muted-foreground">Affects: <%= (c["sections"].presence || [ "all sections" ]).join(", ") %></p>
         </div>
       <% end %>
@@ -41,7 +41,7 @@
         <div class="grid gap-2">
           <label class="<%= ui_label %>"><%= q["question"] %> <span class="<%= ui_badge(variant: :outline) %>">skipped</span></label>
           <%= text_area_tag "skipped_answers[#{q['id']}]", nil, rows: 2, placeholder: "Answer it now, or leave blank", class: ui_textarea,
-                data: { recost_sections: (Array(q["sections"]).presence || @sections).join("|"), action: "input->recost#touch" } %>
+                data: { recost_sections: (Array(q["sections"]).presence || @sections).to_json, action: "input->recost#touch" } %>
         </div>
       <% end %>
     </section>

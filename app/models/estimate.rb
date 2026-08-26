@@ -85,6 +85,10 @@ class Estimate < ApplicationRecord
         analysis["scope_summary"] = "BUILDER-CONFIRMED PROJECT TYPE: #{klass} (plans read as #{original}). " + base
         analysis["project_class"] = klass
       end
+    elsif analysis["original_project_class"].present?
+      analysis["project_class"] = analysis["original_project_class"]
+      analysis["scope_summary"] = analysis["scope_summary"].to_s.sub(OVERRIDE_PREFIX, "")
+      analysis.delete("original_project_class")
     end
     area = q["works_floor_area_m2"].to_f
     analysis["floor_area_m2"] = area if area.positive?
@@ -114,7 +118,7 @@ class Estimate < ApplicationRecord
     return [] if names.empty?
     transaction do
       sections.where(name: names).destroy_all
-      update!(costed_sections: costed_sections - names, status: "processing", error_message: nil,
+      update!(costed_sections: costed_sections - names, status: "processing", error_message: nil, progress: 0,
         progress_note: "Re-costing #{names.size} #{'section'.pluralize(names.size)}…")
     end
     names

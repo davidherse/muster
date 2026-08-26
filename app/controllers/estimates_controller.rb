@@ -56,7 +56,9 @@ class EstimatesController < ApplicationController
     @estimate.assign_attributes(brief_params.except(:questionnaire))
     @estimate.questionnaire = submitted_questionnaire.to_h.reject { |_, v| v.blank? } if submitted_questionnaire.present?
     # The name never affects pricing; the brief text and questionnaire do.
-    brief_changed = @estimate.will_save_change_to_prompt? || questionnaire_changed
+    # Compared normalised: whitespace-only edits (a trailing "\r\n" a form
+    # round-trip adds, or nil vs. "") are not a change.
+    brief_changed = @estimate.prompt.to_s.strip != @estimate.prompt_was.to_s.strip || questionnaire_changed
 
     affected = []
     answers = params.fetch(:clarifications, {}).permit!.to_h
