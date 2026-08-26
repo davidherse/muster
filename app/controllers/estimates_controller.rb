@@ -1,5 +1,6 @@
 class EstimatesController < ApplicationController
-  before_action :set_estimate, only: %i[ show csv status regenerate answer_questions destroy ]
+  before_action :set_estimate, only: %i[ show edit update csv status regenerate answer_questions destroy ]
+  before_action :require_editable!, only: %i[ edit update ]
 
   PER_PAGE = 15
 
@@ -36,6 +37,66 @@ class EstimatesController < ApplicationController
   def show
   end
 
+  def edit
+    @sections = @estimate.template_section_names
+    @answered = Array(@estimate.clarifications)
+    @skipped = Array(@estimate.open_questions).select { |q| q["skipped"] }
+  end
+
+  # Save brief/questionnaire/answers and re-cost only what changed — never
+  # re-analyse. The re-cost set is the submitted checklist when the form
+  # sent one, else computed from what changed.
+  def update
+    # The form posts every questionnaire key; blanks are not changes.
+    submitted_questionnaire = brief_params[:questionnaire]
+    stored_questionnaire = @estimate.questionnaire.to_h.reject { |_, v| v.blank? }
+    questionnaire_changed = submitted_questionnaire.present? &&
+      submitted_questionnaire.to_h.reject { |_, v| v.blank? } != stored_questionnaire
+
+    @estimate.assign_attributes(brief_params.except(:questionnaire))
+    @estimate.questionnaire = submitted_questionnaire.to_h.reject { |_, v| v.blank? } if submitted_questionnaire.present?
+    # The name never affects pricing; the brief text and questionnaire do.
+    # Compared normalised: whitespace-only edits (a trailing "\r\n" a form
+    # round-trip adds, or nil vs. "") are not a change.
+    brief_changed = @estimate.prompt.to_s.strip != @estimate.prompt_was.to_s.strip || questionnaire_changed
+
+    affected = []
+    answers = params.fetch(:clarifications, {}).permit!.to_h
+    # A blank answer never retracts a clarification; only a different, non-blank answer re-costs.
+    clarifications = Array(@estimate.clarifications).each_with_index.map do |c, i|
+      next c unless answers.key?(i.to_s)
+      answer = answers[i.to_s].to_s.strip
+      next c if answer == c["answer"].to_s || answer.blank?
+      affected.concat(c["sections"].presence || @estimate.template_section_names)
+      c.merge("answer" => answer)
+    end
+    skipped_answers = params.fetch(:skipped_answers, {}).permit!.to_h
+    open = Array(@estimate.open_questions).reject do |q|
+      answer = skipped_answers[q["id"].to_s].to_s.strip
+      next false if answer.blank?
+      clarifications << q.slice("question", "sections").merge("answer" => answer)
+      affected.concat(Array(q["sections"]).presence || @estimate.template_section_names)
+      true
+    end
+    @estimate.assign_attributes(clarifications: clarifications, open_questions: open)
+
+    unless @estimate.save
+      @sections = @estimate.template_section_names; @answered = clarifications; @skipped = open.select { |q| q["skipped"] }
+      return render :edit, status: :unprocessable_entity
+    end
+
+    computed = brief_changed ? @estimate.template_section_names : affected.uniq
+    chosen = params[:recost_submitted].present? ? Array(params[:recost_sections]) : computed
+    @estimate.reapply_questionnaire_overrides! if brief_changed
+    scheduled = @estimate.recost!(chosen)
+    if scheduled.empty?
+      redirect_to @estimate, notice: "Saved. Nothing re-costed."
+    else
+      GenerateEstimateJob.perform_later(@estimate, resume: true)
+      redirect_to @estimate, notice: "Re-costing #{scheduled.size} #{'section'.pluralize(scheduled.size)}…"
+    end
+  end
+
   def status
     render json: { status: @estimate.status, progress: @estimate.progress, note: @estimate.progress_note }
   end
@@ -48,7 +109,7 @@ class EstimatesController < ApplicationController
     answers = params.fetch(:answers, {}).permit!.to_h
 
     answered, skipped = Array(@estimate.open_questions).partition { |q| answers[q["id"].to_s].to_s.strip.present? }
-    clarified = answered.map { |q| q.slice("question").merge("answer" => answers[q["id"].to_s].to_s.strip) }
+    clarified = answered.map { |q| q.slice("question", "sections").merge("answer" => answers[q["id"].to_s].to_s.strip) }
     @estimate.update!(
       clarifications: Array(@estimate.clarifications) + clarified,
       open_questions: skipped.map { |q| q.merge("skipped" => true) }
@@ -109,5 +170,14 @@ class EstimatesController < ApplicationController
 
   def estimate_params
     params.require(:estimate).permit(:name, :prompt, :estimate_template_id, plans: [], questionnaire: {})
+  end
+
+  def require_editable!
+    editable = @estimate.plan_summary.present? && !(@estimate.processing? && !@estimate.generation_stalled?)
+    redirect_to @estimate, alert: "This estimate can't be edited right now." unless editable
+  end
+
+  def brief_params
+    params.require(:estimate).permit(:name, :prompt, questionnaire: {})
   end
 end

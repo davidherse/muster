@@ -70,6 +70,60 @@ class Estimate < ApplicationRecord
     )
   end
 
+  OVERRIDE_PREFIX = /\ABUILDER-CONFIRMED PROJECT TYPE: [^.]*\. /
+
+  # Builder-stated facts BIND over analyzer inference: the builder knows the
+  # job type, and a stated works area pins the composite multiplier. Safe to
+  # apply more than once — the recorded conflict note is replaced, not stacked.
+  def apply_questionnaire_overrides(analysis)
+    q = questionnaire.to_h
+    if (klass = EstimateQuestionnaire::PROJECT_TYPES[q["project_type"]])
+      base = analysis["scope_summary"].to_s.sub(OVERRIDE_PREFIX, "")
+      original = analysis["original_project_class"] || analysis["project_class"]
+      if original != klass
+        analysis["original_project_class"] = original
+        analysis["scope_summary"] = "BUILDER-CONFIRMED PROJECT TYPE: #{klass} (plans read as #{original}). " + base
+        analysis["project_class"] = klass
+      end
+    elsif analysis["original_project_class"].present?
+      analysis["project_class"] = analysis["original_project_class"]
+      analysis["scope_summary"] = analysis["scope_summary"].to_s.sub(OVERRIDE_PREFIX, "")
+      analysis.delete("original_project_class")
+    end
+    area = q["works_floor_area_m2"].to_f
+    analysis["floor_area_m2"] = area if area.positive?
+    analysis
+  end
+
+  # Re-apply the overrides to the stored analysis (after the questionnaire
+  # changed) — no AI call. Returns false when there is no analysis or
+  # nothing changed.
+  def reapply_questionnaire_overrides!
+    return false if plan_summary.blank?
+    analysis = apply_questionnaire_overrides(plan_summary.deep_dup)
+    return false if analysis == plan_summary
+    update!(plan_summary: analysis, floor_area: analysis["floor_area_m2"].to_s)
+    true
+  end
+
+  def template_section_names
+    (estimate_template || EstimateTemplate.for_account(account))&.section_names || []
+  end
+
+  # Schedule sections for re-costing on the next resume run: drop their rows
+  # and markers so the generator treats them as uncosted. Returns the names
+  # actually scheduled (unknown names are ignored).
+  def recost!(section_names)
+    names = Array(section_names).map(&:to_s) & template_section_names
+    return [] if names.empty?
+    transaction do
+      sections.where(name: names).destroy_all
+      update!(costed_sections: costed_sections - names, status: "processing", error_message: nil, progress: 0,
+        progress_note: "Re-costing #{names.size} #{'section'.pluralize(names.size)}…")
+    end
+    names
+  end
+
   private
 
   def plans_must_be_pdfs

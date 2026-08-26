@@ -63,4 +63,74 @@ class EstimateTest < ActiveSupport::TestCase
     @estimate.plans.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "plan.pdf", content_type: "application/pdf")
     assert @estimate.valid?
   end
+
+  test "questionnaire overrides bind project type and area, idempotently" do
+    e = users(:one).estimates.create!(name: "Q", estimate_template: estimate_templates(:standard),
+      questionnaire: { "project_type" => EstimateQuestionnaire::PROJECT_TYPES.keys.first, "works_floor_area_m2" => "150" })
+    klass = EstimateQuestionnaire::PROJECT_TYPES.values.first
+    analysis = { "project_class" => "something_else", "floor_area_m2" => 90.0, "scope_summary" => "Two storey reno." }
+    e.apply_questionnaire_overrides(analysis)
+    e.apply_questionnaire_overrides(analysis)
+    assert_equal klass, analysis["project_class"]
+    assert_equal 150.0, analysis["floor_area_m2"]
+    assert_equal 1, analysis["scope_summary"].scan("BUILDER-CONFIRMED PROJECT TYPE").size
+    assert_match(/Two storey reno\.\z/, analysis["scope_summary"])
+  end
+
+  test "retracting the project type restores the plan-read class" do
+    e = users(:one).estimates.create!(name: "Q", estimate_template: estimate_templates(:standard),
+      questionnaire: { "project_type" => EstimateQuestionnaire::PROJECT_TYPES.keys.first })
+    analysis = { "project_class" => "something_else", "scope_summary" => "Two storey reno." }
+    e.apply_questionnaire_overrides(analysis)
+    assert_equal EstimateQuestionnaire::PROJECT_TYPES.values.first, analysis["project_class"]
+    assert_match(/\ABUILDER-CONFIRMED PROJECT TYPE/, analysis["scope_summary"])
+
+    e.update!(questionnaire: {})
+    e.apply_questionnaire_overrides(analysis)
+    assert_equal "something_else", analysis["project_class"]
+    assert_equal "Two storey reno.", analysis["scope_summary"]
+    assert_not analysis.key?("original_project_class")
+  end
+
+  test "reapply_questionnaire_overrides! restores the plan-read class when the project type is retracted" do
+    e = users(:one).estimates.create!(name: "Q", estimate_template: estimate_templates(:standard),
+      questionnaire: { "project_type" => EstimateQuestionnaire::PROJECT_TYPES.keys.first })
+    overridden = e.apply_questionnaire_overrides({ "project_class" => "something_else", "scope_summary" => "Two storey reno." })
+    e.update!(plan_summary: overridden, floor_area: "0")
+
+    e.update!(questionnaire: {})
+    assert e.reapply_questionnaire_overrides!
+    e.reload
+    assert_equal "something_else", e.plan_summary["project_class"]
+    assert_equal "Two storey reno.", e.plan_summary["scope_summary"]
+    assert_not e.plan_summary.key?("original_project_class")
+  end
+
+  test "reapply_questionnaire_overrides! rewrites the stored analysis without an AI call" do
+    e = users(:one).estimates.create!(name: "Q", estimate_template: estimate_templates(:standard),
+      plan_summary: { "project_class" => "old", "floor_area_m2" => 90.0, "scope_summary" => "s" }, floor_area: "90.0")
+    assert_not e.reapply_questionnaire_overrides! # nothing to override yet
+    e.update!(questionnaire: { "works_floor_area_m2" => "210" })
+    assert e.reapply_questionnaire_overrides!
+    assert_equal 210.0, e.reload.plan_summary["floor_area_m2"]
+    assert_equal "210.0", e.floor_area
+    assert_not users(:one).estimates.create!(name: "No analysis", estimate_template: estimate_templates(:standard)).reapply_questionnaire_overrides!
+  end
+
+  test "recost! drops the named sections and their markers, ignoring unknown names" do
+    e = users(:one).estimates.create!(name: "R", estimate_template: estimate_templates(:standard), status: "completed",
+      costed_sections: [ "Preliminaries", "Structural Steel", "Solar Power System" ])
+    e.sections.create!(name: "Preliminaries", position: 1)
+    e.sections.create!(name: "Structural Steel", position: 2)
+    e.update_columns(progress: 63)
+    scheduled = e.recost!([ "Structural Steel", "Not A Section" ])
+    assert_equal [ "Structural Steel" ], scheduled
+    e.reload
+    assert_equal [ "Preliminaries", "Solar Power System" ], e.costed_sections
+    assert_equal [ "Preliminaries" ], e.sections.pluck(:name)
+    assert e.processing?
+    assert_equal "Re-costing 1 section…", e.progress_note
+    assert_equal 0, e.progress
+    assert_equal [ "Preliminaries", "Structural Steel", "Solar Power System" ], e.template_section_names
+  end
 end

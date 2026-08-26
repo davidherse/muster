@@ -1,0 +1,75 @@
+<div class="mx-auto md:w-2/3 w-full" data-controller="recost">
+  <h1 class="font-semibold text-3xl tracking-tight mb-2">Edit brief &amp; answers</h1>
+  <p class="text-muted-foreground mb-6 text-sm">Change the details or your answers, then choose what to re-cost. The plan analysis is kept — only the ticked sections are priced again.</p>
+
+  <%= form_with model: @estimate, class: "contents" do |form| %>
+    <% if @estimate.errors.any? %>
+      <div class="<%= ui_alert(variant: :destructive) %> mb-5"><ul class="list-disc list-inside"><% @estimate.errors.full_messages.each do |m| %><li><%= m %></li><% end %></ul></div>
+    <% end %>
+
+    <section class="<%= ui_card %> p-6 mb-6">
+      <div class="grid gap-2">
+        <%= form.label :name, "Project name", class: ui_label %>
+        <%= form.text_field :name, required: true, class: ui_input %>
+        <p class="text-xs text-muted-foreground">Renaming never re-costs anything.</p>
+      </div>
+    </section>
+
+    <section class="<%= ui_card %> p-6 space-y-6 mb-6" data-recost-sections="*" data-action="input->recost#touch change->recost#touch">
+      <h2 class="<%= ui_card_title %>">Original details</h2>
+      <div class="grid gap-2">
+        <%= form.label :prompt, "Brief", class: ui_label %>
+        <%= form.text_area :prompt, rows: 6, class: ui_textarea %>
+      </div>
+      <%= render "shared/questionnaire_fields", answers: @estimate.questionnaire, param_root: "estimate" %>
+    </section>
+
+    <section class="<%= ui_card %> p-6 space-y-5 mb-6">
+      <h2 class="<%= ui_card_title %>">Your answers</h2>
+      <% if @answered.empty? && @skipped.empty? %>
+        <p class="text-sm text-muted-foreground">No clarifying questions were asked for this estimate.</p>
+      <% end %>
+      <% @answered.each_with_index do |c, i| %>
+        <div class="grid gap-2">
+          <label class="<%= ui_label %>"><%= c["question"] %></label>
+          <%= text_area_tag "clarifications[#{i}]", c["answer"], rows: 2, class: ui_textarea,
+                data: { recost_sections: (c["sections"].presence || @sections).to_json, action: "input->recost#touch" } %>
+          <p class="text-xs text-muted-foreground">Affects: <%= (c["sections"].presence || [ "all sections" ]).join(", ") %></p>
+        </div>
+      <% end %>
+      <% @skipped.each do |q| %>
+        <div class="grid gap-2">
+          <label class="<%= ui_label %>"><%= q["question"] %> <span class="<%= ui_badge(variant: :outline) %>">skipped</span></label>
+          <%= text_area_tag "skipped_answers[#{q['id']}]", nil, rows: 2, placeholder: "Answer it now, or leave blank", class: ui_textarea,
+                data: { recost_sections: (Array(q["sections"]).presence || @sections).to_json, action: "input->recost#touch" } %>
+        </div>
+      <% end %>
+    </section>
+
+    <section class="<%= ui_card %> p-6 mb-6">
+      <div class="flex items-baseline justify-between mb-3">
+        <h2 class="<%= ui_card_title %>">What gets re-costed</h2>
+        <div class="text-sm space-x-3">
+          <a href="#" data-action="recost#all" class="underline underline-offset-4">Tick all</a>
+          <a href="#" data-action="recost#none" class="underline underline-offset-4">Tick none</a>
+        </div>
+      </div>
+      <p class="text-sm text-muted-foreground mb-4">Ticked automatically as you edit; untick anything you don't want touched. Tick none to save without re-costing.</p>
+      <%= hidden_field_tag :recost_submitted, nil, data: { recost_target: "submitted" } %>
+      <div class="grid md:grid-cols-2 gap-2">
+        <% @sections.each do |name| %>
+          <label class="flex items-center gap-2 text-sm">
+            <%= check_box_tag "recost_sections[]", name, false, id: nil,
+                  data: { recost_target: "section", section: name, action: "change->recost#manual" } %>
+            <%= name %>
+          </label>
+        <% end %>
+      </div>
+    </section>
+
+    <div class="flex items-center gap-3">
+      <%= form.submit "Save and re-cost", class: ui_button %>
+      <%= link_to "Cancel", estimate_path(@estimate), class: ui_button(variant: :ghost) %>
+    </div>
+  <% end %>
+</div>

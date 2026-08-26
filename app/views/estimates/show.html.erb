@@ -151,7 +151,10 @@
     </details>
   <% end %>
 
-  <div class="flex justify-end mt-6">
+  <div class="flex justify-end gap-2 mt-6">
+    <% if @estimate.plan_summary.present? %>
+      <%= link_to "Edit brief & answers", edit_estimate_path(@estimate), class: ui_button(variant: :outline, size: :sm) %>
+    <% end %>
     <%= button_to "Regenerate estimate", regenerate_estimate_path(@estimate), method: :post,
         data: { turbo_confirm: "This will replace the current line items. Continue?" },
         class: ui_button(variant: :ghost, size: :sm) %>

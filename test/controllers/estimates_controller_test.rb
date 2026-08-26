@@ -218,4 +218,219 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
     assert_select "option[value='#{theirs.id}']", count: 0
     assert_select "option[value='#{proposal.id}']", count: 0
   end
+
+  def analysed_estimate(questionnaire: {})
+    e = @user.estimates.create!(name: "Analysed", estimate_template: estimate_templates(:standard), status: "completed",
+      questionnaire: questionnaire, prompt: "Original brief",
+      plan_summary: { "project_class" => "whole_house_renovation", "floor_area_m2" => 120.0, "scope_summary" => "Reno." },
+      costed_sections: [ "Preliminaries", "Structural Steel", "Solar Power System" ],
+      clarifications: [ { "question" => "Prefab stairs?", "answer" => "Prefab", "sections" => [ "Structural Steel" ] } ],
+      open_questions: [ { "id" => 7, "question" => "Owner appliances?", "sections" => [ "Preliminaries" ], "skipped" => true } ])
+    e.sections.create!(name: "Preliminaries", position: 1)
+    e.sections.create!(name: "Structural Steel", position: 2)
+    e.sections.create!(name: "Solar Power System", position: 3)
+    e
+  end
+
+  test "edit renders the brief, answers, skipped questions and the section checklist" do
+    e = analysed_estimate(questionnaire: { "finish_level" => "High-end" })
+    get edit_estimate_url(e)
+    assert_response :success
+    assert_match "Edit brief &amp; answers", response.body
+    assert_select "input[name='estimate[name]'][value='Analysed']"
+    assert_select "textarea[name='estimate[prompt]']", text: "Original brief"
+    assert_select "textarea[name='clarifications[0]']", text: "Prefab"
+    assert_match "Owner appliances?", response.body
+    assert_select "textarea[name='skipped_answers[7]']"
+    assert_select "input[type=checkbox][name='recost_sections[]'][value='Structural Steel']"
+    assert_select "input[type=hidden][name=recost_submitted]"
+  end
+
+  test "show links to the editor once an analysis exists" do
+    e = analysed_estimate
+    get estimate_url(e)
+    assert_select "a[href=?]", edit_estimate_path(e)
+    bare = @user.estimates.create!(name: "Bare", estimate_template: estimate_templates(:standard))
+    get estimate_url(bare)
+    assert_select "a[href=?]", edit_estimate_path(bare), count: 0
+  end
+
+  test "edit page wires the recost controller" do
+    e = analysed_estimate
+    get edit_estimate_url(e)
+    assert_select "[data-controller=recost]"
+    assert_select "textarea[name='clarifications[0]'][data-recost-sections='[\"Structural Steel\"]']"
+    assert_select "[data-recost-sections='*']"
+    assert_select "input[type=checkbox][data-recost-target=section][data-section='Preliminaries']"
+    assert_select "input[type=hidden][name=recost_submitted]" do |elements|
+      assert_nil elements.first["value"], "the hidden field must render blank so the server's computed default can win"
+    end
+    assert_select "input[type=checkbox][data-section='Preliminaries'][data-action*='recost#manual']"
+  end
+
+  test "edit is refused without an analysis or while generating" do
+    bare = @user.estimates.create!(name: "Bare", estimate_template: estimate_templates(:standard))
+    get edit_estimate_url(bare)
+    assert_redirected_to estimate_url(bare)
+    e = analysed_estimate
+    e.update_columns(status: "processing", claimed_at: Time.current)
+    get edit_estimate_url(e)
+    assert_redirected_to estimate_url(e)
+  end
+
+  test "update of the name alone saves without re-costing" do
+    e = analysed_estimate
+    assert_no_enqueued_jobs(only: GenerateEstimateJob) do
+      patch estimate_url(e), params: { estimate: { name: "Renamed", prompt: "Original brief" }, clarifications: { "0" => "Prefab" } }
+    end
+    assert_redirected_to estimate_url(e)
+    assert_equal "Saved. Nothing re-costed.", flash[:notice]
+    assert_equal "Renamed", e.reload.name
+    assert_equal 3, e.sections.count
+  end
+
+  test "a changed answer re-costs only its sections" do
+    e = analysed_estimate
+    assert_enqueued_with(job: GenerateEstimateJob, args: [ e, { resume: true } ]) do
+      patch estimate_url(e), params: { estimate: { name: "Analysed", prompt: "Original brief" }, clarifications: { "0" => "Site-built with newels" } }
+    end
+    e.reload
+    assert_equal "Site-built with newels", e.clarifications.first["answer"]
+    assert_equal [ "Structural Steel" ], e.clarifications.first["sections"]
+    assert_equal [ "Preliminaries", "Solar Power System" ], e.costed_sections
+    assert_equal [ "Preliminaries", "Solar Power System" ], e.sections.pluck(:name).sort
+    assert e.processing?
+    assert_equal "Re-costing 1 section…", e.progress_note
+  end
+
+  test "a changed questionnaire re-costs everything and re-applies overrides without re-analysing" do
+    e = analysed_estimate
+    klass_label = EstimateQuestionnaire::PROJECT_TYPES.keys.first
+    assert_enqueued_with(job: GenerateEstimateJob, args: [ e, { resume: true } ]) do
+      patch estimate_url(e), params: { estimate: { name: "Analysed", prompt: "Original brief", questionnaire: { project_type: klass_label, works_floor_area_m2: "200" } }, clarifications: { "0" => "Prefab" } }
+    end
+    e.reload
+    assert_equal [], e.costed_sections
+    assert_equal 0, e.sections.count
+    assert_equal EstimateQuestionnaire::PROJECT_TYPES[klass_label], e.plan_summary["project_class"]
+    assert_equal 200.0, e.plan_summary["floor_area_m2"]
+    assert_equal "Re-costing 3 sections…", e.progress_note
+  end
+
+  test "answering a skipped question moves it into clarifications and re-costs its sections" do
+    e = analysed_estimate
+    patch estimate_url(e), params: { estimate: { name: "Analysed", prompt: "Original brief" }, clarifications: { "0" => "Prefab" }, skipped_answers: { "7" => "Owner supplies" } }
+    e.reload
+    assert_equal [ "Owner supplies" ], e.clarifications.map { |c| c["answer"] } - [ "Prefab" ]
+    assert_equal [ "Preliminaries" ], e.clarifications.last["sections"]
+    assert_empty e.open_questions
+    assert_equal [ "Structural Steel", "Solar Power System" ], e.costed_sections
+  end
+
+  test "a submitted checklist wins, including an empty one" do
+    e = analysed_estimate
+    assert_no_enqueued_jobs(only: GenerateEstimateJob) do
+      patch estimate_url(e), params: { estimate: { name: "Analysed", prompt: "Changed brief" }, clarifications: { "0" => "Prefab" }, recost_submitted: "1" }
+    end
+    assert_equal "Changed brief", e.reload.prompt
+    assert_equal 3, e.sections.count
+    assert_enqueued_with(job: GenerateEstimateJob) do
+      patch estimate_url(e), params: { estimate: { name: "Analysed", prompt: "Changed brief" }, clarifications: { "0" => "Prefab" }, recost_submitted: "1", recost_sections: [ "Solar Power System" ] }
+    end
+    assert_equal [ "Preliminaries", "Structural Steel" ], e.reload.costed_sections
+  end
+
+  test "cannot edit another account's estimate" do
+    other = users(:outsider).estimates.create!(name: "Theirs", plan_summary: { "a" => 1 })
+    get edit_estimate_url(other)
+    assert_response :not_found
+    patch estimate_url(other), params: { estimate: { name: "X" } }
+    assert_response :not_found
+  end
+
+  test "a full-form round trip that only renames does not re-cost" do
+    e = analysed_estimate
+    all_blank = EstimateQuestionnaire::QUESTIONS.map { |q| [ q[:key], "" ] }.to_h
+    assert_no_enqueued_jobs(only: GenerateEstimateJob) do
+      patch estimate_url(e), params: { estimate: { name: "Renamed", prompt: "Original brief", questionnaire: all_blank }, clarifications: { "0" => "Prefab" } }
+    end
+    assert_equal "Saved. Nothing re-costed.", flash[:notice]
+    e.reload
+    assert_equal 3, e.sections.count
+    assert_equal({}, e.questionnaire)
+  end
+
+  test "a full-form round trip that re-submits the same questionnaire value does not re-cost" do
+    e = analysed_estimate(questionnaire: { "finish_level" => "High-end" })
+    resubmitted = EstimateQuestionnaire::QUESTIONS.map { |q| [ q[:key], "" ] }.to_h.merge("finish_level" => "High-end")
+    assert_no_enqueued_jobs(only: GenerateEstimateJob) do
+      patch estimate_url(e), params: { estimate: { name: "Analysed", prompt: "Original brief", questionnaire: resubmitted }, clarifications: { "0" => "Prefab" } }
+    end
+    assert_equal "Saved. Nothing re-costed.", flash[:notice]
+    e.reload
+    assert_equal 3, e.sections.count
+    assert_equal({ "finish_level" => "High-end" }, e.questionnaire)
+  end
+
+  test "a full-form round trip that actually changes a questionnaire value re-costs everything" do
+    e = analysed_estimate(questionnaire: { "finish_level" => "High-end" })
+    changed = EstimateQuestionnaire::QUESTIONS.map { |q| [ q[:key], "" ] }.to_h.merge("finish_level" => "Luxury")
+    assert_enqueued_with(job: GenerateEstimateJob, args: [ e, { resume: true } ]) do
+      patch estimate_url(e), params: { estimate: { name: "Analysed", prompt: "Original brief", questionnaire: changed }, clarifications: { "0" => "Prefab" } }
+    end
+    e.reload
+    assert_equal 0, e.sections.count
+    assert_equal [], e.costed_sections
+    assert_equal({ "finish_level" => "Luxury" }, e.questionnaire)
+    assert_equal "Re-costing 3 sections…", e.progress_note
+  end
+
+  test "a nil prompt posted as a blank string is not a change" do
+    e = @user.estimates.create!(name: "Analysed", estimate_template: estimate_templates(:standard), status: "completed",
+      plan_summary: { "project_class" => "whole_house_renovation", "floor_area_m2" => 120.0, "scope_summary" => "Reno." },
+      costed_sections: [ "Preliminaries", "Structural Steel", "Solar Power System" ])
+    e.sections.create!(name: "Preliminaries", position: 1)
+    assert_nil e.prompt
+    assert_no_enqueued_jobs(only: GenerateEstimateJob) do
+      patch estimate_url(e), params: { estimate: { name: "Renamed", prompt: "" } }
+    end
+    assert_equal "Saved. Nothing re-costed.", flash[:notice]
+    assert_equal "Renamed", e.reload.name
+  end
+
+  test "a prompt that only differs by surrounding whitespace is not a change" do
+    e = analysed_estimate
+    assert_no_enqueued_jobs(only: GenerateEstimateJob) do
+      patch estimate_url(e), params: { estimate: { name: "Analysed", prompt: "Original brief\r\n" }, clarifications: { "0" => "Prefab" } }
+    end
+    assert_equal "Saved. Nothing re-costed.", flash[:notice]
+  end
+
+  test "a genuinely changed prompt re-costs everything" do
+    e = analysed_estimate
+    assert_enqueued_with(job: GenerateEstimateJob, args: [ e, { resume: true } ]) do
+      patch estimate_url(e), params: { estimate: { name: "Analysed", prompt: "Changed" }, clarifications: { "0" => "Prefab" } }
+    end
+    e.reload
+    assert_equal [], e.costed_sections
+    assert_equal 0, e.sections.count
+  end
+
+  test "an edit re-costs through the resume path without re-analysing" do
+    e = analysed_estimate
+    fake = FakeAiClient.new
+    Ai::Client.stub(:new, ->(*_, **_) { fake }) do
+      perform_enqueued_jobs(only: GenerateEstimateJob) do
+        patch estimate_url(e), params: { estimate: { name: "Analysed", prompt: "Original brief" },
+                                         clarifications: { "0" => "Site-built with newels" } }
+      end
+    end
+    assert e.reload.completed?, e.error_message
+    assert_equal 0, fake.calls.count { |c| c[:schema] == PlanAnalyzer::SCHEMA }
+    asked = fake.calls.select { |c| c[:schema] == LineItemGenerator::SCHEMA }
+              .flat_map { |c| c[:content].map { |b| b[:text] || b["text"] } }.join
+    assert_includes asked, "Structural Steel"
+    assert_not_includes asked, "Preliminaries"
+    assert_includes asked, "Site-built with newels"
+  end
 end

@@ -153,23 +153,8 @@ class EstimateGenerator
     analysis
   end
 
-  # Builder-stated facts BIND over analyzer inference: the builder knows the
-  # job type (a misclassification flips review direction and rate binding),
-  # and a stated works area pins the composite multiplier. Conflicts are
-  # recorded, never silently swallowed.
   def apply_questionnaire_overrides(analysis)
-    q = @estimate.questionnaire.to_h
-    if (klass = EstimateQuestionnaire::PROJECT_TYPES[q["project_type"]])
-      if analysis["project_class"] != klass
-        analysis["scope_summary"] = "BUILDER-CONFIRMED PROJECT TYPE: #{klass} (plans read as #{analysis['project_class']}). " + analysis["scope_summary"].to_s
-        analysis["project_class"] = klass
-      end
-    end
-    area = q["works_floor_area_m2"].to_f
-    if area.positive?
-      analysis["floor_area_m2"] = area
-    end
-    analysis
+    @estimate.apply_questionnaire_overrides(analysis)
   end
 
   def template

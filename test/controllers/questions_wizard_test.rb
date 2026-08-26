@@ -38,6 +38,7 @@ class QuestionsWizardTest < ActionDispatch::IntegrationTest
     assert_equal [ true ], @estimate.open_questions.map { |q| q["skipped"] }
     assert_not_includes @estimate.costed_sections, "Structural Steel"
     assert_includes @estimate.costed_sections, "Preliminaries", "skipped question's section untouched"
+    assert_equal [ [ "Structural Steel" ] ], @estimate.clarifications.map { |c| c["sections"] }
   end
 
   test "skipping everything shows the estimate without regenerating" do
