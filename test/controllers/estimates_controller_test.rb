@@ -246,6 +246,28 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
     assert_select "input[type=hidden][name=recost_submitted]"
   end
 
+  test "show links to the editor once an analysis exists" do
+    e = analysed_estimate
+    get estimate_url(e)
+    assert_select "a[href=?]", edit_estimate_path(e)
+    bare = @user.estimates.create!(name: "Bare", estimate_template: estimate_templates(:standard))
+    get estimate_url(bare)
+    assert_select "a[href=?]", edit_estimate_path(bare), count: 0
+  end
+
+  test "edit page wires the recost controller" do
+    e = analysed_estimate
+    get edit_estimate_url(e)
+    assert_select "[data-controller=recost]"
+    assert_select "textarea[name='clarifications[0]'][data-recost-sections='Structural Steel']"
+    assert_select "[data-recost-sections='*']"
+    assert_select "input[type=checkbox][data-recost-target=section][data-section='Preliminaries']"
+    assert_select "input[type=hidden][name=recost_submitted]" do |elements|
+      assert_nil elements.first["value"], "the hidden field must render blank so the server's computed default can win"
+    end
+    assert_select "input[type=checkbox][data-section='Preliminaries'][data-action*='recost#manual']"
+  end
+
   test "edit is refused without an analysis or while generating" do
     bare = @user.estimates.create!(name: "Bare", estimate_template: estimate_templates(:standard))
     get edit_estimate_url(bare)
