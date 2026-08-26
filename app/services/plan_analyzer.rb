@@ -16,7 +16,7 @@ class PlanAnalyzer
                  structural_notes site_notes inclusions exclusions
                  finish_level internal_lining_type external_repaint glazing_notes
                  internal_paint_area_m2 external_paint_area_m2 duration_months
-                 retained_scope_notes deck_patio_area_m2 special_features],
+                 retained_scope_notes deck_patio_area_m2 special_features supplier_quotes],
     properties: {
       project_class: {
         type: "string",
@@ -106,6 +106,24 @@ class PlanAnalyzer
           }
         },
         description: "Cost-significant features that need their own line items"
+      },
+      supplier_quotes: {
+        type: "array",
+        description: "Supplier/subcontractor QUOTES found among the uploaded documents: a priced document from a NAMED supplier for a trade. Specifications, schedules and drawings are never quotes. Empty array if none.",
+        items: {
+          type: "object",
+          additionalProperties: false,
+          required: %w[trade supplier amount_ex_gst gst_status includes excludes sections],
+          properties: {
+            trade: { type: "string", description: "The trade quoted, e.g. Tiling, Cabinetry, Painting, Air-conditioning" },
+            supplier: { type: "string", description: "Supplier/company name exactly as printed" },
+            amount_ex_gst: { type: "number", description: "Quote total in AUD ex GST; if the document is inc GST divide by 1.1 and set gst_status to inc_gst" },
+            gst_status: { type: "string", enum: %w[ex_gst inc_gst unclear] },
+            includes: { type: "array", items: { type: "string" }, description: "What the quote covers (supply, labour, specific rooms/items)" },
+            excludes: { type: "array", items: { type: "string" }, description: "What the quote explicitly excludes or leaves to the builder" },
+            sections: { type: "array", items: { type: "string" }, description: "Exact COSTING SECTION names this quote covers" }
+          }
+        }
       }
     }
   }.freeze
@@ -149,9 +167,10 @@ class PlanAnalyzer
   end
 
   def user_prompt
-    parts = [ "Analyse the attached documents (architectural plans, and specification schedules or reports where provided) and produce the structured scope analysis. Specifications override drawings for finishes and fittings." ]
+    parts = [ "Analyse the attached documents (architectural plans, specification schedules or reports, and any SUPPLIER QUOTES where provided) and produce the structured scope analysis. Specifications override drawings for finishes and fittings." ]
     parts << "COSTING SECTIONS available (choose relevant_sections from these exact names):\n#{template_section_names.join("; ")}"
     parts << "Additional information from the builder:\n#{@estimate.brief_text}" if @estimate.brief_text.present?
+    parts << "SUPPLIER QUOTES: if any uploaded document is a priced quote from a named supplier, record it in supplier_quotes with its ex-GST total (divide inc-GST totals by 1.1 and say so), what it includes and excludes, and the costing sections it covers. A drawing set or specification is never a quote."
     parts.join("\n\n")
   end
 
@@ -198,6 +217,9 @@ class PlanAnalyzer
         partial job must not list whole-house sections
       - Anything in the builder brief contradicted by the documents: flag it in
         site_notes rather than silently overriding
+      - supplier_quotes: every priced supplier document is listed once, with
+        the correct ex-GST amount, inclusions/exclusions and covered sections;
+        nothing that is a specification or drawing is listed
 
       DRAFT ANALYSIS:
       #{JSON.pretty_generate(draft)}

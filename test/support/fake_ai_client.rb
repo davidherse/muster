@@ -85,8 +85,18 @@ class FakeAiClient
       "structural_notes" => "Two steel beams to openings",
       "site_notes" => "Sloping block",
       "inclusions" => [ "New kitchen" ],
-      "exclusions" => [ "Pool" ]
+      "exclusions" => [ "Pool" ],
+      "supplier_quotes" => []
     }
+  end
+
+  # A default analysis carrying one supplier quote covering Structural Steel
+  # (a fixture section), for end-to-end quote tests.
+  def self.quoted_analysis
+    new.send(:default_analysis).merge("supplier_quotes" => [
+      { "trade" => "Structural steel", "supplier" => "West Tiling", "amount_ex_gst" => 12_000.0, "gst_status" => "ex_gst",
+        "includes" => [ "supply and install beams" ], "excludes" => [ "crane hire" ], "sections" => [ "Structural Steel" ] }
+    ])
   end
 
   # Echo back every requested section with two line items each,
