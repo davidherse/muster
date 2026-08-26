@@ -183,6 +183,10 @@ class EstimateReviewer
       rather than rewriting it; keep assumptions to one short clause. You are
       reviewing an estimate, not re-estimating the job. Keep unit rates consistent with the rates already used
       elsewhere in the estimate. All amounts AUD ex. GST, builder's costs.
+
+      A line described 'Quoted by ...' is a supplier quote the builder holds:
+      never remove, reduce, or re-price it; it is not an allowance to be
+      checked against the price book.
     COMMON
 
     case direction

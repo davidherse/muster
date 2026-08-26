@@ -69,6 +69,24 @@ class EstimateReviewerAdversarialTest < ActiveSupport::TestCase
     ENV.delete("ESTIMATOR_REVIEW_MODE")
   end
 
+  # The padding pass is the one with a mandate to remove lines, so it is the
+  # one that could strip a quote the builder actually holds.
+  test "the padding pass is told never to touch a supplier-quoted line" do
+    estimate = users(:one).estimates.create!(name: "Quoted", estimate_template: estimate_templates(:standard))
+    estimate.plans.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "plan.pdf", content_type: "application/pdf")
+    client = FakeAiClient.new
+    ENV["ESTIMATOR_REVIEW_MODE"] = "dual"
+    EstimateGenerator.new(estimate, client: client).call
+
+    padding = client.calls.select { |c| c[:schema] == EstimateReviewer::SCHEMA }
+                    .last[:system].map { |b| b[:text] }.join.squish
+    assert_includes padding, "INVENTED or OVERDONE"
+    assert_includes padding, "Quoted by"
+    assert_includes padding, "never remove"
+  ensure
+    ENV.delete("ESTIMATOR_REVIEW_MODE")
+  end
+
   test "auto mode picks the pass opposing the job's failure mode" do
     estimate = users(:one).estimates.create!(name: "Auto", estimate_template: estimate_templates(:standard))
     estimate.plans.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "plan.pdf", content_type: "application/pdf")

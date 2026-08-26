@@ -69,6 +69,13 @@ source_context = {
   /carberry/i => { "project_class" => "extension_and_renovation", "finish_level" => "High-end", "floor_area_m2" => 330, "note" => "character weatherboard reno" }
 }.freeze
 
+# The job name in a row's source column ("Constitution", "Hilda") is what
+# earns the row a context, and the context's project_class is what decides
+# whether the rate binds on a given job — the generator prefers entries whose
+# context matches this job's class and treats them as binding. A row whose
+# source names no job falls through to the bare "composite/derived rate"
+# note, carries no project_class, and so can never match: composite rows must
+# name the job they came from.
 context_for = lambda do |source|
   source_context.find { |pattern, _ctx| source.to_s.match?(pattern) }&.last || { "note" => "composite/derived rate" }
 end

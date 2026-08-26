@@ -219,7 +219,9 @@ class PlanAnalyzer
         site_notes rather than silently overriding
       - supplier_quotes: every priced supplier document is listed once, with
         the correct ex-GST amount, inclusions/exclusions and covered sections;
-        nothing that is a specification or drawing is listed
+        nothing that is a specification or drawing is listed. A quote the
+        draft found stands unless the document is plainly not a priced
+        supplier quote
 
       DRAFT ANALYSIS:
       #{JSON.pretty_generate(draft)}

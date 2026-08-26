@@ -73,6 +73,8 @@ class PlanAnalyzerTest < ActiveSupport::TestCase
     analyzer = PlanAnalyzer.new(@estimate, client: FakeAiClient.new)
     assert_match(/supplier quotes/i, analyzer.send(:user_prompt))
     assert_match(/supplier_quotes/, analyzer.send(:verification_prompt, {}))
+    assert_includes analyzer.send(:verification_prompt, {}).squish,
+                    "A quote the draft found stands unless the document is plainly not a priced supplier quote"
   end
 
   test "fake client can hand back a quote" do
