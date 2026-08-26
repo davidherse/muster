@@ -1,0 +1,11 @@
+<h1 class="font-semibold text-3xl tracking-tight mb-2">Edit brief &amp; answers</h1>
+<%= form_with model: @estimate, class: "contents" do |form| %>
+  <%= form.text_field :name, class: ui_input %>
+  <%= form.text_area :prompt, class: ui_textarea %>
+  <%= render "shared/questionnaire_fields", answers: @estimate.questionnaire, param_root: "estimate" %>
+  <% @answered.each_with_index do |c, i| %><p><%= c["question"] %></p><%= text_area_tag "clarifications[#{i}]", c["answer"], class: ui_textarea %><% end %>
+  <% @skipped.each do |q| %><p><%= q["question"] %></p><%= text_area_tag "skipped_answers[#{q['id']}]", nil, class: ui_textarea %><% end %>
+  <%= hidden_field_tag :recost_submitted, 1 %>
+  <% @sections.each do |name| %><%= check_box_tag "recost_sections[]", name, false, id: nil %> <%= name %><% end %>
+  <%= form.submit "Save" %>
+<% end %>
