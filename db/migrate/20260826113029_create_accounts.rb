@@ -33,10 +33,8 @@ class CreateAccounts < ActiveRecord::Migration[8.1]
     end
   end
 
+  # Irreversible: the file backup taken before migrating is the rollback artefact.
   def down
-    SCOPED_TABLES.each { |table| remove_reference table, :account, index: true }
-    remove_column :users, :role
-    remove_reference :users, :account, index: true
-    drop_table :accounts
+    raise ActiveRecord::IrreversibleMigration, "Rolling back would null the account link on every template and price-book row; restore the storage/production.sqlite3 copy taken before migrating instead."
   end
 end

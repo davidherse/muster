@@ -56,7 +56,7 @@ class TemplateSynthesizer
 
   def instructions
     <<~PROMPT
-      You are deriving a builder's personal estimate template from their own
+      You are deriving a builder's workspace estimate template from their own
       past estimate documents. Every builder structures estimates differently:
       section names, section order, and how finely work is broken into line
       items. Your job is to capture THIS builder's conventions so future
@@ -96,7 +96,7 @@ class TemplateSynthesizer
         #{sample.join("\n")}
       DOC
     end
-    "#{parts.join("\n")}\nDerive this builder's single personal estimate template."
+    "#{parts.join("\n")}\nDerive this builder's single workspace estimate template."
   end
 
   def upsert_proposal(name, sections)

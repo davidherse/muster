@@ -46,4 +46,14 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
       name: "Ann", email_address: "ann2@example.com", password: "password-123", password_confirmation: "password-123" } }
     assert_equal "Ann's workspace", User.find_by!(email_address: "ann2@example.com").account.name
   end
+
+  test "wrong invite code shows only the closed-beta message" do
+    assert_no_difference "Account.count" do
+      post registration_url, params: { registration: { invite_code: "wrong" }, user: {
+        name: "Ann", email_address: "ann3@example.com", password: "password-123", password_confirmation: "password-123" } }
+    end
+    assert_response :unprocessable_entity
+    assert_match "closed beta", response.body
+    assert_no_match(/Account must exist/, response.body)
+  end
 end

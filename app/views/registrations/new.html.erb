@@ -32,7 +32,7 @@
           <%= form.text_field :name, required: true, autofocus: true, placeholder: "Your name", class: ui_input %>
         </div>
 
-        <div class="grid gap-2">
+        <div class="grid gap-2 mb-4">
           <%= label_tag "registration[company]", "Company (optional)", class: ui_label %>
           <%= text_field_tag "registration[company]", params.dig(:registration, :company), placeholder: "Names your workspace", class: ui_input %>
         </div>
