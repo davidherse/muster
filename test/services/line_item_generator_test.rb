@@ -34,6 +34,13 @@ class LineItemGeneratorTest < ActiveSupport::TestCase
     assert_equal "full heritage repaint", generator.send(:repaint_class)
   end
 
+  test "the 1946 to 1990 era is not heritage" do
+    @estimate.update!(questionnaire: { "repaint_extent" => FULL_EXTENT, "building_era" => "1946–1990" })
+    generator = LineItemGenerator.new(@estimate, analysis: @analysis.merge("internal_lining_type" => "VJ"), client: FakeAiClient.new)
+
+    assert_equal "full repaint of standard character home", generator.send(:repaint_class)
+  end
+
   # --- crew labour for the build duration ---------------------------------
 
   test "the crew labour rule carries the template's section name and the duration in weeks" do

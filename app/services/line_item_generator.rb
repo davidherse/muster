@@ -345,13 +345,13 @@ class LineItemGenerator
     end
   end
 
-  # A stated era decides: "Post-1990" or "1950s–1980s" rules the heritage
-  # composite out however characterful the retained linings read. Only when
-  # the builder left the era blank may the analysis's lining type stand in
-  # as evidence of character fabric.
+  # A stated era decides: "Post-1990" or "1946–1990" rules the heritage
+  # composite out however characterful the retained linings read — only a
+  # pre-1946 building is character fabric. Only when the builder left the
+  # era blank may the analysis's lining type stand in as evidence.
   def character_era?(era)
     era = era.to_s
-    return era.match?(/1946|character/i) if era.present?
+    return era.match?(/pre-?1946|character/i) if era.present?
     @analysis["internal_lining_type"].to_s.match?(/VJ|tongue|T&G|board/i)
   end
 
