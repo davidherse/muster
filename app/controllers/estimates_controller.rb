@@ -47,12 +47,20 @@ class EstimatesController < ApplicationController
   # re-analyse. The re-cost set is the submitted checklist when the form
   # sent one, else computed from what changed.
   def update
-    @estimate.assign_attributes(brief_params)
+    # The form posts every questionnaire key; blanks are not changes.
+    submitted_questionnaire = brief_params[:questionnaire]
+    stored_questionnaire = @estimate.questionnaire.to_h.reject { |_, v| v.blank? }
+    questionnaire_changed = submitted_questionnaire.present? &&
+      submitted_questionnaire.to_h.reject { |_, v| v.blank? } != stored_questionnaire
+
+    @estimate.assign_attributes(brief_params.except(:questionnaire))
+    @estimate.questionnaire = submitted_questionnaire.to_h.reject { |_, v| v.blank? } if submitted_questionnaire.present?
     # The name never affects pricing; the brief text and questionnaire do.
-    brief_changed = @estimate.will_save_change_to_prompt? || @estimate.will_save_change_to_questionnaire?
+    brief_changed = @estimate.will_save_change_to_prompt? || questionnaire_changed
 
     affected = []
     answers = params.fetch(:clarifications, {}).permit!.to_h
+    # A blank answer never retracts a clarification; only a different, non-blank answer re-costs.
     clarifications = Array(@estimate.clarifications).each_with_index.map do |c, i|
       next c unless answers.key?(i.to_s)
       answer = answers[i.to_s].to_s.strip

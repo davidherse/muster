@@ -325,4 +325,41 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
     patch estimate_url(other), params: { estimate: { name: "X" } }
     assert_response :not_found
   end
+
+  test "a full-form round trip that only renames does not re-cost" do
+    e = analysed_estimate
+    all_blank = EstimateQuestionnaire::QUESTIONS.map { |q| [ q[:key], "" ] }.to_h
+    assert_no_enqueued_jobs(only: GenerateEstimateJob) do
+      patch estimate_url(e), params: { estimate: { name: "Renamed", prompt: "Original brief", questionnaire: all_blank }, clarifications: { "0" => "Prefab" } }
+    end
+    assert_equal "Saved. Nothing re-costed.", flash[:notice]
+    e.reload
+    assert_equal 3, e.sections.count
+    assert_equal({}, e.questionnaire)
+  end
+
+  test "a full-form round trip that re-submits the same questionnaire value does not re-cost" do
+    e = analysed_estimate(questionnaire: { "finish_level" => "High-end" })
+    resubmitted = EstimateQuestionnaire::QUESTIONS.map { |q| [ q[:key], "" ] }.to_h.merge("finish_level" => "High-end")
+    assert_no_enqueued_jobs(only: GenerateEstimateJob) do
+      patch estimate_url(e), params: { estimate: { name: "Analysed", prompt: "Original brief", questionnaire: resubmitted }, clarifications: { "0" => "Prefab" } }
+    end
+    assert_equal "Saved. Nothing re-costed.", flash[:notice]
+    e.reload
+    assert_equal 3, e.sections.count
+    assert_equal({ "finish_level" => "High-end" }, e.questionnaire)
+  end
+
+  test "a full-form round trip that actually changes a questionnaire value re-costs everything" do
+    e = analysed_estimate(questionnaire: { "finish_level" => "High-end" })
+    changed = EstimateQuestionnaire::QUESTIONS.map { |q| [ q[:key], "" ] }.to_h.merge("finish_level" => "Luxury")
+    assert_enqueued_with(job: GenerateEstimateJob, args: [ e, { resume: true } ]) do
+      patch estimate_url(e), params: { estimate: { name: "Analysed", prompt: "Original brief", questionnaire: changed }, clarifications: { "0" => "Prefab" } }
+    end
+    e.reload
+    assert_equal 0, e.sections.count
+    assert_equal [], e.costed_sections
+    assert_equal({ "finish_level" => "Luxury" }, e.questionnaire)
+    assert_equal "Re-costing 3 sections…", e.progress_note
+  end
 end
