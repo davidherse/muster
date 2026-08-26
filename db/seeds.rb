@@ -94,7 +94,9 @@ end
 # Seeding runs on every deploy, against a database that already carries the
 # book: rows added to the CSV since the last release have to arrive without
 # re-inserting the ones already there. Description is the identity — the CSV
-# carries no ids and its descriptions are unique.
+# carries no ids. Fourteen descriptions appear twice (different source jobs);
+# both copies land on first load, and a new row whose description matches an
+# existing one is skipped rather than duplicated.
 if csv_path.exist?
   csv_rows = CSV.read(csv_path, headers: true)
   if PriceBookItem.base.count.zero?

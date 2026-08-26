@@ -48,7 +48,7 @@ class LineItemGenerator
   # sections: array of {"name" =>, "hint" =>} from the template. Returns parsed hash.
   def call(sections)
     @client.complete_json(
-      system: system_blocks(sections),
+      system: system_blocks,
       content: [ { type: "text", text: request_text(sections) } ],
       schema: SCHEMA
     )
@@ -60,12 +60,9 @@ class LineItemGenerator
   # after it, so every batch call AND both reviewer passes share one cached
   # copy (identical prefix). Role instructions follow the breakpoint.
   # Batches carry scoped book slices in their requests; the system prompt
-  # stays small and stable (cache-friendly) — the one exception is the
-  # quotes rule, which names the quotes covering THIS batch, so a job with
-  # supplier quotes re-sends the block per batch rather than reusing the
-  # cached copy.
-  def system_blocks(sections)
-    [ { type: "text", text: instructions(sections), cache_control: { type: "ephemeral" } } ]
+  # stays small and stable (cache-friendly).
+  def system_blocks
+    [ { type: "text", text: instructions, cache_control: { type: "ephemeral" } } ]
   end
 
   def self.price_book_block(account = nil)
@@ -80,7 +77,7 @@ class LineItemGenerator
     { type: "text", text: sections.join("\n\n"), cache_control: { type: "ephemeral" } }
   end
 
-  def instructions(sections)
+  def instructions
     <<~PROMPT
       You are an expert residential construction estimator in Queensland, Australia,
       producing a detailed cost estimate for a builder. You will be given a plan analysis,
@@ -166,7 +163,7 @@ class LineItemGenerator
         counts. Never invent a per-room lump "rough-in and fit-off" allowance
         the book does not record — that is market instinct wearing a
         quantity's clothes.
-      #{quotes_rule(sections)}
+      #{quotes_rule}
       - PC allowances are the BUILDER'S OWN recorded levels: a PC (prime cost)
         allowance is a budget this builder sets for client-selected items —
         tiles, fittings, fixtures — and the book records this builder's
@@ -306,28 +303,28 @@ class LineItemGenerator
   end
 
   # A supplier quote the builder already holds is a price, not an estimate:
-  # it outranks every rate in the book for the trade it covers. The rule
-  # fires only when the analysis found quotes, and names the ones covering
-  # this batch's sections — falling back to all of them so a batch the
-  # quotes don't obviously cover still knows they exist and can't
-  # double-cost a quoted trade.
-  def quotes_rule(sections)
+  # it outranks every rate in the book for the trade it covers. Every batch
+  # gets the full list, worded identically — scoping the list to the batch
+  # would let a batch read its own list as a licence to cost an off-batch
+  # section, which the generator would find-or-create and the real batch
+  # would then append to, double-counting the quote. The last sentence does
+  # the scoping instead, and an identical block per batch stays cacheable.
+  def quotes_rule
     quotes = Array(@analysis["supplier_quotes"])
     return "" if quotes.empty?
-    names = sections.map { |s| s["name"] }
-    covering = quotes.select { |q| Array(q["sections"]).intersect?(names) }
-    covering = quotes if covering.empty?
 
     <<~RULE.strip
       - QUOTED TRADES ARE BINDING: the builder holds these supplier quotes:
-      #{covering.map { |q| quote_line(q) }.join("\n")}
+      #{quotes.map { |q| quote_line(q) }.join("\n")}
         Where a quote covers a section, cost that section as ONE Sub line
         described "Quoted by <supplier> — <trade>" at the quoted ex-GST amount
         (quantity 1, uom Quoted, confidence high), plus only the builder-side
         items the quote EXCLUDES (supply the tiler doesn't, delivery,
         attendance). Never re-price a quoted trade from rates, never add
         labour the quote already covers, and never mark a quoted section
-        inapplicable.
+        inapplicable. Only act on a quote whose covered sections are IN THIS
+        BATCH; quotes covering other sections are listed for information and
+        must not produce lines here.
     RULE
   end
 

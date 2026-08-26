@@ -86,6 +86,26 @@ class LineItemGeneratorTest < ActiveSupport::TestCase
     assert_no_match(/QUOTED TRADES ARE BINDING/, client.calls.last[:system].map { |b| b[:text] || b["text"] }.join)
   end
 
+  # Every batch sees every quote, worded identically, so the model can never
+  # read "listed here" as "cost it here" and emit an off-batch section — a
+  # section the generator would find-or-create, then the real batch would
+  # append to, double-counting the quote.
+  test "a batch the quotes do not cover still sees them, listed for information only" do
+    client = FakeAiClient.new
+    LineItemGenerator.new(@estimate, analysis: FakeAiClient.quoted_analysis, client: client)
+      .call([ { "name" => "Preliminaries", "hint" => "" } ])
+    off_batch = quotes_rule_text(client)
+
+    assert_match "West Tiling", off_batch
+    assert_match "covers: Structural Steel", off_batch
+    assert_match "Only act on a quote whose covered sections are IN THIS", off_batch
+    assert_match "must not produce lines here", off_batch
+
+    client = FakeAiClient.new
+    LineItemGenerator.new(@estimate, analysis: FakeAiClient.quoted_analysis, client: client).call(steel_batch)
+    assert_equal off_batch, quotes_rule_text(client)
+  end
+
   # --- premium repaint composite -------------------------------------------
 
   test "premium repaint class for high-end finishes, standard otherwise, heritage untouched" do
@@ -95,6 +115,15 @@ class LineItemGeneratorTest < ActiveSupport::TestCase
     assert_equal "full repaint of standard character home", generator_with(finish_level: "standard").send(:repaint_class)
     @estimate.update!(questionnaire: { "repaint_extent" => "Full repaint incl. VJ linings and fretwork", "building_era" => "Pre-1946 character home" })
     assert_equal "full heritage repaint", generator_with(finish_level: "high_end").send(:repaint_class)
+
+    # The classes ahead of premium in the order keep their jobs: a high-end
+    # raise still gets the raise composite, and a high-end selective scope is
+    # still selective — premium never promotes a smaller class.
+    @estimate.update!(questionnaire: { "repaint_extent" => "Full repaint inside and out", "building_era" => "Post-1990" })
+    assert_equal "full repaint incl raise/build-under new lower level",
+                 generator_with(finish_level: "high_end", project_class: "raise_and_build_under").send(:repaint_class)
+    @estimate.update!(questionnaire: { "repaint_extent" => "Selective — new work plus touch-ups", "building_era" => "Post-1990" })
+    assert_equal "selective scope", generator_with(finish_level: "high_end").send(:repaint_class)
   end
 
   # --- round-2 calibration rules -------------------------------------------
@@ -113,10 +142,16 @@ class LineItemGeneratorTest < ActiveSupport::TestCase
     [ { "name" => "Structural Steel", "hint" => "Beams" } ]
   end
 
-  def generator_with(finish_level:)
-    LineItemGenerator.new(@estimate,
-                          analysis: FakeAiClient.new.send(:default_analysis).merge("finish_level" => finish_level),
-                          client: FakeAiClient.new)
+  def generator_with(finish_level:, project_class: nil)
+    analysis = FakeAiClient.new.send(:default_analysis).merge("finish_level" => finish_level)
+    analysis["project_class"] = project_class if project_class
+    LineItemGenerator.new(@estimate, analysis: analysis, client: FakeAiClient.new)
+  end
+
+  # The quotes rule as rendered into the system prompt, from its bullet up to
+  # the next one.
+  def quotes_rule_text(client)
+    system_text(client)[/^- QUOTED TRADES ARE BINDING:.*?(?=^- PC allowances)/m].to_s.strip
   end
 
   def generate(sections = [ { "name" => "Preliminaries", "hint" => "" } ])
