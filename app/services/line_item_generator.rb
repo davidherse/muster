@@ -56,11 +56,12 @@ class LineItemGenerator
 
   private
 
-  # The price book leads the system prompt with a cache breakpoint directly
-  # after it, so every batch call AND both reviewer passes share one cached
-  # copy (identical prefix). Role instructions follow the breakpoint.
-  # Batches carry scoped book slices in their requests; the system prompt
-  # stays small and stable (cache-friendly).
+  # One block: the instructions, identical for every batch of a run, with a
+  # cache breakpoint after it — so every batch of a run reads one cached copy.
+  # The reviewer builds its own prefix (the price book block plus its own
+  # instructions); nothing is shared between the two services. Batches carry
+  # their scoped price-book slices in the request, which is what keeps this
+  # block small and stable.
   def system_blocks
     [ { type: "text", text: instructions, cache_control: { type: "ephemeral" } } ]
   end
@@ -163,6 +164,7 @@ class LineItemGenerator
         counts. Never invent a per-room lump "rough-in and fit-off" allowance
         the book does not record — that is market instinct wearing a
         quantity's clothes.
+      #{quotes_rule}
       - PC allowances are the BUILDER'S OWN recorded levels: a PC (prime cost)
         allowance is a budget this builder sets for client-selected items —
         tiles, fittings, fixtures — and the book records this builder's
@@ -222,17 +224,20 @@ class LineItemGenerator
       - Painting: when the job involves a whole-house repaint, price it from the
         price book's "Whole-house repaint composite" entries multiplied by the
         analysis floor_area_m2 exactly (all levels in scope — never re-measure
-        or re-scope the area) \u2014 pick the extent
-        class matching the brief (selective / full standard / raise-build-under /
-        full heritage) and multiply by floor area; itemise prep and enamel extras
-        separately if the scope exceeds the class. The class is COMPUTED and
-        given in the request as REPAINT COMPOSITE CLASS — use exactly that
-        composite entry; never re-derive or upgrade it. State the class and
-        resulting $/m2 in assumptions; never cost tile/wall areas in both
-        painting and another trade. For partial scopes, price as
-        painter-hours from the analysis paint areas with detail-appropriate
-        productivity. Never one lump allowance; never a whole-house repaint priced
-        below its composite class.
+        or re-scope the area) \u2014 pick the extent class matching the brief
+        (selective / full standard / full repaint, premium finish /
+        raise-build-under / full heritage) and multiply by floor area; itemise
+        prep and enamel extras separately if the scope exceeds the class. The
+        class is COMPUTED and given in the request as REPAINT COMPOSITE CLASS
+        — use exactly that composite entry; never re-derive or upgrade it.
+        State the class and resulting $/m2 in assumptions; never cost tile or
+        wall areas in both painting and another trade. For partial scopes,
+        price as painter-hours from the analysis paint areas with
+        detail-appropriate productivity. Never one lump allowance; never a
+        whole-house repaint priced below its composite class — unless a
+        supplier quote covers the
+        Painting section, in which case QUOTED TRADES ARE BINDING governs and
+        the composite is not used.
       - Windows and doors: take off PER OPENING from the window/door schedule counts
         and glazing_notes, splitting NEW/REPLACED from RETAINED strictly by what the
         schedule, demolition plans, and brief show \u2014 make no presumption either
@@ -250,6 +255,13 @@ class LineItemGenerator
       - SUPERVISION ONCE: project management and site supervision are costed
         only in the Site Supervision section (when the template has one) —
         never as Preliminaries lines, and never in both.
+      - SUPERVISION BY DURATION: when the builder states a duration and their
+        book carries a monthly site-supervision allowance, cost Site
+        Supervision as months × that monthly allowance (one line), not as
+        hours.
+      - SINGLE DUCTED SYSTEM: a stated single ducted air-conditioning system
+        means ONE outdoor unit with its ducting and zoning — no additional
+        ducted units or wall splits unless the brief or plans list them.
       - Hire and temporary services: weekly/monthly rates x the portion of
         duration_months each item is actually on site.
       - Cost every entry in special_features explicitly (pool, solar, shutters,
@@ -282,14 +294,85 @@ class LineItemGenerator
       - CREW LABOUR FOR THE BUILD DURATION: this builder carries carpentry as a
         standing crew, not per-task hours. In the '#{section}' section, cost the
         crew for the full duration: #{weeks} weeks × the builder's own per-week
-        crew rate from the USER PRICE BOOK ('Carpentry and Onsite Labour per
-        week' — average 2 men), plus a site labourer per week where the book
-        carries one (typically ~75% of the duration). Because the crew is costed
-        there, the framing, floor, wall, roof-framing, lockup and fixing
-        carpentry sections carry MATERIALS and specialist subcontract/hire tasks
-        only — do NOT add general carpentry Lab hours in those sections; they are
-        inside the crew weeks. State the crew plan in assumptions.
+        crew rate from the USER PRICE BOOK
+        ('Carpentry and Onsite Labour per week' — average 2 men), plus a site
+        labourer per week where the book carries one at the builder's own
+        per-week labourer rate ('Site Labourer per week'), typically ~75% of
+        the duration. Because the crew is costed there, the framing, floor,
+        wall, roof-framing, lockup and fixing carpentry sections carry
+        MATERIALS and specialist subcontract/hire tasks only — do NOT add
+        general carpentry Lab hours in those sections; they are inside the
+        crew weeks. State the crew plan in assumptions.
     RULE
+  end
+
+  # A supplier quote the builder already holds is a price, not an estimate:
+  # it outranks every rate in the book for the trade it covers. Every batch
+  # gets the full list, worded identically — scoping the list to the batch
+  # would let a batch read its own list as a licence to cost an off-batch
+  # section, which the generator would find-or-create and the real batch
+  # would then append to, double-counting the quote. The last sentence does
+  # the scoping instead, and an identical block per batch stays cacheable.
+  # A quote whose total did not survive extraction (missing, zero, negative)
+  # prices nothing, so it binds nothing: it is listed apart, as information
+  # that the document exists, and its trade is costed from rates as usual.
+  def quotes_rule
+    quotes = Array(@analysis["supplier_quotes"])
+    return "" if quotes.empty?
+
+    priced, unpriced = quotes.partition { |q| q["amount_ex_gst"].to_f.positive? }
+    blocks = []
+
+    if priced.any?
+      blocks << <<~RULE.strip
+        - QUOTED TRADES ARE BINDING: the builder holds these supplier quotes:
+        #{priced.map { |q| quote_line(q) }.join("\n")}
+          Where a quote covers a section, cost that section as ONE Sub line
+          described "Quoted by <supplier> — <trade>" at the quoted ex-GST amount
+          (quantity 1, uom Quoted, confidence high), plus only the builder-side
+          items the quote EXCLUDES (supply the tiler doesn't, delivery,
+          attendance). Never re-price a quoted trade from rates, never add
+          labour the quote already covers, and never mark a quoted section
+          inapplicable. Precedence: for a section a priced quote covers, the
+          quote outranks every other binding rule — user and base book rates,
+          PC allowances, and measured takeoff quantities — which then apply
+          only to the builder-side items the quote excludes.
+          Only act on a quote whose covered sections are IN THIS
+          BATCH; quotes covering other sections are listed for information and
+          must not produce lines here.
+      RULE
+    end
+
+    if unpriced.any?
+      blocks << <<~RULE.strip
+        - QUOTES WITHOUT A USABLE TOTAL (price these trades from rates as usual):
+          the document exists but states no usable ex-GST amount, so it binds
+          nothing — cost these trades from the books like any other section and
+          note the quote in assumptions:
+        #{unpriced.map { |q| quote_line(q) }.join("\n")}
+      RULE
+    end
+
+    blocks.join("\n")
+  end
+
+  def quote_line(quote)
+    "  - #{quote['supplier']} — #{quote['trade']}: $#{quote['amount_ex_gst'].to_i} ex GST#{gst_provenance(quote)} | " \
+      "includes: #{Array(quote['includes']).join(', ').presence || 'not stated'} | " \
+      "excludes: #{Array(quote['excludes']).join(', ').presence || 'nothing stated'} | " \
+      "covers: #{Array(quote['sections']).join(', ').presence || 'not stated'}"
+  end
+
+  # The GST basis matters to the reader in one way only: whether the amount
+  # in front of them was printed on the document or derived from it. Say
+  # that, rather than echoing the extractor's status token — which reads as
+  # noise, or worse as a rate qualifier, to the model doing the costing.
+  def gst_provenance(quote)
+    case quote["gst_status"].to_s
+    when "ex_gst" then ""
+    when "inc_gst" then " (converted from the document's inc-GST total)"
+    else " (GST status unclear on the document — treated as ex GST; note it in assumptions)"
+    end
   end
 
   def request_text(sections)
@@ -340,9 +423,20 @@ class LineItemGenerator
       "full repaint incl raise/build-under new lower level"
     elsif extent =~ /VJ|fretwork|character|heritage/i && character_era?(q["building_era"])
       "full heritage repaint"
+    elsif premium_finish?(q)
+      "full repaint, premium finish"
     else
       "full repaint of standard character home"
     end
+  end
+
+  # A high-end or luxury job repaints at a premium rate even where the fabric
+  # is ordinary: better prep, more coats, and trades that don't work to
+  # standard-spec productivity. Heritage still wins where it applies — that
+  # composite already carries the premium.
+  def premium_finish?(questionnaire)
+    %w[high_end luxury].include?(@analysis["finish_level"].to_s) ||
+      questionnaire["finish_level"].to_s.match?(/high-end|luxury|premium/i)
   end
 
   # A stated era decides: "Post-1990" or "1946–1990" rules the heritage

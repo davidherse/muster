@@ -64,6 +64,24 @@ class PlanAnalyzerTest < ActiveSupport::TestCase
     assert_equal %w[base64 file], doc_blocks.map { |b| b.dig(:source, :type) }
     assert_equal 1, client.uploads.size
   end
+
+  test "schema carries supplier quotes and the prompts ask for them" do
+    props = PlanAnalyzer::SCHEMA[:properties]
+    assert props.key?(:supplier_quotes)
+    assert_equal %w[trade supplier amount_ex_gst gst_status includes excludes sections], props[:supplier_quotes][:items][:required]
+    assert_includes PlanAnalyzer::SCHEMA[:required], "supplier_quotes"
+    analyzer = PlanAnalyzer.new(@estimate, client: FakeAiClient.new)
+    assert_match(/supplier quotes/i, analyzer.send(:user_prompt))
+    assert_match(/supplier_quotes/, analyzer.send(:verification_prompt, {}))
+    assert_includes analyzer.send(:verification_prompt, {}).squish,
+                    "A quote the draft found stands unless the document is plainly not a priced supplier quote"
+  end
+
+  test "fake client can hand back a quote" do
+    q = FakeAiClient.quoted_analysis["supplier_quotes"].first
+    assert_equal "West Tiling", q["supplier"]
+    assert_equal [ "Structural Steel" ], q["sections"]
+  end
 end
 
 class PlanAnalyzerVerificationTest < ActiveSupport::TestCase

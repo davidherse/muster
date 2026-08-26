@@ -85,18 +85,42 @@ class FakeAiClient
       "structural_notes" => "Two steel beams to openings",
       "site_notes" => "Sloping block",
       "inclusions" => [ "New kitchen" ],
-      "exclusions" => [ "Pool" ]
+      "exclusions" => [ "Pool" ],
+      "supplier_quotes" => []
     }
   end
 
+  # A default analysis carrying one supplier quote covering Structural Steel
+  # (a fixture section), for end-to-end quote tests.
+  def self.quoted_analysis
+    new.send(:default_analysis).merge("supplier_quotes" => [
+      { "trade" => "Structural steel", "supplier" => "West Tiling", "amount_ex_gst" => 12_000.0, "gst_status" => "ex_gst",
+        "includes" => [ "supply and install beams" ], "excludes" => [ "crane hire" ], "sections" => [ "Structural Steel" ] }
+    ])
+  end
+
   # Echo back every requested section with two line items each,
-  # marking any section containing "Solar" as not applicable.
+  # marking any section containing "Solar" as not applicable. A section a
+  # supplier quote covers comes back the way the binding-quotes rule asks
+  # for: one "Quoted by" Sub line at the quoted amount.
   def sections_response(content)
     text = content.map { |b| b[:text] || b["text"] }.compact.join("\n")
     names = text.scan(/^- (.+?):/).flatten
+    quotes = quotes_in_play
     {
       "sections" => names.map do |name|
-        if name.include?("Solar")
+        quote = quotes.find { |q| Array(q["sections"]).include?(name) }
+        if quote
+          {
+            "name" => name,
+            "applicable" => true,
+            "line_items" => [
+              { "description" => "Quoted by #{quote['supplier']} — #{quote['trade']}", "item_type" => "Sub",
+                "uom" => "Quoted", "quantity" => 1, "unit_cost" => quote["amount_ex_gst"].to_f,
+                "confidence" => "high", "assumptions" => "" }
+            ]
+          }
+        elsif name.include?("Solar")
           { "name" => name, "applicable" => false, "line_items" => [] }
         else
           {
@@ -112,5 +136,13 @@ class FakeAiClient
         end
       end
     }
+  end
+
+  # The quotes only bind when the generator actually put the rule in front of
+  # the model — the rule rides in the system prompt of the call being answered.
+  def quotes_in_play
+    system_text = Array(@calls.last&.dig(:system)).map { |b| b[:text] || b["text"] }.compact.join("\n")
+    return [] unless system_text.include?("QUOTED TRADES ARE BINDING")
+    Array(@analysis&.dig("supplier_quotes"))
   end
 end

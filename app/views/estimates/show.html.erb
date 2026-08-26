@@ -134,6 +134,7 @@
             <tr class="<%= ui_table_row %>">
               <td class="<%= ui_table_cell %> px-5 text-foreground">
                 <%= item.description %>
+                <% if item.description.start_with?("Quoted by ") %> <span class="<%= ui_badge(variant: :outline) %>">quote</span><% end %>
                 <% if item.assumptions.present? %>
                   <p class="text-xs text-muted-foreground mt-0.5"><%= item.assumptions %></p>
                 <% end %>
