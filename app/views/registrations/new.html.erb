@@ -33,6 +33,11 @@
         </div>
 
         <div class="grid gap-2 mb-4">
+          <%= label_tag "registration[company]", "Company (optional)", class: ui_label %>
+          <%= text_field_tag "registration[company]", params.dig(:registration, :company), placeholder: "Names your workspace", class: ui_input %>
+        </div>
+
+        <div class="grid gap-2 mb-4">
           <%= form.label :email_address, "Email address", class: ui_label %>
           <%= form.email_field :email_address, required: true, autocomplete: "username", placeholder: "you@example.com", class: ui_input %>
         </div>

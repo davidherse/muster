@@ -4,7 +4,7 @@ class EstimatesController < ApplicationController
   PER_PAGE = 15
 
   def index
-    scope = Current.user.estimates.recent_first
+    scope = Current.account.estimates.recent_first.includes(:user)
     scope = scope.where("name LIKE ?", "%#{ActiveRecord::Base.sanitize_sql_like(params[:q])}%") if params[:q].present?
     @total_count = scope.count
     @page = [ params[:page].to_i, 1 ].max
@@ -14,15 +14,15 @@ class EstimatesController < ApplicationController
   end
 
   def new
-    @estimate = Current.user.estimates.new(estimate_template: EstimateTemplate.for_user(Current.user))
+    @estimate = Current.account.estimates.new(user: Current.user, estimate_template: EstimateTemplate.for_account(Current.account))
   end
 
   def create
-    @estimate = Current.user.estimates.new(estimate_params)
+    @estimate = Current.account.estimates.new(estimate_params.merge(user: Current.user))
     # estimate_template_id arrives from a form the user controls: only their
-    # own agreed template and the shared default are theirs to build on.
-    @estimate.estimate_template = nil unless EstimateTemplate.available_to(Current.user).include?(@estimate.estimate_template)
-    @estimate.estimate_template ||= EstimateTemplate.for_user(Current.user)
+    # account's agreed template and the shared default are theirs to build on.
+    @estimate.estimate_template = nil unless EstimateTemplate.available_to(Current.account).include?(@estimate.estimate_template)
+    @estimate.estimate_template ||= EstimateTemplate.for_account(Current.account)
     if @estimate.plans.attached? && @estimate.save
       @estimate.processing!("Queued for analysis…")
       GenerateEstimateJob.perform_later(@estimate)
@@ -84,7 +84,7 @@ class EstimatesController < ApplicationController
   def csv
     return redirect_to(@estimate, alert: "The estimate isn't ready yet.") unless @estimate.completed?
     return redirect_to(@estimate, alert: "Answer or skip the open questions first — the number isn't final yet.") if @estimate.needs_answers?
-    layout = personal_template
+    layout = account_template
     send_data EstimateCsv.new(@estimate, layout: layout).generate,
       filename: "#{@estimate.name.parameterize}-estimate.csv",
       type: "text/csv"
@@ -98,13 +98,13 @@ class EstimatesController < ApplicationController
   private
 
   def set_estimate
-    @estimate = Current.user.estimates.find(params[:id])
+    @estimate = Current.account.estimates.find(params[:id])
   end
 
-  # The builder's own layout, learned and agreed from their training uploads.
-  def personal_template
-    t = EstimateTemplate.for_user(Current.user)
-    t&.personal? ? t : nil
+  # The account's own layout, learned and agreed from their training uploads.
+  def account_template
+    t = EstimateTemplate.for_account(Current.account)
+    t&.account? ? t : nil
   end
 
   def estimate_params

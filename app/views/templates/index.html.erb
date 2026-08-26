@@ -33,19 +33,19 @@
 
   <section class="<%= ui_card %> mb-6 overflow-hidden">
     <div class="<%= ui_card_header %>">
-      <h2 class="<%= ui_card_title %>">Your template</h2>
-      <% if @personal %>
-        <p class="<%= ui_card_description %>"><%= @personal.name %> · <%= pluralize(@personal.sections.size, "section") %></p>
+      <h2 class="<%= ui_card_title %>">Your workspace's template</h2>
+      <% if @account_template %>
+        <p class="<%= ui_card_description %>"><%= @account_template.name %> · <%= pluralize(@account_template.sections.size, "section") %></p>
       <% else %>
-        <p class="<%= ui_card_description %>">You don't have a personal template yet — estimates use <%= @default&.name %>. Customise the default, or upload training documents and re-derive one.</p>
+        <p class="<%= ui_card_description %>">Your workspace doesn't have its own template yet — estimates use <%= @default&.name %>. Customise the default, or upload training documents and re-derive one.</p>
       <% end %>
     </div>
-    <% if @personal %>
-      <%= render "sections_list", sections: @personal.sections %>
+    <% if @account_template %>
+      <%= render "sections_list", sections: @account_template.sections %>
     <% end %>
     <div class="p-6 pt-4 flex items-center gap-3 border-t border-border">
-      <% if @personal %>
-        <%= link_to edit_template_path(@personal), class: ui_button do %>Edit sections<% end %>
+      <% if @account_template %>
+        <%= link_to edit_template_path(@account_template), class: ui_button do %>Edit sections<% end %>
       <% elsif @default %>
         <%= button_to "Customise the default", customise_templates_path, class: ui_button %>
       <% end %>

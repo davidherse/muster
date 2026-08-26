@@ -20,8 +20,17 @@ class TrainingDocumentsControllerTest < ActionDispatch::IntegrationTest
     doc = users(:one).training_documents.create!(name: "X")
     doc.files.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "e.pdf", content_type: "application/pdf")
     TrainingIngestor.new(doc, client: FakeAiClient.new).call
-    assert_difference("PriceBookItem.for_user(users(:one)).count", -2) do
+    assert_difference("PriceBookItem.for_account(accounts(:built)).count", -2) do
       delete training_document_url(doc)
     end
+  end
+
+  test "training documents are shared across the account, not across accounts" do
+    users(:two).training_documents.create!(name: "Sam's upload")
+    users(:outsider).training_documents.create!(name: "Outsider upload")
+    get training_documents_url
+    # assert_select, not assert_match: the rendered name is HTML-escaped.
+    assert_select "p", text: "Sam's upload"
+    assert_no_match(/Outsider upload/, response.body)
   end
 end

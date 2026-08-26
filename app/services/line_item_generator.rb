@@ -65,10 +65,10 @@ class LineItemGenerator
     [ { type: "text", text: instructions, cache_control: { type: "ephemeral" } } ]
   end
 
-  def self.price_book_block(user = nil)
+  def self.price_book_block(account = nil)
     sections = []
-    if user && PriceBookItem.for_user(user).exists?
-      sections << "USER PRICE BOOK \u2014 THIS BUILDER'S OWN RATES from their uploaded estimates, with the job context they came from. PREFER these whenever a comparable item exists (category | description | type | uom | unit cost AUD ex. GST | context):\n#{PriceBookItem.reference_text(scope: PriceBookItem.for_user(user), with_context: true)}"
+    if account && PriceBookItem.for_account(account).exists?
+      sections << "USER PRICE BOOK \u2014 THIS BUILDER'S OWN RATES from their uploaded estimates, with the job context they came from. PREFER these whenever a comparable item exists (category | description | type | uom | unit cost AUD ex. GST | context):\n#{PriceBookItem.reference_text(scope: PriceBookItem.for_account(account), with_context: true)}"
     end
     sections << "BASE PRICE BOOK \u2014 shared rates indexed to current dollars; use when the user book has no comparable (category | description | type | uom | unit cost AUD ex. GST):\n#{PriceBookItem.reference_text(scope: PriceBookItem.base)}"
     if PriceBookItem.market.exists?
@@ -322,7 +322,7 @@ class LineItemGenerator
   # estimates diverge most from human takeoffs, and every builder crews work
   # differently; their own past jobs are the best predictor.
   def norms_text(sections)
-    norms = QuantityNorms.for_class(@estimate.user, @analysis["project_class"])
+    norms = QuantityNorms.for_class(@estimate.account, @analysis["project_class"])
     return nil unless norms
     area = @analysis["floor_area_m2"].to_f
     return nil unless area.positive?
@@ -352,10 +352,10 @@ class LineItemGenerator
   # cannot miss the comparables among 1,500+ book lines. User book first
   # (binding), then the matching base-book slice.
   def scoped_user_rates(sections)
-    user = @estimate.user
-    return nil unless user
+    account = @estimate.account
+    return nil unless account
     buckets = batch_buckets(sections)
-    entries = PriceBookItem.for_user(user)
+    entries = PriceBookItem.for_account(account)
                            .reject { |i| i.context.to_h["category_rollup"] }
                            .select { |i| buckets.include?(TradeBucket.for(i.category)) }
     return nil if entries.empty?

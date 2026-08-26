@@ -1,7 +1,7 @@
-# Merges everything learned from a user's training uploads into ONE proposed
-# personal estimate template: the sections they use, in their order, with the
+# Merges everything learned from an account's training uploads into ONE
+# proposed estimate template: the sections they use, in their order, with the
 # line items they typically break each section into. Structure only — no
-# prices. The user reviews and agrees the proposal in onboarding; agreeing
+# prices. The account reviews and agrees the proposal in onboarding; agreeing
 # makes it the template their estimates are built on.
 class TemplateSynthesizer
   SCHEMA = {
@@ -30,15 +30,15 @@ class TemplateSynthesizer
     }
   }.freeze
 
-  def initialize(user, client: Ai::Client.new)
-    @user = user
+  def initialize(account, client: Ai::Client.new)
+    @account = account
     @client = client
   end
 
   # Returns the proposed EstimateTemplate, or nil when there is nothing to
   # learn from yet.
   def call
-    docs = @user.training_documents.where(status: "completed").select { |d| d.extraction.present? }
+    docs = @account.training_documents.where(status: "completed").select { |d| d.extraction.present? }
     return nil if docs.empty?
 
     result = @client.complete_json(
@@ -56,7 +56,7 @@ class TemplateSynthesizer
 
   def instructions
     <<~PROMPT
-      You are deriving a builder's personal estimate template from their own
+      You are deriving a builder's workspace estimate template from their own
       past estimate documents. Every builder structures estimates differently:
       section names, section order, and how finely work is broken into line
       items. Your job is to capture THIS builder's conventions so future
@@ -83,7 +83,7 @@ class TemplateSynthesizer
   def evidence_text(docs)
     parts = docs.sort_by(&:created_at).map do |doc|
       ex = doc.extraction
-      items = PriceBookItem.from_training_doc(@user, doc.id)
+      items = PriceBookItem.from_training_doc(@account, doc.id)
       sample = items.group_by(&:category).map do |cat, entries|
         lines = entries.first(10).map { |i| "    - #{i.description} (#{i.uom})" }
         "  #{cat}:\n#{lines.join("\n")}"
@@ -96,23 +96,23 @@ class TemplateSynthesizer
         #{sample.join("\n")}
       DOC
     end
-    "#{parts.join("\n")}\nDerive this builder's single personal estimate template."
+    "#{parts.join("\n")}\nDerive this builder's single workspace estimate template."
   end
 
   def upsert_proposal(name, sections)
-    template = EstimateTemplate.find_or_initialize_by(user: @user, status: "proposed")
+    template = EstimateTemplate.find_or_initialize_by(account: @account, status: "proposed")
     template.update!(
       name: unique_name(template, name),
-      description: "Personal template derived from #{@user.training_documents.where(status: 'completed').count} uploaded estimate(s). Review and agree to use it for your estimates.",
+      description: "Workspace template derived from #{@account.training_documents.where(status: 'completed').count} uploaded estimate(s). Review and agree to use it for your estimates.",
       sections: sections
     )
     template
   end
 
-  # Template names are globally unique; scope the synthesized name per user.
+  # Template names are globally unique; scope the synthesized name per account.
   def unique_name(template, proposed)
-    base = "#{@user.name} — #{proposed.presence || 'Personal template'}".truncate(120)
+    base = "#{@account.name} — #{proposed.presence || 'Personal template'}".truncate(120)
     return base unless EstimateTemplate.where(name: base).where.not(id: template.id).exists?
-    "#{base} (#{@user.id})"
+    "#{base} (#{@account.id})"
   end
 end

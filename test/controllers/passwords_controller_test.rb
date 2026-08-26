@@ -60,6 +60,14 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
     assert_notice "Passwords did not match"
   end
 
+  test "choosing a password records password_set_at" do
+    user = users(:two)
+    user.update_columns(password_set_at: nil)
+    patch password_url(user.password_reset_token), params: { password: "brand-new-pass", password_confirmation: "brand-new-pass" }
+    assert_redirected_to new_session_url
+    assert_not_nil user.reload.password_set_at
+  end
+
   private
     def assert_notice(text)
       assert_select "div", /#{text}/

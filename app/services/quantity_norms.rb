@@ -3,7 +3,7 @@
 # and supervision hours per week. Deterministic — no AI. Norms are how the
 # builder's past takeoffs teach future quantities; prices are not involved.
 #
-# Stored on users.quantity_norms:
+# Stored on accounts.quantity_norms:
 #   {
 #     "groups" => {
 #       "whole" => {                     # or "small" (partial/small_works docs)
@@ -20,27 +20,27 @@ class QuantityNorms
   # Units worth learning as per-m² intensities.
   NORM_UOMS = { /\Ahours?\z|\Ahr\z/i => "hour", /\Am2\z|\Asqm\z/i => "m2", /\Alm\z|\Am\z/i => "lm" }.freeze
 
-  def self.derive!(user)
-    new(user).derive!
+  def self.derive!(account)
+    new(account).derive!
   end
 
-  def initialize(user)
-    @user = user
+  def initialize(account)
+    @account = account
   end
 
   def derive!
-    docs = @user.training_documents.where(status: "completed")
+    docs = @account.training_documents.where(status: "completed")
     per_doc = docs.filter_map { |doc| doc_intensities(doc) }
-    return @user.update!(quantity_norms: nil) if per_doc.empty?
+    return @account.update!(quantity_norms: nil) if per_doc.empty?
 
     groups = per_doc.group_by { |d| d[:group] }.transform_values { |ds| aggregate(ds) }
-    @user.update!(quantity_norms: { "groups" => groups, "derived_at" => Time.current.iso8601 })
-    @user.quantity_norms
+    @account.update!(quantity_norms: { "groups" => groups, "derived_at" => Time.current.iso8601 })
+    @account.quantity_norms
   end
 
   # The norms group matching a project class, falling back to the other group.
-  def self.for_class(user, project_class)
-    groups = user&.quantity_norms&.dig("groups") or return nil
+  def self.for_class(account, project_class)
+    groups = account&.quantity_norms&.dig("groups") or return nil
     key = SMALL_CLASSES.include?(project_class.to_s) ? "small" : "whole"
     groups[key] || groups.values.first
   end
@@ -54,7 +54,7 @@ class QuantityNorms
     area = q["works_floor_area_m2"].to_f
     return nil unless area.positive?
 
-    items = PriceBookItem.from_training_doc(@user, doc.id)
+    items = PriceBookItem.from_training_doc(@account, doc.id)
                          .select { |i| i.context.to_h["qty_kind"] == "measured" && i.context.to_h["qty"].to_f.positive? }
     return nil if items.empty?
 

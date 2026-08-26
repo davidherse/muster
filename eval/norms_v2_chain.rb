@@ -7,6 +7,7 @@
 $stdout.sync = true
 
 USER = User.find_by!(email_address: "david.test@example.com")
+ACCOUNT = USER.account
 
 while Estimate.uncached { Estimate.where(status: "processing").exists? }
   puts "waiting for in-flight generation… (#{Time.current.strftime('%H:%M')})"
@@ -15,14 +16,14 @@ while Estimate.uncached { Estimate.where(status: "processing").exists? }
 end
 
 %w[Hilda Constitution Carberry Benecia].each do |short|
-  doc = USER.training_documents.find_by!(name: "#{short} (historical job)")
+  doc = ACCOUNT.training_documents.find_by!(name: "#{short} (historical job)")
   puts "#{short}: re-ingesting with quoted-quantity rule…"
   TrainingIngestor.new(doc).call
-  measured = PriceBookItem.from_training_doc(USER, doc.id).count { |i| i.context.to_h["qty_kind"] == "measured" }
+  measured = PriceBookItem.from_training_doc(ACCOUNT, doc.id).count { |i| i.context.to_h["qty_kind"] == "measured" }
   puts "  -> #{doc.reload.status}, #{measured} measured"
 end
 
-norms = USER.reload.quantity_norms
+norms = ACCOUNT.reload.quantity_norms
 puts "whole-house supervision norm: #{norms.dig('groups', 'whole', 'supervision_hours_per_week').inspect}"
 
 require "yaml"

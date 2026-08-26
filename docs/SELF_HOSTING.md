@@ -114,6 +114,7 @@ hosts (extend with `EXTRA_HOSTS=name1,name2`).
 
 ## Notes / gotchas
 
+- **Seats:** the workspace owner adds people from the Team page (sidebar → Team); because there is no email, it shows a set-password link (valid for 2 days) to forward by hand. Everyone in the workspace shares the same estimates, template, training documents and price book.
 - **Email isn't configured in dev** — account activation links are printed to
   the server log instead of sent. Watch `log/development.log` for the link, or
   activate from the console:

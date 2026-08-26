@@ -80,7 +80,7 @@ class TrainingIngestor
     verify_entries(merged)
     @doc.update!(status: "completed", extraction: merged.slice("project_summary", "template_sections", "category_totals")
       .merge("item_count" => merged["items"].size))
-    QuantityNorms.derive!(@doc.user)
+    QuantityNorms.derive!(@doc.account)
     refresh_template_proposal
   rescue StandardError => e
     @doc.update!(status: "failed", error_message: e.message.to_s.truncate(1000))
@@ -185,7 +185,7 @@ class TrainingIngestor
       return
     end
 
-    items = PriceBookItem.from_training_doc(@doc.user, @doc.id)
+    items = PriceBookItem.from_training_doc(@doc.account, @doc.id)
     flagged = 0
     dropped = 0
     items.group_by(&:category).each do |cat, entries|
@@ -214,7 +214,7 @@ class TrainingIngestor
 
   # Re-ingesting the same document replaces its previous entries.
   def replace_price_book_entries(result)
-    PriceBookItem.from_training_doc(@doc.user, @doc.id).delete_all
+    PriceBookItem.from_training_doc(@doc.account, @doc.id).delete_all
 
     factor = PriceEscalation.factor(@doc.priced_on)
     escalation_note = factor == 1.0 ? "" : " | escalated x#{factor} from #{@doc.priced_on.strftime('%Y-%m')}"
@@ -234,7 +234,7 @@ class TrainingIngestor
         sample_count: 1,
         source: source_tag + escalation_note,
         source_kind: "user",
-        user_id: @doc.user_id,
+        account_id: @doc.account_id,
         context: @doc.questionnaire.to_h.merge(
           "qty" => item["quantity"].to_f,
           "qty_kind" => item["quantity_kind"].presence || "lump"
@@ -248,10 +248,10 @@ class TrainingIngestor
     PriceBookItem.insert_all(rows) if rows.any?
   end
 
-  # Every completed upload re-synthesizes the user's proposed personal
-  # template from ALL their completed uploads (structure learning).
+  # Every completed upload re-synthesizes the account's proposed template
+  # from ALL of the account's completed uploads (structure learning).
   def refresh_template_proposal
-    SynthesizeTemplateJob.perform_later(@doc.user)
+    SynthesizeTemplateJob.perform_later(@doc.account)
   end
 
   def source_tag

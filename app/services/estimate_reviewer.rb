@@ -97,7 +97,7 @@ class EstimateReviewer
     end
     directions.each do |direction|
       result = @client.complete_json(
-        system: [ LineItemGenerator.price_book_block(@estimate.user), { type: "text", text: instructions(direction) } ],
+        system: [ LineItemGenerator.price_book_block(@estimate.account), { type: "text", text: instructions(direction) } ],
         content: [ { type: "text", text: request_text } ],
         schema: SCHEMA
       )
@@ -113,7 +113,7 @@ class EstimateReviewer
       violations = outstanding_violations
       break if violations.empty?
       result = @client.complete_json(
-        system: [ LineItemGenerator.price_book_block(@estimate.user), { type: "text", text: enforcement_instructions } ],
+        system: [ LineItemGenerator.price_book_block(@estimate.account), { type: "text", text: enforcement_instructions } ],
         content: [ { type: "text", text: enforcement_request(violations) } ],
         schema: SCHEMA,
         model: ENV.fetch("ESTIMATOR_ENFORCE_MODEL", Ai::Client::MODEL)
@@ -375,7 +375,7 @@ class EstimateReviewer
       # The builder's own supervision norm (from their uploaded takeoffs for
       # this job class) outranks the generic band — a builder who runs a
       # 16 m² bathroom at 3 h/wk must not be inflated to a whole-house 8-11.
-      own = QuantityNorms.for_class(@estimate.user, @analysis["project_class"])&.dig("supervision_hours_per_week")
+      own = QuantityNorms.for_class(@estimate.account, @analysis["project_class"])&.dig("supervision_hours_per_week")
       if own
         low = [ own["min"].to_f * 0.7, 0.1 ].max
         high = own["max"].to_f * 1.3

@@ -3,7 +3,7 @@ require "test_helper"
 class EstimateTemplateTest < ActiveSupport::TestCase
   setup do
     @default = estimate_templates(:standard)
-    @user = users(:two)
+    @account = accounts(:built)
   end
 
   test "sections_form= drops blank rows, strips, and splits typical items on newlines" do
@@ -25,48 +25,47 @@ class EstimateTemplateTest < ActiveSupport::TestCase
     assert_includes template.errors[:sections], "must all have a name"
   end
 
-  test "available_to lists the user's personal template then the default, never others'" do
-    other = EstimateTemplate.create!(name: "Other's", user: users(:one), status: "active", sections: [ { "name" => "A" } ])
-    proposal = EstimateTemplate.create!(name: "Proposal", user: @user, status: "proposed", sections: [ { "name" => "A" } ])
-    assert_equal [ @default ], EstimateTemplate.available_to(@user)
+  test "available_to lists the account's template then the default, never another account's" do
+    other = EstimateTemplate.create!(name: "Other's", account: accounts(:other), status: "active", sections: [ { "name" => "A" } ])
+    proposal = EstimateTemplate.create!(name: "Proposal", account: @account, status: "proposed", sections: [ { "name" => "A" } ])
+    assert_equal [ @default ], EstimateTemplate.available_to(@account)
 
-    mine = EstimateTemplate.create!(name: "Mine", user: @user, status: "active", sections: [ { "name" => "A" } ])
-    assert_equal [ mine, @default ], EstimateTemplate.available_to(@user)
-    assert_not_includes EstimateTemplate.available_to(@user), other
-    assert_not_includes EstimateTemplate.available_to(@user), proposal
+    mine = EstimateTemplate.create!(name: "Mine", account: @account, status: "active", sections: [ { "name" => "A" } ])
+    assert_equal [ mine, @default ], EstimateTemplate.available_to(@account)
+    assert_not_includes EstimateTemplate.available_to(@account), other
+    assert_not_includes EstimateTemplate.available_to(@account), proposal
   end
 
-  test "customise_for copies the default into an active personal template once" do
-    copy = @default.customise_for(@user)
+  test "customise_for copies the default into an active account template once" do
+    copy = @default.customise_for(@account)
     assert copy.persisted?
-    assert_equal @user, copy.user
+    assert_equal @account, copy.account
     assert_equal "active", copy.status
-    assert_equal "#{@user.name} — #{@default.name}", copy.name
+    assert_equal "Built Homes — Test Standard", copy.name
     assert_equal @default.sections, copy.sections
-    assert_equal copy, EstimateTemplate.personal_for(@user)
+    assert_equal copy, EstimateTemplate.active_for(@account)
 
-    assert_nil @default.customise_for(@user), "refuses when a personal template already exists"
+    assert_nil @default.customise_for(@account), "refuses when the account already has a template"
   end
 
-  test "customise_for disambiguates when another user shares a display name" do
-    @default.customise_for(@user)
-    twin = User.create!(name: @user.name, email_address: "dup@example.com",
-      password: "password-123", activated_at: Time.current)
+  test "customise_for disambiguates when another account shares a display name" do
+    @default.customise_for(@account)
+    twin = Account.create!(name: "Built Homes")
 
     copy = @default.customise_for(twin)
     assert copy.persisted?, "a shared display name must not blow up the copy"
-    assert_equal twin, copy.user
-    assert_equal "#{twin.name} — #{@default.name} (#{twin.id})", copy.name
+    assert_equal twin, copy.account
+    assert_equal "Built Homes — Test Standard (#{twin.id})", copy.name
     assert_equal @default.sections, copy.sections
   end
 
-  test "personal_for and proposal_for" do
-    assert_nil EstimateTemplate.personal_for(@user)
-    assert_nil EstimateTemplate.proposal_for(@user)
-    proposal = EstimateTemplate.create!(name: "P", user: @user, status: "proposed", sections: [ { "name" => "A" } ])
-    assert_equal proposal, EstimateTemplate.proposal_for(@user)
+  test "active_for and proposal_for" do
+    assert_nil EstimateTemplate.active_for(@account)
+    assert_nil EstimateTemplate.proposal_for(@account)
+    proposal = EstimateTemplate.create!(name: "P", account: @account, status: "proposed", sections: [ { "name" => "A" } ])
+    assert_equal proposal, EstimateTemplate.proposal_for(@account)
     proposal.activate!
-    assert_equal proposal, EstimateTemplate.personal_for(@user)
-    assert_nil EstimateTemplate.proposal_for(@user)
+    assert_equal proposal, EstimateTemplate.active_for(@account)
+    assert_nil EstimateTemplate.proposal_for(@account)
   end
 end

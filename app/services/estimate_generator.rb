@@ -168,7 +168,7 @@ class EstimateGenerator
   end
 
   def template
-    @estimate.estimate_template || EstimateTemplate.for_user(@estimate.user) ||
+    @estimate.estimate_template || EstimateTemplate.for_account(@estimate.account) ||
       raise(Ai::Client::Error, "No estimate template available")
   end
 

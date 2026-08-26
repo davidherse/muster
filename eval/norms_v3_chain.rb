@@ -10,6 +10,7 @@ require "yaml"
 $stdout.sync = true
 
 USER = User.find_by!(email_address: "david.test@example.com")
+ACCOUNT = USER.account
 
 while Estimate.uncached { Estimate.where(status: "processing").exists? }
   puts "waiting for in-flight generation… (#{Time.current.strftime('%H:%M')})"
@@ -18,13 +19,13 @@ while Estimate.uncached { Estimate.where(status: "processing").exists? }
 end
 
 puts "synthesizing personal template…"
-template = TemplateSynthesizer.new(USER).call
+template = TemplateSynthesizer.new(ACCOUNT).call
 abort("no template synthesized") unless template
 template.activate!
 puts "  -> ACTIVE: #{template.name} (#{template.sections.size} sections)"
 
-QuantityNorms.derive!(USER)
-sup = USER.reload.quantity_norms.dig("groups", "whole", "supervision_hours_per_week")
+QuantityNorms.derive!(ACCOUNT)
+sup = ACCOUNT.reload.quantity_norms.dig("groups", "whole", "supervision_hours_per_week")
 puts "whole-house supervision norm after gate: #{sup.inspect}"
 
 CONFIG = YAML.load_file(Rails.root.join("eval/projects.yml"))

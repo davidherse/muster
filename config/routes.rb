@@ -24,6 +24,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :team, controller: "team", only: :show do
+    patch :rename                                   # rename_team_path
+  end
+  post   "team/members",                to: "team#create",     as: :team_members
+  delete "team/members/:id",            to: "team#destroy",    as: :team_member
+  post   "team/members/:id/reset_link", to: "team#reset_link", as: :reset_link_team_member
+
   get  "onboarding",          to: "onboarding#uploads",       as: :onboarding
   post "onboarding/uploads",  to: "onboarding#create_upload", as: :onboarding_uploads
   get  "onboarding/template", to: "onboarding#template",      as: :onboarding_template

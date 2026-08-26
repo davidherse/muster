@@ -1,14 +1,14 @@
 class TrainingDocumentsController < ApplicationController
   def index
-    @documents = Current.user.training_documents.order(created_at: :desc)
+    @documents = Current.account.training_documents.order(created_at: :desc)
   end
 
   def new
-    @document = Current.user.training_documents.new
+    @document = Current.account.training_documents.new(user: Current.user)
   end
 
   def create
-    @document = Current.user.training_documents.new(document_params)
+    @document = Current.account.training_documents.new(document_params.merge(user: Current.user))
     if @document.files.attached? && @document.save
       TrainingIngestJob.perform_later(@document)
       redirect_to training_documents_path, notice: "Training started — your rates will appear in the price book shortly."
@@ -19,10 +19,10 @@ class TrainingDocumentsController < ApplicationController
   end
 
   def destroy
-    document = Current.user.training_documents.find(params[:id])
-    PriceBookItem.from_training_doc(Current.user, document.id).delete_all
+    document = Current.account.training_documents.find(params[:id])
+    PriceBookItem.from_training_doc(Current.account, document.id).delete_all
     document.destroy
-    QuantityNorms.derive!(Current.user)
+    QuantityNorms.derive!(Current.account)
     redirect_to training_documents_path, notice: "Training document and its rates removed."
   end
 

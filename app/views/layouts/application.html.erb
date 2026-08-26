@@ -33,7 +33,7 @@
             </button>
           </div>
           <nav class="flex-1 px-2.5 py-4 space-y-1 text-sm font-medium">
-            <% nav_items = [ [ "Estimates", estimates_path, "file-text" ], [ "Templates", templates_path, "layout-list" ], [ "Training", training_documents_path, "graduation-cap" ] ] %>
+            <% nav_items = [ [ "Estimates", estimates_path, "file-text" ], [ "Templates", templates_path, "layout-list" ], [ "Team", team_path, "users" ], [ "Training", training_documents_path, "graduation-cap" ] ] %>
             <% nav_items << [ "Price Book", price_book_items_path, "book-open" ] if Current.user.admin? %>
             <% nav_items.each do |label, path, icon| %>
               <% active = request.path.start_with?(path) %>

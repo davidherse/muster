@@ -33,7 +33,7 @@ class OnboardingControllerTest < ActionDispatch::IntegrationTest
     doc = users(:two).training_documents.create!(name: "X")
     doc.files.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "e.pdf", content_type: "application/pdf")
     TrainingIngestor.new(doc, client: FakeAiClient.new).call
-    TemplateSynthesizer.new(users(:two), client: FakeAiClient.new).call
+    TemplateSynthesizer.new(users(:two).account, client: FakeAiClient.new).call
 
     get onboarding_template_url
     assert_response :success
@@ -41,16 +41,16 @@ class OnboardingControllerTest < ActionDispatch::IntegrationTest
 
     post onboarding_agree_url
     assert_redirected_to new_estimate_url
-    assert users(:two).reload.onboarded_at.present?
-    assert_equal "active", EstimateTemplate.find_by(user: users(:two)).status
+    assert accounts(:built).reload.onboarded_at.present?
+    assert_equal "active", EstimateTemplate.find_by(account: accounts(:built)).status
     assert_equal [ "Prelims", "Carpentry", "Wet Areas", "Painting" ],
-      EstimateTemplate.for_user(users(:two)).section_names
+      EstimateTemplate.for_account(accounts(:built)).section_names
   end
 
-  test "skip marks the user onboarded" do
+  test "skip marks the account onboarded" do
     post onboarding_skip_url
     assert_redirected_to estimates_url
-    assert users(:two).reload.onboarded_at.present?
+    assert accounts(:built).reload.onboarded_at.present?
   end
 
   test "sign-in routes new users into onboarding" do

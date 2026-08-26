@@ -11,6 +11,7 @@ require "json"
 $stdout.sync = true
 
 user = User.find_by!(email_address: ENV.fetch("USER_EMAIL"))
+account = user.account
 dir = ENV.fetch("DIR")
 docs = JSON.parse(File.read(Rails.root.join("eval/training_docs_metadata.json")))
 
@@ -22,7 +23,7 @@ CONTENT_TYPES = {
 }.freeze
 
 docs.each do |meta|
-  existing = user.training_documents.find_by(name: meta["name"])
+  existing = account.training_documents.find_by(name: meta["name"])
   if existing&.status == "completed"
     puts "#{meta['name']}: already ingested, skipping"
     next
@@ -31,7 +32,8 @@ docs.each do |meta|
   path = File.join(dir, meta["file"])
   abort("missing file: #{path}") unless File.exist?(path)
 
-  doc = existing || user.training_documents.create!(
+  doc = existing || account.training_documents.create!(
+    user: user,
     name: meta["name"],
     priced_on: meta["priced_on"].presence && Date.parse(meta["priced_on"]),
     description: meta["description"],
@@ -43,15 +45,15 @@ docs.each do |meta|
   puts "#{meta['name']}: ingesting…"
   begin
     TrainingIngestor.new(doc).call
-    puts "  -> #{doc.reload.status}, #{PriceBookItem.from_training_doc(user, doc.id).count} book entries"
+    puts "  -> #{doc.reload.status}, #{PriceBookItem.from_training_doc(account, doc.id).count} book entries"
   rescue StandardError => e
     puts "  -> FAILED: #{e.message.to_s.truncate(200)} (re-run to resume)"
   end
 end
 
-norms = user.reload.quantity_norms
+norms = account.reload.quantity_norms
 puts
-puts "book total: #{PriceBookItem.for_user(user).count} entries"
+puts "book total: #{PriceBookItem.for_account(account).count} entries"
 puts "norms derived: #{norms&.dig('derived_at') || 'none'}"
 puts "NEXT: the user signs in and agrees the proposed template at /onboarding/template"
 puts "load done"
