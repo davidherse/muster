@@ -2,6 +2,7 @@ class PriceBookItem < ApplicationRecord
   SOURCE_KINDS = %w[base user market].freeze
 
   belongs_to :user, optional: true
+  belongs_to :account, optional: true
 
   validates :category, :description, presence: true
   validates :unit_cost, presence: true, numericality: { greater_than_or_equal_to: 0 }

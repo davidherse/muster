@@ -2,6 +2,8 @@ class TrainingDocument < ApplicationRecord
   STATUSES = %w[pending processing completed failed].freeze
 
   belongs_to :user
+  belongs_to :account
+  before_validation { self.account ||= user&.account }
   has_many_attached :files
 
   validates :name, presence: true

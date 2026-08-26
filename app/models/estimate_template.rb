@@ -1,5 +1,6 @@
 class EstimateTemplate < ApplicationRecord
   belongs_to :user, optional: true
+  belongs_to :account, optional: true
   has_many :estimates, dependent: :nullify
 
   validates :name, presence: true, uniqueness: true

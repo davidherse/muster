@@ -51,7 +51,7 @@ class EstimateTemplateTest < ActiveSupport::TestCase
   test "customise_for disambiguates when another user shares a display name" do
     @default.customise_for(@user)
     twin = User.create!(name: @user.name, email_address: "dup@example.com",
-      password: "password-123", activated_at: Time.current)
+      password: "password-123", activated_at: Time.current, account: @user.account)
 
     copy = @default.customise_for(twin)
     assert copy.persisted?, "a shared display name must not blow up the copy"

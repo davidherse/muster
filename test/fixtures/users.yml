@@ -4,17 +4,31 @@ one:
   name: Dave Builder
   email_address: one@example.com
   admin: true
+  account: built
+  role: owner
   password_digest: <%= password_digest %>
   activated_at: <%= 1.day.ago %>
 
 two:
   name: Sam Renovator
   email_address: two@example.com
+  account: built
+  role: member
+  password_digest: <%= password_digest %>
+  activated_at: <%= 1.day.ago %>
+
+outsider:
+  name: Olive Outsider
+  email_address: outsider@example.com
+  account: other
+  role: owner
   password_digest: <%= password_digest %>
   activated_at: <%= 1.day.ago %>
 
 unactivated:
   name: New Signup
   email_address: new@example.com
+  account: other
+  role: member
   password_digest: <%= password_digest %>
   activated_at: null
