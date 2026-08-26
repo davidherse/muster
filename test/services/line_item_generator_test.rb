@@ -70,7 +70,54 @@ class LineItemGeneratorTest < ActiveSupport::TestCase
     assert_includes system_text(generate), "SUPERVISION ONCE"
   end
 
+  # --- supplier quotes ------------------------------------------------------
+
+  test "quoted trades rule names the supplier, amount and section only when quotes exist" do
+    client = FakeAiClient.new
+    LineItemGenerator.new(@estimate, analysis: FakeAiClient.quoted_analysis, client: client).call(steel_batch)
+    system = client.calls.last[:system].map { |b| b[:text] || b["text"] }.join
+    assert_match "QUOTED TRADES ARE BINDING", system
+    assert_match "West Tiling", system
+    assert_match "12000", system.delete(",")
+    assert_match "Structural Steel", system
+
+    client = FakeAiClient.new
+    LineItemGenerator.new(@estimate, analysis: FakeAiClient.new.send(:default_analysis), client: client).call(steel_batch)
+    assert_no_match(/QUOTED TRADES ARE BINDING/, client.calls.last[:system].map { |b| b[:text] || b["text"] }.join)
+  end
+
+  # --- premium repaint composite -------------------------------------------
+
+  test "premium repaint class for high-end finishes, standard otherwise, heritage untouched" do
+    @estimate.update!(questionnaire: { "repaint_extent" => "Full repaint inside and out", "building_era" => "Post-1990" })
+    assert_equal "full repaint, premium finish", generator_with(finish_level: "high_end").send(:repaint_class)
+    assert_equal "full repaint, premium finish", generator_with(finish_level: "luxury").send(:repaint_class)
+    assert_equal "full repaint of standard character home", generator_with(finish_level: "standard").send(:repaint_class)
+    @estimate.update!(questionnaire: { "repaint_extent" => "Full repaint incl. VJ linings and fretwork", "building_era" => "Pre-1946 character home" })
+    assert_equal "full heritage repaint", generator_with(finish_level: "high_end").send(:repaint_class)
+  end
+
+  # --- round-2 calibration rules -------------------------------------------
+
+  test "supervision-by-duration and single-ducted-system rules are present" do
+    client = FakeAiClient.new
+    LineItemGenerator.new(@estimate, analysis: FakeAiClient.new.send(:default_analysis), client: client).call(steel_batch)
+    system = client.calls.last[:system].map { |b| b[:text] || b["text"] }.join
+    assert_match "SUPERVISION BY DURATION", system
+    assert_match "SINGLE DUCTED SYSTEM", system
+  end
+
   private
+
+  def steel_batch
+    [ { "name" => "Structural Steel", "hint" => "Beams" } ]
+  end
+
+  def generator_with(finish_level:)
+    LineItemGenerator.new(@estimate,
+                          analysis: FakeAiClient.new.send(:default_analysis).merge("finish_level" => finish_level),
+                          client: FakeAiClient.new)
+  end
 
   def generate(sections = [ { "name" => "Preliminaries", "hint" => "" } ])
     client = FakeAiClient.new

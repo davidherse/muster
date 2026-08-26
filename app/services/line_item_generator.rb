@@ -48,7 +48,7 @@ class LineItemGenerator
   # sections: array of {"name" =>, "hint" =>} from the template. Returns parsed hash.
   def call(sections)
     @client.complete_json(
-      system: system_blocks,
+      system: system_blocks(sections),
       content: [ { type: "text", text: request_text(sections) } ],
       schema: SCHEMA
     )
@@ -60,9 +60,12 @@ class LineItemGenerator
   # after it, so every batch call AND both reviewer passes share one cached
   # copy (identical prefix). Role instructions follow the breakpoint.
   # Batches carry scoped book slices in their requests; the system prompt
-  # stays small and stable (cache-friendly).
-  def system_blocks
-    [ { type: "text", text: instructions, cache_control: { type: "ephemeral" } } ]
+  # stays small and stable (cache-friendly) — the one exception is the
+  # quotes rule, which names the quotes covering THIS batch, so a job with
+  # supplier quotes re-sends the block per batch rather than reusing the
+  # cached copy.
+  def system_blocks(sections)
+    [ { type: "text", text: instructions(sections), cache_control: { type: "ephemeral" } } ]
   end
 
   def self.price_book_block(account = nil)
@@ -77,7 +80,7 @@ class LineItemGenerator
     { type: "text", text: sections.join("\n\n"), cache_control: { type: "ephemeral" } }
   end
 
-  def instructions
+  def instructions(sections)
     <<~PROMPT
       You are an expert residential construction estimator in Queensland, Australia,
       producing a detailed cost estimate for a builder. You will be given a plan analysis,
@@ -163,6 +166,7 @@ class LineItemGenerator
         counts. Never invent a per-room lump "rough-in and fit-off" allowance
         the book does not record — that is market instinct wearing a
         quantity's clothes.
+      #{quotes_rule(sections)}
       - PC allowances are the BUILDER'S OWN recorded levels: a PC (prime cost)
         allowance is a budget this builder sets for client-selected items —
         tiles, fittings, fixtures — and the book records this builder's
@@ -250,6 +254,13 @@ class LineItemGenerator
       - SUPERVISION ONCE: project management and site supervision are costed
         only in the Site Supervision section (when the template has one) —
         never as Preliminaries lines, and never in both.
+      - SUPERVISION BY DURATION: when the builder states a duration and their
+        book carries a monthly site-supervision allowance, cost Site
+        Supervision as months × that monthly allowance (one line), not as
+        hours.
+      - SINGLE DUCTED SYSTEM: a stated single ducted air-conditioning system
+        means ONE outdoor unit with its ducting and zoning — no additional
+        ducted units or wall splits unless the brief or plans list them.
       - Hire and temporary services: weekly/monthly rates x the portion of
         duration_months each item is actually on site.
       - Cost every entry in special_features explicitly (pool, solar, shutters,
@@ -284,12 +295,48 @@ class LineItemGenerator
         crew for the full duration: #{weeks} weeks × the builder's own per-week
         crew rate from the USER PRICE BOOK ('Carpentry and Onsite Labour per
         week' — average 2 men), plus a site labourer per week where the book
-        carries one (typically ~75% of the duration). Because the crew is costed
-        there, the framing, floor, wall, roof-framing, lockup and fixing
-        carpentry sections carry MATERIALS and specialist subcontract/hire tasks
-        only — do NOT add general carpentry Lab hours in those sections; they are
-        inside the crew weeks. State the crew plan in assumptions.
+        carries one at the builder's own per-week labourer rate ('Site
+        Labourer per week') (typically ~75% of the duration). Because the crew
+        is costed there, the framing, floor, wall, roof-framing, lockup and
+        fixing carpentry sections carry MATERIALS and specialist subcontract/
+        hire tasks only — do NOT add general carpentry Lab hours in those
+        sections; they are inside the crew weeks. State the crew plan in
+        assumptions.
     RULE
+  end
+
+  # A supplier quote the builder already holds is a price, not an estimate:
+  # it outranks every rate in the book for the trade it covers. The rule
+  # fires only when the analysis found quotes, and names the ones covering
+  # this batch's sections — falling back to all of them so a batch the
+  # quotes don't obviously cover still knows they exist and can't
+  # double-cost a quoted trade.
+  def quotes_rule(sections)
+    quotes = Array(@analysis["supplier_quotes"])
+    return "" if quotes.empty?
+    names = sections.map { |s| s["name"] }
+    covering = quotes.select { |q| Array(q["sections"]).intersect?(names) }
+    covering = quotes if covering.empty?
+
+    <<~RULE.strip
+      - QUOTED TRADES ARE BINDING: the builder holds these supplier quotes:
+      #{covering.map { |q| quote_line(q) }.join("\n")}
+        Where a quote covers a section, cost that section as ONE Sub line
+        described "Quoted by <supplier> — <trade>" at the quoted ex-GST amount
+        (quantity 1, uom Quoted, confidence high), plus only the builder-side
+        items the quote EXCLUDES (supply the tiler doesn't, delivery,
+        attendance). Never re-price a quoted trade from rates, never add
+        labour the quote already covers, and never mark a quoted section
+        inapplicable.
+    RULE
+  end
+
+  def quote_line(quote)
+    "  - #{quote['supplier']} — #{quote['trade']}: $#{quote['amount_ex_gst'].to_i} ex GST " \
+      "(#{quote['gst_status'].presence || 'gst status not stated'}); " \
+      "includes: #{Array(quote['includes']).join('; ').presence || 'not stated'}; " \
+      "excludes: #{Array(quote['excludes']).join('; ').presence || 'nothing stated'}; " \
+      "covers: #{Array(quote['sections']).join(', ').presence || 'not stated'}"
   end
 
   def request_text(sections)
@@ -340,9 +387,20 @@ class LineItemGenerator
       "full repaint incl raise/build-under new lower level"
     elsif extent =~ /VJ|fretwork|character|heritage/i && character_era?(q["building_era"])
       "full heritage repaint"
+    elsif premium_finish?(q)
+      "full repaint, premium finish"
     else
       "full repaint of standard character home"
     end
+  end
+
+  # A high-end or luxury job repaints at a premium rate even where the fabric
+  # is ordinary: better prep, more coats, and trades that don't work to
+  # standard-spec productivity. Heritage still wins where it applies — that
+  # composite already carries the premium.
+  def premium_finish?(questionnaire)
+    %w[high_end luxury].include?(@analysis["finish_level"].to_s) ||
+      questionnaire["finish_level"].to_s.match?(/high-end|luxury|premium/i)
   end
 
   # A stated era decides: "Post-1990" or "1946–1990" rules the heritage

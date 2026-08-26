@@ -209,6 +209,16 @@ class EstimateGeneratorTest < ActiveSupport::TestCase
     assert @estimate.reload.completed?
     assert @estimate.needs_answers?
   end
+
+  test "a supplier quote becomes one Quoted-by line in its section" do
+    client = FakeAiClient.new(analysis: FakeAiClient.quoted_analysis)
+    EstimateGenerator.new(@estimate, client: client).call
+    steel = @estimate.reload.sections.find_by!(name: "Structural Steel")
+    quoted = steel.line_items.find { |i| i.description.start_with?("Quoted by ") }
+    assert quoted, "expected a Quoted by line"
+    assert_equal "Sub", quoted.item_type
+    assert_equal 12_000.0, quoted.total.to_f
+  end
 end
 
 class EstimateGeneratorPartialScopeTest < ActiveSupport::TestCase

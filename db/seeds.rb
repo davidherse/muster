@@ -59,40 +59,55 @@ puts "Seeded template: #{template.name} (#{template.sections.size} sections)"
 # Benecia 2022-23 x1.17, Constitution 2024-25 x1.10, Carberry 2025 x1.04.
 # The source column records each item's provenance and applied factor.
 csv_path = Rails.root.join("db/seed_data/price_book.csv")
-if PriceBookItem.base.count.zero? && csv_path.exist?
-  # Context per source job so base rates read like user rates (what kind of
-  # job the rate came from). Derived from the source column's job name.
-  SOURCE_CONTEXT = {
-    /hilda/i => { "project_class" => "extension_and_renovation", "finish_level" => "High-end", "floor_area_m2" => 300, "note" => "double-storey rework in footprint" },
-    /benecia/i => { "project_class" => "raise_and_build_under", "finish_level" => "High-end", "floor_area_m2" => 300, "note" => "raise + build-in-under with pool" },
-    /constitution/i => { "project_class" => "extension_and_renovation", "finish_level" => "High-end", "floor_area_m2" => 400, "note" => "heavy-character reno, large glazing" },
-    /carberry/i => { "project_class" => "extension_and_renovation", "finish_level" => "High-end", "floor_area_m2" => 330, "note" => "character weatherboard reno" }
-  }.freeze
 
-  def self.context_for(source)
-    SOURCE_CONTEXT.each { |pattern, ctx| return ctx if source.to_s.match?(pattern) }
-    { "note" => "composite/derived rate" }
-  end
+# Context per source job so base rates read like user rates (what kind of
+# job the rate came from). Derived from the source column's job name.
+source_context = {
+  /hilda/i => { "project_class" => "extension_and_renovation", "finish_level" => "High-end", "floor_area_m2" => 300, "note" => "double-storey rework in footprint" },
+  /benecia/i => { "project_class" => "raise_and_build_under", "finish_level" => "High-end", "floor_area_m2" => 300, "note" => "raise + build-in-under with pool" },
+  /constitution/i => { "project_class" => "extension_and_renovation", "finish_level" => "High-end", "floor_area_m2" => 400, "note" => "heavy-character reno, large glazing" },
+  /carberry/i => { "project_class" => "extension_and_renovation", "finish_level" => "High-end", "floor_area_m2" => 330, "note" => "character weatherboard reno" }
+}.freeze
 
-  rows = CSV.read(csv_path, headers: true).map do |row|
-    {
-      category: row["category"],
-      description: row["description"],
-      item_type: row["item_type"].presence,
-      uom: row["uom"].presence,
-      unit_cost: row["unit_cost"].to_d,
-      sample_count: row["sample_count"].to_i,
-      source: row["source"].presence || "historical",
-      source_kind: "base",
-      context: context_for(row["source"]).merge(
-        row["uom"].to_s.match?(/allowance/i) ? { "scale" => "lump sum at source-job scope — derive a unit rate before reuse at different scope" } : {}
-      ),
-      created_at: Time.current,
-      updated_at: Time.current
-    }
+context_for = lambda do |source|
+  source_context.find { |pattern, _ctx| source.to_s.match?(pattern) }&.last || { "note" => "composite/derived rate" }
+end
+
+build_row = lambda do |row|
+  {
+    category: row["category"],
+    description: row["description"],
+    item_type: row["item_type"].presence,
+    uom: row["uom"].presence,
+    unit_cost: row["unit_cost"].to_d,
+    sample_count: row["sample_count"].to_i,
+    source: row["source"].presence || "historical",
+    source_kind: "base",
+    context: context_for.call(row["source"]).merge(
+      row["uom"].to_s.match?(/allowance/i) ? { "scale" => "lump sum at source-job scope — derive a unit rate before reuse at different scope" } : {}
+    ),
+    created_at: Time.current,
+    updated_at: Time.current
+  }
+end
+
+# Seeding runs on every deploy, against a database that already carries the
+# book: rows added to the CSV since the last release have to arrive without
+# re-inserting the ones already there. Description is the identity — the CSV
+# carries no ids and its descriptions are unique.
+if csv_path.exist?
+  csv_rows = CSV.read(csv_path, headers: true)
+  if PriceBookItem.base.count.zero?
+    PriceBookItem.insert_all(csv_rows.map { |row| build_row.call(row) })
+    puts "Seeded base price book: #{PriceBookItem.base.count} items"
+  else
+    seeded = PriceBookItem.base.pluck(:description).to_set
+    missing = csv_rows.reject { |row| seeded.include?(row["description"]) }
+    if missing.any?
+      PriceBookItem.insert_all(missing.map { |row| build_row.call(row) })
+      puts "Added #{missing.size} new base price book items (#{PriceBookItem.base.count} total)"
+    else
+      puts "Base price book already seeded (#{PriceBookItem.base.count} items)"
+    end
   end
-  PriceBookItem.insert_all(rows)
-  puts "Seeded base price book: #{PriceBookItem.base.count} items"
-else
-  puts "Base price book already seeded (#{PriceBookItem.base.count} items)"
 end
