@@ -1,7 +1,7 @@
-# Where a user sees and adjusts the template their estimates are built on:
-# their agreed personal template, the shared default, and any AI-derived
-# proposal awaiting review. Editing is owner-only for personal templates and
-# admin-only for the shared default.
+# Where a workspace sees and adjusts the template its estimates are built on:
+# the account's agreed template, the shared default, and any AI-derived
+# proposal awaiting review. Editing is account-only for an account's own
+# template and admin-only for the shared default.
 class TemplatesController < ApplicationController
   REDERIVE_WINDOW = 10.minutes
 
@@ -9,11 +9,11 @@ class TemplatesController < ApplicationController
   before_action :authorise_edit!, only: %i[ edit update ]
 
   def index
-    @personal = EstimateTemplate.personal_for(Current.user)
+    @account_template = EstimateTemplate.active_for(Current.account)
     @default = EstimateTemplate.default
-    @proposal = EstimateTemplate.proposal_for(Current.user)
-    @completed_docs = Current.user.training_documents.where(status: "completed").count
-    @deriving = Current.user.training_documents.where(status: %w[pending processing]).exists? ||
+    @proposal = EstimateTemplate.proposal_for(Current.account)
+    @completed_docs = Current.account.training_documents.where(status: "completed").count
+    @deriving = Current.account.training_documents.where(status: %w[pending processing]).exists? ||
       (rederive_pending? && @proposal.nil?)
   end
 
@@ -30,9 +30,9 @@ class TemplatesController < ApplicationController
     end
   end
 
-  # Copy the shared default into a personal template the user can edit.
+  # Copy the shared default into a template the workspace can edit.
   def customise
-    copy = EstimateTemplate.default&.customise_for(Current.user)
+    copy = EstimateTemplate.default&.customise_for(Current.account)
     if copy
       redirect_to edit_template_path(copy), notice: "This copy is yours — adjust it however you estimate."
     else
@@ -42,16 +42,16 @@ class TemplatesController < ApplicationController
 
   # Ask the AI to re-derive a proposal from every completed training document.
   def rederive
-    unless Current.user.training_documents.where(status: "completed").exists?
+    unless Current.account.training_documents.where(status: "completed").exists?
       return redirect_to templates_path, alert: "Upload at least one training document first."
     end
     session[:template_rederive] = { "user_id" => Current.user.id, "at" => Time.current.iso8601 }
-    SynthesizeTemplateJob.perform_later(Current.user)
+    SynthesizeTemplateJob.perform_later(Current.account)
     redirect_to templates_path, notice: "Re-deriving your template from your training documents — this takes a minute or two."
   end
 
   def accept
-    proposal = EstimateTemplate.proposal_for(Current.user)
+    proposal = EstimateTemplate.proposal_for(Current.account)
     return redirect_to templates_path, alert: "There is no proposal to accept." unless proposal
     proposal.activate!
     session.delete(:template_rederive)
@@ -59,7 +59,7 @@ class TemplatesController < ApplicationController
   end
 
   def discard
-    proposal = EstimateTemplate.proposal_for(Current.user)
+    proposal = EstimateTemplate.proposal_for(Current.account)
     proposal&.destroy
     session.delete(:template_rederive)
     redirect_to templates_path, notice: "Proposal discarded — your current template stands."
@@ -73,8 +73,8 @@ class TemplatesController < ApplicationController
   # never re-offers Re-derive. The "still deriving" test mirrors index's
   # @deriving exactly, so the spinner and the poll can never disagree.
   def status
-    proposal_ready = EstimateTemplate.proposal_for(Current.user).present?
-    pending = Current.user.training_documents.where(status: %w[pending processing]).count
+    proposal_ready = EstimateTemplate.proposal_for(Current.account).present?
+    pending = Current.account.training_documents.where(status: %w[pending processing]).count
     session.delete(:template_rederive) if proposal_ready
     ready = proposal_ready || (pending.zero? && !rederive_pending?)
     render json: {
@@ -114,7 +114,7 @@ class TemplatesController < ApplicationController
   end
 
   def authorise_edit!
-    allowed = @template.personal? ? @template.user_id == Current.user.id : Current.user.admin?
+    allowed = @template.account? ? @template.account_id == Current.account.id : Current.user.admin?
     redirect_to templates_path, alert: "You can't edit that template." unless allowed
   end
 

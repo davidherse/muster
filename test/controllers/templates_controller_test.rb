@@ -12,7 +12,7 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_session_url
   end
 
-  test "index shows the default and offers customise when there is no personal template" do
+  test "index shows the default and offers customise when the account has no template" do
     sign_in_as @user
     get templates_url
     assert_response :success
@@ -21,9 +21,9 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
     assert_no_match(/Re-derive/, response.body)
   end
 
-  test "index shows my personal template and hides customise" do
+  test "index shows the account template and hides customise" do
     sign_in_as @user
-    mine = EstimateTemplate.create!(name: "Mine", user: @user, status: "active", sections: [ { "name" => "Demolition", "hint" => "" } ])
+    mine = EstimateTemplate.create!(name: "Mine", account: accounts(:built), status: "active", sections: [ { "name" => "Demolition", "hint" => "" } ])
     get templates_url
     assert_response :success
     assert_match "Mine", response.body
@@ -44,7 +44,7 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
 
   test "index shows a pending proposal with accept and discard" do
     sign_in_as @user
-    EstimateTemplate.create!(name: "Proposal", user: @user, status: "proposed", sections: [ { "name" => "Wet Areas", "hint" => "" } ])
+    EstimateTemplate.create!(name: "Proposal", account: accounts(:built), status: "proposed", sections: [ { "name" => "Wet Areas", "hint" => "" } ])
     get templates_url
     assert_match "Wet Areas", response.body
     assert_match accept_templates_path, response.body
@@ -53,7 +53,7 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
 
   test "accepting or discarding a proposal asks for confirmation first" do
     sign_in_as @user
-    EstimateTemplate.create!(name: "Proposal", user: @user, status: "proposed", sections: [ { "name" => "Wet Areas", "hint" => "" } ])
+    EstimateTemplate.create!(name: "Proposal", account: accounts(:built), status: "proposed", sections: [ { "name" => "Wet Areas", "hint" => "" } ])
     get templates_url
     # Both destroy the user's current sections or the proposal outright.
     assert_select "form[action=?] [data-turbo-confirm]", accept_templates_path
@@ -90,9 +90,9 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
     assert_no_match(/Deriving your template/, response.body)
   end
 
-  test "edit my personal template renders the section rows" do
+  test "edit the account template renders the section rows" do
     sign_in_as @user
-    mine = EstimateTemplate.create!(name: "Mine", user: @user, status: "active",
+    mine = EstimateTemplate.create!(name: "Mine", account: accounts(:built), status: "active",
       sections: [ { "name" => "Demolition", "hint" => "Strip out", "typical_items" => [ "Skip bin (ea)" ] } ])
     get edit_template_url(mine)
     assert_response :success
@@ -108,7 +108,7 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
 
   test "edit form round-trips through the controller's param contract" do
     sign_in_as @user
-    mine = EstimateTemplate.create!(name: "Mine", user: @user, status: "active",
+    mine = EstimateTemplate.create!(name: "Mine", account: accounts(:built), status: "active",
       sections: [
         { "name" => "Demolition", "hint" => "Strip out", "typical_items" => [ "Skip bin (ea)" ] },
         { "name" => "Painting", "hint" => "", "typical_items" => [] }
@@ -141,9 +141,9 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Mine", mine.name
   end
 
-  test "cannot edit another user's personal template" do
+  test "cannot update another account's template" do
     sign_in_as @user
-    theirs = EstimateTemplate.create!(name: "Theirs", user: @admin, status: "active", sections: [ { "name" => "A" } ])
+    theirs = EstimateTemplate.create!(name: "Theirs", account: accounts(:other), status: "active", sections: [ { "name" => "A" } ])
     get edit_template_url(theirs)
     assert_redirected_to templates_url
     patch template_url(theirs), params: { template: { name: "Hijack", sections: [ { name: "B" } ] } }
@@ -163,7 +163,7 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
 
   test "update normalises rows and preserves order" do
     sign_in_as @user
-    mine = EstimateTemplate.create!(name: "Mine", user: @user, status: "active", sections: [ { "name" => "Old" } ])
+    mine = EstimateTemplate.create!(name: "Mine", account: accounts(:built), status: "active", sections: [ { "name" => "Old" } ])
     patch template_url(mine), params: { template: { name: "Mine v2", sections: [
       { name: " Prelims ", hint: "Setup", typical_items: "Supervision (Hour)\r\n\r\nSkip bin (ea)" },
       { name: "", hint: "dropped", typical_items: "" },
@@ -178,7 +178,7 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
 
   test "update with no named sections re-renders with an error" do
     sign_in_as @user
-    mine = EstimateTemplate.create!(name: "Mine", user: @user, status: "active", sections: [ { "name" => "Old" } ])
+    mine = EstimateTemplate.create!(name: "Mine", account: accounts(:built), status: "active", sections: [ { "name" => "Old" } ])
     patch template_url(mine), params: { template: { name: "Mine", sections: [ { name: "", hint: "", typical_items: "" } ] } }
     assert_response :unprocessable_entity
     # A blank-named row is dropped by sections_form=, so the error is the
@@ -187,17 +187,17 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
     assert_equal [ "Old" ], mine.reload.section_names
   end
 
-  test "customise copies the default into a personal template and opens the editor" do
+  test "customise copies the default into the account's template and opens the editor" do
     sign_in_as @user
     post customise_templates_url
-    copy = EstimateTemplate.personal_for(@user)
+    copy = EstimateTemplate.active_for(accounts(:built))
     assert copy.present?
     assert_redirected_to edit_template_url(copy)
     assert_equal @default.sections, copy.sections
 
     post customise_templates_url
     assert_redirected_to templates_url
-    assert_equal 1, EstimateTemplate.active.where(user: @user).count
+    assert_equal 1, EstimateTemplate.active.where(account: accounts(:built)).count
   end
 
   test "rederive enqueues synthesis when there are completed training documents" do
@@ -207,7 +207,7 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
     assert_match "Upload at least one", flash[:alert]
 
     @user.training_documents.create!(name: "Doc", status: "completed")
-    assert_enqueued_with(job: SynthesizeTemplateJob, args: [ @user ]) do
+    assert_enqueued_with(job: SynthesizeTemplateJob, args: [ @user.account ]) do
       post rederive_templates_url
     end
     assert_redirected_to templates_url
@@ -246,18 +246,18 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
 
   test "status reports ready once a proposal exists" do
     sign_in_as @user
-    EstimateTemplate.create!(name: "P", user: @user, status: "proposed", sections: [ { "name" => "A" } ])
+    EstimateTemplate.create!(name: "P", account: accounts(:built), status: "proposed", sections: [ { "name" => "A" } ])
     get status_templates_url
     assert_equal "ready", response.parsed_body["status"]
   end
 
-  test "accept activates the proposal and supersedes the previous personal template" do
+  test "accept activates the proposal and supersedes the account's previous template" do
     sign_in_as @user
-    old = EstimateTemplate.create!(name: "Old", user: @user, status: "active", sections: [ { "name" => "A" } ])
-    proposal = EstimateTemplate.create!(name: "P", user: @user, status: "proposed", sections: [ { "name" => "B" } ])
+    old = EstimateTemplate.create!(name: "Old", account: accounts(:built), status: "active", sections: [ { "name" => "A" } ])
+    proposal = EstimateTemplate.create!(name: "P", account: accounts(:built), status: "proposed", sections: [ { "name" => "B" } ])
     post accept_templates_url
     assert_redirected_to templates_url
-    assert_equal proposal, EstimateTemplate.personal_for(@user)
+    assert_equal proposal, EstimateTemplate.active_for(accounts(:built))
     assert_not EstimateTemplate.exists?(old.id)
   end
 
@@ -270,11 +270,28 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
 
   test "discard destroys the proposal and keeps the current template" do
     sign_in_as @user
-    mine = EstimateTemplate.create!(name: "Mine", user: @user, status: "active", sections: [ { "name" => "A" } ])
-    EstimateTemplate.create!(name: "P", user: @user, status: "proposed", sections: [ { "name" => "B" } ])
+    mine = EstimateTemplate.create!(name: "Mine", account: accounts(:built), status: "active", sections: [ { "name" => "A" } ])
+    EstimateTemplate.create!(name: "P", account: accounts(:built), status: "proposed", sections: [ { "name" => "B" } ])
     delete discard_templates_url
     assert_redirected_to templates_url
-    assert_nil EstimateTemplate.proposal_for(@user)
-    assert_equal mine, EstimateTemplate.personal_for(@user)
+    assert_nil EstimateTemplate.proposal_for(accounts(:built))
+    assert_equal mine, EstimateTemplate.active_for(accounts(:built))
+  end
+
+  test "the account template is shared: a member can edit what the owner created" do
+    sign_in_as @user
+    mine = EstimateTemplate.create!(name: "Ours", account: accounts(:built), status: "active", sections: [ { "name" => "A" } ])
+    get edit_template_url(mine)
+    assert_response :success
+    patch template_url(mine), params: { template: { name: "Ours v2", sections: [ { name: "B" } ] } }
+    assert_redirected_to templates_url
+    assert_equal "Ours v2", mine.reload.name
+  end
+
+  test "another account's template is not editable" do
+    sign_in_as @user
+    theirs = EstimateTemplate.create!(name: "Theirs", account: accounts(:other), status: "active", sections: [ { "name" => "A" } ])
+    get edit_template_url(theirs)
+    assert_redirected_to templates_url
   end
 end

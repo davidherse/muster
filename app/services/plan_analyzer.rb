@@ -205,7 +205,7 @@ class PlanAnalyzer
   end
 
   def template_section_names
-    template = @estimate.estimate_template || EstimateTemplate.for_user(@estimate.user)
+    template = @estimate.estimate_template || EstimateTemplate.for_account(@estimate.account)
     template ? template.section_names : []
   end
 

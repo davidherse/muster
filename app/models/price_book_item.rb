@@ -1,24 +1,23 @@
 class PriceBookItem < ApplicationRecord
   SOURCE_KINDS = %w[base user market].freeze
 
-  belongs_to :user, optional: true
   belongs_to :account, optional: true
 
   validates :category, :description, presence: true
   validates :unit_cost, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :source_kind, inclusion: { in: SOURCE_KINDS }
-  validates :user, presence: true, if: -> { source_kind == "user" }
+  validates :account, presence: true, if: -> { source_kind == "user" }
 
   scope :ordered, -> { order(:category, :description) }
   scope :base, -> { where(source_kind: "base") }
   scope :market, -> { where(source_kind: "market") }
-  scope :for_user, ->(user) { where(source_kind: "user", user: user) }
+  scope :for_account, ->(account) { where(source_kind: "user", account: account) }
   # Entries a specific training document produced ("training:<id>", possibly
   # with an " | escalated ..." suffix — a bare prefix LIKE would also match
   # other doc ids sharing leading digits).
-  scope :from_training_doc, ->(user, doc_id) {
+  scope :from_training_doc, ->(account, doc_id) {
     tag = "training:#{doc_id}"
-    for_user(user).where("source = ? OR source LIKE ?", tag, "#{tag} %")
+    for_account(account).where("source = ? OR source LIKE ?", tag, "#{tag} %")
   }
 
   # Compact text listing used to ground the AI's pricing.

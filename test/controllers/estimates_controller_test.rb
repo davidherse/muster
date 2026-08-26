@@ -13,7 +13,7 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_session_url
   end
 
-  test "index lists my estimates" do
+  test "index lists the account's estimates" do
     get estimates_url
     assert_response :success
     assert_match "Existing", response.body
@@ -36,8 +36,8 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
     assert estimate.plans.attached?
   end
 
-  test "create ignores a template the user may not build on" do
-    theirs = EstimateTemplate.create!(name: "Someone else's", user: users(:two), status: "active", sections: [ { "name" => "A" } ])
+  test "create ignores a template the account may not build on" do
+    theirs = EstimateTemplate.create!(name: "Someone else's", account: accounts(:other), status: "active", sections: [ { "name" => "A" } ])
     post estimates_url, params: { estimate: {
       name: "Borrowed Layout",
       estimate_template_id: theirs.id,
@@ -45,11 +45,11 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
     } }
     estimate = Estimate.find_by!(name: "Borrowed Layout")
     assert_equal estimate_templates(:standard), estimate.estimate_template,
-      "another user's template must never be adopted, even when its id is posted"
+      "another account's template must never be adopted, even when its id is posted"
   end
 
-  test "create keeps the user's own personal template" do
-    mine = EstimateTemplate.create!(name: "My agreed one", user: @user, status: "active", sections: [ { "name" => "A" } ])
+  test "create keeps the account's own template" do
+    mine = EstimateTemplate.create!(name: "My agreed one", account: accounts(:built), status: "active", sections: [ { "name" => "A" } ])
     post estimates_url, params: { estimate: {
       name: "My Layout",
       estimate_template_id: mine.id,
@@ -65,10 +65,27 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
   end
 
-  test "cannot see another user's estimate" do
-    other = users(:two).estimates.create!(name: "Theirs")
+  test "a member sees an estimate the owner created" do
+    theirs = users(:two).estimates.create!(name: "Sam's job")
+    get estimate_url(theirs)
+    assert_response :success
+    get estimates_url
+    # assert_select, not assert_match: the rendered name is HTML-escaped.
+    assert_select "a", text: "Sam's job"
+  end
+
+  test "cannot see another account's estimate" do
+    other = users(:outsider).estimates.create!(name: "Theirs")
     get estimate_url(other)
     assert_response :not_found
+    get estimates_url
+    assert_no_match(/Theirs/, response.body)
+  end
+
+  test "index shows who created each estimate" do
+    users(:two).estimates.create!(name: "Sam's job")
+    get estimates_url
+    assert_match "Sam Renovator", response.body
   end
 
   test "status returns progress json" do
@@ -189,10 +206,10 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
     assert_nil estimate.claimed_at
   end
 
-  test "new lists only my personal template and the default as layouts" do
-    theirs = EstimateTemplate.create!(name: "Someone else's", user: users(:two), status: "active", sections: [ { "name" => "A" } ])
-    proposal = EstimateTemplate.create!(name: "My unagreed proposal", user: @user, status: "proposed", sections: [ { "name" => "A" } ])
-    mine = EstimateTemplate.create!(name: "My agreed one", user: @user, status: "active", sections: [ { "name" => "A" } ])
+  test "new lists only my account's template and the default as layouts" do
+    theirs = EstimateTemplate.create!(name: "Someone else's", account: accounts(:other), status: "active", sections: [ { "name" => "A" } ])
+    proposal = EstimateTemplate.create!(name: "My unagreed proposal", account: accounts(:built), status: "proposed", sections: [ { "name" => "A" } ])
+    mine = EstimateTemplate.create!(name: "My agreed one", account: accounts(:built), status: "active", sections: [ { "name" => "A" } ])
     get new_estimate_url
     assert_response :success
     assert_select "select[name='estimate[estimate_template_id]'] option", count: 2

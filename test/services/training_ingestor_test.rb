@@ -11,17 +11,17 @@ class TrainingIngestorTest < ActiveSupport::TestCase
 
   include ActiveJob::TestHelper
 
-  test "ingests rates into the user price book with context and queues template synthesis" do
+  test "ingests rates into the account price book with context and queues template synthesis" do
     TrainingIngestor.new(@doc, client: FakeAiClient.new).call
 
-    entries = PriceBookItem.for_user(users(:one))
+    entries = PriceBookItem.for_account(accounts(:built))
     assert_equal 2, entries.count # zero-cost line skipped
     screen = entries.find_by!(description: "Semi-frameless shower screen")
     assert_equal "user", screen.source_kind
     assert_equal "High-end", screen.context["finish_level"]
     assert_equal "training:#{@doc.id}", screen.source
 
-    assert_enqueued_with(job: SynthesizeTemplateJob, args: [ users(:one) ])
+    assert_enqueued_with(job: SynthesizeTemplateJob, args: [ accounts(:built) ])
     assert @doc.reload.completed?
     assert_equal 3, @doc.extraction["item_count"]
   end
@@ -29,18 +29,18 @@ class TrainingIngestorTest < ActiveSupport::TestCase
   test "re-ingesting replaces prior entries instead of duplicating" do
     TrainingIngestor.new(@doc, client: FakeAiClient.new).call
     TrainingIngestor.new(@doc, client: FakeAiClient.new).call
-    assert_equal 2, PriceBookItem.for_user(users(:one)).count
+    assert_equal 2, PriceBookItem.for_account(accounts(:built)).count
   end
 
   test "user book appears in price book block and is preferred" do
     TrainingIngestor.new(@doc, client: FakeAiClient.new).call
-    block = LineItemGenerator.price_book_block(users(:one))
+    block = LineItemGenerator.price_book_block(accounts(:built))
     assert_includes block[:text], "USER PRICE BOOK"
     assert_includes block[:text], "Semi-frameless shower screen"
     assert_includes block[:text], "finish_level: High-end"
     assert_includes block[:text], "BASE PRICE BOOK"
-    # user book absent for users without training
-    assert_not_includes LineItemGenerator.price_book_block(users(:two))[:text], "USER PRICE BOOK"
+    # user book absent for accounts without training
+    assert_not_includes LineItemGenerator.price_book_block(accounts(:other))[:text], "USER PRICE BOOK"
   end
 
   test "failure marks document failed" do
@@ -57,7 +57,7 @@ class TrainingIngestorEscalationTest < ActiveSupport::TestCase
     doc.files.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "e.pdf", content_type: "application/pdf")
     TrainingIngestor.new(doc, client: FakeAiClient.new).call
 
-    screen = PriceBookItem.where(user: users(:one)).find_by!("description LIKE ?", "%shower screen%")
+    screen = PriceBookItem.where(account: accounts(:built)).find_by!("description LIKE ?", "%shower screen%")
     assert_equal (890 * 1.29).round(2).to_d, screen.unit_cost
     assert_match(/escalated x1.29 from 2021-06/, screen.source)
   end

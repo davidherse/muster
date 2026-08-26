@@ -13,7 +13,7 @@ class QuantityNormsTest < ActiveSupport::TestCase
   end
 
   test "derives per-m2 intensities from measured takeoff quantities" do
-    norms = @user.reload.quantity_norms
+    norms = @user.account.reload.quantity_norms
     assert norms.present?, "ingest should derive norms"
     whole = norms.dig("groups", "whole")
     assert_equal 1, whole["docs"]
@@ -24,17 +24,18 @@ class QuantityNormsTest < ActiveSupport::TestCase
   end
 
   test "for_class picks the matching group and falls back" do
-    norms = QuantityNorms.for_class(@user, "whole_house_renovation")
+    norms = QuantityNorms.for_class(@user.account, "whole_house_renovation")
     assert norms.dig("buckets", "painting", "m2")
     # no 'small' group exists — small classes fall back to what's there
-    assert_equal norms, QuantityNorms.for_class(@user, "small_works")
-    assert_nil QuantityNorms.for_class(users(:two), "small_works")
+    assert_equal norms, QuantityNorms.for_class(@user.account, "small_works")
+    # an account with no training of its own has no norms
+    assert_nil QuantityNorms.for_class(accounts(:other), "small_works")
   end
 
   test "docs without works area contribute nothing" do
-    bare = users(:two).training_documents.create!(name: "No area")
+    bare = users(:outsider).training_documents.create!(name: "No area")
     bare.files.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "e.pdf", content_type: "application/pdf")
     TrainingIngestor.new(bare, client: FakeAiClient.new).call
-    assert_nil users(:two).reload.quantity_norms
+    assert_nil accounts(:other).reload.quantity_norms
   end
 end

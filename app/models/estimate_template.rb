@@ -1,5 +1,4 @@
 class EstimateTemplate < ApplicationRecord
-  belongs_to :user, optional: true
   belongs_to :account, optional: true
   has_many :estimates, dependent: :nullify
 
@@ -10,56 +9,56 @@ class EstimateTemplate < ApplicationRecord
   STATUSES = %w[proposed active].freeze
   validates :status, inclusion: { in: STATUSES }
 
-  scope :global, -> { where(user_id: nil) }
+  scope :global, -> { where(account_id: nil) }
   scope :active, -> { where(status: "active") }
   scope :proposed, -> { where(status: "proposed") }
 
   # sections is an ordered array of {"name" => ..., "hint" => ...} hashes.
-  # Synthesized personal templates also carry "typical_items" => [...] per
+  # Synthesized account templates also carry "typical_items" => [...] per
   # section — the line items this builder usually breaks the section into.
   def section_names
     sections.map { |s| s["name"] }
   end
 
-  def personal?
-    user_id.present?
+  def account?
+    account_id.present?
   end
 
-  # Agreeing a proposal makes it the user's template; any previous personal
-  # template is superseded.
+  # Agreeing a proposal makes it the account's template; any previous
+  # account template is superseded.
   def activate!
     transaction do
-      self.class.where(user: user).where.not(id: id).destroy_all if personal?
+      self.class.where(account: account).where.not(id: id).destroy_all if account?
       update!(status: "active")
     end
   end
 
-  # The shared starting template for users with no agreed personal template.
+  # The shared starting template for accounts with no agreed template.
   def self.default
     global.active.order(:id).first
   end
 
-  # The template a user's estimates should be built on: their agreed personal
-  # template, else the shared default.
-  def self.for_user(user)
-    return default unless user
-    active.where(user: user).order(updated_at: :desc).first || default
+  # The account's agreed template, if any.
+  def self.active_for(account)
+    active.where(account: account).order(updated_at: :desc).first
   end
 
-  # The user's agreed personal template, if any.
-  def self.personal_for(user)
-    active.where(user: user).order(updated_at: :desc).first
+  # The AI-derived template awaiting the account's review, if any.
+  def self.proposal_for(account)
+    proposed.find_by(account: account)
   end
 
-  # The AI-derived template awaiting the user's review, if any.
-  def self.proposal_for(user)
-    proposed.find_by(user: user)
+  # The template an account's estimates are built on: its agreed template,
+  # else the shared default.
+  def self.for_account(account)
+    return default unless account
+    active_for(account) || default
   end
 
-  # What a user may build estimates on: their personal template (if agreed)
-  # and the shared default. Never other users' templates or proposals.
-  def self.available_to(user)
-    [ personal_for(user), default ].compact
+  # What an account may build estimates on: its own template (if agreed) and
+  # the shared default. Never another account's template or a proposal.
+  def self.available_to(account)
+    [ active_for(account), default ].compact
   end
 
   # Assign sections from the edit form's rows: one Hash per section with
@@ -78,16 +77,16 @@ class EstimateTemplate < ApplicationRecord
       end
   end
 
-  # Copy this (global) template into an active personal template for the
-  # user so they can adjust it. Returns nil when they already have one.
-  def customise_for(user)
-    return nil if self.class.personal_for(user)
+  # Copy this (global) template into an active template the account can
+  # adjust. Returns nil when the account already has one.
+  def customise_for(account)
+    return nil if self.class.active_for(account)
     # Names are globally unique, and two builders can share a display name —
     # the second copy would raise on create. Disambiguate rather than 500.
-    base = "#{user.name} — #{name}".truncate(120)
-    base = "#{base} (#{user.id})" if self.class.exists?(name: base)
+    base = "#{account.name} — #{name}".truncate(120)
+    base = "#{base} (#{account.id})" if self.class.exists?(name: base)
     self.class.create!(
-      user: user,
+      account: account,
       status: "active",
       name: base,
       description: "Customised from #{name}.",

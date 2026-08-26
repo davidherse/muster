@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
     if user = User.authenticate_by(params.permit(:email_address, :password))
       if user.activated?
         start_new_session_for user
-        if user.onboarded_at.nil? && user.estimates.none?
+        if user.account.onboarded_at.nil? && user.account.estimates.none?
           redirect_to onboarding_path
         else
           redirect_to after_authentication_url

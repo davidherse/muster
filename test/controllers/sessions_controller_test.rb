@@ -9,14 +9,14 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "create with valid credentials" do
-    @user.update!(onboarded_at: Time.current)
+    @user.account.update!(onboarded_at: Time.current)
     post session_path, params: { email_address: @user.email_address, password: "password" }
 
     assert_redirected_to estimates_path
     assert cookies[:session_id]
   end
 
-  test "create routes brand-new users into onboarding" do
+  test "create routes brand-new workspaces into onboarding" do
     post session_path, params: { email_address: @user.email_address, password: "password" }
 
     assert_redirected_to onboarding_path

@@ -25,6 +25,7 @@
         <tr class="<%= ui_table_header_row %>">
           <th class="<%= ui_table_head %> px-5">Project</th>
           <th class="<%= ui_table_head %>">Status</th>
+          <th class="<%= ui_table_head %> hidden md:table-cell">By</th>
           <th class="<%= ui_table_head %> text-right">Estimate</th>
           <th class="<%= ui_table_head %> text-right hidden md:table-cell">Range</th>
           <th class="<%= ui_table_head %> px-5 text-right">Created</th>
@@ -38,6 +39,7 @@
               <p class="text-xs text-muted-foreground"><%= estimate.building_type.presence || "—" %></p>
             </td>
             <td class="<%= ui_table_cell %>"><%= render "status_badge", estimate: estimate %></td>
+            <td class="<%= ui_table_cell %> hidden md:table-cell text-muted-foreground"><%= estimate.user&.name || "—" %></td>
             <td class="<%= ui_table_cell %> text-right font-semibold text-foreground">
               <%= estimate.completed? && !estimate.needs_answers? && estimate.total ? number_to_currency(estimate.total, unit: "$", precision: 0) : "—" %>
             </td>
