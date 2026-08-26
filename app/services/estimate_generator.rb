@@ -59,12 +59,15 @@ class EstimateGenerator
     @estimate.update!(assessment: review.merge(usage: usage))
 
     @estimate.recalculate_totals!
-    @estimate.update!(status: "completed", progress: 100, progress_note: nil)
 
     # The clarifying-questions harness: what would the estimator ask before
     # standing behind this number? One round only — an estimate the user has
     # already clarified or skipped through finishes clean rather than
-    # re-gating forever. Failure here must not fail the estimate.
+    # re-gating forever. Failure here must not fail the estimate. This runs
+    # before the status flips to completed: the show page polls for status
+    # and reloads the instant it leaves "processing", so a user waiting on
+    # the page must already find the questions there, not the bare price.
+    @estimate.update_progress!(96, "Checking for clarifying questions…")
     if @estimate.clarifications.blank? && Array(@estimate.open_questions).empty?
       begin
         QuestionHarvester.new(@estimate, client: @client).call
@@ -72,6 +75,8 @@ class EstimateGenerator
         Rails.logger.warn("QuestionHarvester failed for estimate #{@estimate.id}: #{e.message}")
       end
     end
+
+    @estimate.update!(status: "completed", progress: 100, progress_note: nil)
   rescue StandardError => e
     @estimate.fail!(friendly_message(e))
     raise

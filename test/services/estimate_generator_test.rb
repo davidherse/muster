@@ -19,6 +19,23 @@ class ClaimProbeAiClient < FakeAiClient
   end
 end
 
+# Records the estimate's status at the moment QuestionHarvester's schema is
+# requested, so a test can prove the harvest ran before completion.
+class StatusRecordingAiClient < FakeAiClient
+  attr_reader :statuses
+
+  def initialize(estimate_id, **options)
+    super(**options)
+    @estimate_id = estimate_id
+    @statuses = []
+  end
+
+  def complete_json(system:, content:, schema:, max_tokens: nil)
+    @statuses << Estimate.find(@estimate_id).status if schema == QuestionHarvester::SCHEMA
+    super
+  end
+end
+
 class EstimateGeneratorTest < ActiveSupport::TestCase
   setup do
     @estimate = users(:one).estimates.create!(name: "Reno", estimate_template: estimate_templates(:standard))
@@ -182,6 +199,15 @@ class EstimateGeneratorTest < ActiveSupport::TestCase
       EstimateGenerator.new(@estimate, client: client).call
     end
     assert_nil @estimate.reload.claimed_at
+  end
+
+  test "questions are harvested before the estimate is marked completed" do
+    client = StatusRecordingAiClient.new(@estimate.id)
+    EstimateGenerator.new(@estimate, client: client).call
+
+    assert_equal [ "processing" ], client.statuses
+    assert @estimate.reload.completed?
+    assert @estimate.needs_answers?
   end
 end
 
