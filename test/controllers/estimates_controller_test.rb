@@ -433,4 +433,14 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
     assert_not_includes asked, "Preliminaries"
     assert_includes asked, "Site-built with newels"
   end
+
+  test "quoted lines carry a quote badge and the upload copy mentions quotes" do
+    get new_estimate_url
+    assert_match "supplier quotes", response.body
+    e = @user.estimates.create!(name: "Q", estimate_template: estimate_templates(:standard), status: "completed", total: 1, total_low: 1, total_high: 1)
+    s = e.sections.create!(name: "Tiling", position: 1)
+    s.line_items.create!(description: "Quoted by West Tiling — Tiling", item_type: "Sub", uom: "Quoted", quantity: 1, unit_cost: 140_003, position: 1)
+    get estimate_url(e)
+    assert_select "span", text: "quote"
+  end
 end
