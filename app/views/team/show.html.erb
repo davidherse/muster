@@ -4,7 +4,7 @@
 
   <% if @reset_link %>
     <div class="<%= ui_alert %> mb-6" data-controller="clipboard">
-      <p class="font-medium mb-2">Send this set-password link (valid for 2 days, single use):</p>
+      <p class="font-medium mb-2">Send this set-password link (valid for 2 days, until a password is set):</p>
       <div class="flex items-center gap-2">
         <input type="text" readonly value="<%= @reset_link %>" data-clipboard-target="source" class="<%= ui_input %> font-mono text-xs">
         <button type="button" data-action="clipboard#copy" class="<%= ui_button(variant: :outline, size: :sm) %>">Copy</button>

@@ -6,12 +6,14 @@ export default class extends Controller {
   static targets = ["source"]
 
   async copy(event) {
+    const button = event.currentTarget
     const value = this.sourceTarget.value
     try {
       await navigator.clipboard.writeText(value)
-      event.currentTarget.textContent = "Copied"
     } catch {
       this.sourceTarget.select()
+      return
     }
+    button.textContent = "Copied"
   }
 }
