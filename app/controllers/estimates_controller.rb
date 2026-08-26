@@ -48,7 +48,7 @@ class EstimatesController < ApplicationController
     answers = params.fetch(:answers, {}).permit!.to_h
 
     answered, skipped = Array(@estimate.open_questions).partition { |q| answers[q["id"].to_s].to_s.strip.present? }
-    clarified = answered.map { |q| q.slice("question").merge("answer" => answers[q["id"].to_s].to_s.strip) }
+    clarified = answered.map { |q| q.slice("question", "sections").merge("answer" => answers[q["id"].to_s].to_s.strip) }
     @estimate.update!(
       clarifications: Array(@estimate.clarifications) + clarified,
       open_questions: skipped.map { |q| q.merge("skipped" => true) }
