@@ -86,7 +86,7 @@ class LineItemGeneratorTest < ActiveSupport::TestCase
     client = FakeAiClient.new
     LineItemGenerator.new(@estimate, analysis: FakeAiClient.quoted_analysis, client: client).call(steel_batch)
     system = client.calls.last[:system].map { |b| b[:text] || b["text"] }.join
-    assert_match "QUOTED TRADES ARE BINDING", system
+    assert_match(/^- QUOTED TRADES ARE BINDING:/, system)
     assert_match "West Tiling", system
     assert_match "12000", system.delete(",")
     assert_match "Structural Steel", system

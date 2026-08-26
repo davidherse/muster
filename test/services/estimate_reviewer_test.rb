@@ -87,6 +87,18 @@ class EstimateReviewerAdversarialTest < ActiveSupport::TestCase
     ENV.delete("ESTIMATOR_REVIEW_MODE")
   end
 
+  # The enforcement passes share apply/remove_descriptions with the reviews,
+  # so they need the guard too or a failed computed check can be "resolved"
+  # by deleting the quoted line that drives it.
+  test "the enforcement pass is told never to touch a supplier-quoted line" do
+    estimate = users(:one).estimates.create!(name: "Enforced", estimate_template: estimate_templates(:standard))
+    reviewer = EstimateReviewer.new(estimate, analysis: {}, client: FakeAiClient.new)
+
+    enforcement = reviewer.send(:enforcement_instructions).squish
+    assert_includes enforcement, "Quoted by"
+    assert_includes enforcement, "never remove"
+  end
+
   test "auto mode picks the pass opposing the job's failure mode" do
     estimate = users(:one).estimates.create!(name: "Auto", estimate_template: estimate_templates(:standard))
     estimate.plans.attach(io: File.open(Rails.root.join("test/fixtures/files/plan.pdf")), filename: "plan.pdf", content_type: "application/pdf")

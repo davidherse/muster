@@ -150,6 +150,9 @@ class EstimateReviewer
       nothing outside the listed violations. A violation may be left standing
       only where the documents state a specific cause — cite it in
       review_notes. All amounts AUD ex. GST, builder's costs.
+
+      A line described 'Quoted by ...' is a supplier quote the builder holds:
+      never remove, reduce, or re-price it.
     PROMPT
   end
 
