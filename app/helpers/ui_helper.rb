@@ -82,7 +82,8 @@ module UiHelper
     "search" => '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
     "check" => '<path d="M20 6 9 17l-5-5"/>',
     "layout-list" => '<rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/><path d="M14 4h7"/><path d="M14 9h7"/><path d="M14 15h7"/><path d="M14 20h7"/>',
-    "panel-left" => '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/>'
+    "panel-left" => '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/>',
+    "users" => '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>'
   }.freeze
 
   def ui_icon(name, css: "size-4")

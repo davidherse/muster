@@ -1,0 +1,64 @@
+<div class="mx-auto md:w-2/3 w-full">
+  <h1 class="font-semibold text-3xl tracking-tight mb-2">Team</h1>
+  <p class="text-muted-foreground mb-6 text-sm">Everyone in <%= @account.name %> shares the same estimates, template, training and price book.</p>
+
+  <% if @reset_link %>
+    <div class="<%= ui_alert %> mb-6" data-controller="clipboard">
+      <p class="font-medium mb-2">Send this set-password link (valid for 2 days, single use):</p>
+      <div class="flex items-center gap-2">
+        <input type="text" readonly value="<%= @reset_link %>" data-clipboard-target="source" class="<%= ui_input %> font-mono text-xs">
+        <button type="button" data-action="clipboard#copy" class="<%= ui_button(variant: :outline, size: :sm) %>">Copy</button>
+      </div>
+    </div>
+  <% end %>
+
+  <section class="<%= ui_card %> mb-6 overflow-hidden">
+    <div class="<%= ui_card_header %>">
+      <h2 class="<%= ui_card_title %>"><%= @account.name %></h2>
+      <p class="<%= ui_card_description %>"><%= pluralize(@members.size, "seat") %></p>
+      <% if Current.user.owner? %>
+        <%= form_with model: @account, scope: :account, url: rename_team_path, method: :patch, class: "flex items-center gap-2 mt-2" do |f| %>
+          <%= f.text_field :name, required: true, class: "#{ui_input} max-w-xs" %>
+          <%= f.submit "Rename", class: ui_button(variant: :outline, size: :sm) %>
+        <% end %>
+      <% end %>
+    </div>
+    <table class="<%= ui_table %>">
+      <thead><tr class="<%= ui_table_header_row %>">
+        <th class="<%= ui_table_head %> px-5">Name</th><th class="<%= ui_table_head %>">Email</th><th class="<%= ui_table_head %>">Role</th><th class="<%= ui_table_head %>">Password</th><th class="<%= ui_table_head %> px-5"></th>
+      </tr></thead>
+      <tbody>
+        <% @members.each do |member| %>
+          <tr class="<%= ui_table_row %>">
+            <td class="<%= ui_table_cell %> px-5 font-medium"><%= member.name %></td>
+            <td class="<%= ui_table_cell %> text-muted-foreground"><%= member.email_address %></td>
+            <td class="<%= ui_table_cell %>"><span class="<%= ui_badge(variant: member.owner? ? :default : :outline) %>"><%= member.role %></span></td>
+            <td class="<%= ui_table_cell %> text-muted-foreground"><%= member.password_set_at ? "set" : "not set yet" %></td>
+            <td class="<%= ui_table_cell %> px-5 text-right">
+              <% if Current.user.owner? %>
+                <div class="flex justify-end gap-2">
+                  <%= button_to "New link", reset_link_team_member_path(member), class: ui_button(variant: :ghost, size: :sm) %>
+                  <% unless member.owner? %>
+                    <%= button_to "Remove", team_member_path(member), method: :delete, data: { turbo_confirm: "Remove #{member.name}'s seat? Their estimates stay with the workspace." }, class: ui_button(variant: :destructive, size: :sm) %>
+                  <% end %>
+                </div>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </section>
+
+  <% if Current.user.owner? %>
+    <section class="<%= ui_card %> p-6">
+      <h2 class="<%= ui_card_title %> mb-4">Add a seat</h2>
+      <%= form_with scope: :user, url: team_members_path, class: "grid gap-4 md:grid-cols-3" do |f| %>
+        <div class="grid gap-2"><%= f.label :name, class: ui_label %><%= f.text_field :name, required: true, class: ui_input %></div>
+        <div class="grid gap-2"><%= f.label :email_address, "Email", class: ui_label %><%= f.email_field :email_address, required: true, class: ui_input %></div>
+        <div class="flex items-end"><%= f.submit "Add seat", class: ui_button %></div>
+      <% end %>
+      <p class="text-xs text-muted-foreground mt-3">You'll get a set-password link to send them — Muster doesn't send email on this server.</p>
+    </section>
+  <% end %>
+</div>
