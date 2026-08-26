@@ -7,12 +7,13 @@ class RegistrationsController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
+    @user = User.new(user_params.merge(role: "owner", password_set_at: Time.current))
     unless valid_invite_code?
       @user.validate
       @user.errors.add(:base, "Muster is in closed beta — an invite code is required. Join the wait list on the homepage.")
       return render :new, status: :unprocessable_entity
     end
+    @user.account = Account.new(name: params.dig(:registration, :company).to_s.strip.presence || "#{@user.name}'s workspace")
     if @user.save
       UserMailer.activation(@user).deliver_later
       redirect_to new_session_path, notice: "Almost there! Check your email to activate your account."

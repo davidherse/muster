@@ -15,8 +15,8 @@ while Estimate.uncached { Estimate.where(status: "processing").exists? } ||
   ActiveRecord::Base.connection_pool.release_connection
 end
 
-unless USER.training_documents.exists?(name: "Rosalie (historical job)")
-  doc = USER.training_documents.create!(
+unless USER.account.training_documents.exists?(name: "Rosalie (historical job)")
+  doc = USER.account.training_documents.create!(
     name: "Rosalie (historical job)",
     priced_on: Date.new(2025, 6, 1),
     description: "Whole-house renovation of a large Queenslander at 77 Rosalie St.",
@@ -28,7 +28,7 @@ unless USER.training_documents.exists?(name: "Rosalie (historical job)")
     content_type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
   puts "ingesting Rosalie costing…"
   TrainingIngestor.new(doc).call
-  measured = PriceBookItem.from_training_doc(USER, doc.id).count { |i| i.context.to_h["qty_kind"] == "measured" }
+  measured = PriceBookItem.from_training_doc(USER.account, doc.id).count { |i| i.context.to_h["qty_kind"] == "measured" }
   puts "  -> #{doc.reload.status}, #{measured} measured takeoffs"
 end
 
