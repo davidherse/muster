@@ -4,7 +4,7 @@ class EstimatesController < ApplicationController
   PER_PAGE = 15
 
   def index
-    scope = Current.account.estimates.recent_first
+    scope = Current.account.estimates.recent_first.includes(:user)
     scope = scope.where("name LIKE ?", "%#{ActiveRecord::Base.sanitize_sql_like(params[:q])}%") if params[:q].present?
     @total_count = scope.count
     @page = [ params[:page].to_i, 1 ].max
@@ -84,7 +84,7 @@ class EstimatesController < ApplicationController
   def csv
     return redirect_to(@estimate, alert: "The estimate isn't ready yet.") unless @estimate.completed?
     return redirect_to(@estimate, alert: "Answer or skip the open questions first — the number isn't final yet.") if @estimate.needs_answers?
-    layout = personal_template
+    layout = account_template
     send_data EstimateCsv.new(@estimate, layout: layout).generate,
       filename: "#{@estimate.name.parameterize}-estimate.csv",
       type: "text/csv"
@@ -102,7 +102,7 @@ class EstimatesController < ApplicationController
   end
 
   # The account's own layout, learned and agreed from their training uploads.
-  def personal_template
+  def account_template
     t = EstimateTemplate.for_account(Current.account)
     t&.account? ? t : nil
   end

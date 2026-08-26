@@ -13,8 +13,8 @@ class User < ApplicationRecord
   end
 
   has_many :sessions, dependent: :destroy
-  has_many :estimates, dependent: :destroy
-  has_many :training_documents, dependent: :destroy
+  has_many :estimates, dependent: :nullify
+  has_many :training_documents, dependent: :nullify
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 

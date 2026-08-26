@@ -1,7 +1,7 @@
 class Estimate < ApplicationRecord
   STATUSES = %w[draft processing completed failed].freeze
 
-  belongs_to :user
+  belongs_to :user, optional: true
   belongs_to :account
   before_validation { self.account ||= user&.account }
   belongs_to :estimate_template, optional: true

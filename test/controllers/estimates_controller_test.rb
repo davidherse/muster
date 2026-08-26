@@ -65,7 +65,7 @@ class EstimatesControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
   end
 
-  test "a member sees an estimate the owner created" do
+  test "the owner sees an estimate a member created" do
     theirs = users(:two).estimates.create!(name: "Sam's job")
     get estimate_url(theirs)
     assert_response :success

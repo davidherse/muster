@@ -103,7 +103,7 @@ class TemplateSynthesizer
     template = EstimateTemplate.find_or_initialize_by(account: @account, status: "proposed")
     template.update!(
       name: unique_name(template, name),
-      description: "Personal template derived from #{@account.training_documents.where(status: 'completed').count} uploaded estimate(s). Review and agree to use it for your estimates.",
+      description: "Workspace template derived from #{@account.training_documents.where(status: 'completed').count} uploaded estimate(s). Review and agree to use it for your estimates.",
       sections: sections
     )
     template

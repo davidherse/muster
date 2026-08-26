@@ -32,4 +32,13 @@ class AccountTest < ActiveSupport::TestCase
     assert users(:one).owner?
     assert_not users(:two).owner?
   end
+
+  test "removing a seat keeps its work in the account, unattributed" do
+    estimate = users(:two).estimates.create!(name: "Sam's job")
+    doc = users(:two).training_documents.create!(name: "Sam's doc")
+    users(:two).destroy!
+    assert_nil estimate.reload.user
+    assert_equal accounts(:built), estimate.account
+    assert_nil doc.reload.user
+  end
 end

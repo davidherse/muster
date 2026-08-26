@@ -36,7 +36,7 @@ class TemplatesController < ApplicationController
     if copy
       redirect_to edit_template_path(copy), notice: "This copy is yours — adjust it however you estimate."
     else
-      redirect_to templates_path, alert: "You already have a personal template."
+      redirect_to templates_path, alert: "Your workspace already has its own template."
     end
   end
 
@@ -87,10 +87,10 @@ class TemplatesController < ApplicationController
   private
 
   # Whether a re-derive this user requested is still within its window.
-  # User-scoped so one account's request never shows another as "deriving"
-  # on a shared browser session; time-boxed so a lost or failed job doesn't
-  # leave the polling card stuck forever. A stale or malformed flag is
-  # cleared as soon as it's found not to apply.
+  # Per-user-per-browser-session so one signed-in user's request never shows
+  # another as "deriving" on a shared browser session; time-boxed so a lost
+  # or failed job doesn't leave the polling card stuck forever. A stale or
+  # malformed flag is cleared as soon as it's found not to apply.
   def rederive_pending?
     data = session[:template_rederive]
     return false unless data

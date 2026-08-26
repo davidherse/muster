@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_26_113029) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_26_120128) do
   create_table "accounts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name", null: false
@@ -101,13 +101,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_113029) do
     t.json "sections", default: [], null: false
     t.string "status", default: "active", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
     t.index ["account_id"], name: "index_estimate_templates_on_account_id"
-    t.index ["user_id"], name: "index_estimate_templates_on_user_id"
   end
 
   create_table "estimates", force: :cascade do |t|
-    t.integer "account_id"
+    t.integer "account_id", null: false
     t.json "assessment", default: {}, null: false
     t.string "building_type"
     t.integer "calibration_training_document_id"
@@ -130,7 +128,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_113029) do
     t.decimal "total_high", precision: 14, scale: 2
     t.decimal "total_low", precision: 14, scale: 2
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.integer "user_id"
     t.index ["account_id"], name: "index_estimates_on_account_id"
     t.index ["calibration_training_document_id"], name: "index_estimates_on_calibration_training_document_id"
     t.index ["estimate_template_id"], name: "index_estimates_on_estimate_template_id"
@@ -150,9 +148,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_113029) do
     t.decimal "unit_cost", precision: 12, scale: 2, null: false
     t.string "uom"
     t.datetime "updated_at", null: false
-    t.integer "user_id"
     t.index ["account_id"], name: "index_price_book_items_on_account_id"
-    t.index ["user_id"], name: "index_price_book_items_on_user_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -165,7 +161,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_113029) do
   end
 
   create_table "training_documents", force: :cascade do |t|
-    t.integer "account_id"
+    t.integer "account_id", null: false
     t.datetime "created_at", null: false
     t.text "description"
     t.text "error_message"
@@ -175,21 +171,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_113029) do
     t.json "questionnaire", default: {}, null: false
     t.string "status", default: "pending", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.integer "user_id"
     t.index ["account_id"], name: "index_training_documents_on_account_id"
     t.index ["user_id"], name: "index_training_documents_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.integer "account_id"
+    t.integer "account_id", null: false
     t.datetime "activated_at"
     t.boolean "admin", default: false, null: false
     t.datetime "created_at", null: false
     t.string "email_address", null: false
     t.string "name"
-    t.datetime "onboarded_at"
     t.string "password_digest", null: false
-    t.json "quantity_norms"
     t.string "role", default: "member", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_users_on_account_id"
@@ -201,11 +195,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_26_113029) do
   add_foreign_key "calibration_profiles", "users"
   add_foreign_key "estimate_line_items", "estimate_sections"
   add_foreign_key "estimate_sections", "estimates"
-  add_foreign_key "estimate_templates", "users"
   add_foreign_key "estimates", "estimate_templates"
   add_foreign_key "estimates", "training_documents", column: "calibration_training_document_id"
   add_foreign_key "estimates", "users"
-  add_foreign_key "price_book_items", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "training_documents", "users"
 end
