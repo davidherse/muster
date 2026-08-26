@@ -1,5 +1,7 @@
 class User < ApplicationRecord
-  has_secure_password
+  # Reset links are often forwarded by hand on self-hosted instances; match
+  # the activation token's lifetime rather than the 15-minute default.
+  has_secure_password reset_token: { expires_in: 2.days }
   has_many :sessions, dependent: :destroy
   has_many :estimates, dependent: :destroy
   has_many :training_documents, dependent: :destroy
